@@ -4,15 +4,17 @@
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "rules": {}
-    },
-    {
-      "files": ["*.ts", "*.tsx"],
-      "rules": {}
-    },
-    {
-      "files": ["*.js", "*.jsx"],
-      "rules": {}
+      // TODO
+      // "plugins": ["nestjs"],
+      // "extends": ["plugin:nestjs/recommended"],
+      "rules": {
+        "import/no-unresolved": "off",
+        "import/prefer-default-export": "off",
+        "import/no-extraneous-dependencies": "off",
+        "no-empty-function": "off",
+        "no-useless-constructor": "off",
+        "class-methods-use-this": "off"
+      }
     }
   ]
 }

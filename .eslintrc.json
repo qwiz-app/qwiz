@@ -5,6 +5,7 @@
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "extends": ["plugin:@nrwl/nx/typescript", "airbnb", "prettier"],
       "rules": {
         "@nrwl/nx/enforce-module-boundaries": [
           "error",
@@ -18,13 +19,7 @@
               }
             ]
           }
-        ]
-      }
-    },
-    {
-      "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nrwl/nx/typescript", "airbnb", "prettier"],
-      "rules": {
+        ],
         "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
         "react/jsx-props-no-spreading": "off",
         "react/function-component-definition": [
@@ -40,11 +35,6 @@
         "arrow-body-style": "off",
         "no-console": ["warn"]
       }
-    },
-    {
-      "files": ["*.js", "*.jsx"],
-      "extends": ["plugin:@nrwl/nx/javascript", "airbnb", "prettier"],
-      "rules": {}
     }
   ]
 }
