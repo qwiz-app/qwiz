@@ -23,12 +23,27 @@
     },
     {
       "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nrwl/nx/typescript"],
-      "rules": {}
+      "extends": ["plugin:@nrwl/nx/typescript", "airbnb", "prettier"],
+      "rules": {
+        "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
+        "react/jsx-props-no-spreading": "off",
+        "react/function-component-definition": [
+          "error",
+          {
+            "namedComponents": "arrow-function",
+            "unnamedComponents": "arrow-function",
+            "defaultProps": "arrow-function",
+            "destructuring": "always",
+            "useConst": true
+          }
+        ],
+        "arrow-body-style": "off",
+        "no-console": ["warn"]
+      }
     },
     {
       "files": ["*.js", "*.jsx"],
-      "extends": ["plugin:@nrwl/nx/javascript"],
+      "extends": ["plugin:@nrwl/nx/javascript", "airbnb", "prettier"],
       "rules": {}
     }
   ]
