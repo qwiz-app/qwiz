@@ -1,12 +1,13 @@
+import '../styles/styles.scss';
+
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import './styles.css';
 
-export const CustomApp = ({ Component, pageProps }: AppProps) => {
+export const App = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Head>
-        <title>Welcome to frontend!</title>
+        <title>qwiz</title>
       </Head>
       <main className="app">
         <Component {...pageProps} />
@@ -15,4 +16,4 @@ export const CustomApp = ({ Component, pageProps }: AppProps) => {
   );
 };
 
-export default CustomApp;
+export default App;
