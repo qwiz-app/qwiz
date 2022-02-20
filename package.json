@@ -7,6 +7,9 @@
     "build": "nx build",
     "test": "nx test"
   },
+  "volta": {
+    "node": "16.13.2"
+  },
   "private": true,
   "dependencies": {
     "@nestjs/common": "^8.3.1",
