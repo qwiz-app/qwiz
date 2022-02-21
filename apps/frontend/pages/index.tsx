@@ -1,3 +1,4 @@
+import { signIn, signOut } from 'next-auth/react';
 import { useQuery } from 'react-query';
 
 const Index = () => {
@@ -12,6 +13,12 @@ const Index = () => {
   return (
     <div>
       <h1>Hello mc2 👋️ {JSON.stringify(data)}</h1>
+      <button type="button" onClick={() => signIn()}>
+        Sign in
+      </button>
+      <button type="button" onClick={() => signOut()}>
+        sign out
+      </button>
     </div>
   );
 };
