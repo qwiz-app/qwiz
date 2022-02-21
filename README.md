@@ -33,6 +33,8 @@ To run this project, add the following environment variables to your .env.local 
 
 `NEXTAUTH_URL=http://localhost:4200`
 
+`BACKEND_URL=http://localhost:3333`
+
 `GITHUB_CLIENT_ID`
 
 `GITHUB_CLIENT_SECRET`
