@@ -28,6 +28,7 @@
     "@prisma/client": "^3.9.2",
     "core-js": "^3.21.1",
     "eslint-config-airbnb": "^19.0.4",
+    "inspx": "^0.0.1-alpha.6",
     "next": "12.1.0",
     "next-auth": "^4.2.1",
     "react": "17.0.2",

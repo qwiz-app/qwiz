@@ -8,9 +8,6 @@
       // "plugins": ["nestjs"],
       // "extends": ["plugin:nestjs/recommended"],
       "rules": {
-        "import/no-unresolved": "off",
-        "import/prefer-default-export": "off",
-        "import/no-extraneous-dependencies": "off",
         "no-empty-function": "off",
         "no-useless-constructor": "off",
         "class-methods-use-this": "off"

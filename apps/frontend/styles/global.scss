@@ -1,0 +1,30 @@
+@import './reset.css';
+@import './fonts.css';
+
+body {
+  font-family: 'Gilroy', sans-serif;
+  font-family: 'Manrope', sans-serif;
+  padding: 2rem;
+  display: grid;
+  place-content: center;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+  font-weight: normal;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+p {
+  font-weight: 300;
+}
+
+div {
+  margin: 2rem 0;
+}
