@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import Head from 'next/head';
 import { AppProps } from 'next/app';
 import Inspect from 'inspx';
+import { MantineProvider } from '@mantine/core';
 
 import '../styles/global.scss';
 
@@ -16,9 +17,16 @@ const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
           <Head>
             <title>qwiz</title>
           </Head>
-          <main className="app">
+          <MantineProvider
+            withGlobalStyles
+            withNormalizeCSS
+            theme={{
+              fontFamily: 'Manrope, sans-serif',
+              colorScheme: 'light',
+            }}
+          >
             <Component {...pageProps} />
-          </main>
+          </MantineProvider>
         </Inspect>
       </QueryClientProvider>
     </SessionProvider>

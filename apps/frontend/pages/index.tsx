@@ -1,3 +1,4 @@
+import { Button } from '@mantine/core';
 import { signIn, signOut } from 'next-auth/react';
 import { useQuery } from 'react-query';
 
@@ -13,12 +14,12 @@ const Index = () => {
   return (
     <div>
       <h1>Hello mc2 👋️ {JSON.stringify(data)}</h1>
-      <button type="button" onClick={() => signIn()}>
+      <Button onClick={() => signIn()} variant="light">
         Sign in
-      </button>
-      <button type="button" onClick={() => signOut()}>
+      </Button>
+      <Button onClick={() => signOut()} variant="outline">
         sign out
-      </button>
+      </Button>
     </div>
   );
 };

@@ -1,12 +1,9 @@
-@import './reset.css';
-@import './fonts.css';
+@import './reset';
+@import './fonts';
 
 body {
   font-family: 'Gilroy', sans-serif;
   font-family: 'Manrope', sans-serif;
-  padding: 2rem;
-  display: grid;
-  place-content: center;
 }
 
 h1,
@@ -23,8 +20,4 @@ h6 {
 
 p {
   font-weight: 300;
-}
-
-div {
-  margin: 2rem 0;
 }
