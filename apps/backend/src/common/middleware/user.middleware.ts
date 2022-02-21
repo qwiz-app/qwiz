@@ -1,15 +1,18 @@
-import { Injectable, NestMiddleware } from '@nestjs/common';
-import { Request, Response, NextFunction } from 'express';
+import { HttpException } from '@nestjs/common/exceptions/http.exception';
+import { HttpStatus, Injectable, NestMiddleware } from '@nestjs/common';
+import { Response, NextFunction } from 'express';
+
+import { PrismaService } from '../../prisma.service';
 
 import { getFromCookie } from '../../lib/utils';
 
-import { PrismaService } from '../../prisma.service';
+import { AuthRequest } from '../../types';
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
   constructor(private prisma: PrismaService) {}
 
-  async use(req: Request, res: Response, next: NextFunction) {
+  async use(req: AuthRequest, res: Response, next: NextFunction) {
     const cookies = req.headers.cookie;
     const cookie = getFromCookie(cookies, 'next-auth.session-token');
 
@@ -25,9 +28,15 @@ export class AuthMiddleware implements NestMiddleware {
 
       const { user } = session;
 
-      req.user = user;
-    }
+      if (!user) {
+        throw new HttpException('User not found.', HttpStatus.UNAUTHORIZED);
+      }
 
-    next();
+      req.user = user;
+
+      next();
+    } else {
+      throw new HttpException('Not authorized.', HttpStatus.UNAUTHORIZED);
+    }
   }
 }
