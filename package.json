@@ -11,6 +11,7 @@
   "dependencies": {
     "@nestjs/common": "^8.3.1",
     "@nestjs/core": "^8.3.1",
+    "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^8.3.1",
     "@nrwl/next": "13.8.3",
     "core-js": "^3.21.1",
