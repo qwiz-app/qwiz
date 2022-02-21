@@ -10,6 +10,14 @@ const nextConfig = {
     // See: https://github.com/gregberge/svgr
     svgr: false,
   },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path((?!auth).*)*',
+        destination: `${process.env.BACKEND_URL}/api/:path*`,
+      },
+    ];
+  },
 };
 
 module.exports = withNx(nextConfig);

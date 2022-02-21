@@ -5,7 +5,17 @@
   "scripts": {
     "start": "nx serve",
     "build": "nx build",
-    "test": "nx test"
+    "test": "nx test",
+    "db:start": "docker-compose up -d",
+    "db:stop": "docker-compose down",
+    "db:generate": "npx prisma generate",
+    "db:studio": "npx prisma studio",
+    "db:migrate": "npx prisma migrate dev",
+    "db:push": "npx prisma db push",
+    "db:pull": "npx prisma db pull"
+  },
+  "volta": {
+    "node": "16.13.2"
   },
   "private": true,
   "dependencies": {
@@ -14,11 +24,13 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^8.3.1",
     "@nrwl/next": "13.8.3",
+    "@prisma/client": "^3.9.2",
     "core-js": "^3.21.1",
     "eslint-config-airbnb": "^19.0.4",
     "next": "12.1.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-query": "^3.34.16",
     "reflect-metadata": "^0.1.13",
     "regenerator-runtime": "0.13.9",
     "rxjs": "^7.5.4",
@@ -60,6 +72,7 @@
     "eslint-plugin-react-hooks": "4.3.0",
     "jest": "27.5.1",
     "prettier": "^2.5.1",
+    "prisma": "^3.9.2",
     "react-test-renderer": "17.0.2",
     "sass": "1.49.8",
     "ts-jest": "27.1.3",
