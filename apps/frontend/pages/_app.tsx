@@ -8,7 +8,7 @@ import { ThemeIcon, MantineProvider, ColorSchemeProvider } from '@mantine/core';
 import '../styles/global.scss';
 
 import { PaintRoller } from 'phosphor-react';
-import { useTheme } from 'theme';
+import { useTheme } from 'hooks/theme';
 
 const queryClient = new QueryClient();
 
