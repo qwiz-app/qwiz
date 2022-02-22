@@ -20,11 +20,11 @@ Start the PostgreSQL docker container
 ```
 Start the frontend server
 ```bash
-  npm run start frontend
+  npm run frontend
 ```
 Start the backend server
 ```bash
-  npm run start backend
+  npm run backend
 ```
 
 ## Environment Variables

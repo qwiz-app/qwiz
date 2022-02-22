@@ -12,7 +12,9 @@
     "db:studio": "npx prisma studio",
     "db:migrate": "npx prisma migrate dev",
     "db:push": "npx prisma db push",
-    "db:pull": "npx prisma db pull"
+    "db:pull": "npx prisma db pull",
+    "frontend": "nx serve frontend",
+    "backend": "nx serve backend"
   },
   "volta": {
     "node": "16.13.2"
