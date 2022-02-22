@@ -1,10 +1,12 @@
-import { Button } from '@mantine/core';
+import { Avatar, Button } from '@mantine/core';
 import { signIn, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { useQuery } from 'react-query';
 
+import { User } from '@prisma/client';
+
 const Index = () => {
-  const { data, isLoading } = useQuery(['user'], async () => {
+  const { data } = useQuery<User[]>(['user'], async () => {
     const response = await fetch('/api/user');
     if (!response.ok) {
       throw new Error('Network response was not ok');
@@ -14,7 +16,14 @@ const Index = () => {
 
   return (
     <div className="homepage">
-      <h1>Hello mc2 👋️ {JSON.stringify(data)}</h1>
+      <h1>Hello mc2 👋️</h1>
+      <p>Users</p>
+      {data?.map((user) => (
+        <div key={user.id}>
+          <Avatar src={user.image} alt={user.name} />
+          {user.name}
+        </div>
+      ))}
       <div style={{ display: 'flex', gap: '.5rem' }}>
         <Button
           onClick={() => signIn()}
@@ -28,7 +37,7 @@ const Index = () => {
         <Button onClick={() => signOut()} variant="subtle" radius="xs">
           Sign out
         </Button>
-        <Link href="/demo">
+        <Link href="/demo" passHref>
           <Button radius="xs" color="gray" variant="subtle">
             Demo
           </Button>
