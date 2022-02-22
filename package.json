@@ -17,9 +17,6 @@
   "volta": {
     "node": "16.13.2"
   },
-  "engines": {
-    "node": "16.x"
-  },
   "private": true,
   "dependencies": {
     "@mantine/core": "^3.6.9",
