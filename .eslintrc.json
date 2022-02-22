@@ -37,7 +37,8 @@
         "import/prefer-default-export": "off",
         "import/extensions": "off",
         "arrow-body-style": "off",
-        "no-console": ["warn"]
+        "no-console": "warn",
+        "no-unused-vars": "warn"
       }
     }
   ]

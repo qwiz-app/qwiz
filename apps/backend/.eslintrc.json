@@ -4,11 +4,12 @@
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      // TODO
-      // "plugins": ["nestjs"],
-      // "extends": ["plugin:nestjs/recommended"],
+      "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended"
+      ],
+      "plugins": ["@typescript-eslint"],
       "rules": {
-        "no-empty-function": "off",
         "no-useless-constructor": "off",
         "class-methods-use-this": "off"
       }
