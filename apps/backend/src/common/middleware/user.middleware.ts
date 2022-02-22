@@ -13,13 +13,13 @@ export class AuthMiddleware implements NestMiddleware {
   constructor(private prisma: PrismaService) {}
 
   async use(req: AuthRequest, res: Response, next: NextFunction) {
-    const cookies = req.headers.cookie;
-    const cookie = getFromCookie(cookies, 'next-auth.session-token');
+    const { cookie } = req.headers;
+    const sessionToken = getFromCookie(cookie, 'next-auth.session-token');
 
-    if (cookie) {
+    if (sessionToken) {
       const session = await this.prisma.session.findUnique({
         where: {
-          sessionToken: cookie,
+          sessionToken,
         },
         include: {
           user: true,
