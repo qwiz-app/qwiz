@@ -5,6 +5,11 @@ import {
   useColorScheme,
 } from '@mantine/hooks';
 
+export enum ColorSchemeEnum {
+  LIGHT = 'light',
+  DARK = 'dark',
+}
+
 export const useTheme = () => {
   const preferredColorScheme = useColorScheme();
   const [colorScheme, setColorScheme] = useLocalStorageValue<ColorScheme>({
@@ -17,12 +22,17 @@ export const useTheme = () => {
    * If it is possible store user preferred color scheme on server and serve your application without flashes.
    */
   const toggleColorScheme = (value?: ColorScheme) =>
-    setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
+    setColorScheme(
+      value ||
+        (colorScheme === ColorSchemeEnum.DARK
+          ? ColorSchemeEnum.LIGHT
+          : ColorSchemeEnum.DARK)
+    );
 
   useHotkeys([['mod+J', () => toggleColorScheme()]]);
 
-  const isDark = colorScheme === 'dark';
-  const isLight = colorScheme === 'light';
+  const isDark = colorScheme === ColorSchemeEnum.DARK;
+  const isLight = colorScheme === ColorSchemeEnum.LIGHT;
 
   return {
     colorScheme,
