@@ -13,6 +13,6 @@ export class UserModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(AuthMiddleware)
-      .forRoutes('*');
+      .forRoutes('user/:id');
   }
 }
