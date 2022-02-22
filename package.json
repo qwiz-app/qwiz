@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nx serve",
-    "build": "nx build",
+    "start": "node dist/apps/backend/main.js",
+    "build": "nx build backend --prod",
     "test": "nx test",
     "db:start": "docker-compose up -d",
     "db:stop": "docker-compose down",
@@ -16,6 +16,9 @@
   },
   "volta": {
     "node": "16.13.2"
+  },
+  "engines": {
+    "node": "16.x"
   },
   "private": true,
   "dependencies": {
