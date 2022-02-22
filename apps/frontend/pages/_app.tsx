@@ -14,6 +14,7 @@ const queryClient = new QueryClient();
 
 const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
   const { colorScheme, isDark, toggleColorScheme } = useTheme();
+
   return (
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
