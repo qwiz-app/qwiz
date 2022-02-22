@@ -1,9 +1,10 @@
 import { Button } from '@mantine/core';
 import { signIn, signOut } from 'next-auth/react';
+import Link from 'next/link';
 import { useQuery } from 'react-query';
 
 const Index = () => {
-  const { data } = useQuery(['user'], async () => {
+  const { data, isLoading } = useQuery(['user'], async () => {
     const response = await fetch('/api/user');
     if (!response.ok) {
       throw new Error('Network response was not ok');
@@ -12,14 +13,27 @@ const Index = () => {
   });
 
   return (
-    <div>
+    <div className="homepage">
       <h1>Hello mc2 👋️ {JSON.stringify(data)}</h1>
-      <Button onClick={() => signIn()} variant="light">
-        Sign in
-      </Button>
-      <Button onClick={() => signOut()} variant="outline">
-        sign out
-      </Button>
+      <div style={{ display: 'flex', gap: '.5rem' }}>
+        <Button
+          onClick={() => signIn()}
+          variant="filled"
+          loading={false}
+          radius="xs"
+          // style={{ background: 'black' }}
+        >
+          Sign in
+        </Button>
+        <Button onClick={() => signOut()} variant="subtle" radius="xs">
+          Sign out
+        </Button>
+        <Link href="/demo">
+          <Button radius="xs" color="gray" variant="subtle">
+            Demo
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 };
