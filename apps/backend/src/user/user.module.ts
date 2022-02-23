@@ -11,8 +11,7 @@ import { UserService } from './user.service';
 })
 export class UserModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(AuthMiddleware)
-      .forRoutes('user/:id');
+    // TODO: don't allow any routes
+    consumer.apply(AuthMiddleware).forRoutes('users/:id');
   }
 }

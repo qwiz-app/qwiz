@@ -1,8 +1,14 @@
-import { AxiosError } from 'axios';
+import { queryOnError as onError } from 'lib/axios';
 import { useQuery } from 'react-query';
-import { fetchUsers } from 'services/api/users';
+import { fetchUser, fetchUsers } from 'services/api/users';
 
 export const useUsers = () =>
   useQuery(['users'], fetchUsers, {
-    onError: (err: AxiosError) => err.response,
+    onError,
+  });
+
+export const useUser = (id: string) =>
+  useQuery(['user', id], ({ queryKey }) => fetchUser(queryKey[1]), {
+    onError,
+    enabled: !!id,
   });

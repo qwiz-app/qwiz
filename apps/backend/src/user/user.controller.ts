@@ -1,3 +1,4 @@
+import { HttpException } from '@nestjs/common/exceptions/http.exception';
 import {
   Controller,
   Get,
@@ -6,6 +7,7 @@ import {
   Patch,
   Param,
   Delete,
+  HttpStatus,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -22,17 +24,16 @@ export class UserController {
 
   @Get()
   findAll() {
-    //* intentional test for error handling
-    // throw new HttpException(
-    //   'Matija did not implement',
-    //   HttpStatus.NOT_IMPLEMENTED
-    // );
     return this.userService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    const user = await this.userService.findOne(id);
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+    return user;
   }
 
   @Patch(':id')

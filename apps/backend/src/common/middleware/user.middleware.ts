@@ -18,14 +18,11 @@ export class AuthMiddleware implements NestMiddleware {
 
     if (sessionToken) {
       const session = await this.prisma.session.findUnique({
-        where: {
-          sessionToken,
-        },
-        include: {
-          user: true,
-        },
+        where: { sessionToken },
+        include: { user: true },
       });
 
+      console.log('session :>> ', session);
       const { user } = session;
 
       if (!user) {
