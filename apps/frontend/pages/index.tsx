@@ -3,10 +3,17 @@ import { useCurrentSession } from 'hooks/session';
 import { useUsers } from 'hooks/users/users';
 import { signIn, signOut } from 'next-auth/react';
 import Link from 'next/link';
+import { useEffect } from 'react';
 
 const Index = () => {
   const { isAuthenticated, user: currentUser } = useCurrentSession();
-  const { data: users } = useUsers();
+  const { data: users, error } = useUsers();
+
+  useEffect(() => {
+    if (error) {
+      console.warn('Users error', error.response);
+    }
+  }, [error]);
 
   return (
     <div className="homepage">
@@ -25,6 +32,7 @@ const Index = () => {
           {user.name === currentUser?.name ? 'You' : user.name}
         </div>
       ))}
+      {error && <p>{error.response.data?.message}</p>}
       <div style={{ display: 'flex', gap: '.5rem' }}>
         {isAuthenticated ? (
           <Button onClick={() => signOut()} variant="subtle" radius="xs">

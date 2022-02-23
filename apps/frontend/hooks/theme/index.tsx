@@ -17,10 +17,6 @@ export const useTheme = () => {
     defaultValue: preferredColorScheme,
   });
 
-  /**
-   * https://css-tricks.com/flash-of-inaccurate-color-theme-fart/
-   * If it is possible store user preferred color scheme on server and serve your application without flashes.
-   */
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(
       value ||

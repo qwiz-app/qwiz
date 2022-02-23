@@ -1,7 +1,5 @@
-export const fetchUsers = async () => {
-  const response = await fetch('/api/user');
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
-  }
-  return response.json();
-};
+import { User } from '@prisma/client';
+import { parseData } from 'lib/axios';
+import http from 'services/http';
+
+export const fetchUsers = () => http.get<User[]>('/api/users').then(parseData);

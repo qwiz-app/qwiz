@@ -11,8 +11,8 @@ export const useCurrentSession = <R extends boolean>(
   const isLoading = session.status === 'loading';
 
   return {
-    ...session,
     user: session.data?.user,
+    status: session.status,
     isAuthenticated,
     isLoading,
   };

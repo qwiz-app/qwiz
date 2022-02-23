@@ -1,5 +1,8 @@
-import { User } from '@prisma/client';
-import { fetchUsers } from 'services/api/users';
+import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
+import { fetchUsers } from 'services/api/users';
 
-export const useUsers = () => useQuery<User[]>(['users'], fetchUsers);
+export const useUsers = () =>
+  useQuery(['users'], fetchUsers, {
+    onError: (err: AxiosError) => err.response,
+  });
