@@ -8,12 +8,14 @@ export const useCurrentSession = <R extends boolean>(
   const session = useSession(options);
 
   const isAuthenticated = session.status === 'authenticated';
+  const isUnauthenticated = session.status === 'unauthenticated';
   const isLoading = session.status === 'loading';
 
   return {
     user: session.data?.user,
     status: session.status,
     isAuthenticated,
+    isUnauthenticated,
     isLoading,
   };
 };
