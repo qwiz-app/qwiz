@@ -43,6 +43,10 @@ To run this project, add the following environment variables to your .env.local 
 
 `GOOGLE_CLIENT_SECRET`
 
+`DISCORD_CLIENT_ID`
+
+`DISCORD_CLIENT_SECRET`
+
 `SECRET={any string}`
 
 And to your .env file in root dir (for Prisma)
