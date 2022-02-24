@@ -1,16 +1,8 @@
-import {
-  Avatar,
-  Button,
-  Paper,
-  SimpleGrid,
-  Skeleton,
-  Text,
-  Title,
-} from '@mantine/core';
+import { Avatar, Paper, Skeleton, Text, Title } from '@mantine/core';
+import Button from 'components/UI/Button/Button';
 import { useCurrentSession } from 'hooks/session';
 import { useUser, useUsers } from 'hooks/users/users';
 import { signIn, signOut } from 'next-auth/react';
-import Link from 'next/link';
 import { useState } from 'react';
 
 const Index = () => {
@@ -50,19 +42,15 @@ const Index = () => {
         {error && <p>{error.response.data?.message}</p>}
         <div>
           {isAuthenticated ? (
-            <Button onClick={() => signOut()} variant="filled" radius="xs">
+            <Button onClick={() => signOut()} variant="filled">
               Sign out
             </Button>
           ) : (
-            <Button onClick={() => signIn()} variant="filled" radius="xs">
+            <Button onClick={() => signIn()} variant="filled">
               Sign in
             </Button>
           )}
-          <Link href="/demo" passHref>
-            <Button radius="xs" variant="light">
-              Demo
-            </Button>
-          </Link>
+          <Button variant="light">Demo</Button>
         </div>
       </div>
       <Skeleton

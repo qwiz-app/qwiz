@@ -48,18 +48,18 @@ const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
         '#115e59',
         '#134e4a',
       ],
-      // TODO: create custom pallete
+      // TODO: ne valja sve
       'more-dark': [
-        '#DEE2E6',
-        '#CED4DA',
-        '#ADB5BD',
-        '#868E96',
+        '#E9ECEF', // light boja
+        '#CED4DA', // light hover boja
+        '#909296',
+        '#5C5F66',
         '#373A40',
         '#2C2E33',
-        '#25262B',
-        '#1A1B1E',
+        '#25262B', // primary boja // boja teksta filled b
+        '#1A1B1E', // primary hover boja
         '#141517',
-        '#000000',
+        '#101113',
       ],
       'baseweb-black': [
         '#FFFFFF',
@@ -76,7 +76,7 @@ const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
     },
     primaryColor: isDark ? 'gray' : 'more-dark',
     radius: {
-      xs: 1,
+      xs: 2,
     },
   };
 
@@ -85,7 +85,7 @@ const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
       <QueryClientProvider client={queryClient}>
         <Inspect>
           <Head>
-            <title>qwiz</title>
+            <title>Qwiz</title>
           </Head>
           <ColorSchemeProvider
             colorScheme={colorScheme}

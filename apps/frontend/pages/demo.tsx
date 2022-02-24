@@ -1,4 +1,5 @@
-import { Select, Badge, SegmentedControl, Input, Button } from '@mantine/core';
+import { Select, Badge, SegmentedControl, Input } from '@mantine/core';
+import Button from 'components/UI/Button/Button';
 import Link from 'next/link';
 import { MagnifyingGlass } from 'phosphor-react';
 import React, { useState } from 'react';
@@ -19,12 +20,6 @@ const Demo = (props) => {
             { value: 'svelte', label: 'Svelte' },
             { value: 'vue', label: 'Vue' },
           ]}
-          //   sx={(theme) => ({
-          //     input: {
-          //       backgroundColor: theme.colors.gray[1],
-          //       border: 'none',
-          //     },
-          //   })}
         />
       </div>
       <div
@@ -33,7 +28,7 @@ const Demo = (props) => {
           gap: '.5rem',
         }}
       >
-        <Badge color="pink">Default light badge</Badge>
+        <Badge>Default light badge</Badge>
         <Badge variant="dot" color="cyan">
           Dot badge
         </Badge>
@@ -64,10 +59,14 @@ const Demo = (props) => {
       </div>
       <div>
         <Link href="/">
-          <Button variant="default" loaderPosition="right" loading>
+          <Button variant="default" loaderPosition="right">
             Home
           </Button>
         </Link>
+        <Button loaderPosition="right">Home</Button>
+        <Button color="black" loaderPosition="right">
+          Home
+        </Button>
       </div>
     </div>
   );
