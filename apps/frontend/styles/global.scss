@@ -2,7 +2,6 @@
 @import './fonts';
 
 body {
-  font-family: 'Manrope', sans-serif;
   display: grid;
   place-content: center;
 }
@@ -16,7 +15,6 @@ h6 {
   overflow-wrap: break-word;
   font-weight: normal;
   text-transform: uppercase;
-  font-weight: 800;
 }
 
 .homepage {

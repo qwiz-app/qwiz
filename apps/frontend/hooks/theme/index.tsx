@@ -1,8 +1,8 @@
 import { ColorScheme } from '@mantine/core';
 import {
-  useLocalStorageValue,
-  useHotkeys,
   useColorScheme,
+  useHotkeys,
+  useLocalStorageValue,
 } from '@mantine/hooks';
 
 export enum ColorSchemeEnum {

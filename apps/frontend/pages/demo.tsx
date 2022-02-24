@@ -12,6 +12,7 @@ const Demo = (props) => {
           radius="xs"
           label="Your favorite framework/library"
           placeholder="Pick one"
+          variant="filled"
           data={[
             { value: 'react', label: 'React' },
             { value: 'ng', label: 'Angular' },
@@ -63,7 +64,9 @@ const Demo = (props) => {
       </div>
       <div>
         <Link href="/">
-          <Button variant="default">Home</Button>
+          <Button variant="default" loaderPosition="right" loading>
+            Home
+          </Button>
         </Link>
       </div>
     </div>
