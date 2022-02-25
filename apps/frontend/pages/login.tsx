@@ -1,13 +1,6 @@
-import {
-  Avatar,
-  Button,
-  Group,
-  Paper,
-  Skeleton,
-  Text,
-  Title,
-} from '@mantine/core';
+import { Avatar, Group, Paper, Skeleton, Text, Title } from '@mantine/core';
 import AuthLayout from 'components/layout/AuthLayout';
+import { Button } from 'components/UI/Button/Button';
 import { useCurrentSession } from 'hooks/session';
 import { useUsers, useUser } from 'hooks/users/users';
 import { signOut, signIn } from 'next-auth/react';
@@ -49,7 +42,7 @@ const LoginPage = (props) => {
           </div>
         ))}
         {error && <p>{error.response.data?.message}</p>}
-        <Group>
+        <Group spacing={8}>
           {isAuthenticated ? (
             <Button onClick={() => signOut()} variant="filled">
               Sign out
@@ -65,16 +58,9 @@ const LoginPage = (props) => {
         </Group>
       </Group>
       <Skeleton visible={selectedUserLoading} color="pink" mt={16}>
-        <Paper
-          padding="md"
-          sx={(theme) => ({
-            display: 'block',
-          })}
-        >
+        <Paper padding="md" sx={() => ({ textAlign: 'center' })}>
           {isSuccess ? (
-            <div>
-              <Text size="sm">{selectedUser.email}</Text>
-            </div>
+            <Text size="sm">{selectedUser.email}</Text>
           ) : (
             <p>{selectedUserError?.response.data.message}</p>
           )}
