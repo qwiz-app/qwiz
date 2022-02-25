@@ -3,6 +3,7 @@ import Button from 'components/UI/Button/Button';
 import { useCurrentSession } from 'hooks/session';
 import { useUser, useUsers } from 'hooks/users/users';
 import { signIn, signOut } from 'next-auth/react';
+import Link from 'next/link';
 import { useState } from 'react';
 
 const Index = () => {
@@ -50,7 +51,9 @@ const Index = () => {
               Sign in
             </Button>
           )}
-          <Button variant="light">Demo</Button>
+          <Link passHref href="/demo">
+            <Button variant="light">Demo</Button>
+          </Link>
         </div>
       </div>
       <Skeleton
