@@ -1,16 +1,18 @@
 import { Group } from '@mantine/core';
-import { AppShell } from 'components/UI/AppShell/AppShell';
+import DashboardLayout from 'components/layout/DashboardLayout';
 import React from 'react';
 
 const Demo = (props) => {
   return (
-    <AppShell>
-      <Group>
-        <p className="text-red-600">Hey its me</p>
-        <span>matija</span>
-      </Group>
-    </AppShell>
+    <Group>
+      <p className="text-red-600">Hey its me</p>
+      <span>matija</span>
+    </Group>
   );
 };
 
 export default Demo;
+
+Demo.getLayout = function getLayout(page) {
+  return <DashboardLayout>{page}</DashboardLayout>;
+};

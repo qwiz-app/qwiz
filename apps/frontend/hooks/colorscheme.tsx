@@ -1,7 +1,7 @@
 import { useMantineColorScheme } from '@mantine/core';
 import { ColorSchemeEnum } from 'models/colorscheme';
 
-export const useColorSchemeCtx = () => {
+export const useAppColorscheme = () => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
   const isDark = colorScheme === ColorSchemeEnum.DARK;
