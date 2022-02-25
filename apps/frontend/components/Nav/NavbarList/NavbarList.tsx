@@ -64,7 +64,7 @@ export const NavbarList = (props) => {
 
   return (
     <Group direction="column" align="stretch" spacing={0} mt={12} mb={12}>
-      {[...items, ...items, ...items, ...items].map((item, i) => (
+      {items.map((item, i) => (
         <NavbarItem
           key={`navbar-item-${i}`}
           label={item.label}

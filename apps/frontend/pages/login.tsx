@@ -14,7 +14,7 @@ import { signOut, signIn } from 'next-auth/react';
 import Link from 'next/link';
 import React, { useState } from 'react';
 
-const Login = (props) => {
+const LoginPage = (props) => {
   const { isAuthenticated, user: currentUser } = useCurrentSession();
   const { data: users, error } = useUsers();
   const [id, setId] = useState<string>(null);
@@ -59,16 +59,12 @@ const Login = (props) => {
               Sign in
             </Button>
           )}
-          <Link passHref href="/demo">
-            <Button variant="light">Demo</Button>
+          <Link passHref href="/">
+            <Button variant="light">Home</Button>
           </Link>
         </Group>
       </Group>
-      <Skeleton
-        visible={selectedUserLoading}
-        color="pink"
-        sx={() => ({ marginTop: '1rem' })}
-      >
+      <Skeleton visible={selectedUserLoading} color="pink" mt={16}>
         <Paper
           padding="md"
           sx={(theme) => ({
@@ -88,8 +84,8 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+export default LoginPage;
 
-Login.getLayout = function getLayout(page) {
+LoginPage.getLayout = function getLayout(page) {
   return <AuthLayout>{page}</AuthLayout>;
 };

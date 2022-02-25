@@ -1,11 +1,12 @@
+import { Title } from '@mantine/core';
 import DashboardLayout from 'components/layout/DashboardLayout';
 
-const Index = () => {
-  return <h1>Homepage</h1>;
+const IndexPage = () => {
+  return <Title order={3}>Homepage</Title>;
 };
 
-export default Index;
+export default IndexPage;
 
-Index.getLayout = function getLayout(page) {
+IndexPage.getLayout = function getLayout(page) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };

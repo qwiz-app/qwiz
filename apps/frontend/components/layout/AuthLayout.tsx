@@ -4,7 +4,7 @@ import React from 'react';
 const AuthLayout = ({ children }) => {
   return (
     <Container fluid padding="xl" sx={() => ({ minHeight: '100vh' })}>
-      <Container size="sm" sx={() => ({ marginTop: '4rem' })}>
+      <Container size="sm" mt={64}>
         <Center>{children}</Center>
       </Container>
     </Container>

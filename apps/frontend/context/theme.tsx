@@ -12,12 +12,12 @@ export const useGlobalTheme = ({ colorScheme }) => {
       fontFamily: 'Manrope, sans-serif',
       fontWeight: 600,
       sizes: {
-        h1: { fontSize: '4rem' },
-        h2: { fontSize: '3rem' },
-        h3: { fontSize: '2rem' },
-        h4: { fontSize: '1.5rem' },
-        h5: { fontSize: '1.25rem' },
-        h6: { fontSize: '1.15rem' },
+        h1: { fontSize: 64 },
+        h2: { fontSize: 48 },
+        h3: { fontSize: 32 },
+        h4: { fontSize: 24 },
+        h5: { fontSize: 20 },
+        h6: { fontSize: 18 },
       },
     },
     colors: {

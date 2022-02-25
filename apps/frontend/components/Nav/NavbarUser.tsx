@@ -40,7 +40,7 @@ export const NavbarUser = (props) => {
                 </Text>
               </div>
             </Group>
-            <Box sx={() => ({ padding: '0 .25rem' })}>
+            <Box>
               <CaretRight weight="regular" size={18} />
             </Box>
           </Group>
