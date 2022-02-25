@@ -18,7 +18,7 @@ type NavbarItemModel = {
   color?: string;
 };
 
-const Navbarlist = (props) => {
+export const NavbarList = (props) => {
   const [{ size, weight }] = useState<IconProps>({
     size: 20,
     weight: 'duotone',
@@ -63,17 +63,10 @@ const Navbarlist = (props) => {
   ]);
 
   return (
-    <Group
-      direction="column"
-      align="stretch"
-      spacing={0}
-      sx={() => ({
-        padding: '1rem 0',
-      })}
-    >
-      {items.map((item) => (
+    <Group direction="column" align="stretch" spacing={0} mt={12} mb={12}>
+      {[...items, ...items, ...items, ...items].map((item, i) => (
         <NavbarItem
-          key={item.label}
+          key={`navbar-item-${i}`}
           label={item.label}
           href={item.href}
           color={item.color}
@@ -83,5 +76,3 @@ const Navbarlist = (props) => {
     </Group>
   );
 };
-
-export default Navbarlist;

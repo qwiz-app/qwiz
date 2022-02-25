@@ -9,7 +9,7 @@ interface Props extends ButtonProps<'button'> {
   children: React.ReactNode;
 }
 
-const Button = (props: Props) => {
+export const Button = (props: Props) => {
   const { children } = props;
 
   const defaults: SharedButtonProps = {
@@ -22,5 +22,3 @@ const Button = (props: Props) => {
     </MantineButton>
   );
 };
-
-export default Button;

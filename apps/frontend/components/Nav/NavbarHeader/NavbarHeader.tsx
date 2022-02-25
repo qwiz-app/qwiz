@@ -1,22 +1,13 @@
 import { Group } from '@mantine/core';
-import ThemeToggle from 'components/UI/ThemeToggle';
+import { ThemeToggle } from 'components/UI/ThemeToggle';
 import React from 'react';
+import { NavbarLogo } from '../NavbarLogo';
 
-import NavbarLogo from '../NavbarLogo';
-
-const NavbarHeader = (props) => {
+export const NavbarHeader = (props) => {
   return (
-    <Group
-      sx={() => ({
-        padding: '0 .5rem 1rem',
-        gap: '.rem',
-      })}
-      position="apart"
-    >
+    <Group mb={12} mx={8} position="apart">
       <NavbarLogo />
       <ThemeToggle />
     </Group>
   );
 };
-
-export default NavbarHeader;

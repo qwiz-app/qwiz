@@ -1,12 +1,11 @@
-import { Group } from '@mantine/core';
+import { Group, Text } from '@mantine/core';
 import DashboardLayout from 'components/layout/DashboardLayout';
 import React from 'react';
 
 const Demo = (props) => {
   return (
     <Group>
-      <p className="text-red-600">Hey its me</p>
-      <span>matija</span>
+      <Text size="xl">Hey its me</Text>
     </Group>
   );
 };

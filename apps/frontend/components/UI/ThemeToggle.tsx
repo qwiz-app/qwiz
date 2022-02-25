@@ -1,17 +1,17 @@
-import { ThemeIcon, UnstyledButton, useMantineTheme } from '@mantine/core';
+import { ActionIcon, ThemeIcon, useMantineTheme } from '@mantine/core';
 import { useAppColorscheme } from 'hooks/colorscheme';
-import { Sun, Moon, IconProps } from 'phosphor-react';
+import { IconProps, Moon, Sun } from 'phosphor-react';
 import React, { useState } from 'react';
 
-const ThemeToggle = (props) => {
+export const ThemeToggle = (props) => {
   const { toggleColorScheme, isDark, isLight } = useAppColorscheme();
   const theme = useMantineTheme();
   const [{ size, weight }] = useState<IconProps>({
-    size: 20,
+    size: 24,
     weight: 'duotone',
   });
   return (
-    <UnstyledButton onClick={() => toggleColorScheme()}>
+    <ActionIcon onClick={() => toggleColorScheme()}>
       <ThemeIcon
         radius="xl"
         size="xl"
@@ -32,8 +32,6 @@ const ThemeToggle = (props) => {
           <Moon color={theme.colors.dark[8]} size={size} weight={weight} />
         )}
       </ThemeIcon>
-    </UnstyledButton>
+    </ActionIcon>
   );
 };
-
-export default ThemeToggle;

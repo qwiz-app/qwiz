@@ -2,7 +2,7 @@ import { Divider } from '@mantine/core';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import React from 'react';
 
-const NavbarDivider = (props) => {
+export const NavbarDivider = (props) => {
   const { isDark } = useAppColorscheme();
   return (
     <Divider
@@ -12,5 +12,3 @@ const NavbarDivider = (props) => {
     />
   );
 };
-
-export default NavbarDivider;
