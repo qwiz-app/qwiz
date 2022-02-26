@@ -2,10 +2,10 @@ import { Navbar } from '@mantine/core';
 import { ThinScrollArea } from 'components/UI/ThinScrollArea';
 import { useCurrentSession } from 'hooks/session';
 import React from 'react';
+
 import { NavbarDivider } from '../NavbarDivider';
 import { NavbarHeader } from '../NavbarHeader/NavbarHeader';
 import { NavbarList } from '../NavbarList/NavbarList';
-
 import { NavbarUser } from '../NavbarUser';
 
 export const AppNavbar = (props) => {
@@ -29,7 +29,7 @@ export const AppNavbar = (props) => {
       {user && !isLoading && (
         <>
           <NavbarDivider />
-          <Navbar.Section mt=".75rem">
+          <Navbar.Section mt={12}>
             <NavbarUser />
           </Navbar.Section>
         </>

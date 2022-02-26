@@ -1,15 +1,8 @@
-import {
-  UnstyledButton,
-  Skeleton,
-  Group,
-  Avatar,
-  Box,
-  Text,
-} from '@mantine/core';
+import { Avatar, Box, Divider, Group, Menu, Skeleton, Text, UnstyledButton } from '@mantine/core';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useCurrentSession } from 'hooks/session';
 import Link from 'next/link';
-import { CaretRight } from 'phosphor-react';
+import { Gear, SignOut, Trash, User, UserSwitch } from 'phosphor-react';
 import React from 'react';
 
 export const NavbarUser = (props) => {
@@ -41,7 +34,23 @@ export const NavbarUser = (props) => {
               </div>
             </Group>
             <Box>
-              <CaretRight weight="regular" size={18} />
+              {/* <CaretRight weight="regular" size={18} /> */}
+              <Menu trigger="hover" onClick={(e) => e.preventDefault()}>
+                <Menu.Label>Application</Menu.Label>
+                <Menu.Item icon={<User weight="duotone" />}>Profile</Menu.Item>
+                <Menu.Item icon={<Gear weight="duotone" />}>Settings</Menu.Item>
+                <Menu.Item icon={<UserSwitch weight="duotone" />}>
+                  Switch user
+                </Menu.Item>
+                <Divider />
+                <Menu.Label>Caution</Menu.Label>
+                <Menu.Item color="red" icon={<SignOut weight="duotone" />}>
+                  Logout
+                </Menu.Item>
+                <Menu.Item color="red" icon={<Trash weight="duotone" />}>
+                  Delete my account
+                </Menu.Item>
+              </Menu>
             </Box>
           </Group>
         </Skeleton>

@@ -18,7 +18,8 @@
         "react/default-props-match-prop-types": "off",
         "react/require-default-props": "off",
         "react/no-array-index-key": "off",
-        "no-use-before-define": "off"
+        "no-use-before-define": "off",
+        "no-param-reassign": "off"
       }
     },
     {
