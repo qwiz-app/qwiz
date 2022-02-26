@@ -1,23 +1,16 @@
 import { Group } from '@mantine/core';
 import AuthLayout from 'components/layout/AuthLayout';
-import { Button } from 'components/UI/Button/Button';
 import ProviderButton, { ProviderId } from 'components/UI/ProviderButton';
-import { useAppColorscheme } from 'hooks/colorscheme';
 import { GetServerSideProps } from 'next';
 import { BuiltInProviderType } from 'next-auth/providers';
-import {
-  ClientSafeProvider,
-  getProviders,
-  LiteralUnion,
-  signIn,
-} from 'next-auth/react';
+import { ClientSafeProvider, getProviders, LiteralUnion, signIn } from 'next-auth/react';
 import React, { useEffect } from 'react';
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const providers = await getProviders();
-  const callbackUrl = process.env.NEXTAUTH_URL;
+  const redirectUrl = process.env.NEXTAUTH_URL;
   return {
-    props: { providers, callbackUrl },
+    props: { providers, redirectUrl },
   };
 };
 
@@ -26,17 +19,16 @@ type Props = {
     LiteralUnion<BuiltInProviderType, string>,
     ClientSafeProvider
   > | null;
-  callbackUrl: string;
+  redirectUrl: string;
 };
 
-const SignInPage = ({ callbackUrl, providers }: Props) => {
+const SignInPage = ({ redirectUrl, providers }: Props) => {
   useEffect(() => {
     console.log('providers :>> ', providers);
   }, [providers]);
 
-  const { isDark } = useAppColorscheme();
   const signInHandler = (providerId: ProviderId) => {
-    signIn(providerId, { callbackUrl });
+    signIn(providerId, { callbackUrl: redirectUrl });
   };
 
   return (
