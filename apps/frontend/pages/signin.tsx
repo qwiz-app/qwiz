@@ -14,6 +14,7 @@ import {
 } from 'next-auth/react';
 import Image from 'next/image';
 import React, { useEffect } from 'react';
+import { ThemeToggle } from 'components/UI/ThemeToggle';
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const providers = await getProviders();
@@ -45,35 +46,47 @@ const SignInPage = ({ redirectUrl, providers }: Props) => {
   const illustration = isDark ? PeepDark : Peep;
 
   return (
-    <Group
-      noWrap
-      align="center"
-      position="center"
-      spacing={100}
-      sx={() => ({ marginLeft: '-10vw' })}
-    >
-      <div style={{ flex: '0 0 60vh' }}>
-        <Image src={illustration} alt="city" objectFit="contain" />
+    <>
+      <div
+        style={{
+          position: 'absolute',
+          bottom: '2rem',
+          left: '50%',
+          transform: 'translateX(-50%)',
+        }}
+      >
+        <ThemeToggle tooltip />
       </div>
-      <Group position="center">
-        <Group
-          direction="column"
-          spacing={8}
-          align="center"
-          position="center"
-          sx={() => ({ width: 'fit-content' })}
-        >
-          {Object.values(providers).map((provider) => (
-            <ProviderButton
-              key={provider.id}
-              id={provider.id as ProviderId}
-              name={provider.name}
-              onClick={signInHandler}
-            />
-          ))}
+      <Group
+        noWrap
+        align="center"
+        position="center"
+        spacing={100}
+        sx={() => ({ marginLeft: '-10vw' })}
+      >
+        <div style={{ flex: '0 0 60vh' }}>
+          <Image src={illustration} alt="city" objectFit="contain" />
+        </div>
+        <Group position="center">
+          <Group
+            direction="column"
+            spacing={8}
+            align="center"
+            position="center"
+            sx={() => ({ width: 'fit-content' })}
+          >
+            {Object.values(providers).map((provider) => (
+              <ProviderButton
+                key={provider.id}
+                id={provider.id as ProviderId}
+                name={provider.name}
+                onClick={signInHandler}
+              />
+            ))}
+          </Group>
         </Group>
       </Group>
-    </Group>
+    </>
   );
 };
 

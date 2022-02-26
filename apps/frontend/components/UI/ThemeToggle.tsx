@@ -4,7 +4,11 @@ import { useAppColorscheme } from 'hooks/colorscheme';
 import { IconProps, Moon, Sun } from 'phosphor-react';
 import React, { useState } from 'react';
 
-export const ThemeToggle = (props) => {
+interface Props {
+  tooltip?: boolean;
+}
+
+export const ThemeToggle = ({ tooltip }: Props) => {
   const { toggleColorScheme, isDark, isLight } = useAppColorscheme();
   const theme = useMantineTheme();
   const [{ size, weight }] = useState<IconProps>({
@@ -19,7 +23,7 @@ export const ThemeToggle = (props) => {
       transitionDuration={350}
       transitionTimingFunction="ease"
       ref={ref}
-      opened={hovered}
+      opened={tooltip && hovered}
       radius="xs"
     >
       <ActionIcon onClick={() => toggleColorScheme()}>
@@ -46,4 +50,8 @@ export const ThemeToggle = (props) => {
       </ActionIcon>
     </Tooltip>
   );
+};
+
+ThemeToggle.defaultProps = {
+  tooltip: true,
 };
