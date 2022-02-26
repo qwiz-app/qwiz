@@ -1,4 +1,4 @@
-import { Group } from '@mantine/core';
+import { Box, Group, Text, Title, useMantineTheme } from '@mantine/core';
 import Peep from 'assets/peep2.svg';
 import PeepDark from 'assets/peep2-dark.svg';
 import AuthLayout from 'components/layout/AuthLayout';
@@ -15,6 +15,7 @@ import {
 import Image from 'next/image';
 import React, { useEffect } from 'react';
 import { ThemeToggle } from 'components/UI/ThemeToggle';
+import { HandWaving } from 'phosphor-react';
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const providers = await getProviders();
@@ -34,6 +35,7 @@ type Props = {
 
 const SignInPage = ({ redirectUrl, providers }: Props) => {
   const { isDark } = useAppColorscheme();
+  const theme = useMantineTheme();
 
   useEffect(() => {
     console.table(providers);
@@ -50,12 +52,26 @@ const SignInPage = ({ redirectUrl, providers }: Props) => {
       <div
         style={{
           position: 'absolute',
+          top: '2rem',
+          left: '50%',
+          transform: 'translateX(-50%)',
+        }}
+      >
+        <Group direction="column" position="center">
+          <ThemeToggle tooltip mono />
+        </Group>
+      </div>
+      <div
+        style={{
+          position: 'absolute',
           bottom: '2rem',
           left: '50%',
           transform: 'translateX(-50%)',
         }}
       >
-        <ThemeToggle tooltip />
+        <Group direction="column" position="center">
+          <Text sx={(t) => ({ fontFamily: t.fontFamilyMonospace })}>QWIZ</Text>
+        </Group>
       </div>
       <Group
         noWrap
@@ -65,9 +81,34 @@ const SignInPage = ({ redirectUrl, providers }: Props) => {
         sx={() => ({ marginLeft: '-10vw' })}
       >
         <div style={{ flex: '0 0 60vh' }}>
-          <Image src={illustration} alt="city" objectFit="contain" />
+          <Image
+            src={illustration}
+            alt="city"
+            objectFit="contain"
+            className="signin-hero"
+          />
         </div>
-        <Group position="center">
+        <Group direction="column" position="left">
+          <Box mb={20}>
+            <Title
+              order={3}
+              sx={(t) => ({
+                fontFamily: t.fontFamilyMonospace,
+              })}
+            >
+              <Group spacing="sm" align="center">
+                <span>Welcome</span>
+                <HandWaving
+                  size={38}
+                  color={isDark ? theme.colors.teal[5] : 'currentColor'}
+                  weight="duotone"
+                  style={{ marginTop: '-6px' }}
+                />
+              </Group>
+            </Title>
+            <Text color="gray">Sign in to get started</Text>
+          </Box>
+
           <Group
             direction="column"
             spacing={8}

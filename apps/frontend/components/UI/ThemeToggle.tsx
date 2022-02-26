@@ -6,9 +6,10 @@ import React, { useState } from 'react';
 
 interface Props {
   tooltip?: boolean;
+  mono?: boolean;
 }
 
-export const ThemeToggle = ({ tooltip }: Props) => {
+export const ThemeToggle = ({ mono, tooltip }: Props) => {
   const { toggleColorScheme, isDark, isLight } = useAppColorscheme();
   const theme = useMantineTheme();
   const [{ size, weight }] = useState<IconProps>({
@@ -41,7 +42,7 @@ export const ThemeToggle = ({ tooltip }: Props) => {
           })}
         >
           {isDark && (
-            <Sun color={theme.colors.yellow[4]} size={size} weight={weight} />
+            <Sun color={mono ? 'currentColor' : theme.colors.yellow[4]} size={size} weight={weight} />
           )}
           {isLight && (
             <Moon color={theme.colors.dark[8]} size={size} weight={weight} />
@@ -54,4 +55,5 @@ export const ThemeToggle = ({ tooltip }: Props) => {
 
 ThemeToggle.defaultProps = {
   tooltip: true,
+  mono: false,
 };

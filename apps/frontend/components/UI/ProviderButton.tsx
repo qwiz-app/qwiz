@@ -60,7 +60,6 @@ const useProviderStyles = ({ id }: ProviderStyleProps) => {
 
 const ProviderButton = ({ id, name, onClick }: Props) => {
   const { provider } = useProviderStyles({ id });
-
   const { icon } = provider;
 
   return (
@@ -76,8 +75,8 @@ const ProviderButton = ({ id, name, onClick }: Props) => {
       <Group spacing={12} position="left">
         {icon}
         <Box>
-          <Text weight={500} component="p">
-            Continue with <Text component="span">{name}</Text>
+          <Text size="md" weight={500} component="p">
+            Continue with <span>{name}</span>
           </Text>
         </Box>
       </Group>
