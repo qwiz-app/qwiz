@@ -1,10 +1,9 @@
-import { Group, Text, ThemeIcon, useMantineTheme } from '@mantine/core';
+import { Group, Text, ThemeIcon } from '@mantine/core';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { AppleLogo } from 'phosphor-react';
 import React from 'react';
 
 export const NavbarLogo = (props) => {
-  const theme = useMantineTheme();
   const { isDark } = useAppColorscheme();
   return (
     <Group>

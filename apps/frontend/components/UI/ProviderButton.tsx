@@ -1,12 +1,10 @@
 /* eslint-disable react/no-this-in-sfc */
-import { Box, Button, Group, Text } from '@mantine/core';
-import { useHover } from '@mantine/hooks';
-import { useAppColorscheme } from 'hooks/colorscheme';
+import { Box, Group, Text } from '@mantine/core';
 import { DiscordLogo, GithubLogo, GoogleLogo, IconProps } from 'phosphor-react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useImmer } from 'use-immer';
 
-// import { Button } from './Button/Button';
+import { Button } from './Button/Button';
 
 export type ProviderId = 'discord' | 'google' | 'github';
 
