@@ -7,7 +7,11 @@ import { AuthTitle } from 'components/auth/AuthTitle';
 import AuthLayout from 'components/layout/AuthLayout';
 import { GetServerSideProps } from 'next';
 import { BuiltInProviderType } from 'next-auth/providers';
-import { ClientSafeProvider, getProviders, LiteralUnion } from 'next-auth/react';
+import {
+  ClientSafeProvider,
+  getProviders,
+  LiteralUnion,
+} from 'next-auth/react';
 import React from 'react';
 
 export const getServerSideProps: GetServerSideProps = async () => {
@@ -52,7 +56,7 @@ const SignInPage = (props: SignInProps) => {
         spacing={100}
         sx={() => ({ marginLeft: '-10vw' })}
       >
-        <AuthIllustration />
+        <AuthIllustration style={{ flex: '0 0 60vh' }} />
         <Group direction="column" position="left" mt={-16}>
           <AuthTitle />
           <AuthProviders {...props} />

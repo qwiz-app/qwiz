@@ -6,10 +6,10 @@ import React from 'react';
 import { NavbarDivider } from '../NavbarDivider';
 import { NavbarHeader } from '../NavbarHeader/NavbarHeader';
 import { NavbarList } from '../NavbarList/NavbarList';
-import { NavbarUser } from '../NavbarUser';
+import { NavbarUser } from '../NavbarUser/NavbarUser';
 
 export const AppNavbar = (props) => {
-  const { user, isLoading } = useCurrentSession();
+  const { user } = useCurrentSession();
 
   return (
     <Navbar padding="md" width={{ base: 320 }}>
@@ -26,7 +26,7 @@ export const AppNavbar = (props) => {
       >
         <NavbarList />
       </Navbar.Section>
-      {user && !isLoading && (
+      {user && (
         <>
           <NavbarDivider />
           <Navbar.Section mt={12}>

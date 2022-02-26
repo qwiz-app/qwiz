@@ -26,7 +26,7 @@ export const NavbarList = (props) => {
   const [items] = useState<NavbarItemModel[]>([
     {
       label: 'Sign in',
-      href: '/signin',
+      href: '/sign-in',
       icon: <Key size={size} weight={weight} />,
       color: 'tailwind-teal',
     },

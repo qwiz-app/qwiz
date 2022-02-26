@@ -9,7 +9,7 @@ export const AuthIllustration = (props) => {
   const illustration = isDark ? PeepDark : Peep;
 
   return (
-    <div style={{ flex: '0 0 60vh' }}>
+    <div {...props}>
       <Image
         src={illustration}
         alt="city"

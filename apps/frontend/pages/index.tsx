@@ -1,9 +1,9 @@
-import { Avatar, Group, Paper, Skeleton, Text, Title } from '@mantine/core';
+import { Avatar, Box, Container, Group, Text } from '@mantine/core';
 import DashboardLayout from 'components/layout/DashboardLayout';
 import { Button } from 'components/UI/Button/Button';
 import { useCurrentSession } from 'hooks/session';
-import { useUsers, useUser } from 'hooks/users/users';
-import { signOut, signIn } from 'next-auth/react';
+import { useUser, useUsers } from 'hooks/users/users';
+import { signIn, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -15,15 +15,14 @@ const IndexPage = () => {
   const {
     data: selectedUser,
     isSuccess,
+    isError,
     error: selectedUserError,
-    isLoading: selectedUserLoading,
   } = useUser(id);
 
   return (
-    <Group>
-      <Group className="homepage" direction="column" align="center">
-        <Title order={2}>Hello mc2 👋️</Title>
-        <p>All users</p>
+    <Group direction="column">
+      <Group direction="column" align="center" mt={32}>
+        <Text size="xl">All users</Text>
         {users?.map((user) => (
           <div
             key={user.id}
@@ -57,15 +56,13 @@ const IndexPage = () => {
           </Link>
         </Group>
       </Group>
-      <Skeleton visible={selectedUserLoading} color="pink" mt={16}>
-        <Paper padding="md" sx={() => ({ textAlign: 'center' })}>
-          {isSuccess ? (
-            <Text size="sm">{selectedUser.email}</Text>
-          ) : (
-            <p>{selectedUserError?.response.data.message}</p>
-          )}
-        </Paper>
-      </Skeleton>
+      <Box mt={16}>
+        <Text size="sm" color={isError ? 'red' : 'currentColor'}>
+          {isSuccess
+            ? selectedUser.email
+            : selectedUserError?.response.data.message}
+        </Text>
+      </Box>
     </Group>
   );
 };

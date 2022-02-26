@@ -2,7 +2,7 @@ import { Group } from '@mantine/core';
 import ProviderButton, { ProviderId } from 'components/UI/ProviderButton';
 import { BuiltInProviderType } from 'next-auth/providers';
 import { ClientSafeProvider, LiteralUnion, signIn } from 'next-auth/react';
-import { SignInProps } from 'pages/signin';
+import { SignInProps } from 'pages/sign-in';
 import React, { useEffect } from 'react';
 
 interface Props extends SignInProps {
