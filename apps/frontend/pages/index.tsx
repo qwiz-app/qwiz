@@ -1,4 +1,4 @@
-import { Avatar, Box, Container, Group, Text } from '@mantine/core';
+import { Avatar, Box, Group, Text } from '@mantine/core';
 import DashboardLayout from 'components/layout/DashboardLayout';
 import { Button } from 'components/UI/Button/Button';
 import { useCurrentSession } from 'hooks/session';

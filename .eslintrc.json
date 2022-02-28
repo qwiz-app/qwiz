@@ -20,18 +20,6 @@
             ]
           }
         ],
-        "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
-        "react/jsx-props-no-spreading": "off",
-        "react/function-component-definition": [
-          "error",
-          {
-            "namedComponents": "arrow-function",
-            "unnamedComponents": "arrow-function",
-            "defaultProps": "arrow-function",
-            "destructuring": "always",
-            "useConst": true
-          }
-        ],
         "import/no-unresolved": "off",
         "import/no-extraneous-dependencies": "off",
         "import/prefer-default-export": "off",

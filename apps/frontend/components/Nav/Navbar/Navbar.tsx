@@ -1,4 +1,4 @@
-import { Navbar } from '@mantine/core';
+import { Navbar as MantineNavbar } from '@mantine/core';
 import { ThinScrollArea } from 'components/UI/ThinScrollArea';
 import { useCurrentSession } from 'hooks/session';
 import React from 'react';
@@ -8,16 +8,16 @@ import { NavbarHeader } from '../NavbarHeader/NavbarHeader';
 import { NavbarList } from '../NavbarList/NavbarList';
 import { NavbarUser } from '../NavbarUser/NavbarUser';
 
-export const AppNavbar = (props) => {
+export const Navbar = (props) => {
   const { user } = useCurrentSession();
 
   return (
-    <Navbar padding="md" width={{ base: 320 }}>
-      <Navbar.Section className="bg">
+    <MantineNavbar padding="md" width={{ base: 320 }}>
+      <MantineNavbar.Section className="bg">
         <NavbarHeader />
-      </Navbar.Section>
+      </MantineNavbar.Section>
       <NavbarDivider />
-      <Navbar.Section
+      <MantineNavbar.Section
         grow
         component={ThinScrollArea}
         ml={-16}
@@ -25,15 +25,15 @@ export const AppNavbar = (props) => {
         sx={{ paddingLeft: 16, paddingRight: 16 }}
       >
         <NavbarList />
-      </Navbar.Section>
+      </MantineNavbar.Section>
       {user && (
         <>
           <NavbarDivider />
-          <Navbar.Section mt={12}>
+          <MantineNavbar.Section mt={12}>
             <NavbarUser />
-          </Navbar.Section>
+          </MantineNavbar.Section>
         </>
       )}
-    </Navbar>
+    </MantineNavbar>
   );
 };

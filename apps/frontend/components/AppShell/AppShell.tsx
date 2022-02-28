@@ -1,12 +1,12 @@
-import { AppShell } from '@mantine/core';
-import { AppNavbar } from 'components/Nav/AppNavbar/AppNavbar';
+import { AppShell as MantineAppShell } from '@mantine/core';
+import { Navbar } from 'components/Nav/Navbar/Navbar';
 import React from 'react';
 
-export const DashboardShell = ({ children }) => {
+export const AppShell = ({ children }) => {
   return (
-    <AppShell
+    <MantineAppShell
       padding="md"
-      navbar={<AppNavbar />}
+      navbar={<Navbar />}
       sx={(theme) => ({
         backgroundColor:
           theme.colorScheme === 'dark'
@@ -15,6 +15,6 @@ export const DashboardShell = ({ children }) => {
       })}
     >
       {children}
-    </AppShell>
+    </MantineAppShell>
   );
 };

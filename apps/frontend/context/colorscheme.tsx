@@ -2,6 +2,7 @@ import {
   ColorScheme,
   ColorSchemeProvider,
   MantineProvider,
+  useMantineColorScheme,
 } from '@mantine/core';
 import {
   useColorScheme,

@@ -1,14 +1,14 @@
 import { Container } from '@mantine/core';
 import React from 'react';
-import { DashboardShell } from '../DashboardShell/DashboardShell';
+import { AppShell } from '../AppShell/AppShell';
 
 const DashboardLayout = ({ children }) => {
   return (
-    <DashboardShell>
+    <AppShell>
       <Container fluid padding="lg">
         {children}
       </Container>
-    </DashboardShell>
+    </AppShell>
   );
 };
 
