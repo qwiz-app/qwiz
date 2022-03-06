@@ -12,7 +12,6 @@ import {
   getProviders,
   LiteralUnion,
 } from 'next-auth/react';
-import React from 'react';
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const providers = await getProviders();
