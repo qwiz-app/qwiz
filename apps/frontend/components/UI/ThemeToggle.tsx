@@ -1,8 +1,8 @@
 import { ActionIcon, ThemeIcon, Tooltip, useMantineTheme } from '@mantine/core';
 import { useHover } from '@mantine/hooks';
-import { useAppColorscheme } from 'hooks/colorscheme';
 import { IconProps, Moon, Sun } from 'phosphor-react';
-import React, { useState } from 'react';
+
+import { useAppColorscheme } from 'hooks/colorscheme';
 
 interface Props {
   tooltip?: boolean;
@@ -12,11 +12,12 @@ interface Props {
 export const ThemeToggle = ({ mono, tooltip }: Props) => {
   const { toggleColorScheme, isDark, isLight } = useAppColorscheme();
   const theme = useMantineTheme();
-  const [{ size, weight }] = useState<IconProps>({
+  const { size, weight }:IconProps = {
     size: 24,
     weight: 'duotone',
-  });
+  };
   const { hovered, ref } = useHover();
+
   return (
     <Tooltip
       label="Ctrl + J"

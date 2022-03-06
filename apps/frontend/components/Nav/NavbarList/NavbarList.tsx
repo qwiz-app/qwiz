@@ -8,22 +8,23 @@ import {
   Target,
   User,
 } from 'phosphor-react';
-import React, { useState } from 'react';
+import { ReactNode } from 'react';
+
 import { NavbarItem } from '../NavbarItem/NavbarItem';
 
 type NavbarItemModel = {
-  icon: React.ReactNode;
+  icon: ReactNode;
   label: string;
   href: string;
   color?: string;
 };
 
 export const NavbarList = (props) => {
-  const [{ size, weight }] = useState<IconProps>({
+  const { size, weight }: IconProps = {
     size: 20,
     weight: 'duotone',
-  });
-  const [items] = useState<NavbarItemModel[]>([
+  };
+  const items: NavbarItemModel[] = [
     {
       label: 'Sign in',
       href: '/sign-in',
@@ -60,7 +61,7 @@ export const NavbarList = (props) => {
       icon: <Target size={size} weight={weight} />,
       color: 'tailwind-teal',
     },
-  ]);
+  ];
 
   return (
     <Group direction="column" align="stretch" spacing={0} mt={12} mb={12}>
