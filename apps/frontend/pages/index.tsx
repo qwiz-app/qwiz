@@ -21,7 +21,7 @@ const IndexPage = () => {
 
   return (
     <Group direction="column">
-      <Group direction="column" align="center" mt={32}>
+      <Group direction="column" align="center">
         <Text size="xl">All users</Text>
         {users?.map((user) => (
           <div

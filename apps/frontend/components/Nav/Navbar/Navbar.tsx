@@ -1,4 +1,5 @@
 import { Navbar as MantineNavbar } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { ThinScrollArea } from 'components/UI/ThinScrollArea';
 import { useCurrentSession } from 'hooks/session';
 import React from 'react';
@@ -8,11 +9,24 @@ import { NavbarHeader } from '../NavbarHeader/NavbarHeader';
 import { NavbarList } from '../NavbarList/NavbarList';
 import { NavbarUserMenu } from '../NavbarUser/NavbarUserMenu';
 
-export const Navbar = () => {
+type Props = {
+  opened: boolean;
+};
+
+export const Navbar = ({ opened }: Props) => {
   const { user } = useCurrentSession();
+  const matches = useMediaQuery('(max-width: 576px)');
 
   return (
-    <MantineNavbar padding="md" width={{ base: 320 }}>
+    <MantineNavbar
+      hiddenBreakpoint="xs"
+      hidden={!opened}
+      padding="md"
+      width={{ base: '100%', xs: 320 }}
+      fixed
+      height={matches ? 'calc(100vh - 60px)' : '100vh'}
+      mt={matches ? 60 : 0}
+    >
       <MantineNavbar.Section className="bg">
         <NavbarHeader />
       </MantineNavbar.Section>

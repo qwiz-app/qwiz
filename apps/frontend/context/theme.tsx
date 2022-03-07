@@ -20,6 +20,13 @@ export const useGlobalTheme = ({ colorScheme }) => {
         h6: { fontSize: 18 },
       },
     },
+    breakpoints: {
+      xs: 576,
+      sm: 768,
+      md: 992,
+      lg: 1200,
+      xl: 1400,
+    },
     colors: {
       'tailwind-teal': [
         '#f0fdfa',

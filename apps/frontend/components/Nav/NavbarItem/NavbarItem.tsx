@@ -11,7 +11,7 @@ export const NavbarItem = ({ icon, label, color, href }) => {
       <UnstyledButton
         sx={(t) => ({
           borderRadius: t.radius.sm,
-          padding: '0.5rem',
+          padding: 8,
           '&:hover': {
             backgroundColor: isDark ? t.colors.gray[9] : t.colors.gray[1],
           },

@@ -3,6 +3,7 @@ import { useHover } from '@mantine/hooks';
 import { IconProps, Moon, Sun } from 'phosphor-react';
 
 import { useAppColorscheme } from 'hooks/colorscheme';
+import { isMobile } from 'react-device-detect';
 
 interface Props {
   tooltip?: boolean;
@@ -25,7 +26,8 @@ export const ThemeToggle = ({ mono, tooltip }: Props) => {
       transitionDuration={350}
       transitionTimingFunction="ease"
       ref={ref}
-      opened={tooltip && hovered}
+      // TODO: dont show on touch devices
+      opened={tooltip && !isMobile && hovered}
       radius="xs"
     >
       <ActionIcon onClick={() => toggleColorScheme()}>
