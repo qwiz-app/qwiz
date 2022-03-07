@@ -3,9 +3,10 @@ import { useAppColorscheme } from 'hooks/colorscheme';
 import { HandWaving } from 'phosphor-react';
 import React from 'react';
 
-export const AuthTitle = (props) => {
+export const AuthTitle = () => {
   const { isDark } = useAppColorscheme();
   const theme = useMantineTheme();
+
   return (
     <Box mb={20}>
       <Title
@@ -20,7 +21,7 @@ export const AuthTitle = (props) => {
             size={38}
             color={isDark ? theme.colors.teal[5] : 'currentColor'}
             weight="duotone"
-            style={{ marginTop: '-6px' }}
+            style={{ marginTop: -6 }}
           />
         </Group>
       </Title>

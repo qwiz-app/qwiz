@@ -1,8 +1,6 @@
-/* eslint-disable react/no-this-in-sfc */
 import { Box, Group, Text } from '@mantine/core';
 import { DiscordLogo, GithubLogo, GoogleLogo, IconProps } from 'phosphor-react';
-import React, { useEffect } from 'react';
-import { useImmer } from 'use-immer';
+import React from 'react';
 
 import { Button } from './Button/Button';
 
@@ -26,11 +24,11 @@ interface ProviderStyleModel {
 }
 
 const useProviderStyles = ({ id }: ProviderStyleProps) => {
-  const [{ weight, size }, setIconProps] = useImmer<IconProps>({
+  const { weight, size }: IconProps = {
     weight: 'duotone',
     size: 22,
-  });
-  const [providers] = useImmer<ProviderStylesModel>({
+  };
+  const providers: ProviderStylesModel = {
     google: {
       color: '#4285f4',
       icon: <GoogleLogo size={size} weight="bold" />,
@@ -43,13 +41,7 @@ const useProviderStyles = ({ id }: ProviderStyleProps) => {
       color: '#5865F2',
       icon: <DiscordLogo size={size} weight={weight} />,
     },
-  });
-
-  useEffect(() => {
-    setIconProps((draft) => {
-      draft.color = providers[id].color;
-    });
-  }, [id, providers]);
+  };
 
   const provider = providers[id];
 
@@ -65,6 +57,7 @@ const ProviderButton = ({ id, name, onClick }: Props) => {
       onClick={() => onClick(id)}
       variant="light"
       size="lg"
+      radius="sm"
       sx={(t) => ({
         width: '100%',
       })}

@@ -13,7 +13,6 @@ import { forwardRef } from 'react';
 
 type Props = UnstyledButtonProps;
 
-// eslint-disable-next-line react/display-name
 const NavbarUserButton = forwardRef<HTMLButtonElement, Props>(
   (props: Props, ref) => {
     const { user, isLoading } = useCurrentSession();

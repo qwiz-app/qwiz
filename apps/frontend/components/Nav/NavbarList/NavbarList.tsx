@@ -19,7 +19,7 @@ type NavbarItemModel = {
   color?: string;
 };
 
-export const NavbarList = (props) => {
+export const NavbarList = () => {
   const { size, weight }: IconProps = {
     size: 20,
     weight: 'duotone',

@@ -6,9 +6,9 @@ import React from 'react';
 import { NavbarDivider } from '../NavbarDivider';
 import { NavbarHeader } from '../NavbarHeader/NavbarHeader';
 import { NavbarList } from '../NavbarList/NavbarList';
-import { NavbarUser } from '../NavbarUser/NavbarUser';
+import { NavbarUserMenu } from '../NavbarUser/NavbarUserMenu';
 
-export const Navbar = (props) => {
+export const Navbar = () => {
   const { user } = useCurrentSession();
 
   return (
@@ -30,7 +30,7 @@ export const Navbar = (props) => {
         <>
           <NavbarDivider />
           <MantineNavbar.Section mt={12}>
-            <NavbarUser />
+            <NavbarUserMenu />
           </MantineNavbar.Section>
         </>
       )}

@@ -4,8 +4,9 @@ import Link from 'next/link';
 import { AppleLogo } from 'phosphor-react';
 import React from 'react';
 
-export const NavbarLogo = (props) => {
+export const NavbarLogo = () => {
   const { isDark } = useAppColorscheme();
+
   return (
     <Link href="/" passHref>
       <Group>

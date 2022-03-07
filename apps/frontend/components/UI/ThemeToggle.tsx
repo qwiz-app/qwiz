@@ -12,7 +12,7 @@ interface Props {
 export const ThemeToggle = ({ mono, tooltip }: Props) => {
   const { toggleColorScheme, isDark, isLight } = useAppColorscheme();
   const theme = useMantineTheme();
-  const { size, weight }:IconProps = {
+  const { size, weight }: IconProps = {
     size: 24,
     weight: 'duotone',
   };
@@ -43,7 +43,11 @@ export const ThemeToggle = ({ mono, tooltip }: Props) => {
           })}
         >
           {isDark && (
-            <Sun color={mono ? 'currentColor' : theme.colors.yellow[4]} size={size} weight={weight} />
+            <Sun
+              color={mono ? 'currentColor' : theme.colors.yellow[4]}
+              size={size}
+              weight={weight}
+            />
           )}
           {isLight && (
             <Moon color={theme.colors.dark[8]} size={size} weight={weight} />

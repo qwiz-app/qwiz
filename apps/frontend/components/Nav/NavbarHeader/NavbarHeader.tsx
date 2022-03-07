@@ -3,7 +3,7 @@ import { ThemeToggle } from 'components/UI/ThemeToggle';
 import React from 'react';
 import { NavbarLogo } from '../NavbarLogo';
 
-export const NavbarHeader = (props) => {
+export const NavbarHeader = () => {
   return (
     <Group mb={12} mx={8} position="apart">
       <NavbarLogo />

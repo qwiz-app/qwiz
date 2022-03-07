@@ -13,7 +13,7 @@ export const Button = (props: Props) => {
   const { children } = props;
 
   const defaults: SharedButtonProps = {
-    radius: 'sm',
+    radius: 'xs',
   };
 
   return (

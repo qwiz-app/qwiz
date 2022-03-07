@@ -1,8 +1,12 @@
-import { ScrollArea } from '@mantine/core';
+import { ScrollArea, ScrollAreaProps } from '@mantine/core';
 import React from 'react';
 
-// TODO: ScrollAreaProps & React.RefAttributes<HTMLDivElement>
-export const ThinScrollArea = (props): any => {
+type Props = {
+  children: React.ReactNode;
+} & ScrollAreaProps &
+  React.RefAttributes<HTMLDivElement>;
+
+export const ThinScrollArea = (props: Props) => {
   const { children } = props;
   return (
     <ScrollArea type="hover" scrollbarSize={8} scrollHideDelay={500} {...props}>

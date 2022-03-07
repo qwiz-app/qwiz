@@ -23,7 +23,7 @@ export const NavbarItem = ({ icon, label, color, href }) => {
             size="lg"
             variant="light"
             // TODO: decide on colors
-            color={isDark ? color : 'more-dark'}
+            color={isDark ? 'gray' : 'more-dark'}
           >
             {icon}
           </ThemeIcon>

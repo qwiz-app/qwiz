@@ -6,7 +6,7 @@ import React from 'react';
 
 import NavbarUserButton from './NavbarUserButton';
 
-export const NavbarUserMenu = (props) => {
+export const NavbarUserMenu = () => {
   const router = useRouter();
   const signOutHandler = async () => {
     const res = await signOut({ redirect: false, callbackUrl: '/sign-in' });
@@ -15,9 +15,9 @@ export const NavbarUserMenu = (props) => {
 
   return (
     <Menu
-      trigger="hover"
+      trigger="click"
       position="right"
-      delay={1000}
+      delay={300}
       control={<NavbarUserButton />}
       sx={() => ({ width: '100%' })}
     >
