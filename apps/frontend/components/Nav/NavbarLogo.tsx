@@ -1,21 +1,12 @@
 import { Group, Text, ThemeIcon } from '@mantine/core';
-import { useAppColorscheme } from 'hooks/colorscheme';
 import Link from 'next/link';
 import { AppleLogo } from 'phosphor-react';
-import React from 'react';
 
 export const NavbarLogo = () => {
-  const { isDark } = useAppColorscheme();
-
   return (
     <Link href="/" passHref>
       <Group>
-        <ThemeIcon
-          radius="xl"
-          size="xl"
-          variant="light"
-          color={isDark ? 'teal' : 'currentColor'}
-        >
+        <ThemeIcon radius="xl" size="xl" variant="light" color="teal">
           <AppleLogo size={24} weight="duotone" />
         </ThemeIcon>
         <Text

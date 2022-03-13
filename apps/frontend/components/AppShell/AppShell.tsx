@@ -22,87 +22,86 @@ export const AppShell = ({ children }) => {
   const { isDark } = useAppColorscheme();
   const matches = useMediaQuery('(max-width: 576px)');
   const { user } = useCurrentSession();
-
   const [opened, setOpened] = useState(false);
 
-  const toggleNavbar = () => {
-    setOpened((op) => !op);
-  };
+  const toggleNavbar = () => setOpened((prev) => !prev);
+
+  const navbar = (
+    <MantineNavbar
+      hiddenBreakpoint="xs"
+      hidden={!opened}
+      padding="md"
+      width={{ base: '100%', xs: 320 }}
+      fixed
+    >
+      {!matches && (
+        <>
+          <MantineNavbar.Section>
+            <NavbarHeader />
+          </MantineNavbar.Section>
+          <NavbarDivider />
+        </>
+      )}
+      <MantineNavbar.Section
+        grow
+        component={ThinScrollArea}
+        ml={-16}
+        mr={-16}
+        sx={{ paddingLeft: 16, paddingRight: 16 }}
+      >
+        <NavbarList />
+      </MantineNavbar.Section>
+      {user && (
+        <>
+          <NavbarDivider />
+          <MantineNavbar.Section mt={12}>
+            <NavbarUserMenu />
+          </MantineNavbar.Section>
+        </>
+      )}
+    </MantineNavbar>
+  );
+
+  // TODO: for now, Navbar and Header cant be custom components for Mantine to do its magic
+  // TODO: find a way to extract them into their own components
+  const header = (
+    <MantineHeader
+      height={60}
+      padding="sm"
+      fixed
+      sx={(t) => ({ paddingLeft: 20, paddingRight: 20 })}
+    >
+      <Group
+        align="center"
+        position="apart"
+        sx={(t) => ({ width: '100%', height: '100%' })}
+      >
+        <Burger opened={opened} onClick={toggleNavbar} size="sm" />
+
+        {/* TODO: extract LogoText into reusable component */}
+        <Text
+          transform="uppercase"
+          size="xl"
+          weight={400}
+          sx={(t) => ({ fontFamily: t.fontFamilyMonospace })}
+        >
+          QWIZ
+        </Text>
+        <ThemeToggle />
+      </Group>
+    </MantineHeader>
+  );
 
   return (
     <MantineAppShell
       navbarOffsetBreakpoint="xs"
-      // TODO: for now, Navbar and Header have to be inline for Mantine to do its magic
-      // TODO: find a way to extract them into their own components
-      navbar={
-        <MantineNavbar
-          hiddenBreakpoint="xs"
-          hidden={!opened}
-          padding="md"
-          width={{ base: '100%', xs: 320 }}
-          fixed
-        >
-          {!matches && (
-            <>
-              <MantineNavbar.Section>
-                <NavbarHeader />
-              </MantineNavbar.Section>
-              <NavbarDivider />
-            </>
-          )}
-          <MantineNavbar.Section
-            grow
-            component={ThinScrollArea}
-            ml={-16}
-            mr={-16}
-            sx={{ paddingLeft: 16, paddingRight: 16 }}
-          >
-            <NavbarList />
-          </MantineNavbar.Section>
-          {user && (
-            <>
-              <NavbarDivider />
-              <MantineNavbar.Section mt={12}>
-                <NavbarUserMenu />
-              </MantineNavbar.Section>
-            </>
-          )}
-        </MantineNavbar>
-      }
+      navbar={navbar}
       fixed
       sx={(t) => ({
         backgroundColor: isDark ? t.colors.dark[8] : t.colors.gray[0],
         minHeight: '100vh',
       })}
-      header={
-        matches ? (
-          <MantineHeader
-            height={60}
-            padding="sm"
-            fixed
-            sx={(t) => ({ paddingLeft: 20, paddingRight: 20 })}
-          >
-            <Group
-              align="center"
-              position="apart"
-              sx={(t) => ({ width: '100%', height: '100%' })}
-            >
-              <Burger opened={opened} onClick={toggleNavbar} size="sm" />
-
-              {/* TODO: extract LogoText into reusable component */}
-              <Text
-                transform="uppercase"
-                size="xl"
-                weight={400}
-                sx={(t) => ({ fontFamily: t.fontFamilyMonospace })}
-              >
-                QWIZ
-              </Text>
-              <ThemeToggle />
-            </Group>
-          </MantineHeader>
-        ) : null
-      }
+      header={matches && header}
     >
       <Container fluid>{children}</Container>
     </MantineAppShell>
