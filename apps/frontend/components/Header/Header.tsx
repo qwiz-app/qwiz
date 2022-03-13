@@ -1,12 +1,11 @@
 import {
-  MediaQuery,
   Burger,
   Header as MantineHeader,
-  useMantineTheme,
+  MediaQuery,
   Text,
+  useMantineTheme,
 } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
-import React from 'react';
+import { useBreakpoints } from 'hooks/breakpoints';
 
 type Props = {
   onNavbarToggle: () => void;
@@ -14,11 +13,11 @@ type Props = {
 };
 
 const Header = ({ onNavbarToggle, opened }: Props) => {
-  const matches = useMediaQuery('(min-width: 576px)');
+  const { matches } = useBreakpoints();
   const theme = useMantineTheme();
 
   return (
-    <MantineHeader height={60} padding="md" fixed hidden={matches}>
+    <MantineHeader height={60} padding="md" fixed hidden={matches.max.xs}>
       <div style={{ display: 'flex', alignItems: 'center', height: '100%' }}>
         <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
           <Burger

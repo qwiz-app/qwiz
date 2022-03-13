@@ -7,22 +7,22 @@ import {
   Navbar as MantineNavbar,
   Text,
 } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
 import { NavbarDivider } from 'components/Nav/NavbarDivider';
 import { NavbarHeader } from 'components/Nav/NavbarHeader/NavbarHeader';
 import { NavbarList } from 'components/Nav/NavbarList/NavbarList';
 import { NavbarUserMenu } from 'components/Nav/NavbarUser/NavbarUserMenu';
 import { ThemeToggle } from 'components/UI/ThemeToggle';
 import { ThinScrollArea } from 'components/UI/ThinScrollArea';
+import { useBreakpoints } from 'hooks/breakpoints';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useCurrentSession } from 'hooks/session';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 export const AppShell = ({ children }) => {
   const { isDark } = useAppColorscheme();
-  const matches = useMediaQuery('(max-width: 576px)');
-  const { user } = useCurrentSession();
   const [opened, setOpened] = useState(false);
+  const { user } = useCurrentSession();
+  const { matches } = useBreakpoints();
 
   const toggleNavbar = () => setOpened((prev) => !prev);
 
@@ -34,7 +34,7 @@ export const AppShell = ({ children }) => {
       width={{ base: '100%', xs: 320 }}
       fixed
     >
-      {!matches && (
+      {!matches.max.xs && (
         <>
           <MantineNavbar.Section>
             <NavbarHeader />
@@ -101,7 +101,7 @@ export const AppShell = ({ children }) => {
         backgroundColor: isDark ? t.colors.dark[8] : t.colors.gray[0],
         minHeight: '100vh',
       })}
-      header={matches && header}
+      header={matches.max.xs && header}
     >
       <Container fluid>{children}</Container>
     </MantineAppShell>
