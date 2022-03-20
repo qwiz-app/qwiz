@@ -12,7 +12,7 @@ on:
 jobs:
   vercel: 
     runs-on: ubuntu-latest
-    name: "Deploy front-end"
+    name: "Deploy App Frontend"
 
     steps:
       - uses: actions/checkout@v2
