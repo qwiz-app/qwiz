@@ -1,12 +1,13 @@
+# QWIZ
 
-# qwiz
+App for building pub quizes
 
 ## Installation and running locally
 
 Clone the repo
 
 ```bash
-  git clone https://github.com/qwiz-app/qwiz.git qwiz
+  git clone https://github.com/mislavjc/qwiz.git qwiz
   cd qwiz
 ```
 Install compatable Node version and deps
@@ -14,17 +15,13 @@ Install compatable Node version and deps
   node -v #16.13.2
   npm i
 ```
-Start the PostgreSQL docker container
-```bash
-  npm run db:start
-```
 Start the frontend server
 ```bash
-  npm run frontend
+  npm run start frontend
 ```
 Start the backend server
 ```bash
-  npm run backend
+  npm run start backend
 ```
 
 ## Environment Variables
@@ -32,8 +29,6 @@ Start the backend server
 To run this project, add the following environment variables to your .env.local file in apps/frontend dir
 
 `NEXTAUTH_URL=http://localhost:4200`
-
-`BACKEND_URL=http://localhost:3333`
 
 `GITHUB_CLIENT_ID`
 
@@ -43,12 +38,8 @@ To run this project, add the following environment variables to your .env.local 
 
 `GOOGLE_CLIENT_SECRET`
 
-`DISCORD_CLIENT_ID`
-
-`DISCORD_CLIENT_SECRET`
-
 `SECRET={any string}`
 
 And to your .env file in root dir (for Prisma)
 
-`DATABASE_URL="postgresql://postgres@localhost:5432/qwiz?schema=qwiz"`
+`DATABASE_URL="DATABASE_URL="mysql://url"`
