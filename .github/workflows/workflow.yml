@@ -1,5 +1,0 @@
----
-- uses: mansagroup/nrwl-nx-action@v2
-  with:
-    targets: lint,build
-    nxCloud: 'true'
