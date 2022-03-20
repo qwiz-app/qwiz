@@ -1,4 +1,4 @@
-import { Avatar, Box, Group, Text, useMantineTheme } from '@mantine/core';
+import { Avatar, Box, Group, Text } from '@mantine/core';
 import DashboardLayout from 'components/layout/DashboardLayout';
 import { Button } from 'components/UI/Button/Button';
 import { useCurrentSession } from 'hooks/session';
@@ -11,8 +11,6 @@ const IndexPage = () => {
   const { isAuthenticated, user: currentUser } = useCurrentSession();
   const { data: users, error } = useUsers();
   const [id, setId] = useState<string>(null);
-  const theme = useMantineTheme();
-  console.log(theme.breakpoints);
   const {
     data: selectedUser,
     isSuccess,
