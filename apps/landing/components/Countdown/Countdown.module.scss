@@ -1,43 +1,52 @@
 .countdown {
-  color: white;
-  h1 {
-    display: flex;
-    gap: 0.5rem;
-  }
   display: grid;
   gap: 1rem;
   grid-template-columns: repeat(4, 1fr);
 
-  &__time {
-    display: inline-flex;
-    font-family: 'Consolas';
-    flex-direction: row;
-    margin: 0;
-    padding: 0;
+  h2 {
+    display: flex;
+    gap: 0.5rem;
+    font-weight: normal;
+  }
+
+  &__box {
+    background-color: #131212;
+    border-radius: 0.25rem;
+    white-space: nowrap;
+    display: flex;
     align-items: center;
     justify-content: center;
+    width: calc((100vw / 2) - 2rem);
+    max-width: 12rem;
+    aspect-ratio: 1;
+    position: relative;
+  }
+
+  &__unit {
+    position: absolute;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: bold;
+    color: #312f2f;
+  }
+
+  &__time {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
     font-size: 5rem;
-    &_wrapper {
-      background-color: rgb(19, 18, 18);
-      border-radius: 0.25rem;
-      white-space: nowrap;
-      width: 10rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      aspect-ratio: 1;
-    }
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
   .countdown {
     grid-template-columns: repeat(2, 1fr);
+
     &__time {
-      font-size: 3rem;
-      &_wrapper {
-        width: calc((100vw / 2) - 2rem);
-      }
+      font-size: 3.2rem;
     }
   }
 }

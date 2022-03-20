@@ -1,16 +1,17 @@
 .landing {
   background-color: black;
-  padding: 0;
-  margin: 0;
-  height: 100vh;
-  width: 100vw;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-}
+  padding-top: 10vmax;
+  gap: 4rem;
+  padding: 8rem 2rem 2rem;
+  color: #d9d9d9;
+  font-family: 'Disket-Mono', monospace;
 
-@media (max-width: 768px) {
-  .landing {
+  &__title {
+    font-size: 3rem;
+    font-weight: normal;
   }
 }

@@ -6,13 +6,13 @@ const CustomApp = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Head>
-        <title>Welcome to landing!</title>
+        <title>Qwiz</title>
       </Head>
       <main className="app">
         <Component {...pageProps} />
       </main>
     </>
   );
-}
+};
 
 export default CustomApp;

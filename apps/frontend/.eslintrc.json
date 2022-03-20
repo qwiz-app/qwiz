@@ -10,29 +10,7 @@
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
-        "@next/next/no-html-link-for-pages": ["error", "apps/frontend/pages"],
-        "no-shadow": "off",
-        "no-unused-vars": "off",
-        "@typescript-eslint/no-shadow": "error",
-        "@typescript-eslint/no-unused-vars": "error",
-        "react/default-props-match-prop-types": "off",
-        "react/require-default-props": "off",
-        "react/no-array-index-key": "off",
-        "react/jsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
-        "react/jsx-props-no-spreading": "off",
-        "react/display-name": "off",
-        "react/function-component-definition": [
-          "error",
-          {
-            "namedComponents": "arrow-function",
-            "unnamedComponents": "arrow-function",
-            "defaultProps": "arrow-function",
-            "destructuring": "always",
-            "useConst": true
-          }
-        ],
-        "no-use-before-define": "off",
-        "no-param-reassign": "off"
+        "@next/next/no-html-link-for-pages": ["error", "apps/frontend/pages"]
       }
     },
     {

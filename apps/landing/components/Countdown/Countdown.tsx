@@ -14,57 +14,64 @@ export const Countdown: FC<Props> = ({ targetDate }) => {
 
   const times = [
     {
-      time: days,
-      text: 'days',
+      value: days,
+      unit: 'days',
     },
     {
-      time: hours,
-      text: 'hours',
+      value: hours,
+      unit: 'hours',
     },
     {
-      time: minutes,
-      text: 'minutes',
+      value: minutes,
+      unit: 'minutes',
     },
     {
-      time: seconds,
-      text: 'seconds',
+      value: seconds,
+      unit: 'seconds',
     },
   ];
 
   return (
     <div className={styles.countdown}>
-      {times.map(({ time, text }) => (
-        <AnimatedTime time={time} key={text} text={text} />
+      {times.map(({ value, unit }) => (
+        <AnimatedTime value={value} key={unit} unit={unit} />
       ))}
     </div>
   );
 };
 
 interface TimeProps {
-  time: string;
-  text: string;
+  value: string;
+  unit: string;
 }
 
-const AnimatedTime: FC<TimeProps> = ({ time, text }) => {
-  const splitTime = time.split('');
+const AnimatedTime: FC<TimeProps> = ({ value, unit }) => {
+  const splitTime = value.split('');
 
   return (
-    <div className={styles.countdown__time_wrapper}>
-      {splitTime.map((digit) => (
-        <AnimatePresence>
-          <motion.h1
-            exit={{ y: 75, opacity: 0, position: 'absolute' }}
-            initial={{ y: -150, opacity: 0 }}
+    <div className={styles.countdown__box}>
+      <p className={styles.countdown__unit}>{unit}</p>
+      {splitTime.map((digit, i) => (
+        // eslint-disable-next-line react/jsx-key
+        <AnimatePresence key={i}>
+          <motion.h2
+            exit={{
+              y: 25,
+              opacity: 0,
+              position: 'absolute',
+              bottom: 0,
+            }}
+            initial={{ y: -25, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{
-              ease: 'easeOut',
+              ease: 'easeInOut',
               duration: 0.5,
             }}
             key={digit}
             className={styles.countdown__time}
           >
             {digit}
-          </motion.h1>
+          </motion.h2>
         </AnimatePresence>
       ))}
     </div>
