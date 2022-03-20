@@ -39,6 +39,7 @@
     "core-js": "^3.21.1",
     "dayjs": "^1.11.0",
     "eslint-config-airbnb": "^19.0.4",
+    "framer-motion": "^6.2.8",
     "immer": "^9.0.12",
     "inspx": "^0.0.1-alpha.6",
     "next": "12.1.0",

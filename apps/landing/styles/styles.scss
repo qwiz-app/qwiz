@@ -12,12 +12,6 @@ body {
   line-height: inherit;
   margin: 0;
 }
-h1,
-h2,
-p,
-pre {
-  margin: 0;
-}
 *,
 ::before,
 ::after {
@@ -25,11 +19,6 @@ pre {
   border-width: 0;
   border-style: solid;
   border-color: currentColor;
-}
-h1,
-h2 {
-  font-size: inherit;
-  font-weight: inherit;
 }
 a {
   color: inherit;

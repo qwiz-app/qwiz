@@ -1,11 +1,15 @@
 import styles from 'styles/index.module.scss';
 
+import { Countdown } from '../components/Countdown';
+
+const targetDate = new Date(2022, 4, 22);
+
 export const Index = () => {
   return (
     <div className={styles.page}>
-      <h1>Welcome to landing!</h1>
+      <Countdown targetDate={targetDate} />
     </div>
   );
-}
+};
 
 export default Index;
