@@ -46,34 +46,29 @@ interface TimeProps {
 }
 
 const AnimatedTime: FC<TimeProps> = ({ value, unit }) => {
-  const splitTime = value.split('');
-
   return (
     <div className={styles.countdown__box}>
       <p className={styles.countdown__unit}>{unit}</p>
-      {splitTime.map((digit, i) => (
-        // eslint-disable-next-line react/jsx-key
-        <AnimatePresence key={i}>
-          <motion.h2
-            exit={{
-              y: 25,
-              opacity: 0,
-              position: 'absolute',
-              bottom: 0,
-            }}
-            initial={{ y: -25, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{
-              ease: 'easeInOut',
-              duration: 0.5,
-            }}
-            key={digit}
-            className={styles.countdown__time}
-          >
-            {digit}
-          </motion.h2>
-        </AnimatePresence>
-      ))}
+      <AnimatePresence>
+        <motion.h2
+          exit={{
+            y: 25,
+            opacity: 0,
+            position: 'absolute',
+            bottom: 0,
+          }}
+          initial={{ y: -25, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{
+            ease: 'easeInOut',
+            duration: 0.5,
+          }}
+          key={value}
+          className={styles.countdown__time}
+        >
+          {value}
+        </motion.h2>
+      </AnimatePresence>
     </div>
   );
 };
