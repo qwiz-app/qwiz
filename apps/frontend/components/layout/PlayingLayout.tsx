@@ -3,7 +3,7 @@ import React from 'react';
 
 const AuthLayout = ({ children }) => {
   return (
-    <Container fluid padding="lg">
+    <Container fluid px="lg">
       {children}
     </Container>
   );

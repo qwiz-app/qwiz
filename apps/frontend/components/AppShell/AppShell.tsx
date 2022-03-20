@@ -30,7 +30,7 @@ export const AppShell = ({ children }) => {
     <MantineNavbar
       hiddenBreakpoint="xs"
       hidden={!opened}
-      padding="md"
+      p="md"
       width={{ base: '100%', xs: 320 }}
       fixed
     >
@@ -67,7 +67,7 @@ export const AppShell = ({ children }) => {
   const header = (
     <MantineHeader
       height={60}
-      padding="sm"
+      p="sm"
       fixed
       sx={(t) => ({ paddingLeft: 20, paddingRight: 20 })}
     >

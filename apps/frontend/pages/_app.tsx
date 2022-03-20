@@ -21,7 +21,7 @@ const App = ({ Component, pageProps: { session, ...pageProps } }) => {
         <QueryClientProvider client={queryClient}>
           <CustomColorSchemeProvider>
             <Inspect>
-              <Container fluid padding={0} sx={() => ({ minHeight: '100vh' })}>
+              <Container fluid px={0} sx={() => ({ minHeight: '100vh' })}>
                 {getLayout(<Component {...pageProps} />)}
               </Container>
             </Inspect>
