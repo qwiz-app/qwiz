@@ -25,13 +25,13 @@ export const Countdown: FC<Props> = ({ targetDate }) => {
 };
 
 interface TimeProps {
-  time: number;
+  time: string;
   text: string;
 }
 
 const AnimatedTime: FC<TimeProps> = ({ time, text }) => {
   return (
-    <span>
+    <span className={styles.countdown__time_wrapper}>
       <AnimatePresence>
         <motion.p
           exit={{ y: 75, opacity: 0, position: 'absolute' }}
@@ -46,8 +46,7 @@ const AnimatedTime: FC<TimeProps> = ({ time, text }) => {
         >
           {time}
         </motion.p>
-      </AnimatePresence>{' '}
-      {text}
+      </AnimatePresence>
     </span>
   );
 };

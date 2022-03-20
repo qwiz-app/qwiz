@@ -6,7 +6,7 @@ const targetDate = new Date(2022, 4, 22);
 
 export const Index = () => {
   return (
-    <div className={styles.page}>
+    <div className={styles.landing}>
       <Countdown targetDate={targetDate} />
     </div>
   );

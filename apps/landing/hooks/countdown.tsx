@@ -18,6 +18,10 @@ export const useCountdown = (targetDate: Date) => {
   return getReturnValues(countDown);
 };
 
+const formatSingleDigit = (value: number) => {
+  return value.toString().padStart(2, '0');
+};
+
 const getReturnValues = (countDown: number) => {
   const days = Math.floor(countDown / (1000 * 60 * 60 * 24));
   const hours = Math.floor(
@@ -26,5 +30,10 @@ const getReturnValues = (countDown: number) => {
   const minutes = Math.floor((countDown % (1000 * 60 * 60)) / (1000 * 60));
   const seconds = Math.floor((countDown % (1000 * 60)) / 1000);
 
-  return [days, hours, minutes, seconds];
+  return [
+    formatSingleDigit(days),
+    formatSingleDigit(hours),
+    formatSingleDigit(minutes),
+    formatSingleDigit(seconds),
+  ];
 };
