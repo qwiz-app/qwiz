@@ -12,14 +12,30 @@ interface Props {
 export const Countdown: FC<Props> = ({ targetDate }) => {
   const [days, hours, minutes, seconds] = useCountdown(targetDate);
 
+  const times = [
+    {
+      time: days,
+      text: 'days',
+    },
+    {
+      time: hours,
+      text: 'hours',
+    },
+    {
+      time: minutes,
+      text: 'minutes',
+    },
+    {
+      time: seconds,
+      text: 'seconds',
+    },
+  ];
+
   return (
     <div className={styles.countdown}>
-      <h1>
-        <AnimatedTime time={days} text="days" />
-        <AnimatedTime time={hours} text="hours" />
-        <AnimatedTime time={minutes} text="minutes" />
-        <AnimatedTime time={seconds} text="seconds" />
-      </h1>
+      {times.map(({ time, text }) => (
+        <AnimatedTime time={time} key={text} text={text} />
+      ))}
     </div>
   );
 };
@@ -30,23 +46,27 @@ interface TimeProps {
 }
 
 const AnimatedTime: FC<TimeProps> = ({ time, text }) => {
+  const splitTime = time.split('');
+
   return (
-    <span className={styles.countdown__time_wrapper}>
-      <AnimatePresence>
-        <motion.p
-          exit={{ y: 75, opacity: 0, position: 'absolute' }}
-          initial={{ y: -150, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{
-            ease: 'easeOut',
-            duration: 0.5,
-          }}
-          key={time}
-          className={styles.countdown__time}
-        >
-          {time}
-        </motion.p>
-      </AnimatePresence>
-    </span>
+    <div className={styles.countdown__time_wrapper}>
+      {splitTime.map((digit) => (
+        <AnimatePresence>
+          <motion.h1
+            exit={{ y: 75, opacity: 0, position: 'absolute' }}
+            initial={{ y: -150, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{
+              ease: 'easeOut',
+              duration: 0.5,
+            }}
+            key={digit}
+            className={styles.countdown__time}
+          >
+            {digit}
+          </motion.h1>
+        </AnimatePresence>
+      ))}
+    </div>
   );
 };
