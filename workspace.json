@@ -2,6 +2,7 @@
   "version": 2,
   "projects": {
     "backend": "apps/backend",
-    "frontend": "apps/frontend"
+    "frontend": "apps/frontend",
+    "landing": "apps/landing"
   }
 }
