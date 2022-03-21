@@ -1,4 +1,4 @@
-name: "Deploy"
+name: "Landing Deploy to Vercel"
 
 on:
   release:

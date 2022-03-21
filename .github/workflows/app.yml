@@ -1,4 +1,4 @@
-name: "Deploy"
+name: "App Deploy to Vercel"
 
 on:
   release:
