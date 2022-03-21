@@ -12,6 +12,8 @@ import {
   getProviders,
   LiteralUnion,
 } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const providers = await getProviders();
@@ -30,6 +32,12 @@ export interface SignInProps {
 }
 
 const SignInPage = (props: SignInProps) => {
+  const { error } = useRouter().query;
+
+  useEffect(() => {
+    console.log(error, "error");
+  }, [error]);
+
   return (
     <>
       <AuthThemeToggle
