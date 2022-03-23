@@ -29,37 +29,37 @@ export const NavbarList = () => {
       label: 'Sign in',
       href: '/sign-in',
       icon: <Key size={size} weight={weight} />,
-      color: 'tailwind-teal',
+      color: 'grey-dark',
     },
     {
       label: 'Events',
       href: '/events',
       icon: <Balloon size={size} weight={weight} />,
-      color: 'tailwind-teal',
+      color: 'grey-dark',
     },
     {
       label: 'Quiz',
       href: '/quiz',
       icon: <Cookie size={size} weight={weight} />,
-      color: 'tailwind-teal',
+      color: 'grey-dark',
     },
     {
       label: 'Teams',
       href: '/teams',
       icon: <PersonSimpleRun size={size} weight={weight} />,
-      color: 'tailwind-teal',
+      color: 'grey-dark',
     },
     {
       label: 'Profile',
       href: '/profile',
       icon: <User size={size} weight={weight} />,
-      color: 'tailwind-teal',
+      color: 'grey-dark',
     },
     {
       label: 'Scoreboard',
       href: '/scoreboard',
       icon: <Target size={size} weight={weight} />,
-      color: 'tailwind-teal',
+      color: 'grey-dark',
     },
   ];
 

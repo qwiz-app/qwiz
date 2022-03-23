@@ -7,7 +7,7 @@ export const NavbarItem = ({ icon, label, color, href }) => {
   const { isDark } = useAppColorscheme();
 
   return (
-    <Link href={href} passHref>
+    <Link href={href} passHref >
       <UnstyledButton
         sx={(t) => ({
           borderRadius: t.radius.sm,
@@ -23,11 +23,11 @@ export const NavbarItem = ({ icon, label, color, href }) => {
             size="lg"
             variant="light"
             // TODO: decide on colors
-            color={isDark ? 'color' : 'more-dark'}
+            color={isDark ? color : 'more-dark'}
           >
             {icon}
           </ThemeIcon>
-          <Text size="lg">{label}</Text>
+          <Text size="md">{label}</Text>
         </Group>
       </UnstyledButton>
     </Link>

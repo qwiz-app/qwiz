@@ -26,7 +26,7 @@ export const AppShell = ({ children }) => {
 
   const toggleNavbar = () => setOpened((prev) => !prev);
 
-  const navbar = (
+  const Navbar = (
     <MantineNavbar
       hiddenBreakpoint="xs"
       hidden={!opened}
@@ -39,7 +39,7 @@ export const AppShell = ({ children }) => {
           <MantineNavbar.Section>
             <NavbarHeader />
           </MantineNavbar.Section>
-          <NavbarDivider />
+          {/* <NavbarDivider /> */}
         </>
       )}
       <MantineNavbar.Section
@@ -64,7 +64,7 @@ export const AppShell = ({ children }) => {
 
   // TODO: for now, Navbar and Header cant be custom components for Mantine to do its magic
   // TODO: find a way to extract them into their own components
-  const header = (
+  const Header = (
     <MantineHeader
       height={60}
       p="sm"
@@ -95,13 +95,13 @@ export const AppShell = ({ children }) => {
   return (
     <MantineAppShell
       navbarOffsetBreakpoint="xs"
-      navbar={navbar}
+      navbar={Navbar}
       fixed
       sx={(t) => ({
         backgroundColor: isDark ? t.colors.dark[8] : t.colors.gray[0],
         minHeight: '100vh',
       })}
-      header={matches.max.xs && header}
+      header={matches.max.xs && Header}
     >
       <Container fluid>{children}</Container>
     </MantineAppShell>
