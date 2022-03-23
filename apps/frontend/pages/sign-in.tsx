@@ -5,6 +5,7 @@ import { AuthProviders } from 'components/auth/AuthProviders';
 import { AuthThemeToggle } from 'components/auth/AuthThemeToggle';
 import { AuthTitle } from 'components/auth/AuthTitle';
 import AuthLayout from 'components/layout/AuthLayout';
+import { useBreakpoints } from 'hooks/breakpoints';
 import { GetServerSideProps } from 'next';
 import { BuiltInProviderType } from 'next-auth/providers';
 import {
@@ -30,6 +31,8 @@ export interface SignInProps {
 }
 
 const SignInPage = (props: SignInProps) => {
+  const { matches } = useBreakpoints();
+
   return (
     <>
       <AuthThemeToggle
@@ -53,9 +56,9 @@ const SignInPage = (props: SignInProps) => {
         align="center"
         position="center"
         spacing={100}
-        sx={() => ({ marginLeft: '-10vw' })}
+        sx={() => ({ marginLeft: matches.min.md && '-10vw' })}
       >
-        <AuthIllustration style={{ flex: '0 0 60vh' }} />
+        {matches.min.md && <AuthIllustration style={{ flex: '0 0 60vh' }} />}
         <Group direction="column" position="left" mt={-16}>
           <AuthTitle />
           <AuthProviders {...props} />
