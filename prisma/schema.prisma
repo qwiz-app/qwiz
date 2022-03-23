@@ -46,7 +46,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  role          Role          @default(ATTENDEE)
+  role          Role?
   organization  Organization?
   attendee      Attendee?
 }
@@ -66,11 +66,15 @@ enum Role {
 }
 
 model Organization {
-  id     String  @id @default(cuid())
-  name   String  @unique
-  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String
-  events Event[]
+  // TODO: does it need its own id?
+  id        String     @id @default(cuid())
+  name      String     @unique
+  // TODO: should multiple users be allowed to login to same organization account
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  events    Event[]
+  quizes    Quiz[]
+  questions Question[]
 }
 
 model Attendee {
@@ -93,20 +97,28 @@ model Team {
 }
 
 model EventTeam {
-  team      Team     @relation(fields: [teamId], references: [id])
-  teamId    String   @id @default(cuid())
-  event     Event    @relation(fields: [eventId], references: [id])
+  // TODO: do i need id?
+  id        String         @id @default(cuid())
+  team      Team           @relation(fields: [teamId], references: [id])
+  teamId    String
+  event     Event          @relation(fields: [eventId], references: [id])
   eventId   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  captain   Attendee @relation(fields: [captainId], references: [id])
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  captain   Attendee       @relation(fields: [captainId], references: [id])
   captainId String
+  // TODO: check
+  points    Int            @default(0)
+  answers   EventAnswers[]
+
+  // TODO: unique vs id
+  @@unique([eventId, teamId])
 }
 
 model Event {
-  id             String       @id @default(cuid())
+  id             String         @id @default(cuid())
   name           String
-  owner          Organization @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  owner          Organization   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId        String
   startDate      DateTime
   duration       Int
@@ -114,4 +126,91 @@ model Event {
   price          Int
   teamCountLimit Int
   teams          EventTeam[]
+  answers        EventAnswers[]
+}
+
+model Quiz {
+  id          String         @id @default(cuid())
+  name        String
+  description String
+  owner       Organization   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId     String
+  questions   QuizQuestion[]
+}
+
+model Question {
+  id          String             @id @default(cuid())
+  text        String
+  image       String?
+  audio       String?
+  // TODO question type (for different modes)
+  // TODO: owner
+  owner       Organization?      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId     String?
+  isGlobal    Boolean            @default(false)
+  isActive    Boolean            @default(true)
+  categories  QuestionCategory[]
+  answer      QuestionAnswer[]
+  quizQustion QuizQuestion[]
+}
+
+model QuestionAnswer {
+  question   Question @relation(fields: [questionId], references: [id])
+  questionId String
+  answer     Answer   @relation(fields: [answerId], references: [id])
+  answerId   String
+
+  // TODO: quiz
+  @@unique([questionId])
+}
+
+model QuizQuestion {
+  id           String         @id @default(cuid())
+  quiz         Quiz           @relation(fields: [quizId], references: [id])
+  quizId       String
+  question     Question       @relation(fields: [questionId], references: [id])
+  questionId   String
+  // TODO: handle ordinals per round
+  ordinal      Int
+  eventAnswers EventAnswers[]
+
+  // TODO: mode
+  // TODO: dont allow duplicate ordinals
+  @@unique([quizId, questionId])
+  @@unique([quizId, ordinal])
+}
+
+// TODO: do we want a seperate table for answers
+// it will keep all the answers ever created even after their changes, so that it doesn't brake its usage on other questions
+model Answer {
+  id              String           @id @default(cuid())
+  answer          String
+  questionAnswers QuestionAnswer[]
+}
+
+model QuestionCategory {
+  id          String     @id @default(cuid())
+  name        String     @unique
+  description String     @db.Text
+  questions   Question[]
+}
+
+model EventAnswers {
+  event      Event        @relation(fields: [eventId], references: [id])
+  eventId    String
+  team       EventTeam    @relation(fields: [teamId], references: [id])
+  teamId     String
+  question   QuizQuestion @relation(fields: [questionId], references: [id])
+  questionId String
+  // TODO: maybe handle multiple answers on database level
+  answer     String
+
+  @@unique([teamId, questionId])
+}
+
+// TODO
+enum EventAnswerStatus {
+  PENDING
+  CORRECT
+  INCORRECT
 }
