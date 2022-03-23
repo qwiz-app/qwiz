@@ -4,10 +4,11 @@ import { Button } from 'components/UI/Button/Button';
 import { useCurrentSession } from 'hooks/session';
 import { useUser, useUsers } from 'hooks/users/users';
 import { signIn, signOut } from 'next-auth/react';
-import Link from 'next/link';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 const IndexPage = () => {
+  const router = useRouter();
   const { isAuthenticated, user: currentUser } = useCurrentSession();
   const { data: users, error } = useUsers();
   const [id, setId] = useState<string>(null);
@@ -50,9 +51,9 @@ const IndexPage = () => {
               Sign in
             </Button>
           )}
-          <Link passHref href="/">
-            <Button variant="light">Home</Button>
-          </Link>
+          <Button variant="light" onClick={() => router.push('/')}>
+            Home
+          </Button>
         </Group>
       </Group>
       <Box mt={16}>
