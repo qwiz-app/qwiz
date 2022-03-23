@@ -11,7 +11,7 @@ import { BuiltInProviderType } from 'next-auth/providers';
 import {
   ClientSafeProvider,
   getProviders,
-  LiteralUnion,
+  LiteralUnion
 } from 'next-auth/react';
 
 export const getServerSideProps: GetServerSideProps = async () => {
@@ -59,7 +59,11 @@ const SignInPage = (props: SignInProps) => {
         sx={() => ({ marginLeft: matches.min.md && '-10vw' })}
       >
         {matches.min.md && <AuthIllustration style={{ flex: '0 0 60vh' }} />}
-        <Group direction="column" position="left" mt={-16}>
+        <Group
+          direction="column"
+          position={matches.min.md ? 'left' : 'center'}
+          mt={matches.min.md ? -16 : '-10vh'}
+        >
           <AuthTitle />
           <AuthProviders {...props} />
         </Group>
