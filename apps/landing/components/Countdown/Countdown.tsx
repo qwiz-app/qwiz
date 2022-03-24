@@ -10,7 +10,7 @@ interface Props {
 }
 
 export const Countdown: FC<Props> = ({ targetDate }) => {
-  const [days, hours, minutes, seconds] = useCountdown(targetDate);
+  const { days, hours, minutes, seconds } = useCountdown(targetDate);
 
   const times = [
     {
@@ -51,20 +51,16 @@ const AnimatedTime: FC<TimeProps> = ({ value, unit }) => {
       <p className={styles.countdown__unit}>{unit}</p>
       <AnimatePresence>
         <motion.h2
-          exit={{
-            y: 25,
-            opacity: 0,
-            position: 'absolute',
-            bottom: 0,
-          }}
-          initial={{ y: -25, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{
-            ease: 'easeInOut',
-            duration: 0.5,
-          }}
           key={value}
+          exit={{ y: 75, opacity: 0, position: 'absolute', scale: 1.5 }}
+          initial={{ opacity: 0, position: 'absolute' }}
+          animate={{ opacity: 1 }}
+          transition={{
+            ease: 'easeOut',
+            duration: 0.75,
+          }}
           className={styles.countdown__time}
+          layout
         >
           {value}
         </motion.h2>

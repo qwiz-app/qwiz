@@ -11,7 +11,11 @@
   font-family: 'Disket-Mono', monospace;
 
   &__title {
-    font-size: 3rem;
+    font-size: 6vmin;
     font-weight: normal;
+
+    @media (max-width: 1000px) {
+      font-size: 5vmax;
+    }
   }
 }
