@@ -127,6 +127,7 @@ model Event {
   teamCountLimit Int
   teams          EventTeam[]
   answers        EventAnswers[]
+  createdAt      DateTime       @default(now())
 }
 
 model Quiz {
@@ -136,6 +137,8 @@ model Quiz {
   owner       Organization   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId     String
   questions   QuizQuestion[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
 }
 
 model Question {
@@ -152,6 +155,8 @@ model Question {
   categories  QuestionCategory[]
   answer      QuestionAnswer[]
   quizQustion QuizQuestion[]
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
 }
 
 model QuestionAnswer {
@@ -180,6 +185,22 @@ model QuizQuestion {
   @@unique([quizId, ordinal])
 }
 
+model EventAnswers {
+  event      Event        @relation(fields: [eventId], references: [id])
+  eventId    String
+  team       EventTeam    @relation(fields: [teamId], references: [id])
+  teamId     String
+  question   QuizQuestion @relation(fields: [questionId], references: [id])
+  questionId String
+  // TODO: maybe handle multiple answers on database level
+  answer     String
+  createdAt  DateTime     @default(now())
+  // TODO: if we update status, it will mess up updated time which tracks when final answer was submitted
+  updatedAt  DateTime     @updatedAt
+
+  @@unique([teamId, questionId])
+}
+
 // TODO: do we want a seperate table for answers
 // it will keep all the answers ever created even after their changes, so that it doesn't brake its usage on other questions
 model Answer {
@@ -193,19 +214,6 @@ model QuestionCategory {
   name        String     @unique
   description String     @db.Text
   questions   Question[]
-}
-
-model EventAnswers {
-  event      Event        @relation(fields: [eventId], references: [id])
-  eventId    String
-  team       EventTeam    @relation(fields: [teamId], references: [id])
-  teamId     String
-  question   QuizQuestion @relation(fields: [questionId], references: [id])
-  questionId String
-  // TODO: maybe handle multiple answers on database level
-  answer     String
-
-  @@unique([teamId, questionId])
 }
 
 // TODO
