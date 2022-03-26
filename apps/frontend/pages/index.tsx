@@ -6,6 +6,7 @@ import { useUser, useUsers } from 'hooks/users/users';
 import { signIn, signOut } from 'next-auth/react';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { useSpotlight } from '@mantine/spotlight';
 
 const IndexPage = () => {
   const router = useRouter();
@@ -18,6 +19,7 @@ const IndexPage = () => {
     isError,
     error: selectedUserError,
   } = useUser(id);
+  const spotlight = useSpotlight();
 
   return (
     <Group direction="column">
@@ -53,6 +55,9 @@ const IndexPage = () => {
           )}
           <Button variant="light" onClick={() => router.push('/')}>
             Home
+          </Button>
+          <Button onClick={spotlight.openSpotlight} variant="filled" color='pink'>
+            Open spotlight
           </Button>
         </Group>
       </Group>

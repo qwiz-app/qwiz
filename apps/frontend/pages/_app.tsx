@@ -6,6 +6,7 @@ import Inspect from 'inspx';
 import { SessionProvider } from 'next-auth/react';
 import Head from 'next/head';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { CustomSpotlightProvider } from 'context/spotlight';
 
 const queryClient = new QueryClient();
 
@@ -20,11 +21,13 @@ const App = ({ Component, pageProps: { session, ...pageProps } }) => {
       <SessionProvider session={session}>
         <QueryClientProvider client={queryClient}>
           <CustomColorSchemeProvider>
-            <Inspect>
-              <Container fluid px={0} sx={() => ({ minHeight: '100vh' })}>
-                {getLayout(<Component {...pageProps} />)}
-              </Container>
-            </Inspect>
+            <CustomSpotlightProvider>
+              <Inspect>
+                <Container fluid px={0} sx={() => ({ minHeight: '100vh' })}>
+                  {getLayout(<Component {...pageProps} />)}
+                </Container>
+              </Inspect>
+            </CustomSpotlightProvider>
           </CustomColorSchemeProvider>
         </QueryClientProvider>
       </SessionProvider>
