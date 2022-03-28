@@ -11,7 +11,8 @@
       "plugins": ["@typescript-eslint"],
       "rules": {
         "no-useless-constructor": "off",
-        "class-methods-use-this": "off"
+        "class-methods-use-this": "off",
+        "@typescript-eslint/no-empty-function": "off"
       }
     }
   ]

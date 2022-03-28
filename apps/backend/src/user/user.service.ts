@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
@@ -16,10 +17,8 @@ export class UserService {
     return this.prisma.user.findMany();
   }
 
-  findOne(id: string) {
-    return this.prisma.user.findUnique({
-      where: { id },
-    });
+  findOne(where: Prisma.UserWhereUniqueInput) {
+    return this.prisma.user.findUnique({ where });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
