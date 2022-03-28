@@ -142,8 +142,9 @@ model Question {
   text           String
   image          String?
   audio          String?
-  questionMode   QuestionMode       @relation(fields: [questionModeId], references: [id])
-  questionModeId String
+  questionMode   QuestionMode?      @relation(fields: [questionModeId], references: [id])
+  // TODO: set default question mode - single text question
+  questionModeId Int                @default(1)
   owner          Organization?      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId        String?
   isGlobal       Boolean            @default(false)
@@ -163,7 +164,7 @@ model Answer {
 }
 
 model QuestionMode {
-  id          String     @id @default(cuid())
+  id          Int        @id @default(autoincrement())
   name        String
   // mode rules are handled on the backend/frontend
   description String     @db.Text
@@ -171,7 +172,7 @@ model QuestionMode {
 }
 
 model QuestionScoringMode {
-  id          String         @id @default(cuid())
+  id          Int            @id @default(autoincrement())
   name        String
   description String         @db.Text
   questions   QuizQuestion[]
@@ -197,7 +198,7 @@ model QuizQuestion {
   // ie. for modes such as "betting on answer" or "fastest correct answer"
   // maybe we have different mode tables - question mode on original question (single, photo, audio, multiple) & scoring mode on our instance
   scoringMode   QuestionScoringMode? @relation(fields: [scoringModeId], references: [id])
-  scoringModeId String
+  scoringModeId Int
 
 
   @@unique([quizId, questionId])
