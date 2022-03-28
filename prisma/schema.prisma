@@ -66,7 +66,6 @@ enum Role {
 }
 
 model Organization {
-  // TODO: does it need its own id?
   id        String     @id @default(cuid())
   name      String     @unique
   // TODO: should multiple users be allowed to login to same organization account
@@ -87,47 +86,42 @@ model Attendee {
 }
 
 model Team {
-  id         String      @id @default(cuid())
-  name       String
-  createdAt  DateTime    @default(now())
-  members    Attendee[]  @relation(name: "TeamMember", references: [id])
-  admin      Attendee    @relation(name: "TeamAdmin", fields: [adminId], references: [id])
-  adminId    String
-  eventTeams EventTeam[]
+  id          String      @id @default(cuid())
+  name        String
+  countryCode String
+  createdAt   DateTime    @default(now())
+  members     Attendee[]  @relation(name: "TeamMember", references: [id])
+  admin       Attendee    @relation(name: "TeamAdmin", fields: [adminId], references: [id])
+  adminId     String
+  eventTeams  EventTeam[]
 }
 
 model EventTeam {
-  // TODO: do i need id?
-  id        String         @id @default(cuid())
-  team      Team           @relation(fields: [teamId], references: [id])
+  id        String            @id @default(cuid())
+  team      Team              @relation(fields: [teamId], references: [id])
   teamId    String
-  event     Event          @relation(fields: [eventId], references: [id])
+  event     Event             @relation(fields: [eventId], references: [id])
   eventId   String
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @updatedAt
-  captain   Attendee       @relation(fields: [captainId], references: [id])
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  captain   Attendee          @relation(fields: [captainId], references: [id])
   captainId String
-  // TODO: check
-  points    Int            @default(0)
-  answers   EventAnswers[]
+  answers   EventTeamAnswer[]
 
-  // TODO: unique vs id
   @@unique([eventId, teamId])
 }
 
 model Event {
-  id             String         @id @default(cuid())
+  id             String       @id @default(cuid())
   name           String
-  owner          Organization   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  owner          Organization @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId        String
   startDate      DateTime
-  duration       Int
   location       String
   price          Int
   teamCountLimit Int
   teams          EventTeam[]
-  answers        EventAnswers[]
-  createdAt      DateTime       @default(now())
+  createdAt      DateTime     @default(now())
 }
 
 model Quiz {
@@ -141,72 +135,46 @@ model Quiz {
   updatedAt   DateTime       @updatedAt
 }
 
+// when choosing existing question, if ANY INFO ic changed (any word in question, any answer, any answer added) - question is "forked" (but with no reference to the original - yet)
+// both question and all of the answers are added to its tables as new records
 model Question {
-  id          String             @id @default(cuid())
-  text        String
-  image       String?
-  audio       String?
-  // TODO question type (for different modes)
-  // TODO: owner
-  owner       Organization?      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  ownerId     String?
-  isGlobal    Boolean            @default(false)
-  isActive    Boolean            @default(true)
-  categories  QuestionCategory[]
-  answer      QuestionAnswer[]
-  quizQustion QuizQuestion[]
-  createdAt   DateTime           @default(now())
-  updatedAt   DateTime           @updatedAt
+  id             String             @id @default(cuid())
+  text           String
+  image          String?
+  audio          String?
+  questionMode   QuestionMode       @relation(fields: [questionModeId], references: [id])
+  questionModeId String
+  owner          Organization?      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId        String?
+  isGlobal       Boolean            @default(false)
+  isActive       Boolean            @default(true)
+  categories     QuestionCategory[]
+  answer         Answer[]
+  quizQuestion   QuizQuestion[]
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
 }
 
-model QuestionAnswer {
+model Answer {
+  id         String   @id @default(cuid())
   question   Question @relation(fields: [questionId], references: [id])
   questionId String
-  answer     Answer   @relation(fields: [answerId], references: [id])
-  answerId   String
-
-  // TODO: quiz
-  @@unique([questionId])
-}
-
-model QuizQuestion {
-  id           String         @id @default(cuid())
-  quiz         Quiz           @relation(fields: [quizId], references: [id])
-  quizId       String
-  question     Question       @relation(fields: [questionId], references: [id])
-  questionId   String
-  // TODO: handle ordinals per round
-  ordinal      Int
-  eventAnswers EventAnswers[]
-
-  // TODO: mode
-  // TODO: dont allow duplicate ordinals
-  @@unique([quizId, questionId])
-  @@unique([quizId, ordinal])
-}
-
-model EventAnswers {
-  event      Event        @relation(fields: [eventId], references: [id])
-  eventId    String
-  team       EventTeam    @relation(fields: [teamId], references: [id])
-  teamId     String
-  question   QuizQuestion @relation(fields: [questionId], references: [id])
-  questionId String
-  // TODO: maybe handle multiple answers on database level
   answer     String
-  createdAt  DateTime     @default(now())
-  // TODO: if we update status, it will mess up updated time which tracks when final answer was submitted
-  updatedAt  DateTime     @updatedAt
-
-  @@unique([teamId, questionId])
 }
 
-// TODO: do we want a seperate table for answers
-// it will keep all the answers ever created even after their changes, so that it doesn't brake its usage on other questions
-model Answer {
-  id              String           @id @default(cuid())
-  answer          String
-  questionAnswers QuestionAnswer[]
+model QuestionMode {
+  id          String     @id @default(cuid())
+  name        String
+  // mode rules are handled on the backend/frontend
+  description String     @db.Text
+  questions   Question[]
+}
+
+model QuestionScoringMode {
+  id          String         @id @default(cuid())
+  name        String
+  description String         @db.Text
+  questions   QuizQuestion[]
 }
 
 model QuestionCategory {
@@ -216,9 +184,46 @@ model QuestionCategory {
   questions   Question[]
 }
 
-// TODO
+// question instance for a specific quiz
+model QuizQuestion {
+  id            String               @id @default(cuid())
+  quiz          Quiz                 @relation(fields: [quizId], references: [id])
+  quizId        String
+  question      Question             @relation(fields: [questionId], references: [id])
+  questionId    String
+  ordinal       Int
+  eventAnswers  EventTeamAnswer[]
+  // we probably want to override original question mode (scoring)
+  // ie. for modes such as "betting on answer" or "fastest correct answer"
+  // maybe we have different mode tables - question mode on original question (single, photo, audio, multiple) & scoring mode on our instance
+  scoringMode   QuestionScoringMode? @relation(fields: [scoringModeId], references: [id])
+  scoringModeId String
+
+
+  @@unique([quizId, questionId])
+  @@unique([quizId, ordinal])
+}
+
+model EventTeamAnswer {
+  eventTeam   EventTeam         @relation(fields: [eventTeamId], references: [id])
+  eventTeamId String
+  question    QuizQuestion      @relation(fields: [questionId], references: [id])
+  questionId  String
+  // save all answers in string, parse on backend (CSV?)
+  answer      String?
+  status      EventAnswerStatus @default(UNANSWERED)
+  points      Int               @default(0)
+  createdAt   DateTime          @default(now())
+  // track time of submission
+  submittedAt DateTime
+  // will be updated when the status was updated (we dont want that to track submit time)
+  updatedAt   DateTime          @updatedAt
+
+  @@unique([eventTeamId, questionId])
+}
+
 enum EventAnswerStatus {
-  PENDING
+  UNANSWERED
   CORRECT
   INCORRECT
 }
