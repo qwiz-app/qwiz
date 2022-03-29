@@ -151,7 +151,7 @@ model Question {
   isActive       Boolean            @default(true)
   categories     QuestionCategory[]
   answer         Answer[]
-  quizQuestion   QuizQuestion[]
+  quizQuestions  QuizQuestion[]
   createdAt      DateTime           @default(now())
   updatedAt      DateTime           @updatedAt
 }

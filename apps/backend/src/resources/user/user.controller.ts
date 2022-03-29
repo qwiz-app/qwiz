@@ -1,5 +1,12 @@
 import {
-  Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post
+  Body,
+  Controller,
+  Delete,
+  Get,
+  NotFoundException,
+  Param,
+  Patch,
+  Post,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -39,7 +46,7 @@ export class UserController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    const user = this.userService.remove(id);
+    const user = this.userService.remove({ id });
     if (!user) {
       throw new NotFoundException('User not found.');
     }

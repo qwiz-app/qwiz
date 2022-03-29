@@ -37,7 +37,7 @@ export class QuestionController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateQuestionDto: Prisma.QuestionUpdateManyMutationInput
+    @Body() updateQuestionDto: Prisma.QuestionUpdateInput
   ) {
     console.log('updateQuestionDto', updateQuestionDto);
     return this.questionService.update({ id }, updateQuestionDto);
