@@ -1,17 +1,9 @@
-import { HttpException } from '@nestjs/common/exceptions/http.exception';
 import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  HttpStatus,
+  Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post
 } from '@nestjs/common';
-import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UserService } from './user.service';
 
 @Controller('users')
 export class UserController {
@@ -31,18 +23,26 @@ export class UserController {
   async findOne(@Param('id') id: string) {
     const user = await this.userService.findOne({ id });
     if (!user) {
-      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+      throw new NotFoundException('User not found.');
     }
     return user;
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+    const user = this.userService.update({ id }, updateUserDto);
+    if (!user) {
+      throw new NotFoundException('User not found.');
+    }
+    return user;
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+    const user = this.userService.remove(id);
+    if (!user) {
+      throw new NotFoundException('User not found.');
+    }
+    return user;
   }
 }

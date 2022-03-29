@@ -142,9 +142,9 @@ model Question {
   text           String
   image          String?
   audio          String?
-  questionMode   QuestionMode?      @relation(fields: [questionModeId], references: [id])
+  questionType   QuestionType?      @relation(fields: [questionTypeId], references: [id])
   // TODO: set default question mode - single text question
-  questionModeId Int                @default(1)
+  questionTypeId Int                @default(1)
   owner          Organization?      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId        String?
   isGlobal       Boolean            @default(false)
@@ -163,12 +163,14 @@ model Answer {
   answer     String
 }
 
-model QuestionMode {
+model QuestionType {
   id          Int        @id @default(autoincrement())
   name        String
   // mode rules are handled on the backend/frontend
   description String     @db.Text
   questions   Question[]
+
+  @@map("QuestionMode")
 }
 
 model QuestionScoringMode {

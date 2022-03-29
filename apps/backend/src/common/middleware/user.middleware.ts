@@ -1,5 +1,11 @@
 import { HttpException } from '@nestjs/common/exceptions/http.exception';
-import { HttpStatus, Injectable, NestMiddleware } from '@nestjs/common';
+import {
+  HttpStatus,
+  Injectable,
+  NestMiddleware,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Response, NextFunction } from 'express';
 
 import { PrismaService } from '../../prisma.service';
@@ -26,14 +32,14 @@ export class AuthMiddleware implements NestMiddleware {
       const { user } = session;
 
       if (!user) {
-        throw new HttpException('User not found.', HttpStatus.UNAUTHORIZED);
+        throw new NotFoundException('User not found.');
       }
 
       req.user = user;
 
       next();
     } else {
-      throw new HttpException('Not authorized.', HttpStatus.UNAUTHORIZED);
+      throw new UnauthorizedException();
     }
   }
 }

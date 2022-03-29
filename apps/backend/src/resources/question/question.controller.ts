@@ -6,17 +6,17 @@ import {
   Patch,
   Param,
   Delete,
+  NotFoundException,
 } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { QuestionService } from './question.service';
-import { CreateQuestionDto } from './dto/create-question.dto';
-import { UpdateQuestionDto } from './dto/update-question.dto';
 
 @Controller('questions')
 export class QuestionController {
   constructor(private readonly questionService: QuestionService) {}
 
   @Post()
-  create(@Body() createQuestionDto: CreateQuestionDto) {
+  create(@Body() createQuestionDto: Prisma.QuestionCreateInput) {
     return this.questionService.create(createQuestionDto);
   }
 
@@ -26,20 +26,25 @@ export class QuestionController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.questionService.findOne({ id });
+  async findOne(@Param('id') id: string) {
+    const question = await this.questionService.findOne({ id });
+    if (!question) {
+      throw new NotFoundException('Question does not exist.');
+    }
+    return question;
   }
 
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateQuestionDto: UpdateQuestionDto
+    @Body() updateQuestionDto: Prisma.QuestionUpdateManyMutationInput
   ) {
-    return this.questionService.update(id, updateQuestionDto);
+    console.log('updateQuestionDto', updateQuestionDto);
+    return this.questionService.update({ id }, updateQuestionDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.questionService.remove(id);
+    return this.questionService.remove({ id });
   }
 }
