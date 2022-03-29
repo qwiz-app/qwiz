@@ -3,7 +3,7 @@ import { Prisma } from '@prisma/client';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
-import { PrismaService } from '../prisma.service';
+import { PrismaService } from '../../prisma.service';
 
 @Injectable()
 export class UserService {

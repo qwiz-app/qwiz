@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 
-import { UserModule } from './user/user.module';
-import { QuestionModule } from './question/question.module';
+import { UserModule } from './resources/user/user.module';
+import { QuestionModule } from './resources/question/question.module';
 
 @Module({
   imports: [UserModule, QuestionModule],
