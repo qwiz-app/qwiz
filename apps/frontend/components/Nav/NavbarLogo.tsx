@@ -1,23 +1,16 @@
-import { Group, Text, ThemeIcon } from '@mantine/core';
+import LogoDark from 'assets/logo/qwiz-dark.svg';
+import LogoWhite from 'assets/logo/qwiz-white.svg';
+import { useAppColorscheme } from 'hooks/colorscheme';
+import Image from 'next/image';
 import Link from 'next/link';
-import { AppleLogo } from 'phosphor-react';
 
 export const NavbarLogo = () => {
+  const { isDark } = useAppColorscheme();
+  const logo = isDark ? LogoWhite : LogoDark;
+
   return (
     <Link href="/" passHref>
-      <Group>
-        <ThemeIcon radius="xl" size="xl" variant="light" color="teal">
-          <AppleLogo size={24} weight="duotone" />
-        </ThemeIcon>
-        <Text
-          transform="uppercase"
-          size="xl"
-          weight={400}
-          sx={(t) => ({ fontFamily: t.fontFamilyMonospace })}
-        >
-          QWIZ
-        </Text>
-      </Group>
+      <Image src={logo} alt="logo" objectFit="contain" width={64} height={64} />
     </Link>
   );
 };

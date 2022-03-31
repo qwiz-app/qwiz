@@ -1,5 +1,6 @@
 import {
   AppShell as MantineAppShell,
+  Box,
   Burger,
   Container,
   Group,
@@ -7,6 +8,7 @@ import {
   Navbar as MantineNavbar,
   Text,
 } from '@mantine/core';
+import { AuthLogo } from 'components/auth/AuthLogo';
 import { NavbarDivider } from 'components/Nav/NavbarDivider';
 import { NavbarHeader } from 'components/Nav/NavbarHeader/NavbarHeader';
 import { NavbarList } from 'components/Nav/NavbarList/NavbarList';
@@ -16,7 +18,11 @@ import { ThinScrollArea } from 'components/UI/ThinScrollArea';
 import { useBreakpoints } from 'hooks/breakpoints';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useCurrentSession } from 'hooks/session';
+import Image from 'next/image';
 import { useState } from 'react';
+
+import LogoWhite from 'assets/logo/qwiz-white.svg';
+import LogoDark from 'assets/logo/qwiz-dark.svg';
 
 export const AppShell = ({ children }) => {
   const { isDark } = useAppColorscheme();
@@ -25,6 +31,8 @@ export const AppShell = ({ children }) => {
   const { matches } = useBreakpoints();
 
   const toggleNavbar = () => setOpened((prev) => !prev);
+
+  const logo = isDark ? LogoWhite : LogoDark;
 
   const Navbar = (
     <MantineNavbar
@@ -79,14 +87,14 @@ export const AppShell = ({ children }) => {
         <Burger opened={opened} onClick={toggleNavbar} size="sm" />
 
         {/* TODO: extract LogoText into reusable component */}
-        <Text
-          transform="uppercase"
-          size="xl"
-          weight={400}
-          sx={(t) => ({ fontFamily: t.fontFamilyMonospace })}
-        >
-          QWIZ
-        </Text>
+        <Image
+          src={logo}
+          alt="logo"
+          objectFit="contain"
+          className="auth-logo"
+          width={36}
+          height={36}
+        />
         <ThemeToggle />
       </Group>
     </MantineHeader>

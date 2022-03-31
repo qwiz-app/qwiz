@@ -7,13 +7,13 @@ export const NavbarItem = ({ icon, label, color, href }) => {
   const { isDark } = useAppColorscheme();
 
   return (
-    <Link href={href} passHref >
+    <Link href={href} passHref>
       <UnstyledButton
         sx={(t) => ({
           borderRadius: t.radius.sm,
           padding: 8,
           '&:hover': {
-            backgroundColor: isDark ? t.colors.gray[9] : t.colors.gray[1],
+            backgroundColor: isDark ? t.colors.gray[9] : t.colors.gray[0],
           },
         })}
       >
