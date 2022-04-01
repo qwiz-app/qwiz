@@ -1,7 +1,9 @@
 import { Group } from '@mantine/core';
-import ProviderButton, { ProviderId } from 'components/UI/ProviderButton';
+import ProviderButton from 'components/UI/ProviderButton';
+import { ProviderId, useProviders } from 'hooks/providers';
 import { BuiltInProviderType } from 'next-auth/providers';
-import { ClientSafeProvider, LiteralUnion, signIn } from 'next-auth/react';
+import { ClientSafeProvider, LiteralUnion } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import { SignInProps } from 'pages/signin';
 
 interface Props extends SignInProps {
@@ -13,9 +15,13 @@ interface Props extends SignInProps {
 }
 
 export const AuthProviders = ({ providers, redirectUrl }: Props) => {
-  const signInHandler = (providerId: ProviderId) => {
-    signIn(providerId, { callbackUrl: redirectUrl });
-  };
+  const { signInWithProvider } = useProviders();
+
+  console.log('redirectUrl :>> ', redirectUrl);
+  console.table(providers);
+
+  const signInHandler = (id: BuiltInProviderType) =>
+    signInWithProvider(id, redirectUrl);
 
   return (
     <Group
@@ -30,7 +36,7 @@ export const AuthProviders = ({ providers, redirectUrl }: Props) => {
           key={provider.id}
           id={provider.id as ProviderId}
           name={provider.name}
-          onClick={signInHandler}
+          onClick={() => signInHandler(provider.id as BuiltInProviderType)}
         />
       ))}
     </Group>
