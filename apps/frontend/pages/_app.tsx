@@ -7,6 +7,7 @@ import { SessionProvider } from 'next-auth/react';
 import Head from 'next/head';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { CustomSpotlightProvider } from 'context/spotlight';
+import { NotificationsProvider } from '@mantine/notifications';
 
 const queryClient = new QueryClient();
 
@@ -21,13 +22,15 @@ const App = ({ Component, pageProps: { session, ...pageProps } }) => {
       <SessionProvider session={session}>
         <QueryClientProvider client={queryClient}>
           <CustomColorSchemeProvider>
-            <CustomSpotlightProvider>
-              <Inspect>
-                <Container fluid px={0} sx={() => ({ minHeight: '100vh' })}>
-                  {getLayout(<Component {...pageProps} />)}
-                </Container>
-              </Inspect>
-            </CustomSpotlightProvider>
+            <NotificationsProvider position="top-right">
+              <CustomSpotlightProvider>
+                <Inspect>
+                  <Container fluid px={0} sx={() => ({ minHeight: '100vh' })}>
+                    {getLayout(<Component {...pageProps} />)}
+                  </Container>
+                </Inspect>
+              </CustomSpotlightProvider>
+            </NotificationsProvider>
           </CustomColorSchemeProvider>
         </QueryClientProvider>
       </SessionProvider>

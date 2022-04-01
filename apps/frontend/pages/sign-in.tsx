@@ -1,4 +1,5 @@
 import { Group } from '@mantine/core';
+import { useNotifications } from '@mantine/notifications';
 import { AuthIllustration } from 'components/auth/AuthIllustration';
 import { AuthLogo } from 'components/auth/AuthLogo';
 import { AuthProviders } from 'components/auth/AuthProviders';
@@ -6,13 +7,16 @@ import { AuthThemeToggle } from 'components/auth/AuthThemeToggle';
 import { AuthTitle } from 'components/auth/AuthTitle';
 import AuthLayout from 'components/layout/AuthLayout';
 import { useBreakpoints } from 'hooks/breakpoints';
+import { errors } from 'lib/next-auth';
 import { GetServerSideProps } from 'next';
 import { BuiltInProviderType } from 'next-auth/providers';
 import {
   ClientSafeProvider,
   getProviders,
-  LiteralUnion
+  LiteralUnion,
 } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const providers = await getProviders();
@@ -32,6 +36,30 @@ export interface SignInProps {
 
 const SignInPage = (props: SignInProps) => {
   const { matches } = useBreakpoints();
+  const { error } = useRouter().query;
+  const { showNotification } = useNotifications();
+
+  const showErrorNotification = (err?: string) => {
+    setTimeout(() => {
+      showNotification({
+        title: 'Whoops!',
+        message: errors[err] || errors.default,
+        color: 'red',
+        autoClose: 8000,
+      });
+    }, 400);
+  };
+
+  useEffect(() => {
+    if (error) {
+      console.error('Auth error:', error);
+      if (Array.isArray(error)) {
+        error.forEach(showErrorNotification);
+      } else {
+        showErrorNotification(error);
+      }
+    }
+  }, [error]);
 
   return (
     <>
@@ -39,14 +67,6 @@ const SignInPage = (props: SignInProps) => {
         sx={() => ({
           position: 'absolute',
           top: '2rem',
-          left: '50%',
-          transform: 'translateX(-50%)',
-        })}
-      />
-      <AuthLogo
-        sx={() => ({
-          position: 'absolute',
-          bottom: '2rem',
           left: '50%',
           transform: 'translateX(-50%)',
         })}
@@ -68,6 +88,14 @@ const SignInPage = (props: SignInProps) => {
           <AuthProviders {...props} />
         </Group>
       </Group>
+      <AuthLogo
+        sx={() => ({
+          position: 'absolute',
+          bottom: '2rem',
+          left: '50%',
+          transform: 'translateX(-50%)',
+        })}
+      />
     </>
   );
 };

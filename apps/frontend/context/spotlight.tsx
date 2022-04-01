@@ -47,6 +47,7 @@ export const CustomSpotlightProvider = ({ children }) => {
   const actions = useSpotlightActions();
 
   return (
+    // TODO: add padding to spotlight (for mobile)
     <SpotlightProvider
       actions={actions}
       searchIcon={<MagnifyingGlass size={24} />}

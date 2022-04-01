@@ -1,14 +1,13 @@
 import {
   AppShell as MantineAppShell,
-  Box,
   Burger,
   Container,
   Group,
   Header as MantineHeader,
   Navbar as MantineNavbar,
-  Text,
 } from '@mantine/core';
-import { AuthLogo } from 'components/auth/AuthLogo';
+import LogoDark from 'assets/logo/qwiz-dark.svg';
+import LogoWhite from 'assets/logo/qwiz-white.svg';
 import { NavbarDivider } from 'components/Nav/NavbarDivider';
 import { NavbarHeader } from 'components/Nav/NavbarHeader/NavbarHeader';
 import { NavbarList } from 'components/Nav/NavbarList/NavbarList';
@@ -20,9 +19,6 @@ import { useAppColorscheme } from 'hooks/colorscheme';
 import { useCurrentSession } from 'hooks/session';
 import Image from 'next/image';
 import { useState } from 'react';
-
-import LogoWhite from 'assets/logo/qwiz-white.svg';
-import LogoDark from 'assets/logo/qwiz-dark.svg';
 
 export const AppShell = ({ children }) => {
   const { isDark } = useAppColorscheme();
@@ -43,12 +39,9 @@ export const AppShell = ({ children }) => {
       fixed
     >
       {!matches.max.xs && (
-        <>
-          <MantineNavbar.Section>
-            <NavbarHeader />
-          </MantineNavbar.Section>
-          {/* <NavbarDivider /> */}
-        </>
+        <MantineNavbar.Section>
+          <NavbarHeader />
+        </MantineNavbar.Section>
       )}
       <MantineNavbar.Section
         grow
@@ -77,7 +70,10 @@ export const AppShell = ({ children }) => {
       height={60}
       p="sm"
       fixed
-      sx={(t) => ({ paddingLeft: 20, paddingRight: 20 })}
+      sx={(t) => ({
+        paddingLeft: '20px !important',
+        paddingRight: '20px !important',
+      })}
     >
       <Group
         align="center"

@@ -21,6 +21,12 @@ const IndexPage = () => {
   } = useUser(id);
   const spotlight = useSpotlight();
 
+  const signOutHandler = async () => {
+    await signOut({
+      callbackUrl: '/sign-in',
+    });
+  };
+
   return (
     <Group direction="column">
       <Group direction="column" align="center">
@@ -45,7 +51,7 @@ const IndexPage = () => {
         {error && <p>{error.response.data?.message}</p>}
         <Group spacing={8}>
           {isAuthenticated ? (
-            <Button onClick={() => signOut()} variant="filled">
+            <Button onClick={signOutHandler} variant="filled">
               Sign out
             </Button>
           ) : (
@@ -53,10 +59,11 @@ const IndexPage = () => {
               Sign in
             </Button>
           )}
-          <Button variant="light" onClick={() => router.push('/')}>
-            Home
-          </Button>
-          <Button onClick={spotlight.openSpotlight} variant="filled" color='pink'>
+          <Button
+            onClick={spotlight.openSpotlight}
+            variant="filled"
+            color="pink"
+          >
             Open spotlight
           </Button>
         </Group>
