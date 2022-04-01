@@ -29,7 +29,7 @@ export const NavbarList = () => {
   const items: NavbarItemModel[] = [
     {
       label: 'Sign in',
-      href: '/sign-in',
+      href: '/signin',
       icon: <Key size={size} weight={weight} />,
       color: 'grey-dark',
     },

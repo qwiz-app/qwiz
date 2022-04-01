@@ -22,7 +22,7 @@ const useSpotlightActions = () => {
     {
       title: 'Sign in',
       description: 'Sign yourself in!',
-      onTrigger: () => router.push('/sign-in'),
+      onTrigger: () => router.push('/signin'),
       icon: <SignIn size={24} weight="duotone" />,
       keywords: ['login', 'auth'],
     },

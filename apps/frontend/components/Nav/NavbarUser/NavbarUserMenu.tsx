@@ -8,7 +8,7 @@ import NavbarUserButton from './NavbarUserButton';
 export const NavbarUserMenu = () => {
   const signOutHandler = async () => {
     await signOut({
-      callbackUrl: '/sign-in?signOut=true',
+      callbackUrl: '/signin?signOut=true',
     });
   };
 

@@ -21,7 +21,7 @@ const IndexPage = () => {
 
   const signOutHandler = async () => {
     await signOut({
-      callbackUrl: '/sign-in?signOut=true',
+      callbackUrl: '/signin?signOut=true',
     });
   };
 
