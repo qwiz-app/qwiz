@@ -15,7 +15,7 @@ import {
   getProviders,
   LiteralUnion,
 } from 'next-auth/react';
-import { useRouter } from 'next/router';
+import router, { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 export const getServerSideProps: GetServerSideProps = async () => {
@@ -58,6 +58,7 @@ const SignInPage = (props: SignInProps) => {
         color: 'green',
         autoClose: 5000,
       });
+      router.push('/signin');
     }, 400);
   };
 

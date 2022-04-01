@@ -4,11 +4,13 @@ import {
   HouseSimple,
   MagnifyingGlass,
   SignIn,
+  SignOut,
 } from 'phosphor-react';
 
 import { SpotlightProvider } from '@mantine/spotlight';
 import type { SpotlightAction } from '@mantine/spotlight';
 import { useRouter } from 'next/router';
+import { signOut } from 'next-auth/react';
 
 const useSpotlightActions = () => {
   const router = useRouter();
@@ -21,10 +23,20 @@ const useSpotlightActions = () => {
     },
     {
       title: 'Sign in',
-      description: 'Sign yourself in!',
+      description: 'Sign in!',
       onTrigger: () => router.push('/signin'),
       icon: <SignIn size={24} weight="duotone" />,
       keywords: ['login', 'auth'],
+    },
+    {
+      title: 'Sign out',
+      description: 'Sign yourself out',
+      onTrigger: () =>
+        signOut({
+          callbackUrl: '/signin?signOut=true',
+        }),
+      icon: <SignOut size={24} weight="duotone" />,
+      keywords: ['logout', 'log out'],
     },
     {
       title: 'Dashboard',
@@ -48,6 +60,8 @@ export const CustomSpotlightProvider = ({ children }) => {
 
   return (
     // TODO: add padding to spotlight (for mobile)
+    // TODO: only allow toggling spotlight if logged in
+    // or: only allow providers on spotlight for /signin page
     <SpotlightProvider
       actions={actions}
       searchIcon={<MagnifyingGlass size={24} />}

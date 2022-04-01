@@ -1,11 +1,14 @@
 import { Divider, Menu } from '@mantine/core';
 import { signOut } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import { Gear, SignOut, Trash, User, UserSwitch } from 'phosphor-react';
 import React from 'react';
 
 import NavbarUserButton from './NavbarUserButton';
 
 export const NavbarUserMenu = () => {
+  const router = useRouter();
+
   const signOutHandler = async () => {
     await signOut({
       callbackUrl: '/signin?signOut=true',
@@ -22,7 +25,6 @@ export const NavbarUserMenu = () => {
       <Menu.Label>Application</Menu.Label>
       <Menu.Item icon={<User weight="duotone" />}>Profile</Menu.Item>
       <Menu.Item icon={<Gear weight="duotone" />}>Settings</Menu.Item>
-      <Menu.Item icon={<UserSwitch weight="duotone" />}>Switch user</Menu.Item>
       <Divider />
       <Menu.Label>Caution</Menu.Label>
       <Menu.Item
