@@ -1,23 +1,21 @@
 import { Divider, Menu } from '@mantine/core';
 import { signOut } from 'next-auth/react';
-import { useRouter } from 'next/router';
 import { Gear, SignOut, Trash, User, UserSwitch } from 'phosphor-react';
 import React from 'react';
 
 import NavbarUserButton from './NavbarUserButton';
 
 export const NavbarUserMenu = () => {
-  const router = useRouter();
   const signOutHandler = async () => {
-    const res = await signOut({ redirect: false, callbackUrl: '/sign-in' });
-    router.replace(res.url);
+    await signOut({
+      callbackUrl: '/sign-in?signOut=true',
+    });
   };
 
   return (
     <Menu
       trigger="click"
       position="right"
-      delay={300}
       control={<NavbarUserButton />}
       sx={() => ({ width: '100%' })}
     >

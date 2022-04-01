@@ -1,15 +1,13 @@
 import { Avatar, Box, Group, Text } from '@mantine/core';
+import { useSpotlight } from '@mantine/spotlight';
 import DashboardLayout from 'components/layout/DashboardLayout';
 import { Button } from 'components/UI/Button/Button';
 import { useCurrentSession } from 'hooks/session';
 import { useUser, useUsers } from 'hooks/users/users';
 import { signIn, signOut } from 'next-auth/react';
 import { useState } from 'react';
-import { useRouter } from 'next/router';
-import { useSpotlight } from '@mantine/spotlight';
 
 const IndexPage = () => {
-  const router = useRouter();
   const { isAuthenticated, user: currentUser } = useCurrentSession();
   const { data: users, error } = useUsers();
   const [id, setId] = useState<string>(null);
@@ -23,7 +21,7 @@ const IndexPage = () => {
 
   const signOutHandler = async () => {
     await signOut({
-      callbackUrl: '/sign-in',
+      callbackUrl: '/sign-in?signOut=true',
     });
   };
 

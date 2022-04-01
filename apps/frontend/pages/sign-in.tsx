@@ -36,7 +36,7 @@ export interface SignInProps {
 
 const SignInPage = (props: SignInProps) => {
   const { matches } = useBreakpoints();
-  const { error } = useRouter().query;
+  const { query } = useRouter();
   const { showNotification } = useNotifications();
 
   const showErrorNotification = (err?: string) => {
@@ -50,7 +50,19 @@ const SignInPage = (props: SignInProps) => {
     }, 400);
   };
 
+  const showSignedOutNotification = () => {
+    setTimeout(() => {
+      showNotification({
+        title: 'Signed out',
+        message: 'You have been signed out.',
+        color: 'green',
+        autoClose: 5000,
+      });
+    }, 400);
+  };
+
   useEffect(() => {
+    const { error, signOut } = query;
     if (error) {
       console.error('Auth error:', error);
       if (Array.isArray(error)) {
@@ -59,7 +71,11 @@ const SignInPage = (props: SignInProps) => {
         showErrorNotification(error);
       }
     }
-  }, [error]);
+    // eslint-disable-next-line eqeqeq
+    if (signOut == 'true') {
+      showSignedOutNotification();
+    }
+  }, [query]);
 
   return (
     <>
