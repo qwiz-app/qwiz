@@ -1,25 +1,35 @@
+import type { SpotlightAction } from '@mantine/spotlight';
+import { SpotlightProvider } from '@mantine/spotlight';
+import { useAppColorscheme } from 'hooks/colorscheme';
+import { signOut } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import {
-  CircleDashed,
   FileText,
   HouseSimple,
   MagnifyingGlass,
+  Moon,
   SignIn,
   SignOut,
+  SquaresFour,
+  Sun,
 } from 'phosphor-react';
-
-import { SpotlightProvider } from '@mantine/spotlight';
-import type { SpotlightAction } from '@mantine/spotlight';
-import { useRouter } from 'next/router';
-import { signOut } from 'next-auth/react';
 
 const useSpotlightActions = () => {
   const router = useRouter();
+  const { toggleColorScheme, isDark } = useAppColorscheme();
+
+  // TODO: configure showing auth vs non-auth options
   const actions: SpotlightAction[] = [
     {
-      title: 'Home',
-      description: 'Get to home page',
-      onTrigger: () => router.push('/'),
-      icon: <HouseSimple size={24} weight="duotone" />,
+      title: 'Switch theme',
+      description: `Switch to ${isDark ? 'light' : 'dark'} mode`,
+      onTrigger: () => toggleColorScheme(),
+      icon: isDark ? (
+        <Sun size={24} weight="duotone" />
+      ) : (
+        <Moon size={24} weight="duotone" />
+      ),
+      keywords: ['theme', 'mode', 'dark', 'light', 'toggle'],
     },
     {
       title: 'Sign in',
@@ -40,10 +50,12 @@ const useSpotlightActions = () => {
     },
     {
       title: 'Dashboard',
-      description: 'Get full information about current system status',
-      onTrigger: () => console.log('Dashboard'),
-      icon: <CircleDashed size={24} weight="duotone" />,
+      description: 'Go to your dashboard',
+      onTrigger: () => router.push('/'),
+      icon: <SquaresFour size={24} weight="duotone" />,
+      keywords: ['home'],
     },
+
     {
       title: 'Documentation',
       description: 'Visit documentation to lean more about all features',
@@ -70,6 +82,11 @@ export const CustomSpotlightProvider = ({ children }) => {
       nothingFoundMessage="Nothing found..."
       highlightQuery
       highlightColor="orange"
+      styles={{
+        root: {
+          padding: '0.5rem',
+        },
+      }}
     >
       {children}
     </SpotlightProvider>

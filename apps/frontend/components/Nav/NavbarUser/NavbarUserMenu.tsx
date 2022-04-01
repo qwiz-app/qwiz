@@ -1,24 +1,22 @@
 import { Divider, Menu } from '@mantine/core';
+import { useBreakpoints } from 'hooks/breakpoints';
 import { signOut } from 'next-auth/react';
-import { useRouter } from 'next/router';
-import { Gear, SignOut, Trash, User, UserSwitch } from 'phosphor-react';
-import React from 'react';
-
+import { Gear, SignOut, Trash, User } from 'phosphor-react';
 import NavbarUserButton from './NavbarUserButton';
 
 export const NavbarUserMenu = () => {
-  const router = useRouter();
-
   const signOutHandler = async () => {
     await signOut({
       callbackUrl: '/signin?signOut=true',
     });
   };
 
+  const { matches } = useBreakpoints();
+
   return (
     <Menu
       trigger="click"
-      position="right"
+      position={matches.max.xs ? 'top' : 'right'}
       control={<NavbarUserButton />}
       sx={() => ({ width: '100%' })}
     >

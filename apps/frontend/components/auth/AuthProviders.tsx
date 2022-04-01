@@ -3,7 +3,6 @@ import ProviderButton, { ProviderId } from 'components/UI/ProviderButton';
 import { BuiltInProviderType } from 'next-auth/providers';
 import { ClientSafeProvider, LiteralUnion, signIn } from 'next-auth/react';
 import { SignInProps } from 'pages/signin';
-import { useEffect } from 'react';
 
 interface Props extends SignInProps {
   providers: Record<
@@ -17,10 +16,6 @@ export const AuthProviders = ({ providers, redirectUrl }: Props) => {
   const signInHandler = (providerId: ProviderId) => {
     signIn(providerId, { callbackUrl: redirectUrl });
   };
-
-  useEffect(() => {
-    console.table(providers);
-  }, [providers]);
 
   return (
     <Group

@@ -82,7 +82,7 @@ export const AppShell = ({ children }) => {
       >
         <Burger opened={opened} onClick={toggleNavbar} size="sm" />
 
-        {/* TODO: extract LogoText into reusable component */}
+        {/* TODO: extract Logo into reusable component */}
         <Image
           src={logo}
           alt="logo"
