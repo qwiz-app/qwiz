@@ -15,7 +15,7 @@ import {
   getProviders,
   LiteralUnion,
 } from 'next-auth/react';
-import router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 export const getServerSideProps: GetServerSideProps = async () => {
@@ -36,7 +36,8 @@ export interface SignInProps {
 
 const SignInPage = (props: SignInProps) => {
   const { matches } = useBreakpoints();
-  const { query } = useRouter();
+  const router = useRouter();
+  const { query } = router;
   const { showNotification } = useNotifications();
 
   const showErrorNotification = (err?: string) => {
