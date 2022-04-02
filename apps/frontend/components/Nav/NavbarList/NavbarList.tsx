@@ -12,6 +12,7 @@ import {
   UsersThree,
 } from 'phosphor-react';
 import { ReactNode } from 'react';
+import { paths } from 'paths';
 import { NavbarItem } from '../NavbarItem/NavbarItem';
 
 type NavbarItemModel = {
@@ -29,55 +30,55 @@ export const NavbarList = () => {
   const items: NavbarItemModel[] = [
     {
       label: 'Sign in',
-      href: '/signin',
+      href: paths.signIn(),
       icon: <Key size={size} weight={weight} />,
       color: 'grey-dark',
     },
     {
       label: 'Dashboard',
-      href: '/',
+      href: paths.home(),
       icon: <SquaresFour size={size} weight={weight} />,
       color: 'grey-dark',
     },
     {
       label: 'Explore',
-      href: '/explore',
+      href: paths.explore(),
       icon: <Binoculars size={size} weight={weight} />,
       color: 'grey-dark',
     },
     {
       label: 'Events',
-      href: '/events',
+      href: paths.events(),
       icon: <Confetti size={size} weight={weight} />,
       color: 'grey-dark',
     },
     {
       label: 'Quizzes',
-      href: '/quiz',
+      href: paths.quiz(),
       icon: <Queue size={size} weight={weight} />,
       color: 'grey-dark',
     },
     {
       label: 'Question packs',
-      href: '/question-packs',
+      href: paths.questionPacks(),
       icon: <Cube size={size} weight={weight} />,
       color: 'grey-dark',
     },
     {
       label: 'Teams',
-      href: '/teams',
+      href: paths.teams(),
       icon: <UsersThree size={size} weight={weight} />,
       color: 'grey-dark',
     },
     {
       label: 'Stats',
-      href: '/stats',
+      href: paths.stats(),
       icon: <PresentationChart size={size} weight={weight} />,
       color: 'grey-dark',
     },
     {
       label: 'Leaderboard',
-      href: '/learderboard',
+      href: paths.leaderbaord(),
       icon: <Trophy size={size} weight={weight} />,
       color: 'grey-dark',
     },
