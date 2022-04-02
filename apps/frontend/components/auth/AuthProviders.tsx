@@ -3,7 +3,6 @@ import ProviderButton from 'components/UI/ProviderButton';
 import { ProviderId, useProviders } from 'hooks/providers';
 import { BuiltInProviderType } from 'next-auth/providers';
 import { ClientSafeProvider, LiteralUnion } from 'next-auth/react';
-import { useRouter } from 'next/router';
 import { SignInProps } from 'pages/signin';
 
 interface Props extends SignInProps {

@@ -19,11 +19,7 @@ const IndexPage = () => {
   } = useUser(id);
   const spotlight = useSpotlight();
 
-  const signOutHandler = async () => {
-    await signOut({
-      callbackUrl: '/signin?signOut=true',
-    });
-  };
+  const signOutHandler = () => signOut();
 
   return (
     <Group direction="column">
