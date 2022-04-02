@@ -59,7 +59,6 @@ const SignInPage = (props: SignInProps) => {
         color: 'green',
         autoClose: 5000,
       });
-      router.push('/signin');
     }, 400);
   };
 

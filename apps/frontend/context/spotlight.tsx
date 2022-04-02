@@ -4,6 +4,7 @@ import { useAppColorscheme } from 'hooks/colorscheme';
 import { useProviders } from 'hooks/providers';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { paths } from 'paths';
 import {
   DiscordLogo,
   FileText,
@@ -41,7 +42,7 @@ const useSpotlightActions = () => {
       title: 'Sign in',
       description: 'Sign in to your account',
       group: 'actions',
-      onTrigger: () => router.push('/signin'),
+      onTrigger: () => router.push(paths.signIn()),
       icon: <SignIn size={24} weight="duotone" />,
       keywords: ['login', 'auth'],
     },
@@ -60,7 +61,7 @@ const useSpotlightActions = () => {
       title: 'Dashboard',
       group: 'main',
       description: 'Go to your dashboard',
-      onTrigger: () => router.push('/'),
+      onTrigger: () => router.push(paths.home()),
       icon: <SquaresFour size={24} weight="duotone" />,
       keywords: ['home'],
     },

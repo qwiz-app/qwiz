@@ -78,7 +78,7 @@ export const NavbarList = () => {
     },
     {
       label: 'Leaderboard',
-      href: paths.leaderbaord(),
+      href: paths.leaderboard(),
       icon: <Trophy size={size} weight={weight} />,
       color: 'grey-dark',
     },

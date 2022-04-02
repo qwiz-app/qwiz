@@ -8,5 +8,5 @@ export const paths = {
   questionPacks: () => '/question-packs',
   teams: () => '/teams',
   stats: () => '/stats',
-  leaderbaord: () => '/learderboard',
+  leaderboard: () => '/learderboard',
 };
