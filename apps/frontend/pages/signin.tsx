@@ -16,6 +16,7 @@ import {
   LiteralUnion,
 } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { paths } from 'paths';
 import { useEffect } from 'react';
 
 export const getServerSideProps: GetServerSideProps = async () => {
@@ -75,6 +76,7 @@ const SignInPage = (props: SignInProps) => {
     // eslint-disable-next-line eqeqeq
     if (signOut == 'true') {
       showSignedOutNotification();
+      router.replace(paths.signIn());
     }
   }, [query]);
 
