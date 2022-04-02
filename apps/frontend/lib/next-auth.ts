@@ -1,4 +1,3 @@
-// pages/signin.jsx
 export const errors = {
   Signin: 'Try signing with a different account.',
   OAuthSignin: 'Try signing with a different account.',

@@ -16,7 +16,6 @@ interface Props extends SignInProps {
 export const AuthProviders = ({ providers, redirectUrl }: Props) => {
   const { signInWithProvider } = useProviders();
 
-  console.log('redirectUrl :>> ', redirectUrl);
   console.table(providers);
 
   const signInHandler = (id: BuiltInProviderType) =>

@@ -9,8 +9,8 @@ interface Props {
 }
 
 const ProviderButton = ({ id, name, onClick }: Props) => {
-  const { providers } = useProviders();
-  const { icon } = providers[id];
+  const { providerStyle } = useProviders();
+  const { icon } = providerStyle(id);
 
   return (
     <Button

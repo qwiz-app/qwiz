@@ -101,9 +101,7 @@ export const CustomSpotlightProvider = ({ children }) => {
   const actions = useSpotlightActions();
 
   return (
-    // TODO: add padding to spotlight (for mobile)
-    // TODO: only allow toggling spotlight if logged in
-    // or: only allow providers on spotlight for /signin page
+    // TODO: only allow providers on spotlight for /signin page
     <SpotlightProvider
       actions={actions}
       searchIcon={<MagnifyingGlass size={24} />}

@@ -1,6 +1,6 @@
 import { BuiltInProviderType } from 'next-auth/providers';
 import { signIn } from 'next-auth/react';
-import { IconProps, GoogleLogo, GithubLogo, DiscordLogo } from 'phosphor-react';
+import { DiscordLogo, GithubLogo, GoogleLogo, IconProps } from 'phosphor-react';
 import React from 'react';
 
 export type ProviderId = 'discord' | 'google' | 'github';
@@ -17,7 +17,7 @@ export const useProviders = () => {
     weight: 'duotone',
     size: 22,
   };
-  const providers: ProviderStylesModel = {
+  const providerStyles: ProviderStylesModel = {
     google: {
       color: '#4285f4',
       icon: <GoogleLogo size={size} weight="bold" />,
@@ -32,19 +32,20 @@ export const useProviders = () => {
     },
   };
 
-  // TODO: how to get redirect url from next-auth?
+  const providerStyle = (id: ProviderId) => providerStyles[id];
+
   const signInWithProvider = (
     providerId: BuiltInProviderType,
-    redirectUrl?: string
+    redirectUrl: string = process.env.NEXTAUTH_URL
   ) => {
-    // TODO: check if fallback redirectUrl is alright?
     signIn(providerId, {
-      callbackUrl: redirectUrl || window.location.origin,
+      callbackUrl: redirectUrl,
     });
   };
 
   return {
     signInWithProvider,
-    providers,
+    providerStyles,
+    providerStyle,
   };
 };
