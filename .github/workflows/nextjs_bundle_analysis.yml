@@ -9,7 +9,7 @@ on:
 
 defaults:
   run:
-    working-directory: ./dist/apps/frontend
+    working-directory: dist/apps/frontend
 
 jobs:
   analyze:
