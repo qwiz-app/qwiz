@@ -11,7 +11,8 @@
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
         "@next/next/no-html-link-for-pages": ["error", "apps/frontend/pages"],
-        "react-hooks/exhaustive-deps": "off"
+        "react-hooks/exhaustive-deps": "off",
+        "prefer-arrow-callback": "off"
       }
     },
     {
