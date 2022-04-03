@@ -39,7 +39,6 @@ export class QuestionController {
     @Param('id') id: string,
     @Body() updateQuestionDto: Prisma.QuestionUpdateInput
   ) {
-    console.log('updateQuestionDto', updateQuestionDto);
     return this.questionService.update({ id }, updateQuestionDto);
   }
 

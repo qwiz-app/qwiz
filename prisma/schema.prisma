@@ -142,7 +142,7 @@ model Question {
   text           String
   image          String?
   audio          String?
-  questionType   QuestionType?      @relation(fields: [questionTypeId], references: [id])
+  questionType   QuestionMode?      @relation(fields: [questionTypeId], references: [id])
   // TODO: set default question mode - single text question
   questionTypeId Int                @default(1)
   owner          Organization?      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
@@ -163,14 +163,12 @@ model Answer {
   answer     String
 }
 
-model QuestionType {
+model QuestionMode {
   id          Int        @id @default(autoincrement())
   name        String
   // mode rules are handled on the backend/frontend
   description String     @db.Text
   questions   Question[]
-
-  @@map("QuestionMode")
 }
 
 model QuestionScoringMode {
@@ -192,7 +190,8 @@ model QuizQuestion {
   id            String               @id @default(cuid())
   quiz          Quiz                 @relation(fields: [quizId], references: [id])
   quizId        String
-  question      Question             @relation(fields: [questionId], references: [id])
+  // onUpdate: No action is a workaround from https://github.com/prisma/prisma/issues/10758
+  question      Question             @relation(fields: [questionId], references: [id], onUpdate: NoAction)
   questionId    String
   ordinal       Int
   eventAnswers  EventTeamAnswer[]
@@ -200,7 +199,7 @@ model QuizQuestion {
   // ie. for modes such as "betting on answer" or "fastest correct answer"
   // maybe we have different mode tables - question mode on original question (single, photo, audio, multiple) & scoring mode on our instance
   scoringMode   QuestionScoringMode? @relation(fields: [scoringModeId], references: [id])
-  scoringModeId Int
+  scoringModeId Int                  @default(1)
 
 
   @@unique([quizId, questionId])

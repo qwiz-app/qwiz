@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'prisma.service';
 
@@ -22,14 +22,17 @@ export class QuestionService {
     where: Prisma.QuestionWhereUniqueInput,
     data: Prisma.QuestionUpdateInput
   ) {
-    // TODO: not working
     return this.prisma.question.update({
       where,
       data,
     });
   }
 
-  remove(where: Prisma.QuestionWhereUniqueInput) {
-    return this.prisma.question.delete({ where });
+  async remove(where: Prisma.QuestionWhereUniqueInput) {
+    try {
+      return await this.prisma.question.delete({ where });
+    } catch (err) {
+      throw new NotFoundException(err?.meta?.cause || 'Something went wrong.');
+    }
   }
 }
