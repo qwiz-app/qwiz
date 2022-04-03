@@ -1,26 +1,44 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAttendeeDto } from './dto/create-attendee.dto';
-import { UpdateAttendeeDto } from './dto/update-attendee.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
+import { PrismaService } from 'prisma.service';
 
 @Injectable()
 export class AttendeeService {
-  create(createAttendeeDto: CreateAttendeeDto) {
-    return 'This action adds a new attendee';
+  constructor(private prisma: PrismaService) {}
+
+  create(data: Prisma.AttendeeUncheckedCreateInput) {
+    return this.prisma.attendee.create({ data });
   }
 
-  findAll() {
-    return `This action returns all attendee`;
+  findAll(include: Prisma.AttendeeInclude) {
+    return this.prisma.attendee.findMany({ include });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} attendee`;
+  findOne(
+    where: Prisma.AttendeeWhereUniqueInput,
+    include: Prisma.AttendeeInclude
+  ) {
+    return this.prisma.attendee.findUnique({
+      where,
+      include,
+    });
   }
 
-  update(id: number, updateAttendeeDto: UpdateAttendeeDto) {
-    return `This action updates a #${id} attendee`;
+  update(
+    where: Prisma.AttendeeWhereUniqueInput,
+    data: Prisma.AttendeeUpdateInput
+  ) {
+    return this.prisma.attendee.update({
+      where,
+      data,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} attendee`;
+  async remove(where: Prisma.AttendeeWhereUniqueInput) {
+    try {
+      return await this.prisma.attendee.delete({ where });
+    } catch (err) {
+      throw new NotFoundException(err?.meta?.cause || 'Something went wrong.');
+    }
   }
 }

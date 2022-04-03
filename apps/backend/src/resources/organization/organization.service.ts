@@ -6,7 +6,7 @@ import { PrismaService } from 'prisma.service';
 export class OrganizationService {
   constructor(private prisma: PrismaService) {}
 
-  create(data: Prisma.OrganizationCreateInput) {
+  create(data: Prisma.OrganizationUncheckedCreateInput) {
     return this.prisma.organization.create({ data });
   }
 

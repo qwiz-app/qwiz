@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   DefaultValuePipe,
@@ -11,14 +12,26 @@ import {
   Query,
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
+import { UserService } from 'resources/user/user.service';
 import { OrganizationService } from './organization.service';
 
 @Controller('organizations')
 export class OrganizationController {
-  constructor(private readonly organizationService: OrganizationService) {}
+  constructor(
+    private readonly organizationService: OrganizationService,
+    private readonly userService: UserService
+  ) {}
 
   @Post()
-  create(@Body() createOrganizationDto: Prisma.OrganizationCreateInput) {
+  async create(
+    @Body() createOrganizationDto: Prisma.OrganizationUncheckedCreateInput
+  ) {
+    const user = await this.userService.findOne({
+      id: createOrganizationDto.userId,
+    });
+    if (!user) {
+      throw new BadRequestException('User does not exist');
+    }
     return this.organizationService.create(createOrganizationDto);
   }
 
