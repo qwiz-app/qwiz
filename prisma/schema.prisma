@@ -68,11 +68,11 @@ enum Role {
 model Organization {
   id        String     @id @default(cuid())
   name      String     @unique
-  // TODO: should multiple users be allowed to login to same organization account
+  // TODO: should multiple users be allowed to login to same organization account?
   user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String
+  userId    String     @unique
   events    Event[]
-  quizes    Quiz[]
+  quizzes   Quiz[]
   questions Question[]
 }
 
@@ -98,13 +98,13 @@ model Team {
 
 model EventTeam {
   id        String            @id @default(cuid())
-  team      Team              @relation(fields: [teamId], references: [id])
+  team      Team              @relation(fields: [teamId], references: [id], onUpdate: NoAction)
   teamId    String
-  event     Event             @relation(fields: [eventId], references: [id])
+  event     Event             @relation(fields: [eventId], references: [id], onUpdate: NoAction)
   eventId   String
   createdAt DateTime          @default(now())
   updatedAt DateTime          @updatedAt
-  captain   Attendee          @relation(fields: [captainId], references: [id])
+  captain   Attendee          @relation(fields: [captainId], references: [id], onUpdate: NoAction)
   captainId String
   answers   EventTeamAnswer[]
 
@@ -188,7 +188,7 @@ model QuestionCategory {
 // question instance for a specific quiz
 model QuizQuestion {
   id            String               @id @default(cuid())
-  quiz          Quiz                 @relation(fields: [quizId], references: [id])
+  quiz          Quiz                 @relation(fields: [quizId], references: [id], onUpdate: NoAction)
   quizId        String
   // onUpdate: No action is a workaround from https://github.com/prisma/prisma/issues/10758
   question      Question             @relation(fields: [questionId], references: [id], onUpdate: NoAction)
