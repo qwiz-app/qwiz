@@ -2,7 +2,10 @@ import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
 export const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
   const cookie = req.headers.get('cookie');
-  const sessionToken = getFromCookie(cookie, 'next-auth.session-token');
+  const sessionToken = getFromCookie(
+    cookie,
+    isProdEnv() ? '__Secure-next-auth.session-token' : 'next-auth.session-token'
+  );
 
   console.log(sessionToken, 'token');
   console.log({ cookie });
@@ -13,6 +16,8 @@ export const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
 
   return NextResponse.next();
 };
+
+const isProdEnv = () => process.env.NODE_ENV === 'production';
 
 const isApiUrl = (url: string) => {
   const splitUrl = url.split('/');
