@@ -1,11 +1,16 @@
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
+const whitelistedUrls = ['/'];
+
 export const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
   const cookie = req.headers.get('cookie');
   const sessionToken = getFromCookie(
     cookie,
     isProdEnv() ? '__Secure-next-auth.session-token' : 'next-auth.session-token'
   );
+
+  if (!isApiUrl(req.url) && isWhitelistedUrl(req.nextUrl.pathname))
+    return NextResponse.next();
 
   if (sessionToken && isSignInUrl(req.url)) {
     return NextResponse.redirect(new URL('/', req.nextUrl.origin));
@@ -17,6 +22,8 @@ export const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
 
   return NextResponse.next();
 };
+
+const isWhitelistedUrl = (url: string) => whitelistedUrls.includes(url);
 
 const isProdEnv = () => process.env.NODE_ENV === 'production';
 
