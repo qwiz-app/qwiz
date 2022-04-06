@@ -7,9 +7,6 @@ export const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
     isProdEnv() ? '__Secure-next-auth.session-token' : 'next-auth.session-token'
   );
 
-  console.log(sessionToken, 'token');
-  console.log({ cookie });
-
   if (!sessionToken && !isApiUrl(req.url) && !isSignInUrl(req.url)) {
     return NextResponse.redirect(new URL('/signin', req.nextUrl.origin));
   }
