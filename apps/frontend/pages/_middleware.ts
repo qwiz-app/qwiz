@@ -1,12 +1,12 @@
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
-const whitelistedUrls = ['/'];
+const whitelistedUrls = [];
 
 export const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
   const cookie = req.headers.get('cookie');
   const sessionToken = getFromCookie(
     cookie,
-    isProdEnv() ? '__Secure-next-auth.session-token' : 'next-auth.session-token'
+    isVercelEnv() ? '__Secure-next-auth.session-token' : 'next-auth.session-token'
   );
 
   if (!isApiUrl(req.url) && isWhitelistedUrl(req.nextUrl.pathname))
@@ -25,7 +25,7 @@ export const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
 
 const isWhitelistedUrl = (url: string) => whitelistedUrls.includes(url);
 
-const isProdEnv = () => process.env.NODE_ENV === 'production';
+const isVercelEnv = () => process.env.VERCEL === '1';
 
 const isApiUrl = (url: string) => {
   const splitUrl = url.split('/');
