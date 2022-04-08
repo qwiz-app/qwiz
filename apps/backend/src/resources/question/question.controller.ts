@@ -11,7 +11,9 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { User as UserModel, Prisma } from '@prisma/client';
+import { User } from 'common/decorators/user.decorator';
+// import { Organization } from 'common/decorators/organization.decorator';
 import { QuestionService } from './question.service';
 
 @Controller('questions')
@@ -26,7 +28,12 @@ export class QuestionController {
   // Global and active questions
   // option of including our custom questions
   @Get('')
-  findAvailable(@Query('includeByOwner') ownerId: string) {
+  findAvailable(
+    @Query('includeByOwner') ownerId: string,
+    @User() user: UserModel
+  ) {
+    console.log('user :>> ', user);
+    // console.log('organization :>> ', organization);
     // TODO: check if I am the owner organization of the question (user's organization from middleware) or admin
     // cant do it now cos postman isnt yet configured to handle middleware
     const where: Prisma.QuestionWhereInput = {

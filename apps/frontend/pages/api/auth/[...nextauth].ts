@@ -25,8 +25,26 @@ export default NextAuth({
   ],
   secret: process.env.SECRET,
   pages: {
-    signIn: '/signin',
+    // signIn: '/signin',
     signOut: '/signin?signOut=true',
     error: '/signin',
+  },
+  callbacks: {
+    async signIn({ user, account, profile, email, credentials }) {
+      console.log('SIGNIN: ', user, account, profile, email, credentials);
+      return true;
+    },
+    async redirect({ url, baseUrl }) {
+      console.log('REDIRECT: ', url, baseUrl);
+      return baseUrl;
+    },
+    async session({ session, user, token }) {
+      console.log('SESSION: ', session, user, token);
+      return session;
+    },
+    async jwt({ token, user, account, profile, isNewUser }) {
+      console.log('JWT: ', token, user, account, profile, isNewUser);
+      return token;
+    },
   },
 });

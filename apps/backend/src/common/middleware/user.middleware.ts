@@ -2,7 +2,7 @@ import {
   Injectable,
   NestMiddleware,
   NotFoundException,
-  UnauthorizedException
+  UnauthorizedException,
 } from '@nestjs/common';
 import { NextFunction, Response } from 'express';
 
@@ -18,12 +18,22 @@ export class AuthMiddleware implements NestMiddleware {
 
   async use(req: AuthRequest, res: Response, next: NextFunction) {
     const { cookie } = req.headers;
+
+    console.log('cookie :>> ', cookie);
     const sessionToken = getFromCookie(cookie, 'next-auth.session-token');
 
     if (sessionToken) {
       const session = await this.prisma.session.findUnique({
         where: { sessionToken },
-        include: { user: true },
+        include: {
+          // TODO: get user
+          user: {
+            include: {
+              organization: true,
+              attendee: true,
+            },
+          },
+        },
       });
 
       console.log('session :>> ', session);

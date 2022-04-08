@@ -4,9 +4,13 @@ const whitelistedUrls = [];
 
 export const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
   const cookie = req.headers.get('cookie');
+
+  console.log('cookie front :>> ', cookie);
   const sessionToken = getFromCookie(
     cookie,
-    isVercelEnv() ? '__Secure-next-auth.session-token' : 'next-auth.session-token'
+    isVercelEnv()
+      ? '__Secure-next-auth.session-token'
+      : 'next-auth.session-token'
   );
 
   if (!isApiUrl(req.url) && isWhitelistedUrl(req.nextUrl.pathname))
