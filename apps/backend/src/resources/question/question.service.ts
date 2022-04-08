@@ -10,12 +10,19 @@ export class QuestionService {
     return this.prisma.question.create({ data });
   }
 
-  findAll() {
-    return this.prisma.question.findMany();
+  findAvailable(where: Prisma.QuestionWhereInput) {
+    return this.prisma.question.findMany({ where });
   }
 
-  findOne(where: Prisma.QuestionWhereUniqueInput) {
-    return this.prisma.question.findUnique({ where });
+  findAll(where: Prisma.QuestionWhereInput) {
+    return this.prisma.question.findMany({ where });
+  }
+
+  findOne(
+    where: Prisma.QuestionWhereUniqueInput,
+    include: Prisma.QuestionInclude
+  ) {
+    return this.prisma.question.findUnique({ where, include });
   }
 
   update(

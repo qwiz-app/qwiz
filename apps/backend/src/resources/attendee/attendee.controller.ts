@@ -14,7 +14,6 @@ import {
 import { Prisma } from '@prisma/client';
 import { UserService } from 'resources/user/user.service';
 import { AttendeeService } from './attendee.service';
-import { UpdateAttendeeDto } from './dto/update-attendee.dto';
 
 @Controller('attendees')
 export class AttendeeController {
@@ -81,7 +80,7 @@ export class AttendeeController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateAttendeeDto: UpdateAttendeeDto
+    @Body() updateAttendeeDto: Prisma.AttendeeUpdateInput
   ) {
     return this.attendeeService.update({ id }, updateAttendeeDto);
   }

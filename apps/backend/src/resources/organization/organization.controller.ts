@@ -54,12 +54,15 @@ export class OrganizationController {
     @Query('events', new DefaultValuePipe(false), ParseBoolPipe)
     events: boolean,
     @Query('quizzes', new DefaultValuePipe(false), ParseBoolPipe)
-    quizzes: boolean
+    quizzes: boolean,
+    @Query('questions', new DefaultValuePipe(false), ParseBoolPipe)
+    questions: boolean
   ) {
     const include: Prisma.OrganizationInclude = {
       user,
       events,
       quizzes,
+      questions,
       _count: true,
     };
     return this.organizationService.findOne({ id }, include);

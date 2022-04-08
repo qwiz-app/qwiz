@@ -1,12 +1,10 @@
-import { HttpException } from '@nestjs/common/exceptions/http.exception';
 import {
-  HttpStatus,
   Injectable,
   NestMiddleware,
   NotFoundException,
-  UnauthorizedException,
+  UnauthorizedException
 } from '@nestjs/common';
-import { Response, NextFunction } from 'express';
+import { NextFunction, Response } from 'express';
 
 import { PrismaService } from '../../prisma.service';
 
