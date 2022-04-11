@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { NextFunction, Response } from 'express';
 
+import console = require('console');
 import { PrismaService } from '../../prisma.service';
 
 import { getFromCookie } from '../../lib/utils';
@@ -19,14 +20,12 @@ export class AuthMiddleware implements NestMiddleware {
   async use(req: AuthRequest, res: Response, next: NextFunction) {
     const { cookie } = req.headers;
 
-    console.log('cookie :>> ', cookie);
     const sessionToken = getFromCookie(cookie, 'next-auth.session-token');
 
     if (sessionToken) {
-      const session = await this.prisma.session.findUnique({
+      const { user } = await this.prisma.session.findUnique({
         where: { sessionToken },
         include: {
-          // TODO: get user
           user: {
             include: {
               organization: true,
@@ -35,9 +34,6 @@ export class AuthMiddleware implements NestMiddleware {
           },
         },
       });
-
-      console.log('session :>> ', session);
-      const { user } = session;
 
       if (!user) {
         throw new NotFoundException('User not found.');

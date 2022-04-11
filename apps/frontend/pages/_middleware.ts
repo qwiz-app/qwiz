@@ -5,7 +5,7 @@ const whitelistedUrls = [];
 export const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
   const cookie = req.headers.get('cookie');
 
-  console.log('cookie front :>> ', cookie);
+  // console.log('cookie front :>> ', cookie);
   const sessionToken = getFromCookie(
     cookie,
     isVercelEnv()

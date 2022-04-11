@@ -11,7 +11,8 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Prisma, Organization as OrganizationModel } from '@prisma/client';
+import { Organization } from 'common/decorators/organization.decorator';
 import { UserService } from 'resources/user/user.service';
 import { OrganizationService } from './organization.service';
 
@@ -45,6 +46,11 @@ export class OrganizationController {
       _count,
     };
     return this.organizationService.findAll(include);
+  }
+
+  @Get('me')
+  getCurrentOrganization(@Organization() organization: OrganizationModel) {
+    return organization;
   }
 
   @Get(':id')

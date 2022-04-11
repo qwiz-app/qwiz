@@ -6,7 +6,7 @@ import {
   NotFoundException,
   Param,
   Patch,
-  Post,
+  Post
 } from '@nestjs/common';
 import { Prisma, User as UserModel } from '@prisma/client';
 import { User } from 'common/decorators/user.decorator';
@@ -22,8 +22,13 @@ export class UserController {
   }
 
   @Get()
-  findAll(@User() user: UserModel) {
+  findAll() {
     return this.userService.findAll();
+  }
+
+  @Get('me')
+  getCurrentUser(@User() user: UserModel) {
+    return user;
   }
 
   @Get(':id')
@@ -32,11 +37,6 @@ export class UserController {
     if (!user) {
       throw new NotFoundException('User not found.');
     }
-    return user;
-  }
-
-  @Get('me')
-  getCurrentUser(@User() user: UserModel) {
     return user;
   }
 
