@@ -1,9 +1,9 @@
-import DashboardLayout from 'components/layout/DashboardLayout';
+import DashboardLayout from 'components/Layouts/DashboardLayout';
 import { useCurrentUserInfo } from 'hooks/users/users';
 import { useEffect } from 'react';
 
-const TeamsPage = () => {
-  const { data: me, isFetching } = useCurrentUserInfo();
+const ProfilePage = () => {
+  const { data: me, isLoading } = useCurrentUserInfo();
 
   useEffect(() => {
     if (me) {
@@ -13,8 +13,8 @@ const TeamsPage = () => {
   return (
     <div>
       <h1>My info</h1>
-      {isFetching ? (
-        <p>Fetching...</p>
+      {isLoading ? (
+        <p>Loading...</p>
       ) : (
         <div>
           <h2>{me.name}</h2>
@@ -26,8 +26,8 @@ const TeamsPage = () => {
   );
 };
 
-export default TeamsPage;
+export default ProfilePage;
 
-TeamsPage.getLayout = function getLayout(page) {
+ProfilePage.getLayout = function getLayout(page) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };

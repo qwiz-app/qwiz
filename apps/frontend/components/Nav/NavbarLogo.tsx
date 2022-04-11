@@ -1,8 +1,9 @@
+import { UnstyledButton } from '@mantine/core';
 import LogoDark from 'assets/logo/qwiz-dark.svg';
 import LogoWhite from 'assets/logo/qwiz-white.svg';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import Image from 'next/image';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { forwardRef } from 'react';
 
 const LogoImage = forwardRef(function LogoImage() {
@@ -15,9 +16,10 @@ const LogoImage = forwardRef(function LogoImage() {
 });
 
 export const NavbarLogo = () => {
+  const router = useRouter();
   return (
-    <Link href="/" passHref>
+    <UnstyledButton onClick={() => router.push('/')}>
       <LogoImage />
-    </Link>
+    </UnstyledButton>
   );
 };

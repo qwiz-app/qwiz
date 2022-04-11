@@ -1,11 +1,11 @@
 import { Group } from '@mantine/core';
 import { useNotifications } from '@mantine/notifications';
-import { AuthIllustration } from 'components/auth/AuthIllustration';
-import { AuthLogo } from 'components/auth/AuthLogo';
-import { AuthProviders } from 'components/auth/AuthProviders';
-import { AuthThemeToggle } from 'components/auth/AuthThemeToggle';
-import { AuthTitle } from 'components/auth/AuthTitle';
-import AuthLayout from 'components/layout/AuthLayout';
+import { AuthIllustration } from 'components/Auth/AuthIllustration';
+import { AuthLogo } from 'components/Auth/AuthLogo';
+import { AuthProviders } from 'components/Auth/AuthProviders';
+import { AuthThemeToggle } from 'components/Auth/AuthThemeToggle';
+import { AuthTitle } from 'components/Auth/AuthTitle';
+import AuthLayout from 'components/Layouts/AuthLayout';
 import { useBreakpoints } from 'hooks/breakpoints';
 import { errors } from 'lib/next-auth';
 import { GetServerSideProps } from 'next';
