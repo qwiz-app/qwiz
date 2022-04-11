@@ -8,7 +8,7 @@ const useStyles = createStyles((theme, _params, getRef) => {
   return {
     card: {
       position: 'relative',
-      height: 240,
+      height: 220,
       backgroundColor:
         theme.colorScheme === 'dark'
           ? theme.colors.dark[6]
