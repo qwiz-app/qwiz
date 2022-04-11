@@ -11,6 +11,7 @@ export const AuthIllustration = (props) => {
   return (
     <div {...props}>
       <Image
+        priority
         src={illustration}
         alt="city"
         objectFit="contain"

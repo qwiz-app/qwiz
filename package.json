@@ -17,7 +17,7 @@
     "landing": "nx serve landing"
   },
   "volta": {
-    "node": "16.13.2"
+    "node": "16.14.2"
   },
   "private": true,
   "dependencies": {
