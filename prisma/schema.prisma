@@ -25,6 +25,7 @@ model Account {
   oauth_token_secret String?
   oauth_token        String?
 
+  // relations
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
@@ -35,20 +36,24 @@ model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-  id            String        @id @default(cuid())
+  id            String    @id @default(cuid())
   name          String?
-  email         String?       @unique
+  email         String?   @unique
   emailVerified DateTime?
   image         String?
-  accounts      Account[]
-  sessions      Session[]
   role          Role?
-  organization  Organization?
-  attendee      Attendee?
+
+  // opposite relations
+  accounts     Account[]
+  sessions     Session[]
+  organization Organization?
+  attendee     Attendee?
 }
 
 model VerificationToken {
@@ -66,73 +71,97 @@ enum Role {
 }
 
 model Organization {
-  id        String     @id @default(cuid())
-  name      String     @unique
+  id     String @id @default(cuid())
+  name   String @unique
   // TODO: should multiple users be allowed to login to same organization account?
-  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String     @unique
+  userId String @unique
+
+  // relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // opposite relations
   events    Event[]
   quizzes   Quiz[]
   questions Question[]
 }
 
 model Attendee {
-  id             String      @id @default(cuid())
-  user           User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId         String      @unique
+  id     String @id @default(cuid())
+  userId String @unique
+
+  // relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // opposite relations
   teams          Team[]      @relation(name: "TeamMember")
   adminOfTeams   Team[]      @relation(name: "TeamAdmin")
   captainOfTeams EventTeam[]
 }
 
 model Team {
-  id          String      @id @default(cuid())
+  id          String   @id @default(cuid())
   name        String
   countryCode String
-  createdAt   DateTime    @default(now())
-  members     Attendee[]  @relation(name: "TeamMember", references: [id])
-  admin       Attendee    @relation(name: "TeamAdmin", fields: [adminId], references: [id])
   adminId     String
-  eventTeams  EventTeam[]
+  createdAt   DateTime @default(now())
+
+  // relations
+  admin Attendee @relation(name: "TeamAdmin", fields: [adminId], references: [id])
+
+  // opposite relations
+  members    Attendee[]  @relation(name: "TeamMember", references: [id])
+  eventTeams EventTeam[]
 }
 
 model EventTeam {
-  id        String            @id @default(cuid())
-  team      Team              @relation(fields: [teamId], references: [id], onUpdate: NoAction)
+  id        String   @id @default(cuid())
   teamId    String
-  event     Event             @relation(fields: [eventId], references: [id], onUpdate: NoAction)
   eventId   String
-  createdAt DateTime          @default(now())
-  updatedAt DateTime          @updatedAt
-  captain   Attendee          @relation(fields: [captainId], references: [id], onUpdate: NoAction)
   captainId String
-  answers   EventTeamAnswer[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // relations
+  team    Team     @relation(fields: [teamId], references: [id], onUpdate: NoAction)
+  event   Event    @relation(fields: [eventId], references: [id], onUpdate: NoAction)
+  captain Attendee @relation(fields: [captainId], references: [id], onUpdate: NoAction)
+
+  // opposite relations
+  answers EventTeamAnswer[]
 
   @@unique([eventId, teamId])
 }
 
 model Event {
-  id             String       @id @default(cuid())
+  id             String   @id @default(cuid())
   name           String
-  owner          Organization @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId        String
   startDate      DateTime
   location       String
   price          Int
   teamCountLimit Int
-  teams          EventTeam[]
-  createdAt      DateTime     @default(now())
+  createdAt      DateTime @default(now())
+
+  // relations
+  owner Organization @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  // opposite relations
+  teams EventTeam[]
 }
 
 model Quiz {
-  id          String         @id @default(cuid())
+  id          String   @id @default(cuid())
   name        String
   description String
-  owner       Organization   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId     String
-  questions   QuizQuestion[]
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // relations
+  owner Organization @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  // opposite relations
+  questions QuizQuestion[]
 }
 
 // when choosing existing question, if ANY INFO ic changed (any word in question, any answer, any answer added) - question is "forked" (but with no reference to the original - yet)
@@ -142,18 +171,22 @@ model Question {
   text           String
   image          String?
   audio          String?
-  questionType   QuestionMode?      @relation(fields: [questionTypeId], references: [id])
   // TODO: set default question mode - single text question
   questionTypeId Int                @default(1)
-  owner          Organization?      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId        String?
   isGlobal       Boolean            @default(false)
   isActive       Boolean            @default(true)
   categories     QuestionCategory[]
   answer         Answer[]
-  quizQuestions  QuizQuestion[]
   createdAt      DateTime           @default(now())
   updatedAt      DateTime           @updatedAt
+
+  // relations
+  owner        Organization? @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  questionType QuestionMode? @relation(fields: [questionTypeId], references: [id])
+
+  // opposite relations
+  quizQuestions QuizQuestion[]
 }
 
 model Answer {
@@ -164,52 +197,59 @@ model Answer {
 }
 
 model QuestionMode {
-  id          Int        @id @default(autoincrement())
+  id          Int    @id @default(autoincrement())
   name        String
   // mode rules are handled on the backend/frontend
-  description String     @db.Text
-  questions   Question[]
+  description String @db.Text
+
+  // opposite relations
+  questions Question[]
 }
 
 model QuestionScoringMode {
-  id          Int            @id @default(autoincrement())
+  id          Int    @id @default(autoincrement())
   name        String
-  description String         @db.Text
-  questions   QuizQuestion[]
+  description String @db.Text
+
+  // opposite relations
+  questions QuizQuestion[]
 }
 
 model QuestionCategory {
-  id          String     @id @default(cuid())
-  name        String     @unique
-  description String     @db.Text
-  questions   Question[]
+  id          String @id @default(cuid())
+  name        String @unique
+  description String @db.Text
+
+  // opposite relations
+  questions Question[]
 }
 
 // question instance for a specific quiz
 model QuizQuestion {
-  id            String               @id @default(cuid())
-  quiz          Quiz                 @relation(fields: [quizId], references: [id], onUpdate: NoAction)
+  id            String @id @default(cuid())
   quizId        String
   // onUpdate: No action is a workaround from https://github.com/prisma/prisma/issues/10758
-  question      Question             @relation(fields: [questionId], references: [id], onUpdate: NoAction)
   questionId    String
   ordinal       Int
-  eventAnswers  EventTeamAnswer[]
   // we probably want to override original question mode (scoring)
   // ie. for modes such as "betting on answer" or "fastest correct answer"
   // maybe we have different mode tables - question mode on original question (single, photo, audio, multiple) & scoring mode on our instance
-  scoringMode   QuestionScoringMode? @relation(fields: [scoringModeId], references: [id])
-  scoringModeId Int                  @default(1)
+  scoringModeId Int    @default(1)
 
+  // relations
+  quiz        Quiz                 @relation(fields: [quizId], references: [id], onUpdate: NoAction)
+  question    Question             @relation(fields: [questionId], references: [id], onUpdate: NoAction)
+  scoringMode QuestionScoringMode? @relation(fields: [scoringModeId], references: [id])
+
+  // opposite relations
+  eventAnswers EventTeamAnswer[]
 
   @@unique([quizId, questionId])
   @@unique([quizId, ordinal])
 }
 
 model EventTeamAnswer {
-  eventTeam   EventTeam         @relation(fields: [eventTeamId], references: [id])
   eventTeamId String
-  question    QuizQuestion      @relation(fields: [questionId], references: [id])
   questionId  String
   // save all answers in string, parse on backend (CSV?)
   answer      String?
@@ -220,6 +260,10 @@ model EventTeamAnswer {
   submittedAt DateTime
   // will be updated when the status was updated (we dont want that to track submit time)
   updatedAt   DateTime          @updatedAt
+
+  // relations
+  eventTeam EventTeam    @relation(fields: [eventTeamId], references: [id])
+  question  QuizQuestion @relation(fields: [questionId], references: [id])
 
   @@unique([eventTeamId, questionId])
 }
