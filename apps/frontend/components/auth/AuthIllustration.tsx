@@ -11,11 +11,12 @@ export const AuthIllustration = (props) => {
   return (
     <div {...props}>
       <Image
-        priority
         src={illustration}
         alt="city"
         objectFit="contain"
         className="signin-hero"
+        width={400}
+        height={400}
       />
     </div>
   );
