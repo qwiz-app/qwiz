@@ -30,20 +30,16 @@ export default NextAuth({
     error: '/signin',
   },
   callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
-      console.log('SIGNIN: ', user, account, profile, email, credentials);
+    async signIn() {
       return true;
     },
-    async redirect({ url, baseUrl }) {
-      console.log('REDIRECT: ', url, baseUrl);
+    async redirect({ baseUrl }) {
       return baseUrl;
     },
-    async session({ session, user, token }) {
-      console.log('SESSION: ', session, user, token);
+    async session({ session }) {
       return session;
     },
-    async jwt({ token, user, account, profile, isNewUser }) {
-      console.log('JWT: ', token, user, account, profile, isNewUser);
+    async jwt({ token }) {
       return token;
     },
   },
