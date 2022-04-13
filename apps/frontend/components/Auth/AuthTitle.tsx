@@ -12,7 +12,6 @@ export const AuthTitle = () => {
       <Title
         order={3}
         sx={(t) => ({
-          // TODO: font family: Disket Mono??
           fontFamily: t.fontFamilyMonospace,
           textTransform: 'uppercase',
         })}

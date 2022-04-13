@@ -7,7 +7,7 @@ export const useGlobalTheme = ({ colorScheme }) => {
   const globalTheme: MantineThemeOverride = {
     colorScheme,
     fontFamily: 'Manrope, sans-serif',
-    fontFamilyMonospace: 'Disket-Mono, monospace',
+    fontFamilyMonospace: 'Disket Mono, monospace',
     headings: {
       fontFamily: 'Manrope, sans-serif',
       fontWeight: 600,
