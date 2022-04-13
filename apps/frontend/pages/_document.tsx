@@ -11,6 +11,7 @@ export default class _Document extends Document {
     return (
       <Html lang="en">
         <Head>
+          <Favicon />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link
             rel="preconnect"
@@ -18,10 +19,9 @@ export default class _Document extends Document {
             crossOrigin=""
           />
           <link
-            href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Rampart+One&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap"
             rel="stylesheet"
           />
-          <Favicon />
         </Head>
         <body>
           <Main />

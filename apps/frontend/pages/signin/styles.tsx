@@ -21,7 +21,7 @@ export const useStyles = createStyles((theme, _params, getRef) => {
 
     content: {
       marginLeft: matches.min.md && '-10vw',
-      transform: 'translateY(-2vmax)',
+      transform: matches.min.md ? 'translateY(-4vh)' : 'translateY(-6vh)',
     },
   };
 });

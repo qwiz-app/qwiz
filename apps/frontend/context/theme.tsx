@@ -6,10 +6,10 @@ export const useGlobalTheme = ({ colorScheme }) => {
 
   const globalTheme: MantineThemeOverride = {
     colorScheme,
-    fontFamily: 'Manrope, sans-serif',
+    fontFamily: 'Manrope',
     fontFamilyMonospace: 'Disket Mono, monospace',
     headings: {
-      fontFamily: 'Manrope, sans-serif',
+      fontFamily: 'Manrope',
       fontWeight: 600,
       sizes: {
         h1: { fontSize: 64 },
@@ -28,19 +28,6 @@ export const useGlobalTheme = ({ colorScheme }) => {
       xl: 1400,
     },
     colors: {
-      'tailwind-teal': [
-        '#f0fdfa',
-        '#ccfbf1',
-        '#99f6e4',
-        '#5eead4',
-        '#2dd4bf',
-        '#14b8a6',
-        '#0d9488',
-        '#0f766e',
-        '#115e59',
-        '#134e4a',
-      ],
-      // TODO: ne valja sve
       'more-dark': [
         '#E9ECEF', // light boja
         '#CED4DA', // light hover boja
