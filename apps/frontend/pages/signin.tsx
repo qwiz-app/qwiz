@@ -97,11 +97,10 @@ const SignInPage = (props: SignInProps) => {
         spacing={100}
         sx={() => ({ marginLeft: matches.min.md && '-10vw' })}
       >
-        {matches.min.md && <AuthIllustration style={{ flex: '0 0 60vh' }} />}
+        {matches.min.md && <AuthIllustration />}
         <Group
           direction="column"
           position={matches.min.md ? 'left' : 'center'}
-          mt={matches.min.md ? -16 : '-10vh'}
         >
           <AuthTitle />
           <AuthProviders {...props} />

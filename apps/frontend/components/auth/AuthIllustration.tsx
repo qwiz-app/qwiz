@@ -15,8 +15,8 @@ export const AuthIllustration = (props) => {
         alt="city"
         objectFit="contain"
         className="signin-hero"
-        width={400}
-        height={400}
+        width={500}
+        height={500}
       />
     </div>
   );
