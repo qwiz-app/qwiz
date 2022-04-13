@@ -6,7 +6,10 @@ import { Gear, SignOut, Trash, User } from 'phosphor-react';
 import NavbarUserButton from './NavbarUserButton';
 
 export const NavbarUserMenu = () => {
-  const signOutHandler = () => signOut();
+  const signOutHandler = () =>
+    signOut({
+      callbackUrl: '/signin?signOut=true',
+    });
 
   const { matches } = useBreakpoints();
   const router = useRouter();

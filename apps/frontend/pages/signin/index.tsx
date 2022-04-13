@@ -79,9 +79,8 @@ const SignInPage = (props: SignInProps) => {
     // TODO: where did the notification go
     // eslint-disable-next-line eqeqeq
     if (signOut == 'true') {
-      console.log('signed out');
       showSignedOutNotification();
-      //   router.replace(paths.signIn());
+      router.replace(paths.signIn());
     }
   }, [query]);
 

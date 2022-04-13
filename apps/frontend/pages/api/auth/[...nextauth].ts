@@ -26,21 +26,8 @@ export default NextAuth({
   secret: process.env.SECRET,
   pages: {
     signIn: '/signin',
+    // TODO: isnt doing anything
     signOut: '/signin?signOut=true',
     error: '/signin',
-  },
-  callbacks: {
-    async signIn() {
-      return true;
-    },
-    async redirect({ baseUrl }) {
-      return baseUrl;
-    },
-    async session({ session }) {
-      return session;
-    },
-    async jwt({ token }) {
-      return token;
-    },
   },
 });
