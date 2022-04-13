@@ -1,6 +1,5 @@
-import React from 'react';
-import { Eye, ChatCircle } from 'phosphor-react';
-import { Card, Text, Group, Center, createStyles } from '@mantine/core';
+import { Card, Center, createStyles, Group, Text } from '@mantine/core';
+import { Tag, UsersThree } from 'phosphor-react';
 
 const useStyles = createStyles((theme, _params, getRef) => {
   const image = getRef('image');
@@ -72,6 +71,8 @@ interface Props {
   author: string;
   views: number;
   comments: number;
+  teams: number;
+  price: number;
 }
 
 export const ImageCard = ({
@@ -81,6 +82,8 @@ export const ImageCard = ({
   views,
   comments,
   link,
+  teams,
+  price,
 }: Props) => {
   const { classes, theme } = useStyles();
 
@@ -113,15 +116,15 @@ export const ImageCard = ({
 
             <Group spacing="lg">
               <Center>
-                <Eye size={16} color={theme.colors.dark[2]} />
+                <Tag size={16} color={theme.colors.dark[2]} />
                 <Text size="sm" className={classes.bodyText}>
-                  {views}
+                  ${price}
                 </Text>
               </Center>
               <Center>
-                <ChatCircle size={16} color={theme.colors.dark[2]} />
+                <UsersThree size={16} color={theme.colors.dark[2]} />
                 <Text size="sm" className={classes.bodyText}>
-                  {comments}
+                  {teams}
                 </Text>
               </Center>
             </Group>
