@@ -11,7 +11,8 @@ import { useCurrentSession } from 'hooks/session';
 import { CaretRight } from 'phosphor-react';
 import { forwardRef } from 'react';
 
-type Props = UnstyledButtonProps;
+// @todo: add type instead of any
+type Props = UnstyledButtonProps<any>;
 
 // eslint-disable-next-line react/display-name
 const NavbarUserButton = forwardRef<HTMLButtonElement, Props>(
