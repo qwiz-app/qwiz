@@ -1,4 +1,4 @@
-import { Group } from '@mantine/core';
+import { Group, Stack } from '@mantine/core';
 import { useNotifications } from '@mantine/notifications';
 import { AuthIllustration } from 'components/Auth/AuthIllustration';
 import { AuthLogo } from 'components/Auth/AuthLogo';
@@ -18,6 +18,7 @@ import {
 import { useRouter } from 'next/router';
 import { paths } from 'paths';
 import { useEffect } from 'react';
+import { useStyles } from './styles';
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const providers = await getProviders();
@@ -36,10 +37,12 @@ export interface SignInProps {
 }
 
 const SignInPage = (props: SignInProps) => {
-  const { matches } = useBreakpoints();
   const router = useRouter();
   const { query } = router;
+
   const { showNotification } = useNotifications();
+  const { matches } = useBreakpoints();
+  const { classes } = useStyles();
 
   const showErrorNotification = (err?: string) => {
     setTimeout(() => {
@@ -66,54 +69,39 @@ const SignInPage = (props: SignInProps) => {
   useEffect(() => {
     const { error, signOut } = query;
     if (error) {
-      console.error('Auth error:', error);
       if (Array.isArray(error)) {
         error.forEach(showErrorNotification);
       } else {
         showErrorNotification(error);
       }
     }
+
+    // TODO: where did the notification go
     // eslint-disable-next-line eqeqeq
     if (signOut == 'true') {
+      console.log('signed out');
       showSignedOutNotification();
-      router.replace(paths.signIn());
+      //   router.replace(paths.signIn());
     }
   }, [query]);
 
   return (
     <>
-      <AuthThemeToggle
-        sx={() => ({
-          position: 'absolute',
-          top: '2rem',
-          left: '50%',
-          transform: 'translateX(-50%)',
-        })}
-      />
+      <AuthThemeToggle className={classes.themeToggle} />
       <Group
         noWrap
         align="center"
         position="center"
-        spacing={100}
-        sx={() => ({ marginLeft: matches.min.md && '-10vw' })}
+        spacing={72}
+        className={classes.content}
       >
         {matches.min.md && <AuthIllustration />}
-        <Group
-          direction="column"
-          position={matches.min.md ? 'left' : 'center'}
-        >
+        <Stack align={matches.min.md ? 'left' : 'center'}>
           <AuthTitle />
           <AuthProviders {...props} />
-        </Group>
+        </Stack>
       </Group>
-      <AuthLogo
-        sx={() => ({
-          position: 'absolute',
-          bottom: '2rem',
-          left: '50%',
-          transform: 'translateX(-50%)',
-        })}
-      />
+      <AuthLogo className={classes.logo} />
     </>
   );
 };

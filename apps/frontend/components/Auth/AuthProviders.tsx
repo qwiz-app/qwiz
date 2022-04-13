@@ -1,4 +1,4 @@
-import { Group } from '@mantine/core';
+import { Stack } from '@mantine/core';
 import ProviderButton from 'components/UI/ProviderButton';
 import { ProviderId, useProviders } from 'hooks/providers';
 import { BuiltInProviderType } from 'next-auth/providers';
@@ -20,13 +20,7 @@ export const AuthProviders = ({ providers, redirectUrl }: Props) => {
     signInWithProvider(id, redirectUrl);
 
   return (
-    <Group
-      direction="column"
-      spacing={8}
-      align="center"
-      position="center"
-      sx={() => ({ width: 'fit-content' })}
-    >
+    <Stack spacing={8} align="center" sx={() => ({ width: 'fit-content' })}>
       {Object.values(providers).map((provider) => (
         <ProviderButton
           key={provider.id}
@@ -35,6 +29,6 @@ export const AuthProviders = ({ providers, redirectUrl }: Props) => {
           onClick={() => signInHandler(provider.id as BuiltInProviderType)}
         />
       ))}
-    </Group>
+    </Stack>
   );
 };
