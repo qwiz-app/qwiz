@@ -18,7 +18,7 @@ import {
 import { useRouter } from 'next/router';
 import { paths } from 'paths';
 import { useEffect } from 'react';
-import { useStyles } from './styles';
+import { useStyles } from '../../hooks/styles';
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const providers = await getProviders();
