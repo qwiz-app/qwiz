@@ -7,6 +7,7 @@ export default class _Document extends Document {
       <Html lang="en">
         <Head>
           <Favicon />
+          <script defer data-domain="qwiz.party" src="https://plausible.qwiz.party/js/plausible.js" />
         </Head>
         <body>
           <Main />
