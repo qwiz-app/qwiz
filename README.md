@@ -17,11 +17,11 @@ Install compatable Node version and deps
 ```
 Start the frontend server
 ```bash
-  npm run start frontend
+  npm run frontend
 ```
 Start the backend server
 ```bash
-  npm run start backend
+  npm run backend
 ```
 
 ## Environment Variables
@@ -38,7 +38,10 @@ To run this project, add the following environment variables to your .env.local 
 
 `GOOGLE_CLIENT_SECRET`
 
-`SECRET={any string}`
+`SECRET={openssl rand -base64 32}`
+`NEXTAUTH_SECRET={openssl rand -base64 32}`
+
+`NEXT_PUBLIC_PLAUSIBLE_DOMAIN={domain url without protocol}`
 
 And to your .env file in root dir (for Prisma)
 
