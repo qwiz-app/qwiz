@@ -6,7 +6,6 @@ import {
 } from '@nestjs/common';
 import { NextFunction, Response } from 'express';
 
-import console = require('console');
 import { PrismaService } from '../../prisma.service';
 
 import { getFromCookie } from '../../lib/utils';
