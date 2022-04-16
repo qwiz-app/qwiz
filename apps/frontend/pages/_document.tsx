@@ -21,11 +21,6 @@ export default class _Document extends Document {
             href="https://api.fonts.coollabs.io/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap"
             rel="stylesheet"
           />
-          <script
-            defer
-            data-domain={process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN}
-            src="https://stats.qwiz.party/js/plausible.js"
-          />
         </Head>
         <body>
           <Main />

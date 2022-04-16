@@ -21,6 +21,7 @@
   },
   "private": true,
   "dependencies": {
+    "@builder.io/partytown": "^0.5.2",
     "@mantine/core": "4.1.1",
     "@mantine/dates": "4.1.1",
     "@mantine/hooks": "4.1.1",

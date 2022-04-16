@@ -14,6 +14,9 @@ const nextConfig = {
     // See: https://github.com/gregberge/svgr
     svgr: false,
   },
+  experimental: {
+    nextScriptWorkers: true,
+  },
 };
 
 module.exports = withNx(withBundleAnalyzer(nextConfig));

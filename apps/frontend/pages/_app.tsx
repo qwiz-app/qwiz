@@ -8,6 +8,7 @@ import Head from 'next/head';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { CustomSpotlightProvider } from 'context/spotlight';
 import { NotificationsProvider } from '@mantine/notifications';
+import Script from 'next/script';
 
 const queryClient = new QueryClient();
 
@@ -19,6 +20,12 @@ const App = ({ Component, pageProps: { session, ...pageProps } }) => {
       <Head>
         <title>Qwiz</title>
       </Head>
+      <Script
+        defer
+        data-domain={process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN}
+        src="https://stats.qwiz.party/js/plausible.js"
+        strategy='worker'
+      />
       <SessionProvider session={session}>
         <QueryClientProvider client={queryClient}>
           <CustomColorSchemeProvider>
