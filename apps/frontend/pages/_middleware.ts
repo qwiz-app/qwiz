@@ -1,3 +1,4 @@
+import config from 'lib/config';
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
 const whitelistedUrls = ['/'];
@@ -28,7 +29,7 @@ export const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
 
 const isWhitelistedUrl = (url: string) => whitelistedUrls.includes(url);
 
-const isVercelEnv = () => process.env.VERCEL === '1';
+const isVercelEnv = () => config.vercel === '1';
 
 const isApiUrl = (url: string) => {
   const splitUrl = url.split('/');
