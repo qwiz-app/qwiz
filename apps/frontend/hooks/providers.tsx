@@ -1,3 +1,4 @@
+import config from 'lib/config';
 import { BuiltInProviderType } from 'next-auth/providers';
 import { signIn } from 'next-auth/react';
 import { DiscordLogo, GithubLogo, GoogleLogo, IconProps } from 'phosphor-react';
@@ -36,7 +37,7 @@ export const useProviders = () => {
 
   const signInWithProvider = (
     providerId: BuiltInProviderType,
-    redirectUrl: string = process.env.NEXTAUTH_URL
+    redirectUrl: string = config.nextAuth.url,
   ) => {
     signIn(providerId, {
       callbackUrl: redirectUrl,

@@ -7,6 +7,7 @@ import { AuthThemeToggle } from 'components/Auth/AuthThemeToggle';
 import { AuthTitle } from 'components/Auth/AuthTitle';
 import AuthLayout from 'components/Layouts/AuthLayout';
 import { useBreakpoints } from 'hooks/breakpoints';
+import config from 'lib/config';
 import { errors } from 'lib/next-auth';
 import { GetServerSideProps } from 'next';
 import { BuiltInProviderType } from 'next-auth/providers';
@@ -22,7 +23,7 @@ import { useStyles } from '../../hooks/styles';
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const providers = await getProviders();
-  const redirectUrl = process.env.NEXTAUTH_URL;
+  const redirectUrl = config.nextAuth.url;
   return {
     props: { providers, redirectUrl },
   };

@@ -4,6 +4,7 @@ import GitHubProvider from 'next-auth/providers/github';
 import DiscordProvider from 'next-auth/providers/discord';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { PrismaClient } from '@prisma/client';
+import config from 'lib/config';
 
 const prisma = new PrismaClient();
 
@@ -11,19 +12,19 @@ export default NextAuth({
   adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientId: config.google.clientId,
+      clientSecret: config.google.clientSecret,
     }),
     GitHubProvider({
-      clientId: process.env.GITHUB_CLIENT_ID,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+      clientId: config.github.clientId,
+      clientSecret: config.github.clientSecret,
     }),
     DiscordProvider({
-      clientId: process.env.DISCORD_CLIENT_ID,
-      clientSecret: process.env.DISCORD_CLIENT_SECRET,
+      clientId: config.discord.clientId,
+      clientSecret: config.discord.clientId,
     }),
   ],
-  secret: process.env.SECRET,
+  secret: config.secret,
   pages: {
     signIn: '/signin',
     // TODO: isnt doing anything

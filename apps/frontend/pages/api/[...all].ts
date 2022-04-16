@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import httpProxyMiddleware from 'next-http-proxy-middleware';
+import appConfig from 'lib/config';
 
 export const config = {
   api: {
@@ -9,7 +10,7 @@ export const config = {
 
 const proxy = (req: NextApiRequest, res: NextApiResponse) => {
   return httpProxyMiddleware(req, res, {
-    target: process.env.BACKEND_URL,
+    target: appConfig.backendUrl,
   });
 };
 
