@@ -39,9 +39,14 @@ To run this project, add the following environment variables to your .env.local 
 `GOOGLE_CLIENT_SECRET`
 
 `SECRET={openssl rand -base64 32}`
+
 `NEXTAUTH_SECRET={openssl rand -base64 32}`
 
 `NEXT_PUBLIC_PLAUSIBLE_DOMAIN={domain url without protocol}`
+
+`NEXT_PUBLIC_PLAUSIBLE_URL={domain url without protocol}`
+
+`NEXT_PUBLIC_PLAUSIBLE_API_URL=`
 
 And to your .env file in root dir (for Prisma)
 
