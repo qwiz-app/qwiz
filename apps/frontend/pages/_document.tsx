@@ -24,7 +24,7 @@ export default class _Document extends Document {
           <script
             defer
             data-domain={process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN}
-            src="https://plausible.qwiz.party/js/plausible.js"
+            src="https://stats.qwiz.party/js/plausible.js"
           />
         </Head>
         <body>
