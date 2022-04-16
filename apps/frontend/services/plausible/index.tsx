@@ -13,7 +13,7 @@ interface Visitors {
 export const fetchVisitors = async (url: string) => {
   const encodedUrl = encodeURIComponent(url);
 
-  const response = await http.get<Visitors[]>(
+  const response = await http.get<Visitors>(
     `${config.plausible.url}/api/v1/stats/aggregate?site_id=${config.plausible.domain}&period=6mo&filters=event:page%3D%3D${encodedUrl}`,
     {
       headers: {
