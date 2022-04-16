@@ -20,7 +20,6 @@ export class AuthMiddleware implements NestMiddleware {
     const { cookie } = req.headers;
 
     const sessionToken = getFromCookie(cookie, 'next-auth.session-token');
-    console.log('🍑️ sessionToken :>> ', sessionToken);
 
     if (sessionToken) {
       const session = await this.prisma.session.findUnique({
@@ -34,8 +33,6 @@ export class AuthMiddleware implements NestMiddleware {
           },
         },
       });
-
-      console.log('SESSION :>> ', session);
 
       if (session) {
         const { user } = session;

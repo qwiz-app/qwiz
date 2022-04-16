@@ -12,8 +12,6 @@ export const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
       : 'next-auth.session-token'
   );
 
-  console.log('🍆️ sessionToken :>> ', sessionToken);
-
   if (!isApiUrl(req.url) && isWhitelistedUrl(req.nextUrl.pathname))
     return NextResponse.next();
 
