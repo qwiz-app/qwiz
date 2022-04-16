@@ -52,11 +52,18 @@ export const AppShell = ({ children }) => {
       >
         <NavbarList />
       </MantineNavbar.Section>
-      {user && (
+      {user ? (
         <>
           <NavbarDivider />
           <MantineNavbar.Section mt={12}>
-            <NavbarUserMenu />
+            <NavbarUserMenu.Account />
+          </MantineNavbar.Section>
+        </>
+      ) : (
+        <>
+          <NavbarDivider />
+          <MantineNavbar.Section mt={12}>
+            <NavbarUserMenu.Guest />
           </MantineNavbar.Section>
         </>
       )}

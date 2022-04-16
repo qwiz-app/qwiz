@@ -1,11 +1,11 @@
-import { Divider, Menu } from '@mantine/core';
+import { Button, Divider, Menu } from '@mantine/core';
 import { useBreakpoints } from 'hooks/breakpoints';
-import { signOut } from 'next-auth/react';
+import { signIn, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { Gear, SignOut, Trash, User } from 'phosphor-react';
+import { Gear, SignIn, SignOut, Trash, User } from 'phosphor-react';
 import NavbarUserButton from './NavbarUserButton';
 
-export const NavbarUserMenu = () => {
+const Account = () => {
   const signOutHandler = () =>
     signOut({
       callbackUrl: '/signin?signOut=true',
@@ -44,3 +44,21 @@ export const NavbarUserMenu = () => {
     </Menu>
   );
 };
+
+const Guest = () => {
+  return (
+    <Button
+      onClick={() => signIn()}
+      variant="outline"
+      leftIcon={<SignIn size={14} />}
+      fullWidth
+    >
+      Sign in
+    </Button>
+  );
+};
+
+export const NavbarUserMenu = {
+  Account,
+  Guest,
+}

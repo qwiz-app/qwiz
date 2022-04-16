@@ -1,6 +1,6 @@
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
-const whitelistedUrls = [];
+const whitelistedUrls = ['/'];
 
 export const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
   const cookie = req.headers.get('cookie');

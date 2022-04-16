@@ -4,7 +4,6 @@ import {
   Confetti,
   Cube,
   IconProps,
-  Key,
   PresentationChart,
   Queue,
   SquaresFour,
@@ -28,12 +27,6 @@ export const NavbarList = () => {
     weight: 'duotone',
   };
   const items: NavbarItemModel[] = [
-    {
-      label: 'Sign in',
-      href: paths.signIn(),
-      icon: <Key size={size} weight={weight} />,
-      color: 'grey-dark',
-    },
     {
       label: 'Dashboard',
       href: paths.home(),
