@@ -44,9 +44,13 @@ To run this project, add the following environment variables to your .env.local 
 
 `NEXT_PUBLIC_PLAUSIBLE_DOMAIN={domain url without protocol}`
 
-`NEXT_PUBLIC_PLAUSIBLE_URL={domain url without protocol}`
+`NEXT_PUBLIC_PLAUSIBLE_URL={domain url}`
 
-`NEXT_PUBLIC_PLAUSIBLE_API_URL=`
+`NEXT_PUBLIC_PLAUSIBLE_API_KEY=`
+
+`SENTRY_DSN=`
+
+`NEXT_PUBLIC_SENTRY_DSN=`
 
 And to your .env file in root dir (for Prisma)
 
