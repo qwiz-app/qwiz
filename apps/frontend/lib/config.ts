@@ -1,7 +1,7 @@
 const config = {
   backendUrl: process.env.BACKEND_URL,
   secret: process.env.SECRET,
-  vercel: process.env.VERCEL_URL,
+  vercel: process.env.VERCEL,
   nextAuth: {
     url: process.env.NEXTAUTH_URL,
     secret: process.env.NEXTAUTH_SECRET,
