@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import httpProxyMiddleware from 'next-http-proxy-middleware';
 import appConfig from 'lib/config';
+import { withSentry } from '@sentry/nextjs';
 
 export const config = {
   api: {
@@ -14,4 +15,4 @@ const proxy = (req: NextApiRequest, res: NextApiResponse) => {
   });
 };
 
-export default proxy;
+export default withSentry(proxy);

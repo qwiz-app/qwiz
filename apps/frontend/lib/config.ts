@@ -23,6 +23,10 @@ const config = {
     url: process.env.NEXT_PUBLIC_PLAUSIBLE_URL,
     apiKey: process.env.NEXT_PUBLIC_PLAUSIBLE_API_KEY,
   },
+  sentry: {
+    dsn: process.env.SENTRY_DSN,
+    publicDsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+  },
 };
 
 export default config;

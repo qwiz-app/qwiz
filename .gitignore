@@ -42,3 +42,6 @@ Thumbs.db
 .env.local
 .env
 .vercel
+
+# Sentry
+.sentryclirc
