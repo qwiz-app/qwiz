@@ -3,11 +3,11 @@ import { useQuery } from 'react-query';
 import { fetchTopPages, fetchVisitors } from 'services/plausible';
 
 export const useVisitors = (url: string) =>
-  useQuery('visitors', () => fetchVisitors(url), {
+  useQuery(['visitors', url], () => fetchVisitors(url), {
     onError,
   });
 
 export const useTopPages = () =>
-  useQuery('topPages', fetchTopPages, {
+  useQuery(['topPages'], fetchTopPages, {
     onError,
   });
