@@ -1,0 +1,16 @@
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  sentry-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: getsentry/action-release@v1
+        with:
+          environment: 'production'
+          version: '${{ github.ref }}'
