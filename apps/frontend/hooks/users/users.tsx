@@ -14,6 +14,6 @@ export const useUser = (id: string) =>
   });
 
 export const useCurrentUserInfo = () =>
-  useQuery('currentUser', fetchCurrentUser, {
+  useQuery(['currentUser'], fetchCurrentUser, {
     onError,
   });
