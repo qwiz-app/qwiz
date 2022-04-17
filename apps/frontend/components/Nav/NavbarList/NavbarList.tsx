@@ -10,16 +10,9 @@ import {
   Trophy,
   UsersThree,
 } from 'phosphor-react';
-import { ReactNode } from 'react';
 import { paths } from 'paths';
-import { NavbarItem } from '../NavbarItem/NavbarItem';
-
-type NavbarItemModel = {
-  icon: ReactNode;
-  label: string;
-  href: string;
-  color?: string;
-};
+// eslint-disable-next-line import/no-cycle
+import { NavbarItem, NavbarItemModel } from '../NavbarItem/NavbarItem';
 
 export const NavbarList = () => {
   const iconProps: IconProps = {
@@ -80,13 +73,7 @@ export const NavbarList = () => {
   return (
     <Group direction="column" align="stretch" spacing={0} mb={12}>
       {items.map((item, i) => (
-        <NavbarItem
-          key={`navbar-item-${i}`}
-          label={item.label}
-          href={item.href}
-          color={item.color}
-          icon={item.icon}
-        />
+        <NavbarItem key={`navbar-item-${i}`} {...item} />
       ))}
     </Group>
   );
