@@ -31,4 +31,16 @@ export default NextAuth({
     signOut: '/signin?signOut=true',
     error: '/signin',
   },
+  callbacks: {
+    async session({ session, user }) {
+      const dbUser = await prisma.user.findFirst({
+        where: {
+          id: user.id,
+        },
+      });
+      session.user.role = dbUser.role || null;
+
+      return session;
+    },
+  },
 });
