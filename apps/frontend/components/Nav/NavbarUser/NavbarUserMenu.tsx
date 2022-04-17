@@ -1,5 +1,4 @@
-import { Divider, Menu } from '@mantine/core';
-import { Button } from 'components/UI/Button/Button';
+import { Button, Divider, Menu } from '@mantine/core';
 import { useBreakpoints } from 'hooks/breakpoints';
 import { signIn, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';

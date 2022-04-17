@@ -27,6 +27,26 @@ export const ThemeToggle = ({ mono, tooltip }: Props) => {
     <Moon color={theme.colors.dark[8]} size={size} weight={weight} />
   );
 
+  const actionIcon = (
+    <ActionIcon onClick={() => toggleColorScheme()}>
+      <ThemeIcon
+        radius="xl"
+        size="xl"
+        variant="light"
+        sx={() => ({
+          backgroundColor: 'transparent',
+          '&:hover': {
+            backgroundColor: isDark
+              ? theme.colors.dark[6]
+              : theme.colors.gray[1],
+          },
+        })}
+      >
+        {colorschemeIcon}
+      </ThemeIcon>
+    </ActionIcon>
+  );
+
   return (
     <Tooltip
       label="Ctrl + J"
@@ -36,25 +56,8 @@ export const ThemeToggle = ({ mono, tooltip }: Props) => {
       ref={ref}
       // TODO: dont show on touch devices
       opened={tooltip && !isMobile && hovered}
-      radius="xs"
     >
-      <ActionIcon onClick={() => toggleColorScheme()}>
-        <ThemeIcon
-          radius="xl"
-          size="xl"
-          variant="light"
-          sx={() => ({
-            backgroundColor: 'transparent',
-            '&:hover': {
-              backgroundColor: isDark
-                ? theme.colors.dark[6]
-                : theme.colors.gray[1],
-            },
-          })}
-        >
-          {colorschemeIcon}
-        </ThemeIcon>
-      </ActionIcon>
+      {actionIcon}
     </Tooltip>
   );
 };

@@ -1,7 +1,6 @@
-import { Avatar, Box, Group, Text } from '@mantine/core';
+import { Avatar, Box, Button, Group, Kbd, Text } from '@mantine/core';
 import { useSpotlight } from '@mantine/spotlight';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
-import { Button } from 'components/UI/Button/Button';
 import { useCurrentSession } from 'hooks/session';
 import { useUser, useUsers } from 'hooks/users/users';
 import { signIn, signOut } from 'next-auth/react';
@@ -56,12 +55,13 @@ const IndexPage = () => {
               Sign in
             </Button>
           )}
-          <Button
-            onClick={spotlight.openSpotlight}
-            variant="filled"
-            color="pink"
-          >
-            Open spotlight
+          <Button onClick={spotlight.openSpotlight} variant="light">
+            <Group spacing={8}>
+              <span>Search</span>
+              <div>
+                <Kbd>⌘</Kbd> + <Kbd>K</Kbd>
+              </div>
+            </Group>
           </Button>
         </Group>
       </Group>
