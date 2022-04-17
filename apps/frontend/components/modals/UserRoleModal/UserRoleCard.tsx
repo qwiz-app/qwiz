@@ -1,12 +1,14 @@
 import { createStyles, Paper, Title, UnstyledButton } from '@mantine/core';
 import { Role } from '@prisma/client';
 import cn from 'classnames';
+import { ReactElement } from 'react';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
     flex: 1,
-    height: 300,
+    // height: 300,
     display: 'flex',
+    position: 'relative',
   },
 
   card: {
@@ -20,8 +22,6 @@ const useStyles = createStyles((theme) => ({
     backgroundPosition: 'center',
     filter: 'grayscale(60%)',
     transition: 'filter 0.3s ease-in-out',
-    outline: '4px solid transparent',
-    outlineOffset: 4,
 
     '&:hover': {
       filter: 'grayscale(0%)',
@@ -29,13 +29,11 @@ const useStyles = createStyles((theme) => ({
 
     selectedCard: {
       filter: 'grayscale(0%)',
-      outlineColor: theme.colors.indigo[9],
     },
   },
 
   selectedCard: {
     filter: 'grayscale(0%)',
-    outlineColor: theme.colors.indigo[9],
   },
 
   title: {
@@ -62,6 +60,7 @@ interface Props {
   role: Role;
   selected: boolean;
   onSelect: (role: Role) => void;
+  animatedWrapper?: ReactElement
 }
 
 export const UserRoleCard = ({
@@ -70,6 +69,7 @@ export const UserRoleCard = ({
   role,
   selected,
   onSelect,
+  animatedWrapper,
 }: Props) => {
   const { classes } = useStyles();
 
@@ -90,6 +90,7 @@ export const UserRoleCard = ({
           </Title>
         </div>
       </Paper>
+      {selected && animatedWrapper}
     </UnstyledButton>
   );
 };

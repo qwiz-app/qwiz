@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { Box, Group, Modal, Stack, Title } from '@mantine/core';
+import { Box, createStyles, Group, Modal, Stack, Title } from '@mantine/core';
 import { Role } from '@prisma/client';
+import { AnimatedWrapper } from 'components/Animation/AnimatedWrapper';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useState } from 'react';
 import { UserRoleCard } from './UserRoleCard';
@@ -13,6 +14,8 @@ type Props = {
 
 export const UserRoleModal = ({ opened, onClose, closable }: Props) => {
   const { theme, isDark } = useAppColorscheme();
+
+  const { classes } = useStyles();
 
   const roles = [
     {
@@ -55,9 +58,15 @@ export const UserRoleModal = ({ opened, onClose, closable }: Props) => {
           <Group>
             {roles.map((item) => (
               <UserRoleCard
-                key={item.title}
                 selected={selectedRole === item.role}
                 onSelect={setSelectedRole}
+                key={item.title}
+                animatedWrapper={
+                  <AnimatedWrapper
+                    layoutId="roles"
+                    className={classes.wrapper}
+                  />
+                }
                 {...item}
               />
             ))}
@@ -78,3 +87,20 @@ UserRoleModal.defaultProps = {
   closable: false,
   onClose: () => {},
 };
+
+const useStyles = createStyles((theme) => ({
+  wrapper: {
+    borderRadius: theme.radius.sm,
+    borderWidth: 4,
+    borderStyle: 'solid',
+    borderColor: theme.colors.indigo[9],
+    position: 'absolute',
+    zIndex: 1,
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    margin: 0,
+    padding: 0,
+  },
+}));
