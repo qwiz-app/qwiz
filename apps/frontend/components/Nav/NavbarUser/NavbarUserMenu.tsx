@@ -1,4 +1,5 @@
-import { Button, Divider, Menu } from '@mantine/core';
+import { Divider, Menu } from '@mantine/core';
+import { Button } from 'components/UI/Button/Button';
 import { useBreakpoints } from 'hooks/breakpoints';
 import { signIn, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
@@ -49,9 +50,11 @@ const Guest = () => {
   return (
     <Button
       onClick={() => signIn()}
-      variant="outline"
-      leftIcon={<SignIn size={14} />}
+      variant="filled"
+      color="primary"
+      leftIcon={<SignIn weight="bold" />}
       fullWidth
+      size="md"
     >
       Sign in
     </Button>
@@ -61,4 +64,4 @@ const Guest = () => {
 export const NavbarUserMenu = {
   Account,
   Guest,
-}
+};
