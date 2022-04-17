@@ -57,10 +57,10 @@ const IndexPage = () => {
           )}
           <Button onClick={spotlight.openSpotlight} variant="light">
             <Group spacing={8}>
-              <span>Search</span>
-              <div>
-                <Kbd>⌘</Kbd> + <Kbd>K</Kbd>
-              </div>
+              Search
+              <Group spacing={0}>
+                <Kbd>Ctrl</Kbd>+<Kbd>K</Kbd>
+              </Group>
             </Group>
           </Button>
         </Group>

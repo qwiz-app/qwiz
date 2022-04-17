@@ -28,7 +28,7 @@ const NavbarUserButton = forwardRef<HTMLButtonElement, Props>(
           borderRadius: t.radius.sm,
           padding: 8,
           '&:hover': {
-            backgroundColor: isDark ? t.colors.gray[9] : t.colors.gray[1],
+            backgroundColor: isDark ? t.colors.gray[9] : t.colors.gray[0],
           },
         })}
         {...props}

@@ -54,6 +54,7 @@ const Guest = () => {
       leftIcon={<SignIn weight="bold" />}
       fullWidth
       size="md"
+      radius="sm"
     >
       Sign in
     </Button>
