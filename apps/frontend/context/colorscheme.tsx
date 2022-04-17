@@ -32,6 +32,7 @@ export const useCustomColorScheme = () => {
   const [colorScheme, setColorScheme] = useLocalStorageValue<ColorScheme>({
     key: 'mantine-color-scheme',
     defaultValue: preferredColorScheme,
+    getInitialValueInEffect: true,
   });
 
   const toggleColorScheme = (value?: ColorScheme) =>
