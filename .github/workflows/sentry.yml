@@ -11,6 +11,10 @@ jobs:
     steps:
       - name: Checkout
         uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT_DEVELOPMENT }}
         with:
           environment: 'production'
-          version: '${{ github.ref }}'
+          version: '${{ env.GITHUB_SHA }}'
