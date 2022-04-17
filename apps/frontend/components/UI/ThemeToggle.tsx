@@ -1,7 +1,7 @@
-import { ActionIcon, ThemeIcon, Tooltip } from '@mantine/core';
-import { useHover } from '@mantine/hooks';
+import { ActionIcon, Group, Kbd, Popover, ThemeIcon } from '@mantine/core';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { IconProps, Moon, Sun } from 'phosphor-react';
+import { useState } from 'react';
 import { isMobile } from 'react-device-detect';
 
 interface Props {
@@ -15,7 +15,8 @@ export const ThemeToggle = ({ mono, tooltip }: Props) => {
     size: 24,
     weight: 'duotone',
   };
-  const { hovered, ref } = useHover();
+  const [tooltipAllowed] = useState(tooltip && !isMobile);
+  const [opened, setOpened] = useState(false);
 
   const colorschemeIcon = isDark ? (
     <Sun
@@ -27,35 +28,78 @@ export const ThemeToggle = ({ mono, tooltip }: Props) => {
     <Moon color={theme.colors.dark[8]} size={size} weight={weight} />
   );
 
+  const actionIcon = (
+    <ActionIcon onClick={() => toggleColorScheme()}>
+      <ThemeIcon
+        radius="xl"
+        size="xl"
+        variant="light"
+        sx={() => ({
+          backgroundColor: 'transparent',
+          '&:hover': {
+            backgroundColor: isDark
+              ? theme.colors.dark[6]
+              : theme.colors.gray[1],
+          },
+        })}
+      >
+        {colorschemeIcon}
+      </ThemeIcon>
+    </ActionIcon>
+  );
+
+  // return (
+  //   <Tooltip
+  //     label="Ctrl + J"
+  //     transition="rotate-left"
+  //     transitionDuration={350}
+  //     transitionTimingFunction="ease"
+  //     ref={ref}
+  //     // TODO: dont show on touch devices
+  //     opened={tooltip && !isMobile && hovered}
+  //   >
+  //     {actionIcon}
+  //   </Tooltip>
+  // );
+
   return (
-    <Tooltip
-      label="Ctrl + J"
-      transition="rotate-left"
-      transitionDuration={350}
-      transitionTimingFunction="ease"
-      ref={ref}
-      // TODO: dont show on touch devices
-      opened={tooltip && !isMobile && hovered}
-      radius="xs"
-    >
-      <ActionIcon onClick={() => toggleColorScheme()}>
-        <ThemeIcon
-          radius="xl"
-          size="xl"
-          variant="light"
-          sx={() => ({
-            backgroundColor: 'transparent',
-            '&:hover': {
-              backgroundColor: isDark
-                ? theme.colors.dark[6]
-                : theme.colors.gray[1],
-            },
-          })}
+    <Popover
+      opened={tooltipAllowed && opened}
+      // opened
+      position="bottom"
+      placement="center"
+      withArrow
+      spacing="xs"
+      radius="sm"
+      transitionDuration={250}
+      target={
+        <ActionIcon
+          onClick={() => toggleColorScheme()}
+          onMouseEnter={() => setOpened(true)}
+          onMouseLeave={() => setOpened(false)}
         >
-          {colorschemeIcon}
-        </ThemeIcon>
-      </ActionIcon>
-    </Tooltip>
+          <ThemeIcon
+            radius="xl"
+            size="xl"
+            variant="light"
+            sx={() => ({
+              backgroundColor: 'transparent',
+              '&:hover': {
+                backgroundColor: isDark
+                  ? theme.colors.dark[6]
+                  : theme.colors.gray[1],
+              },
+            })}
+          >
+            {colorschemeIcon}
+          </ThemeIcon>
+        </ActionIcon>
+      }
+    >
+      <Group align="center" spacing={0}>
+        <Kbd>Ctrl</Kbd>+<Kbd>J</Kbd>
+      </Group>
+    </Popover>
   );
 };
 

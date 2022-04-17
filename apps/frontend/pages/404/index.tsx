@@ -2,9 +2,9 @@ import {
   createStyles,
   Title,
   Text,
-  Button,
   Container,
   Group,
+  Button,
 } from '@mantine/core';
 import { useRouter } from 'next/router';
 
@@ -33,7 +33,6 @@ const useStyles = createStyles((theme) => ({
   },
 
   title: {
-    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
     textAlign: 'center',
     fontWeight: 900,
     fontSize: 38,

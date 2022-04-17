@@ -31,7 +31,6 @@ interface Props {
   image: string;
   title: string;
   category: string;
-
 }
 
 export const EventCardImage = ({ image, title, category }: Props) => {

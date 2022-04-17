@@ -1,6 +1,5 @@
-import { Box, Group, Text } from '@mantine/core';
+import { Box, Button, Group, Text } from '@mantine/core';
 import { ProviderId, useProviders } from 'hooks/providers';
-import { Button } from './Button/Button';
 
 interface Props {
   id: ProviderId;

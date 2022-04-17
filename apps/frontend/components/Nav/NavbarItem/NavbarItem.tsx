@@ -10,6 +10,7 @@ export const NavbarItem = ({ icon, label, color, href }) => {
     <Link href={href} passHref>
       <UnstyledButton
         sx={(t) => ({
+          width: '100%',
           borderRadius: t.radius.sm,
           padding: 8,
           '&:hover': {

@@ -54,9 +54,7 @@ export const useGlobalTheme = ({ colorScheme }) => {
       ],
     },
     primaryColor: isDark ? 'gray' : 'more-dark',
-    radius: {
-      xs: 2,
-    },
+    defaultRadius: 'xs',
   };
 
   return globalTheme;

@@ -11,7 +11,7 @@ import { useCurrentSession } from 'hooks/session';
 import { CaretRight } from 'phosphor-react';
 import { forwardRef } from 'react';
 
-// @todo: add type instead of any
+// TODO: add type instead of any
 type Props = UnstyledButtonProps<any>;
 
 // eslint-disable-next-line react/display-name
@@ -28,7 +28,7 @@ const NavbarUserButton = forwardRef<HTMLButtonElement, Props>(
           borderRadius: t.radius.sm,
           padding: 8,
           '&:hover': {
-            backgroundColor: isDark ? t.colors.gray[9] : t.colors.gray[1],
+            backgroundColor: isDark ? t.colors.gray[9] : t.colors.gray[0],
           },
         })}
         {...props}

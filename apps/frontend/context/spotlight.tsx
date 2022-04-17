@@ -77,7 +77,7 @@ const useSpotlightActions = () => {
       group: 'auth',
       description: 'Sign in with your Google account',
       onTrigger: () => signInWithProvider('google', '/'),
-      icon: <GoogleLogo size={24} weight="duotone" />,
+      icon: <GoogleLogo size={24} weight="bold" />,
     },
     {
       title: 'Sign in with Github',
