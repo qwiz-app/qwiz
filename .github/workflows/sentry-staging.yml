@@ -1,9 +1,9 @@
-name: "Bump Sentry Release Version for Production"
+name: "Bump Sentry Release Version"
 
 on:
   push:
     branches:
-      - live
+      - main
   workflow_dispatch:
 
 jobs:
@@ -16,6 +16,6 @@ jobs:
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT_PRODUCTION }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT_DEVELOPMENT }}
         with:
           environment: 'production'
