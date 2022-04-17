@@ -26,10 +26,6 @@ const useStyles = createStyles((theme) => ({
     '&:hover': {
       filter: 'grayscale(0%)',
     },
-
-    selectedCard: {
-      filter: 'grayscale(0%)',
-    },
   },
 
   selectedCard: {
