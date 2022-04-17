@@ -11,7 +11,7 @@ const useStyles = createStyles((theme) => ({
 
   card: {
     flex: 1,
-    height: 300,
+    aspectRatio: '1',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-end',
@@ -26,11 +26,16 @@ const useStyles = createStyles((theme) => ({
     '&:hover': {
       filter: 'grayscale(0%)',
     },
+
+    selectedCard: {
+      filter: 'grayscale(0%)',
+      outlineColor: theme.colors.indigo[9],
+    },
   },
 
   selectedCard: {
     filter: 'grayscale(0%)',
-    outlineColor: theme.colors.teal[5],
+    outlineColor: theme.colors.indigo[9],
   },
 
   title: {

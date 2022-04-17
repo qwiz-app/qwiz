@@ -40,9 +40,12 @@ export const UserRoleModal = ({ opened, onClose, closable }: Props) => {
       withCloseButton={false}
       withinPortal
       centered
-      size="xl"
+      size="lg"
       padding="xl"
       radius="sm"
+      styles={{
+        modal: {},
+      }}
     >
       <Stack>
         <Title order={4} align="center">
@@ -54,7 +57,7 @@ export const UserRoleModal = ({ opened, onClose, closable }: Props) => {
               <UserRoleCard
                 key={item.title}
                 selected={selectedRole === item.role}
-                onSelect={(role) => setSelectedRole(role)}
+                onSelect={setSelectedRole}
                 {...item}
               />
             ))}
