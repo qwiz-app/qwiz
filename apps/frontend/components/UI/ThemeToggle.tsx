@@ -31,7 +31,6 @@ export const ThemeToggle = ({ mono, tooltip }: Props) => {
   return (
     <Popover
       opened={tooltipAllowed && opened}
-      // opened
       position="bottom"
       placement="center"
       withArrow

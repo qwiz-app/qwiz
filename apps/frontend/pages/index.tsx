@@ -1,6 +1,7 @@
 import { Avatar, Box, Button, Group, Kbd, Text } from '@mantine/core';
 import { useSpotlight } from '@mantine/spotlight';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
+import { UserRoleModal } from 'components/modals/UserRoleModal/UserRoleModal';
 import { useCurrentSession } from 'hooks/session';
 import { useUser, useUsers } from 'hooks/users/users';
 import { signIn, signOut } from 'next-auth/react';
@@ -23,6 +24,8 @@ const IndexPage = () => {
       callbackUrl: '/signin?signOut=true',
     });
 
+  const [roleModalOpened, setRoleModalOpened] = useState(false);
+
   return (
     <Group direction="column">
       <Group direction="column" align="center">
@@ -40,6 +43,7 @@ const IndexPage = () => {
               onClick={() => setId(user.id)}
               src={user.image}
               alt={user.name}
+              radius="sm"
             />
             {user.name === currentUser?.name ? 'You' : user.name}
           </div>
@@ -63,7 +67,15 @@ const IndexPage = () => {
               </Group>
             </Group>
           </Button>
+          <Button onClick={() => setRoleModalOpened(true)} variant="outline">
+            Open modal
+          </Button>
         </Group>
+        <UserRoleModal
+          opened={roleModalOpened}
+          onClose={() => setRoleModalOpened(false)}
+          closable
+        />
       </Group>
       <Box mt={16}>
         <Text size="sm" color={isError ? 'red' : 'currentColor'}>
