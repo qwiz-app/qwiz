@@ -1,3 +1,5 @@
+name: "Bump Sentry Release Version"
+
 on:
   push:
     branches:
