@@ -22,7 +22,7 @@ type NavbarItemModel = {
 };
 
 export const NavbarList = () => {
-  const { size, weight }: IconProps = {
+  const iconProps: IconProps = {
     size: 20,
     weight: 'duotone',
   };
@@ -30,49 +30,49 @@ export const NavbarList = () => {
     {
       label: 'Dashboard',
       href: paths.home(),
-      icon: <SquaresFour size={size} weight={weight} />,
+      icon: <SquaresFour {...iconProps} />,
       color: 'grey-dark',
     },
     {
       label: 'Explore',
       href: paths.explore(),
-      icon: <Binoculars size={size} weight={weight} />,
+      icon: <Binoculars {...iconProps} />,
       color: 'grey-dark',
     },
     {
       label: 'Events',
       href: paths.events(),
-      icon: <Confetti size={size} weight={weight} />,
+      icon: <Confetti {...iconProps} />,
       color: 'grey-dark',
     },
     {
       label: 'Quizzes',
       href: paths.quiz(),
-      icon: <Queue size={size} weight={weight} />,
+      icon: <Queue {...iconProps} />,
       color: 'grey-dark',
     },
     {
       label: 'Question packs',
       href: paths.questionPacks(),
-      icon: <Cube size={size} weight={weight} />,
+      icon: <Cube {...iconProps} />,
       color: 'grey-dark',
     },
     {
       label: 'Teams',
       href: paths.teams(),
-      icon: <UsersThree size={size} weight={weight} />,
+      icon: <UsersThree {...iconProps} />,
       color: 'grey-dark',
     },
     {
       label: 'Stats',
       href: paths.stats(),
-      icon: <PresentationChart size={size} weight={weight} />,
+      icon: <PresentationChart {...iconProps} />,
       color: 'grey-dark',
     },
     {
       label: 'Leaderboard',
       href: paths.leaderboard(),
-      icon: <Trophy size={size} weight={weight} />,
+      icon: <Trophy {...iconProps} />,
       color: 'grey-dark',
     },
   ];

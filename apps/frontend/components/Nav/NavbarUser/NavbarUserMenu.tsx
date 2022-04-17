@@ -23,22 +23,22 @@ const Account = () => {
     >
       <Menu.Label>Application</Menu.Label>
       <Menu.Item
-        icon={<User weight="duotone" />}
+        icon={<User weight="bold" />}
         onClick={() => router.push('/profile')}
       >
         Profile
       </Menu.Item>
-      <Menu.Item icon={<Gear weight="duotone" />}>Settings</Menu.Item>
+      <Menu.Item icon={<Gear weight="bold" />}>Settings</Menu.Item>
       <Divider />
       <Menu.Label>Caution</Menu.Label>
       <Menu.Item
         color="red"
-        icon={<SignOut weight="duotone" />}
+        icon={<SignOut weight="bold" />}
         onClick={signOutHandler}
       >
         Sign out
       </Menu.Item>
-      <Menu.Item color="red" icon={<Trash weight="duotone" />}>
+      <Menu.Item color="red" icon={<Trash weight="bold" />}>
         Delete my account
       </Menu.Item>
     </Menu>

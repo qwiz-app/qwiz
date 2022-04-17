@@ -116,13 +116,17 @@ export const ImageCard = ({
 
             <Group spacing="lg">
               <Center>
-                <Tag size={16} color={theme.colors.dark[2]} />
+                <Tag size={16} weight="bold" color={theme.colors.dark[2]} />
                 <Text size="sm" className={classes.bodyText}>
                   ${price}
                 </Text>
               </Center>
               <Center>
-                <UsersThree size={16} color={theme.colors.dark[2]} />
+                <UsersThree
+                  size={16}
+                  weight="bold"
+                  color={theme.colors.dark[2]}
+                />
                 <Text size="sm" className={classes.bodyText}>
                   {teams}
                 </Text>
