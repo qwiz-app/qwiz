@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+const WindiCSSWebpackPlugin = require('windicss-webpack-plugin');
+
 const withNx = require('@nrwl/next/plugins/with-nx');
 const { withSentryConfig } = require('@sentry/nextjs');
 
@@ -17,6 +19,10 @@ const nextConfig = {
   },
   experimental: {
     nextScriptWorkers: true,
+  },
+  webpack(config) {
+    config.plugins.push(new WindiCSSWebpackPlugin());
+    return config;
   },
 };
 

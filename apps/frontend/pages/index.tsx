@@ -28,6 +28,7 @@ const IndexPage = () => {
 
   return (
     <Group direction="column">
+      <div>hey</div>
       <Group direction="column" align="center">
         <Text size="xl">All users</Text>
         {users?.map((user) => (

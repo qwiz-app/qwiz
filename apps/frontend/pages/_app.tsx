@@ -10,6 +10,7 @@ import { CustomSpotlightProvider } from 'context/spotlight';
 import { NotificationsProvider } from '@mantine/notifications';
 import Script from 'next/script';
 import config from 'lib/config';
+import 'windi.css';
 
 const queryClient = new QueryClient();
 
