@@ -1,6 +1,10 @@
 name: Lint and Test
 
 on:
+  push:
+    branches:
+      - "feature/*"
+      - "fix/*"
   pull_request:
     branches:
       - main
