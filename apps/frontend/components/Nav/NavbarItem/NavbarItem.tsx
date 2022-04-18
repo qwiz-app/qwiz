@@ -4,7 +4,6 @@ import {
   Text,
   ThemeIcon,
   UnstyledButton,
-  useMantineTheme,
 } from '@mantine/core';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { isCurrentRoute } from 'lib/router';
@@ -23,7 +22,6 @@ type Props = NavbarItemModel;
 
 export const NavbarItem = ({ label, href, icon, color }: Props) => {
   const { isDark } = useAppColorscheme();
-  const theme = useMantineTheme();
   const router = useRouter();
 
   const isActive = isCurrentRoute(router.pathname, href);
