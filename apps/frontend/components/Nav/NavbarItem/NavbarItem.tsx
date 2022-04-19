@@ -1,11 +1,11 @@
 /* eslint-disable no-nested-ternary */
-import { Box, Group, Text, ThemeIcon, UnstyledButton } from '@mantine/core';
+import { Group, Text, ThemeIcon, UnstyledButton } from '@mantine/core';
+import cn from 'classnames';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { isCurrentRoute } from 'lib/router';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { ReactNode } from 'react';
-import cn from 'classnames';
+import { ReactNode } from 'react';
 
 export type NavbarItemModel = {
   icon: ReactNode;

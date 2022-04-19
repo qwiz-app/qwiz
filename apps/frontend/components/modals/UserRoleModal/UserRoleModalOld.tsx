@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { Box, createStyles, Group, Modal, Stack, Title } from '@mantine/core';
+import { Box, createStyles, Group, Modal, Stack } from '@mantine/core';
 import { Role } from '@prisma/client';
 import { AnimatedWrapper } from 'components/Animation/AnimatedWrapper';
 import { useAppColorscheme } from 'hooks/colorscheme';
