@@ -25,7 +25,7 @@
     "@mantine/core": "4.1.4",
     "@mantine/dates": "4.1.4",
     "@mantine/hooks": "4.1.4",
-    "@mantine/modals": "4.1.4",
+    "@mantine/modals": "^4.1.4",
     "@mantine/next": "4.1.4",
     "@mantine/notifications": "4.1.4",
     "@mantine/spotlight": "4.1.4",
@@ -57,7 +57,8 @@
     "regenerator-runtime": "0.13.9",
     "rxjs": "^7.5.5",
     "tslib": "^2.3.1",
-    "use-immer": "^0.7.0"
+    "use-immer": "^0.7.0",
+    "zustand": "^4.0.0-rc.0"
   },
   "devDependencies": {
     "@nestjs/schematics": "^8.0.10",

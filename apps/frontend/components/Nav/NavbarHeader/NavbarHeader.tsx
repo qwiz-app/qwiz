@@ -7,7 +7,7 @@ export const NavbarHeader = () => {
   return (
     <Group mb={12} mx={8} position="apart">
       <NavbarLogo />
-      <ThemeToggle />
+      <ThemeToggle tooltipPosition="left" />
     </Group>
   );
 };

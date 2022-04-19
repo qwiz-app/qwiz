@@ -1,15 +1,17 @@
-import { ActionIcon, Group, Kbd, Popover, ThemeIcon } from '@mantine/core';
+import { ActionIcon, Popover, ThemeIcon } from '@mantine/core';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { IconProps, Moon, Sun } from 'phosphor-react';
 import { useState } from 'react';
 import { isMobile } from 'react-device-detect';
+import KbdShortcut from './KbdShortcut';
 
 interface Props {
   tooltip?: boolean;
   mono?: boolean;
+  tooltipPosition?: 'top' | 'bottom' | 'left' | 'right';
 }
 
-export const ThemeToggle = ({ mono, tooltip }: Props) => {
+export const ThemeToggle = ({ mono, tooltip, tooltipPosition }: Props) => {
   const { toggleColorScheme, isDark, theme } = useAppColorscheme();
   const { size, weight }: IconProps = {
     size: 24,
@@ -31,7 +33,7 @@ export const ThemeToggle = ({ mono, tooltip }: Props) => {
   return (
     <Popover
       opened={tooltipAllowed && opened}
-      position="bottom"
+      position={tooltipPosition}
       placement="center"
       withArrow
       spacing="xs"
@@ -61,9 +63,7 @@ export const ThemeToggle = ({ mono, tooltip }: Props) => {
         </ActionIcon>
       }
     >
-      <Group align="center" spacing={0}>
-        <Kbd>Ctrl</Kbd>+<Kbd>J</Kbd>
-      </Group>
+      <KbdShortcut keys={['Ctrl', 'J']} />
     </Popover>
   );
 };
@@ -71,4 +71,5 @@ export const ThemeToggle = ({ mono, tooltip }: Props) => {
 ThemeToggle.defaultProps = {
   tooltip: true,
   mono: false,
+  tooltipPosition: 'bottom',
 };

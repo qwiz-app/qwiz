@@ -3,10 +3,48 @@ import { Role } from '@prisma/client';
 import cn from 'classnames';
 import { ReactElement } from 'react';
 
+type Props = {
+  image: string;
+  title: string;
+  role: Role;
+  selected: boolean;
+  onSelect: (role: Role) => void;
+  animatedWrapper?: ReactElement;
+};
+
+export const UserRoleCard = ({
+  image,
+  title,
+  role,
+  selected,
+  onSelect,
+  animatedWrapper,
+}: Props) => {
+  const { classes } = useStyles();
+
+  const selectRole = () => onSelect(role);
+
+  return (
+    <UnstyledButton className={classes.wrapper} onClick={selectRole}>
+      <Paper
+        shadow="md"
+        p="sm"
+        radius="md"
+        sx={{ backgroundImage: `url(${image})` }}
+        className={cn([classes.card, selected && classes.selectedCard])}
+      >
+        <Title order={3} className={classes.title}>
+          {title}
+        </Title>
+      </Paper>
+      {selected && animatedWrapper}
+    </UnstyledButton>
+  );
+};
+
 const useStyles = createStyles((theme) => ({
   wrapper: {
     flex: 1,
-    // height: 300,
     display: 'flex',
     position: 'relative',
   },
@@ -35,7 +73,7 @@ const useStyles = createStyles((theme) => ({
   title: {
     color: theme.white,
     lineHeight: 1.2,
-    fontSize: 20,
+    fontSize: 18,
     marginTop: theme.spacing.xs,
     backgroundColor: theme.colors.dark[9],
     padding: `${theme.spacing.xs / 2}px ${theme.spacing.md / 2}px`,
@@ -49,44 +87,3 @@ const useStyles = createStyles((theme) => ({
     textTransform: 'uppercase',
   },
 }));
-
-interface Props {
-  image: string;
-  title: string;
-  role: Role;
-  selected: boolean;
-  onSelect: (role: Role) => void;
-  animatedWrapper?: ReactElement
-}
-
-export const UserRoleCard = ({
-  image,
-  title,
-  role,
-  selected,
-  onSelect,
-  animatedWrapper,
-}: Props) => {
-  const { classes } = useStyles();
-
-  const selectRole = () => onSelect(role);
-
-  return (
-    <UnstyledButton className={classes.wrapper} onClick={selectRole}>
-      <Paper
-        shadow="md"
-        p="sm"
-        radius="md"
-        sx={{ backgroundImage: `url(${image})` }}
-        className={cn([classes.card, selected && classes.selectedCard])}
-      >
-        <div>
-          <Title order={3} className={classes.title}>
-            {title}
-          </Title>
-        </div>
-      </Paper>
-      {selected && animatedWrapper}
-    </UnstyledButton>
-  );
-};

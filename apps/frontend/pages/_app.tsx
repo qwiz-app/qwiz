@@ -1,15 +1,13 @@
 import 'styles/global.scss';
 
 import { Container } from '@mantine/core';
-import { CustomColorSchemeProvider } from 'context/colorscheme';
+import { CustomMantineProvider } from 'context/mantine';
 import Inspect from 'inspx';
+import config from 'lib/config';
 import { SessionProvider } from 'next-auth/react';
 import Head from 'next/head';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { CustomSpotlightProvider } from 'context/spotlight';
-import { NotificationsProvider } from '@mantine/notifications';
 import Script from 'next/script';
-import config from 'lib/config';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import 'windi.css';
 
 const queryClient = new QueryClient();
@@ -30,17 +28,13 @@ const App = ({ Component, pageProps: { session, ...pageProps } }) => {
       />
       <SessionProvider session={session}>
         <QueryClientProvider client={queryClient}>
-          <CustomColorSchemeProvider>
-            <NotificationsProvider position="top-right">
-              <CustomSpotlightProvider>
-                <Inspect>
-                  <Container fluid px={0} sx={() => ({ minHeight: '100vh' })}>
-                    {getLayout(<Component {...pageProps} />)}
-                  </Container>
-                </Inspect>
-              </CustomSpotlightProvider>
-            </NotificationsProvider>
-          </CustomColorSchemeProvider>
+          <CustomMantineProvider>
+            <Inspect>
+              <Container fluid px={0} sx={() => ({ minHeight: '100vh' })}>
+                {getLayout(<Component {...pageProps} />)}
+              </Container>
+            </Inspect>
+          </CustomMantineProvider>
         </QueryClientProvider>
       </SessionProvider>
     </>
