@@ -1,31 +1,10 @@
-import {
-  ColorScheme,
-  ColorSchemeProvider,
-  MantineProvider,
-} from '@mantine/core';
+import { ColorScheme } from '@mantine/core';
 import {
   useColorScheme,
-  useHotkeys,
   useLocalStorageValue,
+  useHotkeys,
 } from '@mantine/hooks';
 import { ColorSchemeEnum } from 'models/colorscheme';
-import { useGlobalTheme } from './theme';
-
-export const CustomColorSchemeProvider = ({ children }) => {
-  const { colorScheme, toggleColorScheme } = useCustomColorScheme();
-  const theme = useGlobalTheme({ colorScheme });
-
-  return (
-    <ColorSchemeProvider
-      colorScheme={colorScheme}
-      toggleColorScheme={toggleColorScheme}
-    >
-      <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
-        {children}
-      </MantineProvider>
-    </ColorSchemeProvider>
-  );
-};
 
 export const useCustomColorScheme = () => {
   const preferredColorScheme = useColorScheme();

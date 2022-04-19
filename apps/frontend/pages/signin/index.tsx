@@ -88,14 +88,8 @@ const SignInPage = (props: SignInProps) => {
   return (
     <>
       <AuthThemeToggle className={classes.themeToggle} />
-      <Group
-        noWrap
-        align="center"
-        position="center"
-        spacing={72}
-        className={classes.content}
-      >
-        {matches.min.md && <AuthIllustration />}
+      <Group noWrap align="center" className={classes.content}>
+        <div>{matches.min.md && <AuthIllustration />}</div>
         <Stack align={matches.min.md ? 'left' : 'center'}>
           <AuthTitle />
           <AuthProviders {...props} />

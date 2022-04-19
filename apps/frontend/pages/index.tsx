@@ -1,6 +1,8 @@
-import { Avatar, Box, Button, Group, Kbd, Text } from '@mantine/core';
-import { useSpotlight } from '@mantine/spotlight';
+import { Avatar, Box, Button, Group, Text } from '@mantine/core';
+import { useModals } from '@mantine/modals';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
+import { useUserRoleModal } from 'components/modals/UserRoleModal/UserRoleModal';
+import { UserRoleModalOld } from 'components/modals/UserRoleModal/UserRoleModalOld';
 import { useCurrentSession } from 'hooks/session';
 import { useUser, useUsers } from 'hooks/users/users';
 import { signIn, signOut } from 'next-auth/react';
@@ -16,11 +18,41 @@ const IndexPage = () => {
     isError,
     error: selectedUserError,
   } = useUser(id);
-  const spotlight = useSpotlight();
 
   const signOutHandler = () =>
     signOut({
       callbackUrl: '/signin?signOut=true',
+    });
+
+  const [roleModalOpened, setRoleModalOpened] = useState(false);
+
+  const modals = useModals();
+
+  const { launchUserRoleModal } = useUserRoleModal();
+
+  const openMultiStepModal = () =>
+    modals.openConfirmModal({
+      title: 'Who are you creating an account for?',
+      closeOnConfirm: false,
+      labels: { confirm: 'Next modal', cancel: 'Close modal' },
+      children: (
+        <Text size="sm">
+          This action is so important that you are required to confirm it with a
+          modal. Please click one of these buttons to proceed.
+        </Text>
+      ),
+      onConfirm: () =>
+        modals.openConfirmModal({
+          title: 'This is modal at second layer',
+          labels: { confirm: 'Close modal', cancel: 'Back' },
+          closeOnConfirm: false,
+          children: (
+            <Text size="sm">
+              When this modal is closed modals state will revert to first modal
+            </Text>
+          ),
+          onConfirm: () => modals.closeAll(),
+        }),
     });
 
   return (
@@ -40,6 +72,7 @@ const IndexPage = () => {
               onClick={() => setId(user.id)}
               src={user.image}
               alt={user.name}
+              radius="sm"
             />
             {user.name === currentUser?.name ? 'You' : user.name}
           </div>
@@ -55,15 +88,25 @@ const IndexPage = () => {
               Sign in
             </Button>
           )}
-          <Button onClick={spotlight.openSpotlight} variant="light">
-            <Group spacing={8}>
-              Search
-              <Group spacing={0}>
-                <Kbd>Ctrl</Kbd>+<Kbd>K</Kbd>
-              </Group>
-            </Group>
+          <Button
+            onClick={() => setRoleModalOpened(true)}
+            variant="light"
+            color="grape"
+          >
+            Open modal
+          </Button>
+          <Button variant="light" color="blue" onClick={openMultiStepModal}>
+            Multi step modal
+          </Button>
+          <Button variant="light" color="pink" onClick={launchUserRoleModal}>
+            Role modal
           </Button>
         </Group>
+        <UserRoleModalOld
+          opened={roleModalOpened}
+          onClose={() => setRoleModalOpened(false)}
+          closable
+        />
       </Group>
       <Box mt={16}>
         <Text size="sm" color={isError ? 'red' : 'currentColor'}>

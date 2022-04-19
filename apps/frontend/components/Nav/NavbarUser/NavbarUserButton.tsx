@@ -36,9 +36,7 @@ const NavbarUserButton = forwardRef<HTMLButtonElement, Props>(
         <Skeleton visible={user && isLoading}>
           <Group position="apart">
             <Group>
-              {!!user && (
-                <Avatar size={40} radius="xl" color="teal" src={user.image} />
-              )}
+              {!!user && <Avatar size={40} radius="xl" src={user.image} />}
               <div>
                 <Text size="sm">{user?.name}</Text>
                 <Text size="xs" color="gray">
