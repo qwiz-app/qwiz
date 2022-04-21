@@ -10,12 +10,10 @@ const KbdShortcut = ({ keys }: Props) => {
   return (
     <Group align="center" spacing={0}>
       {keys.map((key, i) => (
-        <>
-          <Kbd key={i} sx={(t) => ({ fontFamily: 'monospace' })}>
-            {key}
-          </Kbd>
+        <React.Fragment key={i}>
+          <Kbd sx={(t) => ({ fontFamily: 'monospace' })}>{key}</Kbd>
           {!isLast(i) && <span>+</span>}
-        </>
+        </React.Fragment>
       ))}
     </Group>
   );
