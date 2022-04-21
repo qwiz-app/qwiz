@@ -43,14 +43,7 @@ export const AppShell = ({ children }) => {
           <NavbarHeader />
         </MantineNavbar.Section>
       )}
-      <MantineNavbar.Section
-        grow
-        component={ThinScrollArea}
-        mt={8}
-        ml={-16}
-        mr={-16}
-        sx={{ paddingLeft: 16, paddingRight: 16 }}
-      >
+      <MantineNavbar.Section grow component={ThinScrollArea} mt={8}>
         <NavbarList />
       </MantineNavbar.Section>
       <>
@@ -65,23 +58,13 @@ export const AppShell = ({ children }) => {
   // TODO: for now, Navbar and Header cant be custom components for Mantine to do its magic
   // TODO: find a way to extract them into their own components
   const Header = (
-    <MantineHeader
-      height={60}
-      p="sm"
-      fixed
-      sx={(t) => ({
-        paddingLeft: '20px !important',
-        paddingRight: '20px !important',
-      })}
-    >
+    <MantineHeader height={60} p="sm" fixed px={20}>
       <Group
         align="center"
         position="apart"
         sx={(t) => ({ width: '100%', height: '100%' })}
       >
         <Burger opened={opened} onClick={toggleNavbar} size="sm" />
-
-        {/* TODO: extract Logo into reusable component */}
         <Image
           src={logo}
           alt="logo"

@@ -32,12 +32,14 @@ const useStyles = createStyles((t, isActive: boolean) => {
       background: isActive
         ? isDark
           ? t.colors.gray[9]
-          : t.colors.gray[0]
+          : t.colors.gray[1]
         : 'transparent',
       outline: 'none',
 
       '&:hover': {
-        backgroundColor: isDark ? t.colors.gray[9] : t.colors.gray[0],
+        backgroundColor: isDark
+          ? t.fn.darken(t.colors.gray[9], 0.1)
+          : t.colors.gray[0],
         outline: 'none',
       },
 

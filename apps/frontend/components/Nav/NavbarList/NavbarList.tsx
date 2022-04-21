@@ -64,8 +64,14 @@ export const NavbarList = () => {
   ];
 
   return (
-    <Group direction="column" align="stretch" spacing={0} mb={12}>
-      {/* <NavSearchItem icon={<MagnifyingGlass {...iconProps} />} /> */}
+    <Group
+      direction="column"
+      align="stretch"
+      spacing={0}
+      mb={12}
+      sx={(t) => ({ width: '100%', flex: 1 })}
+    >
+      <NavSearchItem icon={<MagnifyingGlass {...iconProps} />} />
       <Group direction="column" align="stretch" spacing={0}>
         {items.map((item, i) => (
           <NavbarItem key={`navbar-item-${i}`} {...item} />
