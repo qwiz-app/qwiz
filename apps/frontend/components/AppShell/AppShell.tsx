@@ -46,6 +46,7 @@ export const AppShell = ({ children }) => {
       <MantineNavbar.Section
         grow
         component={ThinScrollArea}
+        mt={8}
         ml={-16}
         mr={-16}
         sx={{ paddingLeft: 16, paddingRight: 16 }}

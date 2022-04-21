@@ -1,5 +1,11 @@
 /* eslint-disable no-nested-ternary */
-import { Group, Text, ThemeIcon, UnstyledButton } from '@mantine/core';
+import {
+  createStyles,
+  Group,
+  Text,
+  ThemeIcon,
+  UnstyledButton,
+} from '@mantine/core';
 import cn from 'classnames';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { isCurrentRoute } from 'lib/router';
@@ -17,6 +23,31 @@ export type NavbarItemModel = {
   btnClass?: string;
 };
 
+const useStyles = createStyles((t, isActive: boolean) => {
+  const { isDark } = useAppColorscheme();
+  return {
+    navItem: {
+      borderRadius: t.radius.sm,
+      padding: 8,
+      background: isActive
+        ? isDark
+          ? t.colors.gray[9]
+          : t.colors.gray[0]
+        : 'transparent',
+      outline: 'none',
+
+      '&:hover': {
+        backgroundColor: isDark ? t.colors.gray[9] : t.colors.gray[0],
+        outline: 'none',
+      },
+
+      '&:focus': {
+        outline: 'none',
+      },
+    },
+  };
+});
+
 type Props = NavbarItemModel;
 
 export const NavbarItem = ({
@@ -28,35 +59,13 @@ export const NavbarItem = ({
   children,
   btnClass,
 }: Props) => {
-  const { isDark } = useAppColorscheme();
   const router = useRouter();
 
   const isActive = isCurrentRoute(router.pathname, href);
+  const { classes } = useStyles(isActive);
 
   const btn = (
-    <UnstyledButton
-      sx={(t) => ({
-        borderRadius: t.radius.sm,
-        padding: 8,
-        background: isActive
-          ? isDark
-            ? t.colors.gray[9]
-            : t.colors.gray[0]
-          : 'transparent',
-        outline: 'none',
-
-        '&:hover': {
-          backgroundColor: isDark ? t.colors.gray[9] : t.colors.gray[0],
-          outline: 'none',
-        },
-
-        '&:focus': {
-          outline: 'none',
-        },
-      })}
-      className={cn(btnClass)}
-      onClick={onClick}
-    >
+    <UnstyledButton className={cn(classes.navItem, btnClass)} onClick={onClick}>
       <Group>
         <ThemeIcon
           radius="sm"

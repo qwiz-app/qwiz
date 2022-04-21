@@ -12,10 +12,8 @@ import {
   Trophy,
   UsersThree,
 } from 'phosphor-react';
-// eslint-disable-next-line import/no-cycle
-import { useSpotlight } from '@mantine/spotlight';
-import KbdShortcut from 'components/UI/KbdShortcut';
 import { NavbarItem, NavbarItemModel } from '../NavbarItem/NavbarItem';
+import NavSearchItem from '../NavSearchItem';
 
 export const NavbarList = () => {
   const iconProps: IconProps = {
@@ -65,23 +63,9 @@ export const NavbarList = () => {
     },
   ];
 
-  const { openSpotlight } = useSpotlight();
-
-  const searchNavItem = (
-    <NavbarItem
-      icon={<MagnifyingGlass {...iconProps} />}
-      onClick={openSpotlight}
-    >
-      <Group spacing={8} position="apart" sx={(t) => ({ flex: 1 })}>
-        <span>Search</span>
-        <KbdShortcut keys={['Ctrl', 'K']} />
-      </Group>
-    </NavbarItem>
-  );
-
   return (
     <Group direction="column" align="stretch" spacing={0} mb={12}>
-      {searchNavItem}
+      <NavSearchItem icon={<MagnifyingGlass {...iconProps} />} />
       <Group direction="column" align="stretch" spacing={0}>
         {items.map((item, i) => (
           <NavbarItem key={`navbar-item-${i}`} {...item} />
