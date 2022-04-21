@@ -1,5 +1,6 @@
 import {
   AppShell as MantineAppShell,
+  Box,
   Burger,
   Container,
   Group,
@@ -46,12 +47,12 @@ export const AppShell = ({ children }) => {
       <MantineNavbar.Section grow component={ThinScrollArea} mt={8}>
         <NavbarList />
       </MantineNavbar.Section>
-      <>
+      <MantineNavbar.Section mt={12}>
         <NavbarDivider />
-        <MantineNavbar.Section mt={12}>
+        <Box mt={12}>
           {user ? <NavbarUserMenu.Account /> : <NavbarUserMenu.Guest />}
-        </MantineNavbar.Section>
-      </>
+        </Box>
+      </MantineNavbar.Section>
     </MantineNavbar>
   );
 

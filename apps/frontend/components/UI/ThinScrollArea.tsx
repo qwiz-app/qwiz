@@ -9,7 +9,13 @@ type Props = {
 export const ThinScrollArea = (props: Props) => {
   const { children } = props;
   return (
-    <ScrollArea type="hover" scrollbarSize={8} scrollHideDelay={500} {...props}>
+    <ScrollArea
+      type="hover"
+      scrollbarSize={8}
+      scrollHideDelay={500}
+      {...props}
+      sx={(t) => ({ flex: 1 })}
+    >
       {children}
     </ScrollArea>
   );

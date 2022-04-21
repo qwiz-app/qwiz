@@ -15,7 +15,7 @@ const useStyles = createStyles((t) => {
     btn: {
       backgroundColor: isDark ? t.colors.dark[8] : t.colors.gray[0],
       border: '1px solid',
-      padding: '0.625rem 0.8rem',
+      padding: '0.5rem 0.75rem',
       marginBottom: 16,
       borderColor: isDark ? 'transparent' : t.colors.gray[1],
       borderRadius: t.radius.md,

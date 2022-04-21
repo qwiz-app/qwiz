@@ -6,18 +6,18 @@ export const useBreakpoints = () => {
 
   const matches = {
     max: {
-      xs: useMediaQuery(`(max-width: ${breakpoints.xs}px)`),
-      sm: useMediaQuery(`(max-width: ${breakpoints.sm}px)`),
-      md: useMediaQuery(`(max-width: ${breakpoints.md}px)`),
-      lg: useMediaQuery(`(max-width: ${breakpoints.lg}px)`),
-      xl: useMediaQuery(`(max-width: ${breakpoints.xl}px)`),
+      xs: useMediaQuery(`(max-width: ${breakpoints.xs}px)`, false),
+      sm: useMediaQuery(`(max-width: ${breakpoints.sm}px)`, false),
+      md: useMediaQuery(`(max-width: ${breakpoints.md}px)`, false),
+      lg: useMediaQuery(`(max-width: ${breakpoints.lg}px)`, false),
+      xl: useMediaQuery(`(max-width: ${breakpoints.xl}px)`, false),
     },
     min: {
-      xs: useMediaQuery(`(min-width: ${breakpoints.xs}px)`),
-      sm: useMediaQuery(`(min-width: ${breakpoints.sm}px)`),
-      md: useMediaQuery(`(min-width: ${breakpoints.md}px)`),
-      lg: useMediaQuery(`(min-width: ${breakpoints.lg}px)`),
-      xl: useMediaQuery(`(min-width: ${breakpoints.xl}px)`),
+      xs: useMediaQuery(`(min-width: ${breakpoints.xs}px)`, false),
+      sm: useMediaQuery(`(min-width: ${breakpoints.sm}px)`, false),
+      md: useMediaQuery(`(min-width: ${breakpoints.md}px)`, false),
+      lg: useMediaQuery(`(min-width: ${breakpoints.lg}px)`, false),
+      xl: useMediaQuery(`(min-width: ${breakpoints.xl}px)`, false),
     },
   };
 
