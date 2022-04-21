@@ -1,6 +1,5 @@
 import {
   AppShell as MantineAppShell,
-  Box,
   Burger,
   Container,
   Group,
@@ -11,14 +10,29 @@ import LogoDark from 'assets/logo/qwiz-dark.svg';
 import LogoWhite from 'assets/logo/qwiz-white.svg';
 import { NavbarDivider } from 'components/Nav/NavbarDivider';
 import { NavbarHeader } from 'components/Nav/NavbarHeader/NavbarHeader';
+import { NavbarItemModel } from 'components/Nav/NavbarItem/NavbarItem';
 import { NavbarList } from 'components/Nav/NavbarList/NavbarList';
 import { NavbarUserMenu } from 'components/Nav/NavbarUser/NavbarUserMenu';
+import NavSearchItem from 'components/Nav/NavSearchItem';
 import { ThemeToggle } from 'components/UI/ThemeToggle';
 import { ThinScrollArea } from 'components/UI/ThinScrollArea';
 import { useBreakpoints } from 'hooks/breakpoints';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useCurrentSession } from 'hooks/session';
 import Image from 'next/image';
+import { paths } from 'paths';
+import {
+  IconProps,
+  SquaresFour,
+  Binoculars,
+  Confetti,
+  Queue,
+  Cube,
+  UsersThree,
+  PresentationChart,
+  Trophy,
+  MagnifyingGlass,
+} from 'phosphor-react';
 import { useState } from 'react';
 
 export const AppShell = ({ children }) => {
@@ -31,6 +45,54 @@ export const AppShell = ({ children }) => {
 
   const logo = isDark ? LogoWhite : LogoDark;
 
+  const iconProps: IconProps = {
+    size: 20,
+    weight: 'duotone',
+  };
+  const items: NavbarItemModel[] = [
+    {
+      label: 'Dashboard',
+      href: paths.home(),
+      icon: <SquaresFour {...iconProps} />,
+    },
+    {
+      label: 'Explore',
+      href: paths.explore(),
+      icon: <Binoculars {...iconProps} />,
+    },
+    {
+      label: 'Events',
+      href: paths.events(),
+      icon: <Confetti {...iconProps} />,
+    },
+    {
+      label: 'Quizzes',
+      href: paths.quiz(),
+      icon: <Queue {...iconProps} />,
+    },
+    {
+      label: 'Question packs',
+      href: paths.questionPacks(),
+      icon: <Cube {...iconProps} />,
+    },
+    {
+      label: 'Teams',
+      href: paths.teams(),
+      icon: <UsersThree {...iconProps} />,
+    },
+    {
+      label: 'Stats',
+      href: paths.stats(),
+      icon: <PresentationChart {...iconProps} />,
+    },
+    {
+      label: 'Leaderboard',
+      href: paths.leaderboard(),
+      icon: <Trophy {...iconProps} />,
+    },
+  ];
+
+  // TODO: fix navbar height on mobile
   const Navbar = (
     <MantineNavbar
       hiddenBreakpoint="xs"
@@ -44,15 +106,27 @@ export const AppShell = ({ children }) => {
           <NavbarHeader />
         </MantineNavbar.Section>
       )}
-      <MantineNavbar.Section grow component={ThinScrollArea} mt={8}>
-        <NavbarList />
+      <MantineNavbar.Section mt={8}>
+        <NavSearchItem icon={<MagnifyingGlass {...iconProps} />} />
       </MantineNavbar.Section>
-      <MantineNavbar.Section mt={12}>
+      <MantineNavbar.Section
+        grow
+        component={ThinScrollArea}
+        mt={16}
+        mb={12}
+        ml={-16}
+        mr={-16}
+        pl={16}
+        pr={16}
+      >
+        <NavbarList items={items} />
+      </MantineNavbar.Section>
+      <>
         <NavbarDivider />
-        <Box mt={12}>
+        <MantineNavbar.Section mt={12}>
           {user ? <NavbarUserMenu.Account /> : <NavbarUserMenu.Guest />}
-        </Box>
-      </MantineNavbar.Section>
+        </MantineNavbar.Section>
+      </>
     </MantineNavbar>
   );
 

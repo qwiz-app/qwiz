@@ -16,7 +16,7 @@ const useStyles = createStyles((t) => {
       backgroundColor: isDark ? t.colors.dark[8] : t.colors.gray[0],
       border: '1px solid',
       padding: '0.5rem 0.75rem',
-      marginBottom: 16,
+      width: '100%',
       borderColor: isDark ? 'transparent' : t.colors.gray[1],
       borderRadius: t.radius.md,
 
