@@ -37,7 +37,7 @@ export const useProviders = () => {
 
   const signInWithProvider = (
     providerId: BuiltInProviderType,
-    redirectUrl: string = config.nextAuth.url,
+    redirectUrl: string = config.nextAuth.url
   ) => {
     signIn(providerId, {
       callbackUrl: redirectUrl,

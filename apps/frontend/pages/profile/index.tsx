@@ -1,5 +1,5 @@
 import DashboardLayout from 'components/Layouts/DashboardLayout';
-import { useCurrentUserInfo } from 'hooks/users/users';
+import { useCurrentUserInfo } from 'hooks/users';
 import { useEffect } from 'react';
 
 const ProfilePage = () => {

@@ -1,4 +1,4 @@
-import { Group, Stack } from '@mantine/core';
+import { createStyles, Group, Stack } from '@mantine/core';
 import { useNotifications } from '@mantine/notifications';
 import { AuthIllustration } from 'components/Auth/AuthIllustration';
 import { AuthLogo } from 'components/Auth/AuthLogo';
@@ -19,7 +19,6 @@ import {
 import { useRouter } from 'next/router';
 import { paths } from 'paths';
 import { useEffect } from 'react';
-import { useStyles } from '../../hooks/styles';
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const providers = await getProviders();
@@ -77,7 +76,6 @@ const SignInPage = (props: SignInProps) => {
       }
     }
 
-    // TODO: where did the notification go
     // eslint-disable-next-line eqeqeq
     if (signOut == 'true') {
       showSignedOutNotification();
@@ -105,3 +103,28 @@ export default SignInPage;
 SignInPage.getLayout = function getLayout(page) {
   return <AuthLayout>{page}</AuthLayout>;
 };
+
+export const useStyles = createStyles((theme, _params, getRef) => {
+  const { matches } = useBreakpoints();
+
+  return {
+    themeToggle: {
+      position: 'absolute',
+      top: '2rem',
+      left: '50%',
+      transform: 'translateX(-50%)',
+    },
+
+    logo: {
+      position: 'absolute',
+      bottom: '2rem',
+      left: '50%',
+      transform: 'translateX(-50%)',
+    },
+
+    content: {
+      marginLeft: matches.min.md && '-10vw',
+      transform: matches.min.md ? 'translateY(-4vh)' : 'translateY(-6vh)',
+    },
+  };
+});

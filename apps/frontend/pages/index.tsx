@@ -4,7 +4,7 @@ import DashboardLayout from 'components/Layouts/DashboardLayout';
 import { useUserRoleModal } from 'components/modals/UserRoleModal/UserRoleModal';
 import { UserRoleModalOld } from 'components/modals/UserRoleModal/UserRoleModalOld';
 import { useCurrentSession } from 'hooks/session';
-import { useUser, useUsers } from 'hooks/users/users';
+import { useUser, useUsers } from 'hooks/users';
 import { signIn, signOut } from 'next-auth/react';
 import { useState } from 'react';
 
