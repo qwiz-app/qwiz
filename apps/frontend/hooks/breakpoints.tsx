@@ -1,23 +1,33 @@
-import { useMantineTheme } from '@mantine/core';
+import { MantineSize, useMantineTheme } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 
 export const useBreakpoints = () => {
   const { breakpoints } = useMantineTheme();
 
+  type BreakpointType = 'min' | 'max';
+
+  const inital = false;
+
+  const getWidth = (type: BreakpointType, size: MantineSize) =>
+    `(${type}-width: ${breakpoints[size]}px)`;
+
+  const maxWidth = (size: MantineSize) => getWidth('max', size);
+  const minWidth = (size: MantineSize) => getWidth('min', size);
+
   const matches = {
     max: {
-      xs: useMediaQuery(`(max-width: ${breakpoints.xs}px)`, false),
-      sm: useMediaQuery(`(max-width: ${breakpoints.sm}px)`, false),
-      md: useMediaQuery(`(max-width: ${breakpoints.md}px)`, false),
-      lg: useMediaQuery(`(max-width: ${breakpoints.lg}px)`, false),
-      xl: useMediaQuery(`(max-width: ${breakpoints.xl}px)`, false),
+      xs: useMediaQuery(maxWidth('xs'), inital),
+      sm: useMediaQuery(maxWidth('sm'), inital),
+      md: useMediaQuery(maxWidth('md'), inital),
+      lg: useMediaQuery(maxWidth('lg'), inital),
+      xl: useMediaQuery(maxWidth('xl'), inital),
     },
     min: {
-      xs: useMediaQuery(`(min-width: ${breakpoints.xs}px)`, false),
-      sm: useMediaQuery(`(min-width: ${breakpoints.sm}px)`, false),
-      md: useMediaQuery(`(min-width: ${breakpoints.md}px)`, false),
-      lg: useMediaQuery(`(min-width: ${breakpoints.lg}px)`, false),
-      xl: useMediaQuery(`(min-width: ${breakpoints.xl}px)`, false),
+      xs: useMediaQuery(minWidth('xs'), inital),
+      sm: useMediaQuery(minWidth('sm'), inital),
+      md: useMediaQuery(minWidth('md'), inital),
+      lg: useMediaQuery(minWidth('lg'), inital),
+      xl: useMediaQuery(minWidth('xl'), inital),
     },
   };
 
