@@ -8,23 +8,17 @@ export const useUserRoleModal = () => {
   const launchUserRoleModal = () => {
     modals.openConfirmModal({
       title: 'Who are you creating an account for?',
+      size: 'md',
       closeOnConfirm: false,
-      closeOnCancel: true,
-      closeOnClickOutside: true,
-      closeOnEscape: true,
-      centered: true,
-      withCloseButton: true,
-      onClose() {
-        console.log('close modal');
-      },
+      withCloseButton: false,
       labels: { confirm: 'Continue', cancel: 'Back' },
       children: <UserRoleModalStep1 />,
       onConfirm: () =>
         modals.openConfirmModal({
-          title: "You're almost ready",
+          withCloseButton: false,
+          title: "You're almost ready!",
           labels: { confirm: 'Create account', cancel: 'Back' },
           closeOnConfirm: false,
-          centered: true,
           children: <UserRoleModalStep2 />,
           onConfirm: () => modals.closeAll(),
         }),

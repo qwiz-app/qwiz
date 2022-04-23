@@ -1,4 +1,5 @@
 import { Avatar, Badge, Box, createStyles, Group, Text } from '@mantine/core';
+import { Role } from '@prisma/client';
 import { At } from 'phosphor-react';
 
 const useStyles = createStyles((theme) => ({
@@ -24,7 +25,10 @@ export const UserModalInfoCard = ({ avatar, name, role, email }: Props) => {
       <Avatar src={avatar} size={94} radius="md" />
       <div>
         <Box mb={4}>
-          <Badge size="sm" sx={{ textTransform: 'uppercase' }} color="green">
+          <Badge
+            size="sm"
+            color={role === Role.ORGANIZER ? 'violet' : 'yellow'}
+          >
             {role}
           </Badge>
         </Box>

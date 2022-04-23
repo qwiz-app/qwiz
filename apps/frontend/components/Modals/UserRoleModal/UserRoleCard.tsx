@@ -1,4 +1,4 @@
-import { createStyles, Paper, Title, UnstyledButton } from '@mantine/core';
+import { Badge, createStyles, Paper, UnstyledButton } from '@mantine/core';
 import { Role } from '@prisma/client';
 import cn from 'classnames';
 import { ReactElement } from 'react';
@@ -22,20 +22,23 @@ export const UserRoleCard = ({
 }: Props) => {
   const { classes } = useStyles();
 
-  const selectRole = () => onSelect(role);
-
   return (
-    <UnstyledButton className={classes.wrapper} onClick={selectRole}>
+    <UnstyledButton className={classes.wrapper} onClick={() => onSelect(role)}>
       <Paper
         shadow="md"
         p="sm"
-        radius="md"
+        radius="sm"
         sx={{ backgroundImage: `url(${image})` }}
         className={cn([classes.card, selected && classes.selectedCard])}
       >
-        <Title order={3} className={classes.title}>
+        <Badge
+          className={classes.title}
+          size="md"
+          variant="filled"
+          color={selected && (role === Role.ORGANIZER ? 'violet' : 'yellow')}
+        >
           {title}
-        </Title>
+        </Badge>
       </Paper>
       {selected && animatedWrapper}
     </UnstyledButton>
@@ -47,6 +50,8 @@ const useStyles = createStyles((theme) => ({
     flex: 1,
     display: 'flex',
     position: 'relative',
+    width: '100%',
+    maxWidth: 240,
   },
 
   card: {
@@ -71,19 +76,6 @@ const useStyles = createStyles((theme) => ({
   },
 
   title: {
-    color: theme.white,
-    lineHeight: 1.2,
-    fontSize: 18,
     marginTop: theme.spacing.xs,
-    backgroundColor: theme.colors.dark[9],
-    padding: `${theme.spacing.xs / 2}px ${theme.spacing.md / 2}px`,
-    borderRadius: theme.radius.sm,
-  },
-
-  category: {
-    color: theme.white,
-    opacity: 0.7,
-    fontWeight: 700,
-    textTransform: 'uppercase',
   },
 }));

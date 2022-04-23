@@ -57,9 +57,11 @@ const IndexPage = () => {
               Sign in
             </Button>
           )}
-          <Button variant="light" color="pink" onClick={launchUserRoleModal}>
-            Role modal
-          </Button>
+          {isAuthenticated && (
+            <Button variant="light" color="pink" onClick={launchUserRoleModal}>
+              Role modal
+            </Button>
+          )}
         </Group>
       </Group>
       <Box mt={16}>

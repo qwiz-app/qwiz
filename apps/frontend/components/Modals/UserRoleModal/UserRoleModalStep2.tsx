@@ -1,27 +1,35 @@
-import {
-  Group,
-  Stack
-} from '@mantine/core';
+import { Group, Stack, TextInput } from '@mantine/core';
 import { Role } from '@prisma/client';
 import { useCurrentSession } from 'hooks/api/session';
+import { IdentificationBadge } from 'phosphor-react';
+import { useState } from 'react';
 import { useAssignRole } from 'store/use-assign-role';
 import { UserModalInfoCard } from './UserModalInfoCard';
 
 export const UserRoleModalStep2 = () => {
   const { selectedRole } = useAssignRole();
-  const { user, isAuthenticated } = useCurrentSession();
+  const { user } = useCurrentSession();
 
-  console.log('user :>> ', user);
+  const [orgName, setOrgName] = useState('');
 
-  // TODO: show complete user card
-  if (selectedRole === Role.ATTENDEE) {
+  if (selectedRole === Role.ORGANIZER) {
     return (
-      <Stack>
-        {isAuthenticated && (
+      <Stack spacing={16}>
+        <TextInput
+          placeholder="Pub Ching Chong"
+          label="Organization name"
+          description="Your account name will remain unchanged"
+          variant="filled"
+          size="md"
+          onChange={(e) => setOrgName(e.target.value)}
+          required
+          icon={<IdentificationBadge size={20} weight="duotone" />}
+        />
+        {orgName && (
           <UserModalInfoCard
             avatar={user.image}
             role={selectedRole}
-            name={user.name}
+            name={orgName}
             email={user.email}
           />
         )}
@@ -30,8 +38,13 @@ export const UserRoleModalStep2 = () => {
   }
 
   return (
-    <Group>
-      <h1>{selectedRole}</h1>
-    </Group>
+    <Stack>
+      <UserModalInfoCard
+        avatar={user.image}
+        role={selectedRole}
+        name={user.name}
+        email={user.email}
+      />
+    </Stack>
   );
 };

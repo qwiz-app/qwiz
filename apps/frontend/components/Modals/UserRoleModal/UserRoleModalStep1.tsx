@@ -1,17 +1,14 @@
 import { createStyles, Group } from '@mantine/core';
 import { Role } from '@prisma/client';
 import { AnimatedWrapper } from 'components/Animation/AnimatedWrapper';
-import { useEffect } from 'react';
+import { useBreakpoints } from 'hooks/breakpoints';
 import { useAssignRole } from 'store/use-assign-role';
 import { UserRoleCard } from './UserRoleCard';
 
 export const UserRoleModalStep1 = () => {
   const { classes } = useStyles();
+  const { matches } = useBreakpoints();
   const { selectedRole, setSelectedRole } = useAssignRole();
-
-  useEffect(() => {
-    console.log('modal role', selectedRole);
-  }, [selectedRole]);
 
   const roles = [
     {
@@ -29,7 +26,7 @@ export const UserRoleModalStep1 = () => {
   ];
 
   return (
-    <Group>
+    <Group direction={matches.max.sm ? 'column' : 'row'} position="center">
       {roles.map((item) => (
         <UserRoleCard
           selected={selectedRole === item.role}
@@ -45,16 +42,21 @@ export const UserRoleModalStep1 = () => {
   );
 };
 
-const useStyles = createStyles((theme) => ({
-  wrapper: {
-    borderRadius: theme.radius.sm,
-    borderWidth: 6,
-    borderStyle: 'solid',
-    borderColor: theme.colors.yellow[6],
-    position: 'absolute',
-    zIndex: 1,
-    inset: 0,
-    margin: 0,
-    padding: 0,
-  },
-}));
+const useStyles = createStyles((theme) => {
+  const { selectedRole } = useAssignRole();
+
+  return {
+    wrapper: {
+      borderRadius: theme.radius.sm,
+      borderWidth: 4,
+      borderStyle: 'solid',
+      borderColor:
+        // TODO: correct color aligned with mantine theme
+        selectedRole === Role.ORGANIZER
+          ? theme.colors.violet[5]
+          : theme.colors.yellow[4],
+      position: 'absolute',
+      inset: 0,
+    },
+  };
+});
