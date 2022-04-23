@@ -104,7 +104,7 @@ SignInPage.getLayout = function getLayout(page) {
   return <AuthLayout>{page}</AuthLayout>;
 };
 
-export const useStyles = createStyles((theme, _params, getRef) => {
+export const useStyles = createStyles((theme) => {
   const { matches } = useBreakpoints();
 
   return {

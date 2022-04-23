@@ -18,7 +18,7 @@ import { ThemeToggle } from 'components/UI/ThemeToggle';
 import { ThinScrollArea } from 'components/UI/ThinScrollArea';
 import { useBreakpoints } from 'hooks/breakpoints';
 import { useAppColorscheme } from 'hooks/colorscheme';
-import { useCurrentSession } from 'hooks/session';
+import { useCurrentSession } from 'hooks/api/session';
 import Image from 'next/image';
 import { paths } from 'paths';
 import {

@@ -17,7 +17,7 @@ export const CustomMantineProvider = ({ children }) => {
     centered: true,
     radius: 'sm',
     shadow: 'sm',
-    overlayOpacity: 0.95,
+    overlayOpacity: 0.9,
     // theme.colors.dark[9], .gray[2]
     overlayColor: colorScheme === 'dark' ? '#101113' : '#E9ECEF',
   };

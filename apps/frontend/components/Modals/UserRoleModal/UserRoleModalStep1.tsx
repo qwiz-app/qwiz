@@ -1,17 +1,13 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-import { createStyles, Group, Stack } from '@mantine/core';
+import { createStyles, Group } from '@mantine/core';
 import { Role } from '@prisma/client';
 import { AnimatedWrapper } from 'components/Animation/AnimatedWrapper';
 import { useEffect } from 'react';
+import { useAssignRole } from 'store/use-assign-role';
 import { UserRoleCard } from './UserRoleCard';
 
-type Props = {
-  selectedRole: Role | null;
-  onSelectRole: (role: Role) => void;
-};
-
-export const UserRoleModalStep1 = ({ selectedRole, onSelectRole }: Props) => {
+export const UserRoleModalStep1 = () => {
   const { classes } = useStyles();
+  const { selectedRole, setSelectedRole } = useAssignRole();
 
   useEffect(() => {
     console.log('modal role', selectedRole);
@@ -33,35 +29,28 @@ export const UserRoleModalStep1 = ({ selectedRole, onSelectRole }: Props) => {
   ];
 
   return (
-    <div>
-      <Group>
-        {roles.map((item) => (
-          <UserRoleCard
-            selected={selectedRole === item.role}
-            onSelect={onSelectRole}
-            key={item.title}
-            animatedWrapper={
-              <AnimatedWrapper layoutId="roles" className={classes.wrapper} />
-            }
-            {...item}
-          />
-        ))}
-      </Group>
-      <Stack>
-        step1 role: {selectedRole}
-        {selectedRole === Role.ORGANIZER && <div>You are an organization</div>}
-        {selectedRole === Role.ATTENDEE && <div>You are an attendee</div>}
-      </Stack>
-    </div>
+    <Group>
+      {roles.map((item) => (
+        <UserRoleCard
+          selected={selectedRole === item.role}
+          onSelect={setSelectedRole}
+          key={item.title}
+          animatedWrapper={
+            <AnimatedWrapper layoutId="roles" className={classes.wrapper} />
+          }
+          {...item}
+        />
+      ))}
+    </Group>
   );
 };
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
     borderRadius: theme.radius.sm,
-    borderWidth: 8,
+    borderWidth: 6,
     borderStyle: 'solid',
-    borderColor: theme.colors.gray[9],
+    borderColor: theme.colors.yellow[6],
     position: 'absolute',
     zIndex: 1,
     inset: 0,

@@ -7,7 +7,7 @@ import {
   UnstyledButtonProps,
 } from '@mantine/core';
 import { useAppColorscheme } from 'hooks/colorscheme';
-import { useCurrentSession } from 'hooks/session';
+import { useCurrentSession } from 'hooks/api/session';
 import { CaretRight } from 'phosphor-react';
 import { forwardRef } from 'react';
 
