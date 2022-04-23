@@ -22,6 +22,6 @@ export const useOrganization = (id: string) =>
   );
 
 export const useCurrentOrganizationInfo = () =>
-  useQuery(['currentOrganizations'], fetchCurrentOrganization, {
+  useQuery(['currentOrganization'], fetchCurrentOrganization, {
     onError,
   });

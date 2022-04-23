@@ -26,7 +26,7 @@ export class AttendeeController {
 
   @Post()
   async create(@Body() createAttendeeDto: Prisma.AttendeeUncheckedCreateInput) {
-    // TODO: check if user id exists - is there a betterr way?
+    // TODO: check if user id exists - is there a better way?
     // TODO: also check if he is eligble to be an attendee
     // put into reusable methods used across resources
     // or put into middleware?
