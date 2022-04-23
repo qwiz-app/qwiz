@@ -1,6 +1,8 @@
 import 'styles/global.scss';
+import 'windi.css';
 
 import { Container } from '@mantine/core';
+import { showNotification } from '@mantine/notifications';
 import { CustomMantineProvider } from 'context/mantine';
 import Inspect from 'inspx';
 import config from 'lib/config';
@@ -8,15 +10,17 @@ import { SessionProvider } from 'next-auth/react';
 import Head from 'next/head';
 import Script from 'next/script';
 import { QueryCache, QueryClient, QueryClientProvider } from 'react-query';
-import 'windi.css';
-
 import { ReactQueryDevtools } from 'react-query/devtools';
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
-    onError: (err) => {
-      // TODO: show mantine notification
-      console.error('Global error', err);
+    onError: (err: any) => {
+      showNotification({
+        title: 'Something went wrong',
+        message: err?.message || 'Try again later',
+        color: 'red',
+        autoClose: 6000,
+      });
     },
   }),
 });

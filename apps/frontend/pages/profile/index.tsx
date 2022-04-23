@@ -13,9 +13,8 @@ const ProfilePage = () => {
   return (
     <div>
       <h1>My info</h1>
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : (
+      {isLoading && <p>Loading...</p>}
+      {me && (
         <div>
           <h2>{me.name}</h2>
           <p>{me.email}</p>

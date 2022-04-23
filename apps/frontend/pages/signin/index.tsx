@@ -50,7 +50,7 @@ const SignInPage = (props: SignInProps) => {
         title: 'Whoops!',
         message: errors[err] || errors.default,
         color: 'red',
-        autoClose: 8000,
+        autoClose: 6000,
       });
     }, 400);
   };
@@ -61,7 +61,7 @@ const SignInPage = (props: SignInProps) => {
         title: 'Signed out',
         message: 'You have been signed out.',
         color: 'green',
-        autoClose: 5000,
+        autoClose: 6000,
       });
     }, 400);
   };
