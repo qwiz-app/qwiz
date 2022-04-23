@@ -7,10 +7,19 @@ import config from 'lib/config';
 import { SessionProvider } from 'next-auth/react';
 import Head from 'next/head';
 import Script from 'next/script';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryCache, QueryClient, QueryClientProvider } from 'react-query';
 import 'windi.css';
 
-const queryClient = new QueryClient();
+import { ReactQueryDevtools } from 'react-query/devtools';
+
+const queryClient = new QueryClient({
+  queryCache: new QueryCache({
+    onError: (err) => {
+      // TODO: show mantine notification
+      console.error('Global error', err);
+    },
+  }),
+});
 
 const App = ({ Component, pageProps: { session, ...pageProps } }) => {
   const getLayout = Component.getLayout || ((page) => page);
@@ -28,6 +37,7 @@ const App = ({ Component, pageProps: { session, ...pageProps } }) => {
       />
       <SessionProvider session={session}>
         <QueryClientProvider client={queryClient}>
+          <ReactQueryDevtools initialIsOpen={false} />
           <CustomMantineProvider>
             <Inspect>
               <Container fluid px={0} sx={() => ({ minHeight: '100vh' })}>

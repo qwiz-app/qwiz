@@ -1,4 +1,4 @@
-import { Group, Stack, TextInput } from '@mantine/core';
+import { Stack, TextInput } from '@mantine/core';
 import { Role } from '@prisma/client';
 import { useCurrentSession } from 'hooks/api/session';
 import { IdentificationBadge } from 'phosphor-react';
