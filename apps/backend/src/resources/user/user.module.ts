@@ -1,5 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { AuthMiddleware } from 'common/middleware/user.middleware';
+import { Module } from '@nestjs/common';
 import { PrismaService } from 'prisma.service';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
@@ -8,9 +7,4 @@ import { UserService } from './user.service';
   controllers: [UserController],
   providers: [UserService, PrismaService],
 })
-export class UserModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    // TODO: don't allow any routes
-    consumer.apply(AuthMiddleware).forRoutes('users/:id');
-  }
-}
+export class UserModule {}

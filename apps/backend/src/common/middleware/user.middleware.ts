@@ -2,7 +2,7 @@ import {
   Injectable,
   NestMiddleware,
   NotFoundException,
-  UnauthorizedException,
+  UnauthorizedException
 } from '@nestjs/common';
 import { NextFunction, Response } from 'express';
 
@@ -42,6 +42,8 @@ export class AuthMiddleware implements NestMiddleware {
         }
 
         req.user = user;
+
+        console.log('req.user :>> ', req.user.attendee);
 
         next();
       } else {

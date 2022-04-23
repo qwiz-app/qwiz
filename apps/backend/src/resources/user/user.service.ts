@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma, Role } from '@prisma/client';
 import { PrismaService } from '../../prisma.service';
 
 @Injectable()
@@ -22,7 +22,37 @@ export class UserService {
     return this.prisma.user.update({ where, data });
   }
 
-  remove(where: Prisma.UserWhereUniqueInput) {
-    return this.prisma.user.delete({ where });
+  async remove(where: Prisma.UserWhereUniqueInput) {
+    try {
+      return await this.prisma.user.delete({ where });
+    } catch (err) {
+      throw new NotFoundException(err?.meta?.cause || 'Something went wrong.');
+    }
+  }
+
+  assignRoleAndCreateOrganization(
+    where: Prisma.UserWhereUniqueInput,
+    create: Prisma.OrganizationCreateInput
+  ) {
+    return this.prisma.user.update({
+      where,
+      data: {
+        role: Role.ORGANIZER,
+        organization: { create },
+      },
+    });
+  }
+
+  assignRoleAndCreateAttendee(
+    where: Prisma.UserWhereUniqueInput,
+    create: Prisma.AttendeeCreateInput
+  ) {
+    return this.prisma.user.update({
+      where,
+      data: {
+        role: Role.ATTENDEE,
+        attendee: { create },
+      },
+    });
   }
 }

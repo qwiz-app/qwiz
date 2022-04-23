@@ -5,13 +5,15 @@ import {
   DefaultValuePipe,
   Delete,
   Get,
+  NotFoundException,
   Param,
   ParseBoolPipe,
   Patch,
   Post,
   Query,
 } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Attendee as AttendeeModel, Prisma } from '@prisma/client';
+import { Attendee } from 'common/decorators/attendee.decorator';
 import { UserService } from 'resources/user/user.service';
 import { AttendeeService } from './attendee.service';
 
@@ -57,8 +59,14 @@ export class AttendeeController {
     return this.attendeeService.findAll(include);
   }
 
+  // TODO: not working
+  @Get('me')
+  getCurrentAttendee(@Attendee() attendee: AttendeeModel) {
+    return attendee;
+  }
+
   @Get(':id')
-  findOne(
+  async findOne(
     @Param('id') id: string,
     @Query('user', new DefaultValuePipe(true), ParseBoolPipe) user: boolean,
     @Query('adminOfTeams', new DefaultValuePipe(false), ParseBoolPipe)
@@ -74,7 +82,13 @@ export class AttendeeController {
       teams,
       _count: true,
     };
-    return this.attendeeService.findOne({ id }, include);
+
+    const attendee = await this.attendeeService.findOne({ id }, include);
+
+    if (!attendee) {
+      throw new NotFoundException('Attendee does not exist');
+    }
+    return attendee;
   }
 
   @Patch(':id')

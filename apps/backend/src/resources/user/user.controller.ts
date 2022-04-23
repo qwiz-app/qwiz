@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -8,7 +9,7 @@ import {
   Patch,
   Post
 } from '@nestjs/common';
-import { Prisma, User as UserModel } from '@prisma/client';
+import { Prisma, Role, User as UserModel } from '@prisma/client';
 import { User } from 'common/decorators/user.decorator';
 import { UserService } from './user.service';
 
@@ -29,6 +30,37 @@ export class UserController {
   @Get('me')
   getCurrentUser(@User() user: UserModel) {
     return user;
+  }
+
+  @Post('role')
+  async assignRole(
+    @Body()
+    payload: {
+      role: Role;
+      data: Prisma.OrganizationCreateInput | Prisma.AttendeeCreateInput;
+    },
+    @User() user: UserModel
+  ) {
+    const { role } = payload;
+    const { id } = user;
+
+    if (role === Role.ORGANIZER && 'name' in payload.data) {
+      return this.userService.assignRoleAndCreateOrganization(
+        { id },
+        { ...payload.data }
+      );
+    }
+    if (role === Role.ATTENDEE) {
+      return this.userService.assignRoleAndCreateAttendee(
+        { id },
+        { ...payload.data }
+      );
+    }
+    if (role === Role.ADMIN) {
+      return this.userService.update({ id }, { role });
+    }
+
+    throw new BadRequestException('Invalid role.');
   }
 
   @Get(':id')

@@ -5,6 +5,7 @@ import {
   DefaultValuePipe,
   Delete,
   Get,
+  NotFoundException,
   Param,
   ParseBoolPipe,
   Patch,
@@ -54,7 +55,7 @@ export class OrganizationController {
   }
 
   @Get(':id')
-  findOne(
+  async findOne(
     @Param('id') id: string,
     @Query('user', new DefaultValuePipe(true), ParseBoolPipe) user: boolean,
     @Query('events', new DefaultValuePipe(false), ParseBoolPipe)
@@ -71,7 +72,16 @@ export class OrganizationController {
       questions,
       _count: true,
     };
-    return this.organizationService.findOne({ id }, include);
+
+    const organization = await this.organizationService.findOne(
+      { id },
+      include
+    );
+
+    if (!organization) {
+      throw new NotFoundException('Organization does not exists.');
+    }
+    return organization;
   }
 
   @Patch(':id')
