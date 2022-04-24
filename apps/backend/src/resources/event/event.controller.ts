@@ -8,11 +8,10 @@ import {
   ParseBoolPipe,
   Patch,
   Post,
-  Query,
+  Query
 } from '@nestjs/common';
 import { Organization as OrganizationModel, Prisma } from '@prisma/client';
 import { Organization } from 'common/decorators/organization.decorator';
-import { UpdateEventDto } from './dto/update-event.dto';
 import { EventService } from './event.service';
 
 @Controller('events')
@@ -63,7 +62,7 @@ export class EventController {
   update(
     @Param('id') id: string,
     @Organization() organization: OrganizationModel,
-    @Body() updateEventDto: UpdateEventDto
+    @Body() updateEventDto: Prisma.EventUncheckedUpdateInput
   ) {
     return this.eventService.update(
       { id },

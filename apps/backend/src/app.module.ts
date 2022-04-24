@@ -13,6 +13,7 @@ import { OrganizationModule } from './resources/organization/organization.module
 import { QuestionModule } from './resources/question/question.module';
 import { UserModule } from './resources/user/user.module';
 import { EventModule } from './resources/event/event.module';
+import { QuizModule } from './resources/quiz/quiz.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { EventModule } from './resources/event/event.module';
     OrganizationModule,
     AttendeeModule,
     EventModule,
+    QuizModule,
   ],
   providers: [PrismaService],
   controllers: [AppController],
