@@ -2,6 +2,9 @@
 
 App for building pub quizes
 
+### 👀️
+<img src="https://user-images.githubusercontent.com/46557266/164997986-62e99ca8-4211-4ceb-8b01-a36541a7040a.png" />
+
 ## Installation and running locally
 
 Clone the repo
