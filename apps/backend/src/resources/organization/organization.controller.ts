@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   DefaultValuePipe,
@@ -12,8 +11,13 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { Prisma, Organization as OrganizationModel } from '@prisma/client';
+import {
+  Organization as OrganizationModel,
+  Prisma,
+  User as UserModel,
+} from '@prisma/client';
 import { Organization } from 'common/decorators/organization.decorator';
+import { User } from 'common/decorators/user.decorator';
 import { UserService } from 'resources/user/user.service';
 import { OrganizationService } from './organization.service';
 
@@ -26,15 +30,13 @@ export class OrganizationController {
 
   @Post()
   async create(
-    @Body() createOrganizationDto: Prisma.OrganizationUncheckedCreateInput
+    @User() user: UserModel,
+    @Body() createOrganizationDto: Prisma.OrganizationCreateWithoutUserInput
   ) {
-    const user = await this.userService.findOne({
-      id: createOrganizationDto.userId,
+    return this.organizationService.create({
+      ...createOrganizationDto,
+      userId: user.id,
     });
-    if (!user) {
-      throw new BadRequestException('User does not exist');
-    }
-    return this.organizationService.create(createOrganizationDto);
   }
 
   @Get()
@@ -57,7 +59,6 @@ export class OrganizationController {
   @Get(':id')
   async findOne(
     @Param('id') id: string,
-    @Query('user', new DefaultValuePipe(true), ParseBoolPipe) user: boolean,
     @Query('events', new DefaultValuePipe(false), ParseBoolPipe)
     events: boolean,
     @Query('quizzes', new DefaultValuePipe(false), ParseBoolPipe)
@@ -66,7 +67,7 @@ export class OrganizationController {
     questions: boolean
   ) {
     const include: Prisma.OrganizationInclude = {
-      user,
+      user: true,
       events,
       quizzes,
       questions,

@@ -7,7 +7,7 @@ import {
   NotFoundException,
   Param,
   Patch,
-  Post
+  Post,
 } from '@nestjs/common';
 import { Prisma, Role, User as UserModel } from '@prisma/client';
 import { User } from 'common/decorators/user.decorator';

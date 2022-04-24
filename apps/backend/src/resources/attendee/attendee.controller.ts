@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   DefaultValuePipe,
@@ -12,8 +11,13 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { Attendee as AttendeeModel, Prisma } from '@prisma/client';
+import {
+  Attendee as AttendeeModel,
+  Prisma,
+  User as UserModel,
+} from '@prisma/client';
 import { Attendee } from 'common/decorators/attendee.decorator';
+import { User } from 'common/decorators/user.decorator';
 import { UserService } from 'resources/user/user.service';
 import { AttendeeService } from './attendee.service';
 
@@ -25,23 +29,18 @@ export class AttendeeController {
   ) {}
 
   @Post()
-  async create(@Body() createAttendeeDto: Prisma.AttendeeUncheckedCreateInput) {
-    // TODO: check if user id exists - is there a better way?
-    // TODO: also check if he is eligble to be an attendee
-    // put into reusable methods used across resources
-    // or put into middleware?
-    const user = await this.userService.findOne({
-      id: createAttendeeDto.userId,
+  async create(
+    @User() user: UserModel,
+    @Body() createAttendeeDto: Prisma.AttendeeCreateWithoutUserInput
+  ) {
+    return this.attendeeService.create({
+      ...createAttendeeDto,
+      userId: user.id,
     });
-    if (!user) {
-      throw new BadRequestException('User does not exist');
-    }
-    return this.attendeeService.create(createAttendeeDto);
   }
 
   @Get()
   findAll(
-    @Query('user', new DefaultValuePipe(false), ParseBoolPipe) user: boolean,
     @Query('adminOfTeams', new DefaultValuePipe(false), ParseBoolPipe)
     adminOfTeams: boolean,
     @Query('captainOfTeams', new DefaultValuePipe(false), ParseBoolPipe)
@@ -50,7 +49,7 @@ export class AttendeeController {
     @Query('count', new DefaultValuePipe(true), ParseBoolPipe) _count: boolean
   ) {
     const include: Prisma.AttendeeInclude = {
-      user,
+      user: true,
       adminOfTeams,
       captainOfTeams,
       teams,
@@ -59,7 +58,6 @@ export class AttendeeController {
     return this.attendeeService.findAll(include);
   }
 
-  // TODO: not working
   @Get('me')
   getCurrentAttendee(@Attendee() attendee: AttendeeModel) {
     return attendee;

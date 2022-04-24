@@ -187,7 +187,6 @@ model Question {
 
   // relations
   owner        Organization? @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  // TODO: onDelete: how to set default?
   questionType QuestionMode? @relation(fields: [questionTypeId], references: [id], onDelete: Restrict)
 
   // opposite relations
