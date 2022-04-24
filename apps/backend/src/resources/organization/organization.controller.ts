@@ -53,6 +53,9 @@ export class OrganizationController {
 
   @Get('me')
   getCurrentOrganization(@Organization() organization: OrganizationModel) {
+    if (!organization) {
+      throw new NotFoundException('Organization does not exist.');
+    }
     return organization;
   }
 

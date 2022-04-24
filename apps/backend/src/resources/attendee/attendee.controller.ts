@@ -60,6 +60,9 @@ export class AttendeeController {
 
   @Get('me')
   getCurrentAttendee(@Attendee() attendee: AttendeeModel) {
+    if (!attendee) {
+      throw new NotFoundException('Attendee does not exist.');
+    }
     return attendee;
   }
 
