@@ -9,9 +9,11 @@ import {
   ParseBoolPipe,
   Patch,
   Post,
-  Query
+  Query,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { Organization, Prisma } from '@prisma/client';
+import { IsAdmin } from 'common/decorators/admin.decorator';
 import { OrganizationEntity } from 'common/decorators/organization.decorator';
 import { QuestionService } from './question.service';
 
@@ -22,24 +24,21 @@ export class QuestionController {
   @Post()
   create(
     @Body() createQuestionDto: Prisma.QuestionCreateWithoutOwnerInput,
-    @OrganizationEntity() organization: Organization
-    // TODO: isAdmin middleware
+    @OrganizationEntity() organization: Organization,
+    @IsAdmin() isAdmin: boolean
   ) {
+    // question is global by default if made by admin
+    const orgId = organization?.id ?? null;
     return this.questionService.create({
       ...createQuestionDto,
-      // TODO: set global if made by admin
-      isGlobal: false,
-      ownerId: organization?.id ?? null,
+      isGlobal: isAdmin,
+      ownerId: isAdmin ? null : orgId,
     });
   }
 
-  // Global and active questions
-  // option of including our custom questions
+  // Active questions which are either our own or global
   @Get('')
   findAvailable(@OrganizationEntity() organization: Organization) {
-    // TODO: handle admin access
-    // TODO: check if I am the owner organization of the question (user's organization from middleware) or admin
-    // cant do it now cos postman isnt yet configured to handle middleware
     const where: Prisma.QuestionWhereInput = {
       isActive: true,
       OR: [{ isGlobal: true }, { ownerId: organization.id }],
@@ -47,9 +46,11 @@ export class QuestionController {
     return this.questionService.findAvailable(where);
   }
 
-  // TODO: only admin has access
   @Get('/all')
-  findAll() {
+  findAll(@IsAdmin() isAdmin: boolean) {
+    if (!isAdmin) {
+      throw new UnauthorizedException('Only admin can access this route.');
+    }
     return this.questionService.findAll({});
   }
 
@@ -70,11 +71,13 @@ export class QuestionController {
     @Param('id') id: string,
     @Body() updateQuestionDto: Prisma.QuestionUpdateInput
   ) {
+    // TODO: handle admin access for global questions
     return this.questionService.update({ id }, updateQuestionDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
+    // TODO: handle admin access for global questions
     return this.questionService.remove({ id });
   }
 }

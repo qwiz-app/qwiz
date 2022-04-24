@@ -31,7 +31,6 @@ export class AttendeeController {
   ) {
     return this.attendeeService.create({
       ...createAttendeeDto,
-      // TODO: user or organization
       userId: user.id,
     });
   }
