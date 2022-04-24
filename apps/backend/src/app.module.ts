@@ -2,8 +2,9 @@ import {
   MiddlewareConsumer,
   Module,
   NestModule,
-  RequestMethod
+  RequestMethod,
 } from '@nestjs/common';
+import { AppController } from 'app.controller';
 
 import { AuthMiddleware } from 'common/middleware/user.middleware';
 import { PrismaService } from 'prisma.service';
@@ -15,6 +16,7 @@ import { UserModule } from './resources/user/user.module';
 @Module({
   imports: [UserModule, QuestionModule, OrganizationModule, AttendeeModule],
   providers: [PrismaService],
+  controllers: [AppController],
 })
 export class AppModule implements NestModule {
   // TODO: which routes to allow
