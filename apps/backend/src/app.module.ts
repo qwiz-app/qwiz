@@ -12,9 +12,16 @@ import { AttendeeModule } from './resources/attendee/attendee.module';
 import { OrganizationModule } from './resources/organization/organization.module';
 import { QuestionModule } from './resources/question/question.module';
 import { UserModule } from './resources/user/user.module';
+import { EventModule } from './resources/event/event.module';
 
 @Module({
-  imports: [UserModule, QuestionModule, OrganizationModule, AttendeeModule],
+  imports: [
+    UserModule,
+    QuestionModule,
+    OrganizationModule,
+    AttendeeModule,
+    EventModule,
+  ],
   providers: [PrismaService],
   controllers: [AppController],
 })

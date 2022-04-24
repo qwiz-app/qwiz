@@ -135,7 +135,9 @@ model EventTeam {
 model Event {
   id             String   @id @default(cuid())
   name           String
+  banner         String?
   ownerId        String
+  quizId         String
   startDate      DateTime
   location       String
   price          Int
@@ -144,6 +146,7 @@ model Event {
 
   // relations
   owner Organization @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  quiz  Quiz         @relation(fields: [quizId], references: [id], onDelete: Cascade)
 
   // opposite relations
   teams EventTeam[]
@@ -162,6 +165,7 @@ model Quiz {
 
   // opposite relations
   questions QuizQuestion[]
+  Event     Event[]
 }
 
 // when choosing existing question, if ANY INFO ic changed (any word in question, any answer, any answer added) - question is "forked" (but with no reference to the original - yet)
