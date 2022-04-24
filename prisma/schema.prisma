@@ -106,7 +106,7 @@ model Team {
   createdAt   DateTime @default(now())
 
   // relations
-  admin Attendee @relation(name: "TeamAdmin", fields: [adminId], references: [id])
+  admin Attendee @relation(name: "TeamAdmin", fields: [adminId], references: [id], onDelete: Restrict)
 
   // opposite relations
   members    Attendee[]  @relation(name: "TeamMember", references: [id])
@@ -122,9 +122,9 @@ model EventTeam {
   updatedAt DateTime @updatedAt
 
   // relations
-  team    Team     @relation(fields: [teamId], references: [id], onUpdate: NoAction)
-  event   Event    @relation(fields: [eventId], references: [id], onUpdate: NoAction)
-  captain Attendee @relation(fields: [captainId], references: [id], onUpdate: NoAction)
+  team    Team     @relation(fields: [teamId], references: [id], onUpdate: NoAction, onDelete: Cascade)
+  event   Event    @relation(fields: [eventId], references: [id], onUpdate: NoAction, onDelete: Cascade)
+  captain Attendee @relation(fields: [captainId], references: [id], onUpdate: NoAction, onDelete: Restrict)
 
   // opposite relations
   answers EventTeamAnswer[]
@@ -146,7 +146,7 @@ model Event {
 
   // relations
   owner Organization @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  quiz  Quiz         @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  quiz  Quiz         @relation(fields: [quizId], references: [id], onDelete: Restrict)
 
   // opposite relations
   teams EventTeam[]
@@ -187,17 +187,20 @@ model Question {
 
   // relations
   owner        Organization? @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  questionType QuestionMode? @relation(fields: [questionTypeId], references: [id])
+  // TODO: onDelete: how to set default?
+  questionType QuestionMode? @relation(fields: [questionTypeId], references: [id], onDelete: Restrict)
 
   // opposite relations
   quizQuestions QuizQuestion[]
 }
 
 model Answer {
-  id         String   @id @default(cuid())
-  question   Question @relation(fields: [questionId], references: [id])
+  id         String @id @default(cuid())
   questionId String
   answer     String
+
+  // relations
+  question Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
 }
 
 model QuestionMode {
@@ -241,9 +244,9 @@ model QuizQuestion {
   scoringModeId Int    @default(1)
 
   // relations
-  quiz        Quiz                 @relation(fields: [quizId], references: [id], onUpdate: NoAction)
-  question    Question             @relation(fields: [questionId], references: [id], onUpdate: NoAction)
-  scoringMode QuestionScoringMode? @relation(fields: [scoringModeId], references: [id])
+  quiz        Quiz                 @relation(fields: [quizId], references: [id], onUpdate: NoAction, onDelete: Restrict)
+  question    Question             @relation(fields: [questionId], references: [id], onUpdate: NoAction, onDelete: Restrict)
+  scoringMode QuestionScoringMode? @relation(fields: [scoringModeId], references: [id], onDelete: Restrict)
 
   // opposite relations
   eventAnswers EventTeamAnswer[]
@@ -266,8 +269,8 @@ model EventTeamAnswer {
   updatedAt   DateTime          @updatedAt
 
   // relations
-  eventTeam EventTeam    @relation(fields: [eventTeamId], references: [id])
-  question  QuizQuestion @relation(fields: [questionId], references: [id])
+  eventTeam EventTeam    @relation(fields: [eventTeamId], references: [id], onUpdate: NoAction, onDelete: Restrict)
+  question  QuizQuestion @relation(fields: [questionId], references: [id], onDelete: SetNull)
 
   @@unique([eventTeamId, questionId])
 }
