@@ -137,7 +137,8 @@ model Event {
   name           String
   banner         String?
   ownerId        String
-  quizId         String
+  //! TODO: DISABLED ONLY FOR TESTING PURPOSES
+  quizId         String?
   startDate      DateTime
   location       String
   price          Int
@@ -146,7 +147,7 @@ model Event {
 
   // relations
   owner Organization @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  quiz  Quiz         @relation(fields: [quizId], references: [id], onDelete: Restrict)
+  quiz  Quiz?        @relation(fields: [quizId], references: [id], onDelete: Restrict)
 
   // opposite relations
   teams EventTeam[]
@@ -269,7 +270,7 @@ model EventTeamAnswer {
 
   // relations
   eventTeam EventTeam    @relation(fields: [eventTeamId], references: [id], onUpdate: NoAction, onDelete: Restrict)
-  question  QuizQuestion @relation(fields: [questionId], references: [id], onDelete: SetNull)
+  question  QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Restrict)
 
   @@unique([eventTeamId, questionId])
 }
