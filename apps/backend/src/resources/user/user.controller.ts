@@ -7,10 +7,10 @@ import {
   NotFoundException,
   Param,
   Patch,
-  Post
+  Post,
 } from '@nestjs/common';
-import { Prisma, Role, User as UserModel } from '@prisma/client';
-import { User } from 'common/decorators/user.decorator';
+import { Prisma, Role, User } from '@prisma/client';
+import { UserEntity } from 'common/decorators/user.decorator';
 import { UserService } from './user.service';
 
 @Controller('users')
@@ -28,7 +28,7 @@ export class UserController {
   }
 
   @Get('me')
-  getCurrentUser(@User() user: UserModel) {
+  getCurrentUser(@UserEntity() user: User) {
     return user;
   }
 
@@ -39,7 +39,7 @@ export class UserController {
       role: Role;
       data: Prisma.OrganizationCreateInput | Prisma.AttendeeCreateInput;
     },
-    @User() user: UserModel
+    @UserEntity() user: User
   ) {
     const { role } = payload;
     const { id } = user;

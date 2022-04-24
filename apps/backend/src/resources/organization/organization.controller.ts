@@ -11,13 +11,9 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import {
-  Organization as OrganizationModel,
-  Prisma,
-  User as UserModel,
-} from '@prisma/client';
-import { Organization } from 'common/decorators/organization.decorator';
-import { User } from 'common/decorators/user.decorator';
+import { Organization, Prisma, User } from '@prisma/client';
+import { OrganizationEntity } from 'common/decorators/organization.decorator';
+import { UserEntity } from 'common/decorators/user.decorator';
 import { UserService } from 'resources/user/user.service';
 import { OrganizationService } from './organization.service';
 
@@ -30,7 +26,7 @@ export class OrganizationController {
 
   @Post()
   async create(
-    @User() user: UserModel,
+    @UserEntity() user: User,
     @Body() createOrganizationDto: Prisma.OrganizationCreateWithoutUserInput
   ) {
     return this.organizationService.create({
@@ -52,7 +48,7 @@ export class OrganizationController {
   }
 
   @Get('me')
-  getCurrentOrganization(@Organization() organization: OrganizationModel) {
+  getCurrentOrganization(@OrganizationEntity() organization: Organization) {
     if (!organization) {
       throw new NotFoundException('Organization does not exist.');
     }

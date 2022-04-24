@@ -11,13 +11,9 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import {
-  Attendee as AttendeeModel,
-  Prisma,
-  User as UserModel,
-} from '@prisma/client';
-import { Attendee } from 'common/decorators/attendee.decorator';
-import { User } from 'common/decorators/user.decorator';
+import { Attendee, Prisma, User } from '@prisma/client';
+import { AttendeeEntity } from 'common/decorators/attendee.decorator';
+import { UserEntity } from 'common/decorators/user.decorator';
 import { UserService } from 'resources/user/user.service';
 import { AttendeeService } from './attendee.service';
 
@@ -30,11 +26,12 @@ export class AttendeeController {
 
   @Post()
   async create(
-    @User() user: UserModel,
+    @UserEntity() user: User,
     @Body() createAttendeeDto: Prisma.AttendeeCreateWithoutUserInput
   ) {
     return this.attendeeService.create({
       ...createAttendeeDto,
+      // TODO: user or organization
       userId: user.id,
     });
   }
@@ -59,7 +56,7 @@ export class AttendeeController {
   }
 
   @Get('me')
-  getCurrentAttendee(@Attendee() attendee: AttendeeModel) {
+  getCurrentAttendee(@AttendeeEntity() attendee: Attendee) {
     if (!attendee) {
       throw new NotFoundException('Attendee does not exist.');
     }

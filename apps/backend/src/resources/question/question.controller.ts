@@ -9,11 +9,10 @@ import {
   ParseBoolPipe,
   Patch,
   Post,
-  Query,
+  Query
 } from '@nestjs/common';
-import { User as UserModel, Prisma } from '@prisma/client';
-import { User } from 'common/decorators/user.decorator';
-// import { Organization } from 'common/decorators/organization.decorator';
+import { Organization, Prisma } from '@prisma/client';
+import { OrganizationEntity } from 'common/decorators/organization.decorator';
 import { QuestionService } from './question.service';
 
 @Controller('questions')
@@ -21,24 +20,29 @@ export class QuestionController {
   constructor(private readonly questionService: QuestionService) {}
 
   @Post()
-  create(@Body() createQuestionDto: Prisma.QuestionCreateInput) {
-    return this.questionService.create(createQuestionDto);
+  create(
+    @Body() createQuestionDto: Prisma.QuestionCreateWithoutOwnerInput,
+    @OrganizationEntity() organization: Organization
+    // TODO: isAdmin middleware
+  ) {
+    return this.questionService.create({
+      ...createQuestionDto,
+      // TODO: set global if made by admin
+      isGlobal: false,
+      ownerId: organization?.id ?? null,
+    });
   }
 
   // Global and active questions
   // option of including our custom questions
   @Get('')
-  findAvailable(
-    @Query('includeByOwner') ownerId: string,
-    @User() user: UserModel
-  ) {
-    console.log('user :>> ', user);
-    // console.log('organization :>> ', organization);
+  findAvailable(@OrganizationEntity() organization: Organization) {
+    // TODO: handle admin access
     // TODO: check if I am the owner organization of the question (user's organization from middleware) or admin
     // cant do it now cos postman isnt yet configured to handle middleware
     const where: Prisma.QuestionWhereInput = {
       isActive: true,
-      OR: [{ isGlobal: true }, { ownerId }],
+      OR: [{ isGlobal: true }, { ownerId: organization.id }],
     };
     return this.questionService.findAvailable(where);
   }

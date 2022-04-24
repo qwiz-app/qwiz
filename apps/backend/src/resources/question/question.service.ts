@@ -6,7 +6,7 @@ import { PrismaService } from 'prisma.service';
 export class QuestionService {
   constructor(private prisma: PrismaService) {}
 
-  create(data: Prisma.QuestionCreateInput) {
+  create(data: Prisma.QuestionUncheckedCreateInput) {
     return this.prisma.question.create({ data });
   }
 
