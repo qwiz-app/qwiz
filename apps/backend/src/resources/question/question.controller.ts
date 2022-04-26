@@ -46,20 +46,33 @@ export class QuestionController {
     return this.questionService.findAvailable(where);
   }
 
+  //* ADMIN-ONLY
   @Get('/all')
-  findAll(@IsAdmin() isAdmin: boolean) {
+  findAll(
+    @Query('owner', new DefaultValuePipe(false), ParseBoolPipe) owner: boolean,
+    @IsAdmin() isAdmin: boolean
+  ) {
     if (!isAdmin) {
       throw new UnauthorizedException('Only admin can access this route.');
     }
-    return this.questionService.findAll({});
+    return this.questionService.findAll({}, { owner });
   }
 
   @Get(':id')
   async findOne(
     @Param('id') id: string,
-    @Query('owner', new DefaultValuePipe(false), ParseBoolPipe) owner: boolean
+    @Query('owner', new DefaultValuePipe(true), ParseBoolPipe) owner: boolean,
+    @OrganizationEntity() organization: Organization
   ) {
-    const question = await this.questionService.findOne({ id }, { owner });
+    console.log('get question :>> ');
+    // only allow personal or global questions
+    const question = await this.questionService.findOne(
+      {
+        id,
+        OR: [{ isGlobal: true }, { ownerId: organization.id }],
+      },
+      { owner }
+    );
     if (!question) {
       throw new NotFoundException('Question does not exist.');
     }
@@ -69,15 +82,75 @@ export class QuestionController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateQuestionDto: Prisma.QuestionUpdateInput
+    @Body() updateQuestionDto: Prisma.QuestionUpdateInput,
+    @OrganizationEntity() organization: Organization
   ) {
-    // TODO: handle admin access for global questions
-    return this.questionService.update({ id }, updateQuestionDto);
+    // can only update personal non-global question
+    // TODO: prisma doesnt allow multiple wheres on single update
+    // can be done with updateMany but doesnt return updated object
+    // can't update personal question if question is global
+    return this.questionService.update(
+      {
+        id,
+        ownerId: organization.id,
+        isGlobal: false,
+      },
+      updateQuestionDto
+    );
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    // TODO: handle admin access for global questions
+  remove(
+    @Param('id') id: string,
+    @OrganizationEntity() organization: Organization
+  ) {
+    // can only delete personal non-global question
+    // TODO: prisma doesnt allow multiple wheres on single update
+    // can be done with deleteMany but doesnt return deleted object
+    // can't update personal question if question is global
+    return this.questionService.remove({
+      id,
+      ownerId: organization.id,
+      isGlobal: false,
+    });
+  }
+
+  //* ADMIN-ONLY
+  @Get(':id/any')
+  async findAny(
+    @Param('id') id: string,
+    @Query('owner', new DefaultValuePipe(true), ParseBoolPipe) owner: boolean,
+    @IsAdmin() isAdmin: boolean
+  ) {
+    if (!isAdmin) {
+      throw new UnauthorizedException('Only admin can access this route.');
+    }
+    const question = await this.questionService.findOne({ id }, { owner });
+    if (!question) {
+      throw new NotFoundException('Question does not exist.');
+    }
+    return question;
+  }
+
+  //* ADMIN-ONLY
+  @Patch(':id/any')
+  updateAny(
+    @Param('id') id: string,
+    @Body() updateQuestionDto: Prisma.QuestionUpdateInput,
+    @IsAdmin() isAdmin: boolean
+  ) {
+    if (!isAdmin) {
+      throw new UnauthorizedException('Only admin can access this route.');
+    }
+    return this.questionService.update({ id }, updateQuestionDto);
+  }
+
+  //* ADMIN-ONLY
+  @Delete(':id/any')
+  removeAny(@Param('id') id: string, @IsAdmin() isAdmin: boolean) {
+    if (!isAdmin) {
+      throw new UnauthorizedException('Only admin can access this route.');
+    }
     return this.questionService.remove({ id });
   }
 }

@@ -14,30 +14,35 @@ export class QuestionService {
     return this.prisma.question.findMany({ where });
   }
 
-  findAll(where: Prisma.QuestionWhereInput) {
-    return this.prisma.question.findMany({ where });
+  findAll(
+    where: Prisma.QuestionWhereInput = {},
+    include: Prisma.QuestionInclude = {}
+  ) {
+    return this.prisma.question.findMany({ where, include });
   }
 
   findOne(
-    where: Prisma.QuestionWhereUniqueInput,
+    where: Prisma.QuestionWhereUniqueInput & Prisma.QuestionWhereInput,
     include: Prisma.QuestionInclude
   ) {
-    return this.prisma.question.findUnique({ where, include });
+    return this.prisma.question.findFirst({ where, include });
   }
 
   update(
-    where: Prisma.QuestionWhereUniqueInput,
+    where: Prisma.QuestionWhereUniqueInput & Prisma.QuestionWhereInput,
     data: Prisma.QuestionUpdateInput
   ) {
-    return this.prisma.question.update({
+    return this.prisma.question.updateMany({
       where,
       data,
     });
   }
 
-  async remove(where: Prisma.QuestionWhereUniqueInput) {
+  async remove(
+    where: Prisma.QuestionWhereUniqueInput & Prisma.QuestionWhereInput
+  ) {
     try {
-      return await this.prisma.question.delete({ where });
+      return await this.prisma.question.deleteMany({ where });
     } catch (err) {
       throw new NotFoundException(err?.meta?.cause || 'Something went wrong.');
     }

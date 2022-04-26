@@ -46,8 +46,6 @@ export class AuthMiddleware implements NestMiddleware {
 
         req.user = user;
 
-        console.log('req.user :>> ', req.user);
-
         next();
       } else {
         throw new UnauthorizedException('Session not found.');
