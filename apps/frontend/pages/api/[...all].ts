@@ -12,9 +12,12 @@ export const config = {
 const proxy = (req: NextApiRequest, res: NextApiResponse) => {
   return httpProxyMiddleware(req, res, {
     target: appConfig.backendUrl,
-    pathRewrite: {
-      '^/api/': '/',
-    },
+    pathRewrite: [
+      {
+        patternStr: '^/api',
+        replaceStr: '/',
+      },
+    ],
   });
 };
 
