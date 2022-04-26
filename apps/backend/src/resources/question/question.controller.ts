@@ -64,8 +64,6 @@ export class QuestionController {
     @Query('owner', new DefaultValuePipe(true), ParseBoolPipe) owner: boolean,
     @OrganizationEntity() organization: Organization
   ) {
-    console.log('get question :>> ');
-    // only allow personal or global questions
     const question = await this.questionService.findOne(
       {
         id,
@@ -85,10 +83,8 @@ export class QuestionController {
     @Body() updateQuestionDto: Prisma.QuestionUpdateInput,
     @OrganizationEntity() organization: Organization
   ) {
-    // can only update personal non-global question
-    // TODO: prisma doesnt allow multiple wheres on single update
-    // can be done with updateMany but doesnt return updated object
-    // can't update personal question if question is global
+    // TODO: prisma doesnt allow multiple conditions on single update
+    // so must be done with updateMany - doesnt return updated object
     return this.questionService.update(
       {
         id,
@@ -104,10 +100,8 @@ export class QuestionController {
     @Param('id') id: string,
     @OrganizationEntity() organization: Organization
   ) {
-    // can only delete personal non-global question
-    // TODO: prisma doesnt allow multiple wheres on single update
-    // can be done with deleteMany but doesnt return deleted object
-    // can't update personal question if question is global
+    // TODO: prisma doesnt allow multiple conditions on single delete
+    // so must be done with deleteMany - doesnt return deleted object
     return this.questionService.remove({
       id,
       ownerId: organization.id,
