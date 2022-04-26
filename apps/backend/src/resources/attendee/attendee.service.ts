@@ -26,7 +26,7 @@ export class AttendeeService {
 
   update(
     where: Prisma.AttendeeWhereUniqueInput,
-    data: Prisma.AttendeeUpdateInput
+    data: Prisma.AttendeeUncheckedUpdateInput
   ) {
     return this.prisma.attendee.update({
       where,

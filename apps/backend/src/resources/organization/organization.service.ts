@@ -26,7 +26,7 @@ export class OrganizationService {
 
   update(
     where: Prisma.OrganizationWhereUniqueInput,
-    data: Prisma.OrganizationUpdateInput
+    data: Prisma.OrganizationUncheckedUpdateInput
   ) {
     return this.prisma.organization.update({
       where,

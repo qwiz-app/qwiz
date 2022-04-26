@@ -8,8 +8,10 @@ import {
   Param,
   Patch,
   Post,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { Prisma, Role, User } from '@prisma/client';
+import { IsAdmin } from 'common/decorators/admin.decorator';
 import { UserEntity } from 'common/decorators/user.decorator';
 import { UserService } from './user.service';
 
@@ -72,11 +74,25 @@ export class UserController {
     return user;
   }
 
+  // TODO: dont allow changing roles
+  @Patch('me')
+  updateCurrent(
+    @Body() updateUserDto: Prisma.UserUpdateInput,
+    @UserEntity() user: User
+  ) {
+    return this.userService.update({ id: user.id }, updateUserDto);
+  }
+
+  //* ADMIN-ONLY
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateUserDto: Prisma.UserUpdateInput
+    @Body() updateUserDto: Prisma.UserUpdateInput,
+    @IsAdmin() isAdmin: boolean
   ) {
+    if (!isAdmin) {
+      throw new UnauthorizedException('Only admin can access this route.');
+    }
     const user = this.userService.update({ id }, updateUserDto);
     if (!user) {
       throw new NotFoundException('User not found.');
@@ -84,8 +100,17 @@ export class UserController {
     return user;
   }
 
+  @Delete('me')
+  removeCurrent(@UserEntity() user: User) {
+    return this.userService.remove({ id: user.id });
+  }
+
+  //* ADMIN-ONLY
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: string, @IsAdmin() isAdmin: boolean) {
+    if (!isAdmin) {
+      throw new UnauthorizedException('Only admin can access this route.');
+    }
     const user = this.userService.remove({ id });
     if (!user) {
       throw new NotFoundException('User not found.');

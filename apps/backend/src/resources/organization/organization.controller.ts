@@ -10,24 +10,22 @@ import {
   Patch,
   Post,
   Query,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { Organization, Prisma, User } from '@prisma/client';
+import { IsAdmin } from 'common/decorators/admin.decorator';
 import { OrganizationEntity } from 'common/decorators/organization.decorator';
 import { UserEntity } from 'common/decorators/user.decorator';
-import { UserService } from 'resources/user/user.service';
 import { OrganizationService } from './organization.service';
 
 @Controller('organizations')
 export class OrganizationController {
-  constructor(
-    private readonly organizationService: OrganizationService,
-    private readonly userService: UserService
-  ) {}
+  constructor(private readonly organizationService: OrganizationService) {}
 
   @Post()
   async create(
-    @UserEntity() user: User,
-    @Body() createOrganizationDto: Prisma.OrganizationCreateWithoutUserInput
+    @Body() createOrganizationDto: Prisma.OrganizationCreateWithoutUserInput,
+    @UserEntity() user: User
   ) {
     return this.organizationService.create({
       ...createOrganizationDto,
@@ -40,7 +38,7 @@ export class OrganizationController {
     @Query('user', new DefaultValuePipe(false), ParseBoolPipe) user: boolean,
     @Query('count', new DefaultValuePipe(true), ParseBoolPipe) _count: boolean
   ) {
-    const include: Prisma.OrganizationInclude = {
+    const include = {
       user,
       _count,
     };
@@ -65,7 +63,7 @@ export class OrganizationController {
     @Query('questions', new DefaultValuePipe(false), ParseBoolPipe)
     questions: boolean
   ) {
-    const include: Prisma.OrganizationInclude = {
+    const include = {
       user: true,
       events,
       quizzes,
@@ -79,21 +77,35 @@ export class OrganizationController {
     );
 
     if (!organization) {
-      throw new NotFoundException('Organization does not exists.');
+      throw new NotFoundException('Organization does not exist.');
     }
     return organization;
   }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateOrganizationDto: Prisma.OrganizationUpdateInput
+  @Patch('me')
+  updateCurrent(
+    @Body()
+    updateOrganizationDto: Prisma.OrganizationUpdateInput,
+    @OrganizationEntity() organization: Organization,
+    @UserEntity() user: User
   ) {
-    return this.organizationService.update({ id }, updateOrganizationDto);
+    return this.organizationService.update(
+      { id: organization.id },
+      { ...updateOrganizationDto, userId: user.id }
+    );
   }
 
+  @Delete('me')
+  removeCurrent(@OrganizationEntity() organization: Organization) {
+    return this.organizationService.remove({ id: organization.id });
+  }
+
+  //* ADMIN-ONLY
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: string, @IsAdmin() isAdmin: boolean) {
+    if (!isAdmin) {
+      throw new UnauthorizedException('Only admin can access this route.');
+    }
     return this.organizationService.remove({ id });
   }
 }

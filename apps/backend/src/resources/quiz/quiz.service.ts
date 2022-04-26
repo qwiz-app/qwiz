@@ -1,24 +1,35 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
+import { PrismaService } from 'prisma.service';
 
 @Injectable()
 export class QuizService {
-  create(createQuizDto: any) {
-    return 'This action adds a new quiz';
+  constructor(private prisma: PrismaService) {}
+
+  create(data: Prisma.QuizUncheckedCreateInput) {
+    return this.prisma.quiz.create({ data });
   }
 
-  findAll() {
-    return `This action returns all quiz`;
+  findAll(include: Prisma.QuizInclude) {
+    return this.prisma.quiz.findMany({ include });
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} quiz`;
+  findOne(where: Prisma.QuizWhereUniqueInput, include: Prisma.QuizInclude) {
+    return this.prisma.quiz.findUnique({ where, include });
   }
 
-  update(id: string, updateQuizDto: any) {
-    return `This action updates a #${id} quiz`;
+  update(
+    where: Prisma.QuizWhereUniqueInput,
+    data: Prisma.QuizUncheckedUpdateInput
+  ) {
+    return this.prisma.quiz.update({ where, data });
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} quiz`;
+  async remove(where: Prisma.QuizWhereUniqueInput) {
+    try {
+      return await this.prisma.quiz.delete({ where });
+    } catch (err) {
+      throw new NotFoundException(err?.meta?.cause || 'Something went wrong.');
+    }
   }
 }

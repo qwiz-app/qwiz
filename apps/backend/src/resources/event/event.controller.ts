@@ -4,6 +4,7 @@ import {
   DefaultValuePipe,
   Delete,
   Get,
+  NotFoundException,
   Param,
   ParseBoolPipe,
   Patch,
@@ -20,9 +21,11 @@ export class EventController {
 
   @Post()
   create(
-    @OrganizationEntity() organization: Organization,
-    @Body() createEventDto: Prisma.EventUncheckedCreateWithoutOwnerInput
+    @Body() createEventDto: Prisma.EventUncheckedCreateWithoutOwnerInput,
+    @OrganizationEntity() organization: Organization
   ) {
+    // TODO: i broke it, doesnt work anymore
+    console.log('organization :>> ', organization);
     return this.eventService.create({
       ...createEventDto,
       ownerId: organization.id,
@@ -32,37 +35,32 @@ export class EventController {
   @Get()
   findAll(
     @Query('owner', new DefaultValuePipe(false), ParseBoolPipe) owner: boolean,
-    @Query('quiz', new DefaultValuePipe(false), ParseBoolPipe) quiz: boolean,
-    @Query('count', new DefaultValuePipe(true), ParseBoolPipe) _count: boolean
+    @Query('quiz', new DefaultValuePipe(false), ParseBoolPipe) quiz: boolean
   ) {
-    const include: Prisma.EventInclude = {
-      owner,
-      quiz,
-      _count,
-    };
+    const include = { owner, quiz };
     return this.eventService.findAll(include);
   }
 
   @Get(':id')
-  findOne(
+  async findOne(
     @Param('id') id: string,
     @Query('owner', new DefaultValuePipe(true), ParseBoolPipe) owner: boolean,
     @Query('quiz', new DefaultValuePipe(false), ParseBoolPipe) quiz: boolean,
     @Query('count', new DefaultValuePipe(true), ParseBoolPipe) _count: boolean
   ) {
-    const include: Prisma.EventInclude = {
-      owner,
-      quiz,
-      _count,
-    };
-    return this.eventService.findOne({ id }, include);
+    const include = { owner, quiz, _count };
+    const event = await this.eventService.findOne({ id }, include);
+    if (!event) {
+      throw new NotFoundException('Event not found.');
+    }
+    return event;
   }
 
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @OrganizationEntity() organization: Organization,
-    @Body() updateEventDto: Prisma.EventUncheckedUpdateInput
+    @Body() updateEventDto: Prisma.EventUncheckedUpdateWithoutOwnerInput,
+    @OrganizationEntity() organization: Organization
   ) {
     return this.eventService.update(
       { id },

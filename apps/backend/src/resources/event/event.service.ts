@@ -14,24 +14,15 @@ export class EventService {
     return this.prisma.event.findMany({ include });
   }
 
-  findOne(
-    where: Prisma.EventWhereUniqueInput,
-    include: Prisma.EventInclude = {}
-  ) {
-    return this.prisma.event.findUnique({
-      where,
-      include,
-    });
+  findOne(where: Prisma.EventWhereUniqueInput, include: Prisma.EventInclude) {
+    return this.prisma.event.findUnique({ where, include });
   }
 
   update(
     where: Prisma.EventWhereUniqueInput,
     data: Prisma.EventUncheckedUpdateInput
   ) {
-    return this.prisma.event.update({
-      where,
-      data,
-    });
+    return this.prisma.event.update({ where, data });
   }
 
   async remove(where: Prisma.EventWhereUniqueInput) {

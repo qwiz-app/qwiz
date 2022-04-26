@@ -10,14 +10,14 @@ export class QuestionService {
     return this.prisma.question.create({ data });
   }
 
-  findAvailable(where: Prisma.QuestionWhereInput) {
-    return this.prisma.question.findMany({ where });
+  findAvailable(
+    where: Prisma.QuestionWhereInput,
+    include: Prisma.QuestionInclude
+  ) {
+    return this.prisma.question.findMany({ where, include });
   }
 
-  findAll(
-    where: Prisma.QuestionWhereInput = {},
-    include: Prisma.QuestionInclude = {}
-  ) {
+  findAll(where: Prisma.QuestionWhereInput, include: Prisma.QuestionInclude) {
     return this.prisma.question.findMany({ where, include });
   }
 

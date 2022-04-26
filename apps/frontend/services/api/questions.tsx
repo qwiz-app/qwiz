@@ -3,10 +3,14 @@ import { parseData } from 'lib/axios';
 import http from 'services/http';
 
 export const fetchAvailableQuestions = () =>
-  http.get<Question[]>('/api/questions').then(parseData);
+  http
+    .get<(Question & Prisma.QuestionInclude)[]>('/api/questions')
+    .then(parseData);
 
 export const fetchQuestion = (id: string) =>
-  http.get<Question>(`/api/questions/${id}`).then(parseData);
+  http
+    .get<Question & Prisma.QuestionInclude>(`/api/questions/${id}`)
+    .then(parseData);
 
 export const createQuestion = (data: Prisma.QuestionCreateInput) =>
   http.post<Question>(`/api/questions`, data).then(parseData);
@@ -17,12 +21,10 @@ export const updateQuestion = (id: string, data: Prisma.QuestionUpdateInput) =>
 export const deleteQuestion = (id: string) =>
   http.delete<{ count: number }>(`/api/questions/${id}`).then(parseData);
 
-//* ADMIN-ONLY
-export const fetchAllQuestions = () =>
-  http.get<Question[]>('/api/questions/all').then(parseData);
-
 export const fetchAnyQuestion = (id: string) =>
-  http.get<Question>(`/api/questions/${id}/any`).then(parseData);
+  http
+    .get<Question & Prisma.QuestionInclude>(`/api/questions/${id}/any`)
+    .then(parseData);
 
 export const updateAnyQuestion = (
   id: string,
@@ -31,3 +33,9 @@ export const updateAnyQuestion = (
 
 export const deleteAnyQuestion = (id: string) =>
   http.delete<Question>(`/api/questions/${id}/any`).then(parseData);
+
+//* ADMIN-ONLY
+export const fetchAllQuestions = () =>
+  http
+    .get<(Question & Prisma.QuestionInclude)[]>('/api/questions/all')
+    .then(parseData);

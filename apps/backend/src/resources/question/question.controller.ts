@@ -38,39 +38,53 @@ export class QuestionController {
 
   // Active questions which are either our own or global
   @Get('')
-  findAvailable(@OrganizationEntity() organization: Organization) {
-    const where: Prisma.QuestionWhereInput = {
+  findAvailable(
+    @OrganizationEntity() organization: Organization,
+    @Query('owner', new DefaultValuePipe(false), ParseBoolPipe) owner: boolean,
+    @Query('questionType', new DefaultValuePipe(false), ParseBoolPipe)
+    questionType: boolean
+  ) {
+    const where = {
       isActive: true,
       OR: [{ isGlobal: true }, { ownerId: organization.id }],
     };
-    return this.questionService.findAvailable(where);
+    const include = { owner, questionType };
+
+    return this.questionService.findAvailable(where, include);
   }
 
   //* ADMIN-ONLY
   @Get('/all')
   findAll(
     @Query('owner', new DefaultValuePipe(false), ParseBoolPipe) owner: boolean,
+    @Query('questionType', new DefaultValuePipe(false), ParseBoolPipe)
+    questionType: boolean,
     @IsAdmin() isAdmin: boolean
   ) {
     if (!isAdmin) {
       throw new UnauthorizedException('Only admin can access this route.');
     }
-    return this.questionService.findAll({}, { owner });
+    const where = {};
+    const include = { owner, questionType };
+
+    return this.questionService.findAll(where, include);
   }
 
   @Get(':id')
   async findOne(
     @Param('id') id: string,
     @Query('owner', new DefaultValuePipe(true), ParseBoolPipe) owner: boolean,
+    @Query('questionType', new DefaultValuePipe(true), ParseBoolPipe)
+    questionType: boolean,
     @OrganizationEntity() organization: Organization
   ) {
-    const question = await this.questionService.findOne(
-      {
-        id,
-        OR: [{ isGlobal: true }, { ownerId: organization.id }],
-      },
-      { owner }
-    );
+    const where = {
+      id,
+      OR: [{ isGlobal: true }, { ownerId: organization.id }],
+    };
+    const include = { owner, questionType };
+    const question = await this.questionService.findOne(where, include);
+
     if (!question) {
       throw new NotFoundException('Question does not exist.');
     }
@@ -83,16 +97,14 @@ export class QuestionController {
     @Body() updateQuestionDto: Prisma.QuestionUpdateInput,
     @OrganizationEntity() organization: Organization
   ) {
+    const where = {
+      id,
+      ownerId: organization.id,
+      isGlobal: false,
+    };
     // TODO: prisma doesnt allow multiple conditions on single update
     // so must be done with updateMany - doesnt return updated object
-    return this.questionService.update(
-      {
-        id,
-        ownerId: organization.id,
-        isGlobal: false,
-      },
-      updateQuestionDto
-    );
+    return this.questionService.update(where, updateQuestionDto);
   }
 
   @Delete(':id')
@@ -113,13 +125,19 @@ export class QuestionController {
   @Get(':id/any')
   async findAny(
     @Param('id') id: string,
-    @Query('owner', new DefaultValuePipe(true), ParseBoolPipe) owner: boolean,
+    @Query('owner', new DefaultValuePipe(false), ParseBoolPipe) owner: boolean,
+    @Query('questionType', new DefaultValuePipe(false), ParseBoolPipe)
+    questionType: boolean,
     @IsAdmin() isAdmin: boolean
   ) {
     if (!isAdmin) {
       throw new UnauthorizedException('Only admin can access this route.');
     }
-    const question = await this.questionService.findOne({ id }, { owner });
+
+    const include = { owner, questionType };
+
+    const question = await this.questionService.findOne({ id }, include);
+
     if (!question) {
       throw new NotFoundException('Question does not exist.');
     }

@@ -10,19 +10,17 @@ import {
   Patch,
   Post,
   Query,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { Attendee, Prisma, User } from '@prisma/client';
+import { IsAdmin } from 'common/decorators/admin.decorator';
 import { AttendeeEntity } from 'common/decorators/attendee.decorator';
 import { UserEntity } from 'common/decorators/user.decorator';
-import { UserService } from 'resources/user/user.service';
 import { AttendeeService } from './attendee.service';
 
 @Controller('attendees')
 export class AttendeeController {
-  constructor(
-    private readonly attendeeService: AttendeeService,
-    private readonly userService: UserService
-  ) {}
+  constructor(private readonly attendeeService: AttendeeService) {}
 
   @Post()
   async create(
@@ -44,7 +42,7 @@ export class AttendeeController {
     @Query('teams', new DefaultValuePipe(false), ParseBoolPipe) teams: boolean,
     @Query('count', new DefaultValuePipe(true), ParseBoolPipe) _count: boolean
   ) {
-    const include: Prisma.AttendeeInclude = {
+    const include = {
       user: true,
       adminOfTeams,
       captainOfTeams,
@@ -72,7 +70,7 @@ export class AttendeeController {
     captainOfTeams: boolean,
     @Query('teams', new DefaultValuePipe(false), ParseBoolPipe) teams: boolean
   ) {
-    const include: Prisma.AttendeeInclude = {
+    const include = {
       user,
       adminOfTeams,
       captainOfTeams,
@@ -83,21 +81,34 @@ export class AttendeeController {
     const attendee = await this.attendeeService.findOne({ id }, include);
 
     if (!attendee) {
-      throw new NotFoundException('Attendee does not exist');
+      throw new NotFoundException('Attendee does not exist.');
     }
     return attendee;
   }
 
   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateAttendeeDto: Prisma.AttendeeUpdateInput
+  updateCurrent(
+    @Body() updateAttendeeDto: Prisma.AttendeeUpdateInput,
+    @AttendeeEntity() attendee: Attendee,
+    @UserEntity() user: User
   ) {
-    return this.attendeeService.update({ id }, updateAttendeeDto);
+    return this.attendeeService.update(
+      { id: attendee.id },
+      { ...updateAttendeeDto, userId: user.id }
+    );
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  removeCurrent(@AttendeeEntity() attendee: Attendee) {
+    return this.attendeeService.remove({ id: attendee.id });
+  }
+
+  //* ADMIN-ONLY
+  @Delete(':id')
+  remove(@Param('id') id: string, @IsAdmin() isAdmin: boolean) {
+    if (!isAdmin) {
+      throw new UnauthorizedException('Only admin can access this route.');
+    }
     return this.attendeeService.remove({ id });
   }
 }
