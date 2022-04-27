@@ -34,7 +34,7 @@ export class UserController {
     return user;
   }
 
-  @Post('role')
+  @Post('assign-role')
   async assignRole(
     @Body()
     payload: {

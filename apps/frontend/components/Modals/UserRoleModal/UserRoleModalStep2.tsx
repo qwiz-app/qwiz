@@ -2,15 +2,12 @@ import { Stack, TextInput } from '@mantine/core';
 import { Role } from '@prisma/client';
 import { useCurrentSession } from 'hooks/api/session';
 import { IdentificationBadge } from 'phosphor-react';
-import { useState } from 'react';
 import { useAssignRole } from 'store/use-assign-role';
 import { UserModalInfoCard } from './UserModalInfoCard';
 
 export const UserRoleModalStep2 = () => {
-  const { selectedRole } = useAssignRole();
+  const { selectedRole, orgName, setOrgName } = useAssignRole();
   const { user } = useCurrentSession();
-
-  const [orgName, setOrgName] = useState('');
 
   if (selectedRole === Role.ORGANIZER) {
     return (
