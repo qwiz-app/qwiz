@@ -30,7 +30,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface Props {
-  title: string | React.ReactNode;
+  title?: string | React.ReactNode;
   description?: string;
   children: React.ReactNode;
 }
@@ -39,16 +39,18 @@ export const PageSection = ({ title, description, children }: Props) => {
   const { classes } = useStyles();
   return (
     <section>
-      <Box className={classes.headerWrapper}>
-        <Title className={classes.title}>{title}</Title>
-        {description && (
-          <Box sx={(sx) => ({ maxWidth: 500 })} p={0}>
-            <Text size="sm" className={classes.description}>
-              {description}
-            </Text>
-          </Box>
-        )}
-      </Box>
+      {title && (
+        <Box className={classes.headerWrapper}>
+          <Title className={classes.title}>{title}</Title>
+          {description && (
+            <Box sx={(sx) => ({ maxWidth: 500 })} p={0}>
+              <Text size="sm" className={classes.description}>
+                {description}
+              </Text>
+            </Box>
+          )}
+        </Box>
+      )}
       <Box>{children}</Box>
     </section>
   );

@@ -1,10 +1,106 @@
-import { Card, Center, createStyles, Group, Text } from '@mantine/core';
+import {
+  Card,
+  Center,
+  createStyles,
+  Group,
+  Skeleton,
+  Text,
+  Tooltip,
+} from '@mantine/core';
+import Link from 'next/link';
 import { Tag, UsersThree } from 'phosphor-react';
+
+interface Props {
+  link: string;
+  image: string;
+  title: string;
+  author: string;
+  teams: number;
+  price: number;
+  currency: string;
+  loading?: boolean;
+}
+
+export const ImageCard = ({
+  link,
+  image,
+  title,
+  author,
+  teams,
+  currency,
+  price,
+  loading,
+}: Props) => {
+  const { classes, theme } = useStyles();
+
+  const content = (
+    <Link href={link} passHref>
+      <Card
+        p="lg"
+        // TODO: shadow doesnt show when wrapped in skeleton
+        shadow="md"
+        className={classes.card}
+        radius="md"
+      >
+        <div
+          className={classes.image}
+          style={{ backgroundImage: `url(${image})` }}
+        />
+        <div className={classes.overlay} />
+
+        <div className={classes.content}>
+          <div>
+            <Text size="lg" className={classes.title} weight={500}>
+              {title}
+            </Text>
+
+            <Group position="apart" spacing="xs">
+              <Text size="sm" className={classes.author}>
+                {author}
+              </Text>
+
+              <Group spacing="lg">
+                <Tooltip label="Price per team">
+                  <Center>
+                    <Tag size={16} weight="bold" color={theme.colors.dark[2]} />
+                    <Text size="sm" className={classes.bodyText}>
+                      {currency}
+                      {price}
+                    </Text>
+                  </Center>
+                </Tooltip>
+                <Tooltip label="Teams">
+                  <Center>
+                    <UsersThree
+                      size={16}
+                      weight="bold"
+                      color={theme.colors.dark[2]}
+                    />
+                    <Text size="sm" className={classes.bodyText}>
+                      {teams}
+                    </Text>
+                  </Center>
+                </Tooltip>
+              </Group>
+            </Group>
+          </div>
+        </div>
+      </Card>
+    </Link>
+  );
+
+  // TODO: higher skeleton radius has black border on corners
+  return loading ? <Skeleton>{content}</Skeleton> : content;
+};
 
 const useStyles = createStyles((theme, _params, getRef) => {
   const image = getRef('image');
 
   return {
+    wrapper: {
+      // width: '100%',
+    },
+
     card: {
       position: 'relative',
       height: 220,
@@ -12,6 +108,7 @@ const useStyles = createStyles((theme, _params, getRef) => {
         theme.colorScheme === 'dark'
           ? theme.colors.dark[6]
           : theme.colors.gray[0],
+      cursor: 'pointer',
 
       [`&:hover .${image}`]: {
         transform: 'scale(1.03)',
@@ -63,78 +160,3 @@ const useStyles = createStyles((theme, _params, getRef) => {
     },
   };
 });
-
-interface Props {
-  link: string;
-  image: string;
-  title: string;
-  author: string;
-  views: number;
-  comments: number;
-  teams: number;
-  price: number;
-}
-
-export const ImageCard = ({
-  image,
-  title,
-  author,
-  views,
-  comments,
-  link,
-  teams,
-  price,
-}: Props) => {
-  const { classes, theme } = useStyles();
-
-  return (
-    <Card
-      p="lg"
-      shadow="lg"
-      className={classes.card}
-      radius="md"
-      component="a"
-      href={link}
-      target="_blank"
-    >
-      <div
-        className={classes.image}
-        style={{ backgroundImage: `url(${image})` }}
-      />
-      <div className={classes.overlay} />
-
-      <div className={classes.content}>
-        <div>
-          <Text size="lg" className={classes.title} weight={500}>
-            {title}
-          </Text>
-
-          <Group position="apart" spacing="xs">
-            <Text size="sm" className={classes.author}>
-              {author}
-            </Text>
-
-            <Group spacing="lg">
-              <Center>
-                <Tag size={16} weight="bold" color={theme.colors.dark[2]} />
-                <Text size="sm" className={classes.bodyText}>
-                  ${price}
-                </Text>
-              </Center>
-              <Center>
-                <UsersThree
-                  size={16}
-                  weight="bold"
-                  color={theme.colors.dark[2]}
-                />
-                <Text size="sm" className={classes.bodyText}>
-                  {teams}
-                </Text>
-              </Center>
-            </Group>
-          </Group>
-        </div>
-      </div>
-    </Card>
-  );
-};
