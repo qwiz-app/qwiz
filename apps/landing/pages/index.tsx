@@ -2,7 +2,7 @@ import styles from 'styles/index.module.scss';
 
 import { Countdown } from '../components/Countdown';
 
-const targetDate = new Date(2022, 4, 1);
+const targetDate = new Date(2022, 4, 24);
 
 export const Index = () => {
   return (
