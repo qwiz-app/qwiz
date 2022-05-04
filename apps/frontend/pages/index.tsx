@@ -38,7 +38,7 @@ const IndexPage = () => {
               onClick={() => setId(user.id)}
               src={user.image}
               alt={user.name}
-              radius="sm"
+              radius="xl"
             />
             {user.name === currentUser?.name ? 'You' : user.name}
           </div>

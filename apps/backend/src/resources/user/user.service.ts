@@ -32,27 +32,38 @@ export class UserService {
 
   assignRoleAndCreateOrganization(
     where: Prisma.UserWhereUniqueInput,
-    create: Prisma.OrganizationCreateInput
+    create: Prisma.OrganizationCreateInput,
+    userData?: Prisma.UserUpdateInput
   ) {
+    const data: Prisma.UserUpdateInput = {
+      role: Role.ORGANIZER,
+      organization: { create },
+    };
+    if (userData?.image) {
+      data.image = userData.image;
+    }
+
     return this.prisma.user.update({
       where,
-      data: {
-        role: Role.ORGANIZER,
-        organization: { create },
-      },
+      data,
     });
   }
 
   assignRoleAndCreateAttendee(
     where: Prisma.UserWhereUniqueInput,
-    create: Prisma.AttendeeCreateInput
+    create: Prisma.AttendeeCreateInput,
+    userData?: Prisma.UserUpdateInput
   ) {
+    const data: Prisma.UserUpdateInput = {
+      role: Role.ATTENDEE,
+      attendee: { create },
+    };
+    if (userData?.image) {
+      data.image = userData.image;
+    }
     return this.prisma.user.update({
       where,
-      data: {
-        role: Role.ATTENDEE,
-        attendee: { create },
-      },
+      data,
     });
   }
 }

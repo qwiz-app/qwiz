@@ -16,29 +16,29 @@ import { NavbarUserMenu } from 'components/Nav/NavbarUser/NavbarUserMenu';
 import NavSearchItem from 'components/Nav/NavSearchItem';
 import { ThemeToggle } from 'components/UI/ThemeToggle';
 import { ThinScrollArea } from 'components/UI/ThinScrollArea';
+import { useCurrentSession } from 'hooks/api/session';
 import { useBreakpoints } from 'hooks/breakpoints';
 import { useAppColorscheme } from 'hooks/colorscheme';
-import { useCurrentSession } from 'hooks/api/session';
 import Image from 'next/image';
 import { paths } from 'paths';
 import {
-  IconProps,
-  SquaresFour,
   Binoculars,
   Confetti,
-  Queue,
   Cube,
-  UsersThree,
-  PresentationChart,
-  Trophy,
+  IconProps,
   MagnifyingGlass,
+  PresentationChart,
+  Queue,
+  SquaresFour,
+  Trophy,
+  UsersThree,
 } from 'phosphor-react';
 import { useState } from 'react';
 
 export const AppShell = ({ children }) => {
   const { isDark } = useAppColorscheme();
   const [opened, setOpened] = useState(false);
-  const { user } = useCurrentSession();
+  const { isAuthenticated, isLoading } = useCurrentSession();
   const { matches } = useBreakpoints();
 
   const toggleNavbar = () => setOpened((prev) => !prev);
@@ -124,7 +124,11 @@ export const AppShell = ({ children }) => {
       <>
         <NavbarDivider />
         <MantineNavbar.Section mt={12}>
-          {user ? <NavbarUserMenu.Account /> : <NavbarUserMenu.Guest />}
+          {isAuthenticated || isLoading ? (
+            <NavbarUserMenu.Account />
+          ) : (
+            <NavbarUserMenu.Guest />
+          )}
         </MantineNavbar.Section>
       </>
     </MantineNavbar>

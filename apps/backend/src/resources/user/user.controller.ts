@@ -40,22 +40,25 @@ export class UserController {
     payload: {
       role: Role;
       data: Prisma.OrganizationCreateInput | Prisma.AttendeeCreateInput;
+      image?: string;
     },
     @UserEntity() user: User
   ) {
-    const { role } = payload;
+    const { role, image } = payload;
     const { id } = user;
 
     if (role === Role.ORGANIZER && 'name' in payload.data) {
       return this.userService.assignRoleAndCreateOrganization(
         { id },
-        { ...payload.data }
+        { ...payload.data },
+        { image }
       );
     }
     if (role === Role.ATTENDEE) {
       return this.userService.assignRoleAndCreateAttendee(
         { id },
-        { ...payload.data }
+        { ...payload.data },
+        { image }
       );
     }
     if (role === Role.ADMIN) {

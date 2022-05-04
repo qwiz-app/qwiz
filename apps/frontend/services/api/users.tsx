@@ -1,6 +1,7 @@
 import { Prisma, Role, User } from '@prisma/client';
 import { parseData } from 'lib/axios';
 import http from 'services/http';
+import { UserRoleReq } from 'types/role';
 
 export const fetchUsers = () => http.get<User[]>('/api/users').then(parseData);
 
@@ -16,10 +17,8 @@ export const updateCurrentUser = (data: Prisma.UserUpdateInput) =>
 export const deleteCurrentUser = () =>
   http.delete<User>(`/api/users/me`).then(parseData);
 
-export const assignRoleAndCreateAccount = (
-  role: Role,
-  data: Prisma.OrganizationCreateInput | Prisma.AttendeeCreateInput
-) => http.post<User>(`/api/users/assign-role`, { role, data }).then(parseData);
+export const assignRoleAndCreateAccount = (userRoleReq: UserRoleReq) =>
+  http.post<User>(`/api/users/assign-role`, userRoleReq).then(parseData);
 
 //* ADMIN-ONLY
 export const updateUser = (id: string, data: Prisma.UserUpdateInput) =>

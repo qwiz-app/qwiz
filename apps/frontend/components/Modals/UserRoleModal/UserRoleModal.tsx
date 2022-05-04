@@ -10,10 +10,12 @@ import { useRoleAssignAndAccountCreate } from 'hooks/api/role';
 import { Prisma, Role } from '@prisma/client';
 import { useModalProps } from 'context/mantine';
 import { useEffect } from 'react';
+import { UserRoleReq } from 'types/role';
+import { useQueryClient } from 'react-query';
 
 export const UserRoleModal = () => {
   const { modal, setModal } = useUserRoleModal();
-  const { selectedRole, orgName } = useAssignRole();
+  const { selectedRole, orgName, avatar } = useAssignRole();
   const { mutate, isLoading, isSuccess } = useRoleAssignAndAccountCreate();
   const { modalProps } = useModalProps();
 
@@ -29,11 +31,20 @@ export const UserRoleModal = () => {
       data = {} as Prisma.AttendeeCreateInput;
     }
 
-    mutate({ role, data });
+    // TODO: add real validation with formik or yup?
+    const mutationData: UserRoleReq = { role, data };
+    if (avatar) {
+      mutationData.image = avatar;
+    }
+
+    mutate(mutationData);
   };
 
+  const queryClient = useQueryClient();
   useEffect(() => {
     if (isSuccess) {
+      queryClient.invalidateQueries('currentUser');
+      queryClient.invalidateQueries('users');
       setModal(ModalSteps.None);
     }
   }, [isSuccess]);

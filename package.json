@@ -59,6 +59,7 @@
     "reflect-metadata": "^0.1.13",
     "regenerator-runtime": "0.13.9",
     "rxjs": "^7.5.5",
+    "sha1": "^1.1.1",
     "tslib": "^2.4.0",
     "use-immer": "^0.7.0",
     "yup": "^0.32.11",

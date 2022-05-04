@@ -44,7 +44,11 @@ export const UserRoleModalStep1 = ({ onContinue }: Props) => {
           />
         ))}
       </Group>
-      <Button className="mt-3" onClick={onContinue}>Continue</Button>
+      <Group position="right">
+        <Button className="mt-3" onClick={onContinue}>
+          Continue
+        </Button>
+      </Group>
     </>
   );
 };

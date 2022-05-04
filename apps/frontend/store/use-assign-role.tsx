@@ -8,6 +8,8 @@ export type UserRoleStore = {
   orgName: string;
   setOrgName: (role: string) => void;
   setSelectedRole: (role: Role | null) => void;
+  avatar: string | null;
+  setAvatar: (avatar: string | null) => void;
 };
 
 const useStore = create<UserRoleStore>((set) => ({
@@ -16,6 +18,8 @@ const useStore = create<UserRoleStore>((set) => ({
   setOrgName: (role) => set((state) => ({ ...state, orgName: role })),
   setSelectedRole: (selectedRole: Role) =>
     set((state) => ({ ...state, selectedRole })),
+  avatar: null,
+  setAvatar: (avatar: string | null) => set((state) => ({ ...state, avatar })),
 }));
 
 export const useAssignRole = () => {
@@ -25,5 +29,15 @@ export const useAssignRole = () => {
   const orgName = useStore((state) => state.orgName);
   const setOrgName = useStore((state) => state.setOrgName);
 
-  return { selectedRole, setSelectedRole, orgName, setOrgName };
+  const avatar = useStore((state) => state.avatar);
+  const setAvatar = useStore((state) => state.setAvatar);
+
+  return {
+    selectedRole,
+    setSelectedRole,
+    orgName,
+    setOrgName,
+    avatar,
+    setAvatar,
+  };
 };

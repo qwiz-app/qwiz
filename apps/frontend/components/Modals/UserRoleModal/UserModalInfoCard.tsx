@@ -1,7 +1,15 @@
-import { Badge, Box, createStyles, Group, Text } from '@mantine/core';
+import {
+  ActionIcon,
+  Avatar,
+  Badge,
+  Box,
+  createStyles,
+  Group,
+  Text,
+  Tooltip
+} from '@mantine/core';
 import { Role } from '@prisma/client';
-import { Avatar } from 'components/UI/Avatar';
-import { At } from 'phosphor-react';
+import { ArrowsClockwise, At } from 'phosphor-react';
 
 const useStyles = createStyles((theme) => ({
   icon: {
@@ -17,13 +25,43 @@ interface Props {
   name: string;
   role: string;
   email: string;
+  onGenerateAvatar?: () => void;
 }
 
-export const UserModalInfoCard = ({ avatar, name, role, email }: Props) => {
+export const UserModalInfoCard = ({
+  avatar,
+  name,
+  role,
+  email,
+  onGenerateAvatar,
+}: Props) => {
   const { classes } = useStyles();
   return (
     <Group noWrap align="content-start">
-      <Avatar avatar={avatar} name={name} size={94} />
+      <Box sx={() => ({ position: 'relative' })}>
+        <Avatar src={avatar} size={94} radius={1000} />
+        {onGenerateAvatar && (
+          <Tooltip
+            label="Generate"
+            position="right"
+            radius="sm"
+            sx={() => ({
+              position: 'absolute',
+              bottom: '-.15rem',
+              right: '.3rem',
+            })}
+          >
+            <ActionIcon
+              size="md"
+              radius="xl"
+              variant="filled"
+              onClick={onGenerateAvatar}
+            >
+              <ArrowsClockwise weight="bold" />
+            </ActionIcon>
+          </Tooltip>
+        )}
+      </Box>
       <div>
         <Box mb={4}>
           <Badge
