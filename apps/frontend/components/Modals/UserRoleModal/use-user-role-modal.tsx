@@ -1,5 +1,5 @@
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { useCurrentUser } from 'hooks/api/session';
 
 export enum ModalSteps {
   Step1,
@@ -8,15 +8,16 @@ export enum ModalSteps {
 }
 
 export const useUserRoleModal = () => {
-  const router = useRouter();
+  const [modal, setModal] = useState(ModalSteps.Null);
+
+  const user = useCurrentUser();
 
   useEffect(() => {
-    if (router.query.assign) {
+    if (user && !user.role) {
       setModal(ModalSteps.Step1);
     }
-  }, [router.query.assign]);
+  }, [user]);
 
-  const [modal, setModal] = useState(ModalSteps.Null);
 
   return { modal, setModal };
 };

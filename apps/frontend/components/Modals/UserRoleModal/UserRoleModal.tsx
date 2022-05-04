@@ -5,30 +5,33 @@ import {
   ModalSteps,
   useUserRoleModal,
 } from 'components/Modals/UserRoleModal/use-user-role-modal';
+import { useAssignRole } from 'store/use-assign-role';
 
 export const UserRoleModal = () => {
   const { modal, setModal } = useUserRoleModal();
+  const { selectedRole, orgName } = useAssignRole();
+
+  const submitHandler = () => {
+    setModal(ModalSteps.Null);
+    console.log(orgName, selectedRole);
+  };
 
   return (
-    <>
-      <Modal
-        withCloseButton={false}
-        opened={modal.valueOf() === ModalSteps.Step1}
-        onClose={() => setModal(ModalSteps.Null)}
-      >
+    <Modal
+      centered
+      withCloseButton={false}
+      opened={modal.valueOf() !== ModalSteps.Null}
+      onClose={() => setModal(ModalSteps.Null)}
+    >
+      {modal === ModalSteps.Step1 && (
         <UserRoleModalStep1 onContinue={() => setModal(ModalSteps.Step2)} />
-      </Modal>
-      <Modal
-        withCloseButton={false}
-        transitionDuration={100}
-        opened={modal.valueOf() === ModalSteps.Step2}
-        onClose={() => setModal(ModalSteps.Null)}
-      >
+      )}
+      {modal === ModalSteps.Step2 && (
         <UserRoleModalStep2
           onBack={() => setModal(ModalSteps.Step1)}
-          onContinue={() => console.log('test')}
+          onContinue={submitHandler}
         />
-      </Modal>
-    </>
+      )}
+    </Modal>
   );
 };

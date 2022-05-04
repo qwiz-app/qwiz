@@ -11,6 +11,13 @@ import { SessionProvider } from 'next-auth/react';
 import Script from 'next/script';
 import { QueryCache, QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import dynamic from 'next/dynamic';
+
+const UserRoleModal = dynamic(() =>
+  import('components/Modals/UserRoleModal/UserRoleModal').then(
+    (mod) => mod.UserRoleModal
+  )
+);
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
@@ -62,6 +69,7 @@ const App = ({ Component, pageProps: { session, ...pageProps } }) => {
             <Inspect>
               <Container fluid px={0} sx={() => ({ minHeight: '100vh' })}>
                 {getLayout(<Component {...pageProps} />)}
+                <UserRoleModal />
               </Container>
             </Inspect>
           </CustomMantineProvider>

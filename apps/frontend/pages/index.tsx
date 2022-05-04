@@ -1,10 +1,5 @@
 import { Avatar, Box, Button, Group, Text } from '@mantine/core';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
-import {
-  ModalSteps,
-  useUserRoleModal,
-} from 'components/Modals/UserRoleModal/use-user-role-modal';
-import { UserRoleModal } from 'components/Modals/UserRoleModal/UserRoleModal';
 import { useCurrentSession } from 'hooks/api/session';
 import { useUser, useUsers } from 'hooks/api/users';
 import { signIn, signOut } from 'next-auth/react';
@@ -25,8 +20,6 @@ const IndexPage = () => {
     signOut({
       callbackUrl: '/signin?signOut=true',
     });
-
-  const { setModal } = useUserRoleModal();
 
   return (
     <Group direction="column">
@@ -61,18 +54,8 @@ const IndexPage = () => {
               Sign in
             </Button>
           )}
-          {isAuthenticated && (
-            <Button
-              variant="light"
-              color="pink"
-              onClick={() => setModal(ModalSteps.Step1)}
-            >
-              Role modal
-            </Button>
-          )}
         </Group>
       </Group>
-      <UserRoleModal />
       <Box mt={16}>
         <Text size="sm" color={isError ? 'red' : 'currentColor'}>
           {isSuccess
