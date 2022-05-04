@@ -6,7 +6,7 @@ on:
       - published
   push:
     branches:
-      - live
+      - landing
   workflow_dispatch:
 
 jobs:
@@ -24,7 +24,7 @@ jobs:
       - name: "Deploy to Vercel"
         run: |
           prodRun=""
-          if [[ ${GITHUB_REF} == "refs/heads/live" ]]; then
+          if [[ ${GITHUB_REF} == "refs/heads/landing" ]]; then
             prodRun="--prod"
           fi
 
