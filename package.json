@@ -41,6 +41,8 @@
     "core-js": "^3.22.4",
     "dayjs": "^1.11.1",
     "framer-motion": "^6.3.3",
+    "eslint-config-airbnb": "^19.0.4",
+    "formik": "^2.2.9",
     "immer": "^9.0.12",
     "inspx": "^0.0.1-alpha.6",
     "next": "12.1.6",
@@ -57,7 +59,8 @@
     "rxjs": "^7.5.5",
     "tslib": "^2.4.0",
     "use-immer": "^0.7.0",
-    "zustand": "^4.0.0-rc.1"
+    "zustand": "^4.0.0-rc.1",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@nestjs/schematics": "^8.0.10",

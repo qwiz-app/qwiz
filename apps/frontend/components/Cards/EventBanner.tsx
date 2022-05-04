@@ -5,7 +5,6 @@ import {
   Title,
   TextInput,
   Button,
-  Image,
 } from '@mantine/core';
 
 export const EventBanner = () => {

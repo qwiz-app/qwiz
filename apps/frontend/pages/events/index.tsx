@@ -1,5 +1,4 @@
 import { Grid } from '@mantine/core';
-import { EventBanner } from 'components/Cards/EventBanner';
 import { EventCardImage } from 'components/Cards/EventCardImage';
 import { ImageCard } from 'components/Cards/ImageCard';
 import PageGrid from 'components/Grids/PageGrid';
