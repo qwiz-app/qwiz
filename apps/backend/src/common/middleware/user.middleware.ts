@@ -12,6 +12,8 @@ import { getFromCookie } from '../../lib/utils';
 
 import { AuthRequest } from '../../types';
 
+const isVercelEnv = () => process.env.VERCEL === '1';
+
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
   constructor(private prisma: PrismaService) {}
@@ -19,7 +21,12 @@ export class AuthMiddleware implements NestMiddleware {
   async use(req: AuthRequest, res: Response, next: NextFunction) {
     const { cookie } = req.headers;
 
-    const sessionToken = getFromCookie(cookie, 'next-auth.session-token');
+    const sessionToken = getFromCookie(
+      cookie,
+      isVercelEnv()
+        ? '__Secure-next-auth.session-token'
+        : 'next-auth.session-token'
+    );
 
     if (sessionToken) {
       const session = await this.prisma.session.findUnique({
