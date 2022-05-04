@@ -6,7 +6,7 @@
     "start": "node dist/apps/backend/main.js",
     "build": "nx build backend --prod",
     "test": "nx test",
-    "lint": "npx nx lint",
+    "lint": "nx lint",
     "db:generate": "npx prisma generate",
     "db:studio": "npx prisma studio",
     "db:migrate": "npx prisma migrate dev",

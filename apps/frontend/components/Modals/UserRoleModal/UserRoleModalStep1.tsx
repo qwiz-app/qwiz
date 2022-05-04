@@ -1,11 +1,15 @@
-import { createStyles, Group } from '@mantine/core';
+import { Button, createStyles, Group } from '@mantine/core';
 import { Role } from '@prisma/client';
 import { AnimatedWrapper } from 'components/Animation/AnimatedWrapper';
 import { useBreakpoints } from 'hooks/breakpoints';
 import { useAssignRole } from 'store/use-assign-role';
 import { UserRoleCard } from './UserRoleCard';
 
-export const UserRoleModalStep1 = () => {
+interface Props {
+  onContinue: () => void;
+}
+
+export const UserRoleModalStep1 = ({ onContinue }: Props) => {
   const { classes } = useStyles();
   const { matches } = useBreakpoints();
   const { selectedRole, setSelectedRole } = useAssignRole();
@@ -26,19 +30,22 @@ export const UserRoleModalStep1 = () => {
   ];
 
   return (
-    <Group direction={matches.max.sm ? 'column' : 'row'} position="center">
-      {roles.map((item) => (
-        <UserRoleCard
-          selected={selectedRole === item.role}
-          onSelect={setSelectedRole}
-          key={item.title}
-          animatedWrapper={
-            <AnimatedWrapper layoutId="roles" className={classes.wrapper} />
-          }
-          {...item}
-        />
-      ))}
-    </Group>
+    <>
+      <Group direction={matches.max.sm ? 'column' : 'row'} position="center">
+        {roles.map((item) => (
+          <UserRoleCard
+            selected={selectedRole === item.role}
+            onSelect={setSelectedRole}
+            key={item.title}
+            animatedWrapper={
+              <AnimatedWrapper layoutId="roles" className={classes.wrapper} />
+            }
+            {...item}
+          />
+        ))}
+      </Group>
+      <Button className="mt-3" onClick={onContinue}>Continue</Button>
+    </>
   );
 };
 

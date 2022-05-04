@@ -1,11 +1,16 @@
-import { Stack, TextInput } from '@mantine/core';
+import { Button, Stack, TextInput } from '@mantine/core';
 import { Role } from '@prisma/client';
 import { useCurrentSession } from 'hooks/api/session';
 import { IdentificationBadge } from 'phosphor-react';
 import { useAssignRole } from 'store/use-assign-role';
 import { UserModalInfoCard } from './UserModalInfoCard';
 
-export const UserRoleModalStep2 = () => {
+interface Props {
+  onBack: () => void;
+  onContinue: () => void;
+}
+
+export const UserRoleModalStep2 = ({ onBack, onContinue }: Props) => {
   const { selectedRole, orgName, setOrgName } = useAssignRole();
   const { user } = useCurrentSession();
 
@@ -30,6 +35,12 @@ export const UserRoleModalStep2 = () => {
             email={user.email}
           />
         )}
+        <div className="flex justify-between">
+          <Button onClick={onBack} variant="light">
+            Back
+          </Button>
+          <Button onClick={onContinue}>Create acount</Button>
+        </div>
       </Stack>
     );
   }
@@ -42,6 +53,12 @@ export const UserRoleModalStep2 = () => {
         name={user.name}
         email={user.email}
       />
+      <div className="flex justify-between">
+        <Button onClick={onBack} variant="light">
+          Back
+        </Button>
+        <Button onClick={onContinue}>Create acount</Button>
+      </div>
     </Stack>
   );
 };

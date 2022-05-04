@@ -1,6 +1,6 @@
 import { NextSeo } from 'next-seo';
 import 'styles/global.scss';
-// import 'windi.css';
+import 'windi.css';
 
 import { Container } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
