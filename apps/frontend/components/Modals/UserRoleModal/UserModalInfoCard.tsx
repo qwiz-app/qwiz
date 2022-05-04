@@ -1,5 +1,6 @@
-import { Avatar, Badge, Box, createStyles, Group, Text } from '@mantine/core';
+import { Badge, Box, createStyles, Group, Text } from '@mantine/core';
 import { Role } from '@prisma/client';
+import { Avatar } from 'components/UI/Avatar';
 import { At } from 'phosphor-react';
 
 const useStyles = createStyles((theme) => ({
@@ -22,7 +23,7 @@ export const UserModalInfoCard = ({ avatar, name, role, email }: Props) => {
   const { classes } = useStyles();
   return (
     <Group noWrap align="content-start">
-      <Avatar src={avatar} size={94} radius="md" />
+      <Avatar avatar={avatar} name={name} size={94} />
       <div>
         <Box mb={4}>
           <Badge

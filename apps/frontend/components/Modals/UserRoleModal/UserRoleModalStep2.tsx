@@ -29,7 +29,7 @@ export const UserRoleModalStep2 = ({ onBack, onContinue }: Props) => {
         />
         {orgName && (
           <UserModalInfoCard
-            avatar={user.image}
+            avatar={null}
             role={selectedRole}
             name={orgName}
             email={user.email}
