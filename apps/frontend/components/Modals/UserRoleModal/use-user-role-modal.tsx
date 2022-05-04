@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import { useCurrentUser } from 'hooks/api/session';
 
 export enum ModalSteps {
+  None,
   Step1,
   Step2,
-  Null,
 }
 
 export const useUserRoleModal = () => {
-  const [modal, setModal] = useState(ModalSteps.Null);
+  const [modal, setModal] = useState(ModalSteps.None);
 
   const user = useCurrentUser();
 
@@ -17,7 +17,6 @@ export const useUserRoleModal = () => {
       setModal(ModalSteps.Step1);
     }
   }, [user]);
-
 
   return { modal, setModal };
 };

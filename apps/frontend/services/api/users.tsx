@@ -19,9 +19,7 @@ export const deleteCurrentUser = () =>
 export const assignRoleAndCreateAccount = (
   role: Role,
   data: Prisma.OrganizationCreateInput | Prisma.AttendeeCreateInput
-) => {
-  http.post<User>(`/api/users/assign-role`, { role, data }).then(parseData);
-};
+) => http.post<User>(`/api/users/assign-role`, { role, data }).then(parseData);
 
 //* ADMIN-ONLY
 export const updateUser = (id: string, data: Prisma.UserUpdateInput) =>

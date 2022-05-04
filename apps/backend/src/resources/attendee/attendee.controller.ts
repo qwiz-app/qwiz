@@ -100,6 +100,7 @@ export class AttendeeController {
 
   @Delete(':id')
   removeCurrent(@AttendeeEntity() attendee: Attendee) {
+    // TODO: delete user role
     return this.attendeeService.remove({ id: attendee.id });
   }
 

@@ -97,6 +97,7 @@ export class OrganizationController {
 
   @Delete('me')
   removeCurrent(@OrganizationEntity() organization: Organization) {
+    // TODO: delete user role
     return this.organizationService.remove({ id: organization.id });
   }
 

@@ -9,18 +9,28 @@ import { useCustomColorScheme } from './colorscheme';
 import { CustomSpotlightProvider } from './spotlight';
 import { useGlobalTheme } from './theme';
 
-export const CustomMantineProvider = ({ children }) => {
-  const { colorScheme, toggleColorScheme } = useCustomColorScheme();
-  const theme = useGlobalTheme({ colorScheme });
+export const useModalProps = () => {
+  const { colorScheme } = useCustomColorScheme();
 
   const modalProps: Partial<Omit<ModalProps, 'opened'>> = {
     centered: true,
     radius: 'sm',
     shadow: 'sm',
     overlayOpacity: 0.9,
+    overlayBlur: 5,
     // theme.colors.dark[9], .gray[2]
     overlayColor: colorScheme === 'dark' ? '#101113' : '#E9ECEF',
   };
+
+  return {
+    modalProps,
+  };
+};
+
+export const CustomMantineProvider = ({ children }) => {
+  const { colorScheme, toggleColorScheme } = useCustomColorScheme();
+  const theme = useGlobalTheme({ colorScheme });
+  const { modalProps } = useModalProps();
 
   return (
     <ColorSchemeProvider
