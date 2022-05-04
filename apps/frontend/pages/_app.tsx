@@ -1,3 +1,4 @@
+import { NextSeo } from 'next-seo';
 import 'styles/global.scss';
 // import 'windi.css';
 
@@ -7,7 +8,6 @@ import { CustomMantineProvider } from 'context/mantine';
 import Inspect from 'inspx';
 import config from 'lib/config';
 import { SessionProvider } from 'next-auth/react';
-import Head from 'next/head';
 import Script from 'next/script';
 import { QueryCache, QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
@@ -30,14 +30,30 @@ const App = ({ Component, pageProps: { session, ...pageProps } }) => {
 
   return (
     <>
-      <Head>
-        <title>Qwiz</title>
-      </Head>
       <Script
         defer
         data-domain={config.plausible.domain}
         src="https://stats.qwiz.party/js/plausible.js"
         strategy="worker"
+      />
+      <NextSeo
+        title="Qwiz"
+        description="App for building pub quizzes"
+        openGraph={{
+          url: `https://${config.plausible.domain}`,
+          title: 'Qwiz',
+          description: 'App for building pub quizzes',
+          images: [
+            {
+              url: `https://${config.plausible.domain}/assets/images/cover.png`,
+              width: 1423,
+              height: 800,
+              alt: 'Cover logo',
+              type: 'image/png',
+            },
+          ],
+          site_name: 'Qwiz',
+        }}
       />
       <SessionProvider session={session}>
         <QueryClientProvider client={queryClient}>
