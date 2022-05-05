@@ -2,7 +2,18 @@ import { Button } from '@mantine/core';
 import { useFileUpload } from 'hooks/use-flle-upload';
 import { useEffect } from 'react';
 
-export const FileUpload = ({ setUrl }) => {
+interface Props {
+  setUrl: (url: string) => void;
+  type?: 'image' | 'audio' | 'video';
+}
+
+const fileMap = {
+  image: 'image/*',
+  audio: 'audio/*',
+  video: 'video/*',
+};
+
+export const FileUpload = ({ setUrl, type = 'image' }: Props) => {
   const { selectFile, uploadFile, uploadingStatus, uploadedFile, file } =
     useFileUpload();
 
@@ -23,6 +34,7 @@ export const FileUpload = ({ setUrl }) => {
           onChange={(e) => selectFile(e)}
           className="hidden"
           id="uploadFile"
+          accept={fileMap[type]}
         />
         Select file
       </label>
