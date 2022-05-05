@@ -17,6 +17,9 @@ const nextConfig = {
     // See: https://github.com/gregberge/svgr
     svgr: false,
   },
+  images: {
+    domains: [process.env.AWS_IMG_ROOT],
+  },
   experimental: {
     nextScriptWorkers: true,
   },

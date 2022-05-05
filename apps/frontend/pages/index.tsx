@@ -1,5 +1,6 @@
 import { Avatar, Box, Button, Group, Text } from '@mantine/core';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
+import { FileUpload } from 'components/UI/FileUpload';
 import { useCurrentSession } from 'hooks/api/session';
 import { useUser, useUsers } from 'hooks/api/users';
 import { signIn, signOut } from 'next-auth/react';
@@ -21,8 +22,13 @@ const IndexPage = () => {
       callbackUrl: '/signin?signOut=true',
     });
 
+  const [url, setUrl] = useState<string>(null);
+
   return (
     <Group direction="column">
+      <p>Please select a file to upload</p>
+      <FileUpload setUrl={setUrl} />
+      {url && <img src={url} />}
       <Group direction="column" align="center">
         <Text size="xl">All users</Text>
         {users?.map((user) => (

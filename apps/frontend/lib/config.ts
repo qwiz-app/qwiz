@@ -27,6 +27,14 @@ const config = {
     dsn: process.env.SENTRY_DSN,
     publicDsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
   },
+  aws: {
+    accessKeyId: process.env.AWS_BUCKET_ACCESS_KEY,
+    secretKey: process.env.AWS_BUCKET_SECRET_KEY,
+    bucketName: process.env.AWS_BUCKET_NAME,
+    region: process.env.AWS_BUCKET_REGION,
+    bucketUrl: process.env.NEXT_PUBLIC_AWS_BUCKET_URL,
+    rootUrl: process.env.AWS_IMG_ROOT,
+  },
 };
 
 export default config;
