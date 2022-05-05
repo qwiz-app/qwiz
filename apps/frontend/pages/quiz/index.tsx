@@ -30,10 +30,11 @@ const QuizPage = () => {
           {quizzes?.map((quiz, i) => (
             <QuizCard
               key={i}
-              link="/"
+              link={`/quiz/${quiz.id}`}
               title={quiz.name}
               author={author}
               published
+              image={quiz?.thumbnail}
               loading={loading}
             />
           ))}
