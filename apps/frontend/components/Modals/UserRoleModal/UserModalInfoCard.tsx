@@ -26,6 +26,7 @@ interface Props {
   role: string;
   email: string;
   onGenerateAvatar?: () => void;
+  onResetAvatar?: () => void;
 }
 
 export const UserModalInfoCard = ({
@@ -34,15 +35,30 @@ export const UserModalInfoCard = ({
   role,
   email,
   onGenerateAvatar,
+  onResetAvatar,
 }: Props) => {
   const { classes } = useStyles();
+
+  const resetAvatarHandler = (e: any) => {
+    e.preventDefault();
+    onResetAvatar();
+  };
+
+  const tooltipLabel = () => {
+    let msg = 'Generate';
+    if (onResetAvatar) {
+      msg += ' (right-click to reset)';
+    }
+    return msg;
+  };
+
   return (
     <Group noWrap align="content-start">
       <Box sx={() => ({ position: 'relative' })}>
         <Avatar src={avatar} size={94} radius={1000} />
         {onGenerateAvatar && (
           <Tooltip
-            label="Generate"
+            label={tooltipLabel()}
             position="right"
             radius="sm"
             sx={() => ({
@@ -56,6 +72,7 @@ export const UserModalInfoCard = ({
               radius="xl"
               variant="filled"
               onClick={onGenerateAvatar}
+              onContextMenu={resetAvatarHandler}
             >
               <ArrowsClockwise weight="bold" />
             </ActionIcon>

@@ -1,6 +1,7 @@
 import { Button, Stack, TextInput } from '@mantine/core';
 import { Role } from '@prisma/client';
 import { useCurrentUser } from 'hooks/api/session';
+import { useAppColorscheme } from 'hooks/colorscheme';
 import { useAvatarGen } from 'hooks/use-avatar-gen';
 import { IdentificationBadge } from 'phosphor-react';
 import { useEffect, useState } from 'react';
@@ -16,11 +17,12 @@ export const UserRoleModalStep2 = ({ onBack, onContinue }: Props) => {
   const { selectedRole, orgName, setOrgName, avatar, setAvatar } =
     useAssignRole();
   const user = useCurrentUser();
+  const { isDark } = useAppColorscheme();
 
   const [hasCustomAvatar, setHasCustomAvatar] = useState(
     selectedRole === Role.ORGANIZER
   );
-  const [initalUserImage, setInitialUserImage] = useState(() => {
+  const [initalUserImage] = useState(() => {
     if (selectedRole === Role.ORGANIZER) {
       return avatar;
     }
@@ -41,22 +43,32 @@ export const UserRoleModalStep2 = ({ onBack, onContinue }: Props) => {
 
   const resetUserImageHandler = () => {
     setHasCustomAvatar(false);
-    setAvatar(null);
-    setInitialUserImage(user.image || avatar);
   };
 
   const generateAvatarHandler = () => {
-    generateAvatar();
     if (!hasCustomAvatar) {
       setHasCustomAvatar(true);
+    } else {
+      generateAvatar();
     }
   };
+
+  const buttons = (
+    <div className="flex justify-end">
+      <Button onClick={onBack} variant={isDark ? 'light' : 'outline'}>
+        Back
+      </Button>
+      <Button ml={8} onClick={onContinue}>
+        Create account
+      </Button>
+    </div>
+  );
 
   if (selectedRole === Role.ORGANIZER) {
     return (
       <Stack spacing={16}>
         <TextInput
-          placeholder="Pub Ching Chong"
+          placeholder="The Irish Pub"
           label="Organization name"
           description="Your account name will remain unchanged"
           variant="filled"
@@ -75,12 +87,7 @@ export const UserRoleModalStep2 = ({ onBack, onContinue }: Props) => {
           />
         )}
 
-        <div className="flex justify-between">
-          <Button onClick={onBack} variant="light">
-            Back
-          </Button>
-          <Button onClick={onContinue}>Create account</Button>
-        </div>
+        {buttons}
       </Stack>
     );
   }
@@ -93,16 +100,9 @@ export const UserRoleModalStep2 = ({ onBack, onContinue }: Props) => {
         name={user.name}
         email={user.email}
         onGenerateAvatar={generateAvatarHandler}
+        onResetAvatar={resetUserImageHandler}
       />
-      {user?.image && (
-        <Button onClick={resetUserImageHandler}>Reset avatar</Button>
-      )}
-      <div className="flex justify-between">
-        <Button onClick={onBack} variant="light">
-          Back
-        </Button>
-        <Button onClick={onContinue}>Create account</Button>
-      </div>
+      {buttons}
     </Stack>
   );
 };

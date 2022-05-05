@@ -1,17 +1,17 @@
 import { LoadingOverlay, Modal } from '@mantine/core';
-import { UserRoleModalStep1 } from 'components/Modals/UserRoleModal/UserRoleModalStep1';
-import { UserRoleModalStep2 } from 'components/Modals/UserRoleModal/UserRoleModalStep2';
+import { Prisma, Role } from '@prisma/client';
 import {
   ModalSteps,
-  useUserRoleModal,
+  useUserRoleModal
 } from 'components/Modals/UserRoleModal/use-user-role-modal';
-import { useAssignRole } from 'store/use-assign-role';
-import { useRoleAssignAndAccountCreate } from 'hooks/api/role';
-import { Prisma, Role } from '@prisma/client';
+import { UserRoleModalStep1 } from 'components/Modals/UserRoleModal/UserRoleModalStep1';
+import { UserRoleModalStep2 } from 'components/Modals/UserRoleModal/UserRoleModalStep2';
 import { useModalProps } from 'context/mantine';
+import { useRoleAssignAndAccountCreate } from 'hooks/api/role';
 import { useEffect } from 'react';
-import { UserRoleReq } from 'types/role';
 import { useQueryClient } from 'react-query';
+import { useAssignRole } from 'store/use-assign-role';
+import { UserRoleReq } from 'types/role';
 
 export const UserRoleModal = () => {
   const { modal, setModal } = useUserRoleModal();
