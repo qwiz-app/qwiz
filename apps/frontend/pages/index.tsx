@@ -29,7 +29,10 @@ const IndexPage = () => {
   return (
     <Group direction="column">
       <p>Please select a file to upload</p>
-      <FileUpload selectFile={selectFile} />
+      <FileUpload
+        selectFile={selectFile}
+        loading={uploadingStatus === 'UPLOADING'}
+      />
       {url && <img src={url} />}
       {file && (
         <>

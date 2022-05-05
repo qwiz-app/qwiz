@@ -1,6 +1,6 @@
-import axios from 'axios';
 import config from 'lib/config';
 import { useState } from 'react';
+import { generateS3Url, uploadFileToS3 } from 'services/api/file-upload';
 import sha1 from 'sha1';
 
 export enum UploadStatusEnum {
@@ -16,8 +16,8 @@ export const useFileUpload = () => {
   );
   const [uploadedFile, setUploadedFile] = useState<string>(null);
 
-  const selectFile = (e) => {
-    setFile(e.target.files[0]);
+  const selectFile = (selectedFile: File) => {
+    setFile(selectedFile);
   };
 
   const uploadFile = async () => {
@@ -27,18 +27,12 @@ export const useFileUpload = () => {
 
     const hashedFile = sha1(file.name + salt);
 
-    const { data } = await axios.post('/api/s3/uploadFile', {
+    const { url } = await generateS3Url({
       name: hashedFile,
       type: file.type,
     });
 
-    const { url } = data;
-    await axios.put(url, file, {
-      headers: {
-        'Content-type': file.type,
-        'Access-Control-Allow-Origin': '*',
-      },
-    });
+    await uploadFileToS3(url, file);
 
     setUploadingStatus(UploadStatusEnum.UPLOADED);
 
