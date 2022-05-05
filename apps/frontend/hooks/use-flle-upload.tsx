@@ -1,6 +1,7 @@
 import axios from 'axios';
 import config from 'lib/config';
 import { useState } from 'react';
+import sha1 from 'sha1';
 
 export enum UploadStatusEnum {
   NOT_STARTED = 'NOT_STARTED',
@@ -22,8 +23,12 @@ export const useFileUpload = () => {
   const uploadFile = async () => {
     setUploadingStatus(UploadStatusEnum.UPLOADING);
 
+    const salt = new Date().getTime();
+
+    const hashedFile = sha1(file.name + salt);
+
     const { data } = await axios.post('/api/s3/uploadFile', {
-      name: file.name,
+      name: hashedFile,
       type: file.type,
     });
 
@@ -37,8 +42,7 @@ export const useFileUpload = () => {
 
     setUploadingStatus(UploadStatusEnum.UPLOADED);
 
-    setUploadedFile(config.aws.bucketUrl + file.name);
-    console.log(uploadFile);
+    setUploadedFile(config.aws.bucketUrl + hashedFile);
     setFile(null);
   };
 
