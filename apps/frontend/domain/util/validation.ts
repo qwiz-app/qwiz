@@ -18,3 +18,8 @@ export const exampleSchema = yup.object({
     .oneOf([true], 'You must agree to terms and conditions.'),
   radio: yup.string().required(),
 });
+
+export const createQuizSchema = yup.object({
+  title: yup.string().required(),
+  description: yup.string().required(),
+})

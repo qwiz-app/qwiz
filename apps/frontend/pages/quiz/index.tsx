@@ -2,6 +2,7 @@ import { CreateNew } from 'components/Cards/CreateNew';
 import { QuizCard } from 'components/Cards/QuizCard';
 import PageGrid from 'components/Grids/PageGrid';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
+import { CreateQuizModal } from 'components/Modals/Quiz/CreateQuizModal';
 import { HomepageLayout } from 'components/PageLayouts/HomepageLayout';
 import { PageSection } from 'components/PageLayouts/PageSection';
 import { useCurrentUserInfo } from 'hooks/api/users';
@@ -64,6 +65,8 @@ const QuizPage = () => {
 
   const [loading, setLoading] = useState(true);
 
+  const [showCreateQuizModal, setShowCreateQuizModal] = useState(false);
+
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000);
   }, []);
@@ -72,12 +75,13 @@ const QuizPage = () => {
     <HomepageLayout>
       <PageSection title="Recently edited">
         <PageGrid type="tiny">
-          <CreateNew onClick={() => console.log('clicked')} />
+          <CreateNew onClick={() => setShowCreateQuizModal(true)} />
           {events.map((e, i) => (
             <QuizCard key={i} {...e} loading={loading} />
           ))}
         </PageGrid>
       </PageSection>
+      <CreateQuizModal opened={showCreateQuizModal} onClose={() => setShowCreateQuizModal(false)} />
     </HomepageLayout>
   );
 };
