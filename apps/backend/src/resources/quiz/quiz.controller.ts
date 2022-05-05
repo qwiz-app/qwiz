@@ -70,4 +70,15 @@ export class QuizController {
   remove(@Param('id') id: string) {
     return this.quizService.remove({ id });
   }
+
+  @Patch(':id/thumbnail')
+  updateThumbnail(
+    @Param('id') id: string,
+    @Body()
+    body: {
+      thumbnail: string;
+    }
+  ) {
+    return this.quizService.updateThumbnail({ id }, body.thumbnail);
+  }
 }

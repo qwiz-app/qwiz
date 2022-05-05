@@ -32,4 +32,13 @@ export class QuizService {
       throw new NotFoundException(err?.meta?.cause || 'Something went wrong.');
     }
   }
+
+  updateThumbnail(where: Prisma.QuizWhereUniqueInput, thumbnail: string) {
+    return this.prisma.quiz.update({
+      where,
+      data: {
+        thumbnail,
+      },
+    });
+  }
 }

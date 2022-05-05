@@ -16,3 +16,13 @@ export const updateQuiz = (id: string, data: Prisma.QuizUpdateInput) =>
 
 export const deleteQuiz = (id: string) =>
   http.delete<{ count: number }>(`/api/quiz/${id}`).then(parseData);
+
+export const updateThumbnail = (
+  id: string,
+  data: {
+    thumbnail: string;
+  }
+) =>
+  http
+    .patch<{ count: number }>(`/api/quiz/${id}/thumbnail`, data)
+    .then(parseData);

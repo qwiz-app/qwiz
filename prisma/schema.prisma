@@ -160,6 +160,7 @@ model Quiz {
   ownerId     String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  thumbnail   String?
 
   // relations
   owner Organization @relation(fields: [ownerId], references: [id], onDelete: Cascade)
