@@ -49,7 +49,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface QuizCardProps {
-  image: string;
+  image?: string;
   link: string;
   title: string;
   published: boolean;
