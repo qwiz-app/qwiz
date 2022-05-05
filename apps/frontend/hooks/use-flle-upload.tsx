@@ -50,7 +50,7 @@ export const useFileUpload = () => {
     selectFile,
     uploadFile,
     uploadingStatus,
-    uploadedFile,
+    url: uploadedFile,
     file,
   };
 };

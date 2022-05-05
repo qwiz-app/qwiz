@@ -3,6 +3,7 @@ import DashboardLayout from 'components/Layouts/DashboardLayout';
 import { FileUpload } from 'components/UI/FileUpload';
 import { useCurrentSession } from 'hooks/api/session';
 import { useUser, useUsers } from 'hooks/api/users';
+import { useFileUpload } from 'hooks/use-flle-upload';
 import { signIn, signOut } from 'next-auth/react';
 import { useState } from 'react';
 
@@ -22,13 +23,26 @@ const IndexPage = () => {
       callbackUrl: '/signin?signOut=true',
     });
 
-  const [url, setUrl] = useState<string>(null);
+  const { selectFile, uploadFile, uploadingStatus, url, file } =
+    useFileUpload();
 
   return (
     <Group direction="column">
       <p>Please select a file to upload</p>
-      <FileUpload setUrl={setUrl} />
+      <FileUpload selectFile={selectFile} />
       {url && <img src={url} />}
+      {file && (
+        <>
+          <p>Selected file: {file.name}</p>
+          <Button
+            onClick={uploadFile}
+            className="bg-purple-500 text-white p-2 rounded-sm shadow-md hover:bg-purple-700 transition-all"
+            loading={uploadingStatus === 'UPLOADING'}
+          >
+            Upload a File!
+          </Button>
+        </>
+      )}
       <Group direction="column" align="center">
         <Text size="xl">All users</Text>
         {users?.map((user) => (
