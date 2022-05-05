@@ -11,7 +11,7 @@ import { CaretRight } from 'phosphor-react';
 import { forwardRef } from 'react';
 import { useCurrentUserInfo } from 'hooks/api/users';
 
-type Props = UnstyledButtonProps<unknown>;
+type Props = UnstyledButtonProps<any>;
 
 // eslint-disable-next-line react/display-name
 const NavbarUserButton = forwardRef<HTMLButtonElement, Props>(
