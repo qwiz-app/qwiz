@@ -9,11 +9,11 @@ import {
   Group,
   Center,
   Avatar,
-  useMantineTheme,
   createStyles,
 } from '@mantine/core';
 import { User } from '@prisma/client';
 import Link from 'next/link';
+import { useAppColorscheme } from 'hooks/colorscheme';
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -69,7 +69,7 @@ export const QuizCard = ({
 }: QuizCardProps &
   Omit<React.ComponentPropsWithoutRef<'div'>, keyof QuizCardProps>) => {
   const { classes, cx } = useStyles();
-  const theme = useMantineTheme();
+  const { theme } = useAppColorscheme();
 
   return (
     <Link href={link}>

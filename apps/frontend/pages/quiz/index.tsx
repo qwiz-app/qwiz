@@ -1,3 +1,4 @@
+import { CreateNew } from 'components/Cards/CreateNew';
 import { QuizCard } from 'components/Cards/QuizCard';
 import PageGrid from 'components/Grids/PageGrid';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
@@ -69,10 +70,9 @@ const QuizPage = () => {
 
   return (
     <HomepageLayout>
-      <PageSection
-        title="Recently edited"
-      >
+      <PageSection title="Recently edited">
         <PageGrid type="tiny">
+          <CreateNew onClick={() => console.log('clicked')} />
           {events.map((e, i) => (
             <QuizCard key={i} {...e} loading={loading} />
           ))}
