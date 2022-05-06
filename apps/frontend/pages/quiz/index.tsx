@@ -1,6 +1,5 @@
-import { CreateNew } from 'components/Cards/quiz/CreateNew';
 import { QuizCard } from 'components/Cards/quiz/QuizCard';
-import { QuizTemplateCard } from 'components/Cards/quiz/QuizTemplateCard';
+import { QuizCardSmall } from 'components/Cards/quiz/QuizCardSmall';
 import PageGrid from 'components/Grids/PageGrid';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
 import { CreateQuizModal } from 'components/Modals/Quiz/CreateQuizModal';
@@ -66,6 +65,27 @@ const QuizPage = () => {
 
   const [showCreateQuizModal, setShowCreateQuizModal] = useState(false);
 
+  const templates = [
+    {
+      href: '/',
+      label: 'Audio',
+      image:
+        'https://www.commonsense.org/education/sites/default/files/styles/16_9_medium/public/blog-share/2020-bts-homepageimages-green.jpg?itok=Q8W9c7h9',
+    },
+    {
+      href: '/',
+      label: 'Multiple choice',
+      image:
+        'https://powerpointschool.com/wp-content/uploads/2018/04/Free-Creative-PowerPoint-Template.png',
+    },
+    {
+      href: '/',
+      label: 'Visual',
+      image:
+        'https://assets-global.website-files.com/5e4319072e6fb910d3a508a6/6196aad5a073b5d0287c61f1_EOY%20Templates%20-%20Blog%20Design.jpg',
+    },
+  ];
+
   return (
     <HomepageLayout>
       <PageSection
@@ -73,10 +93,10 @@ const QuizPage = () => {
         description="Turn any Qwiz template into a new quiz"
       >
         <PageGrid type="tiniest">
-          <CreateNew onClick={() => setShowCreateQuizModal(true)} />
-          <QuizTemplateCard />
-          <QuizTemplateCard />
-          <QuizTemplateCard />
+          <QuizCardSmall.New onClick={() => setShowCreateQuizModal(true)} />
+          {templates.map((template, idx) => (
+            <QuizCardSmall.Template key={idx} {...template} />
+          ))}
         </PageGrid>
       </PageSection>
       <PageSection title="Recently edited">

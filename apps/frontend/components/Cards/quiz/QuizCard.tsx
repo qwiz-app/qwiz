@@ -52,7 +52,7 @@ export const QuizCard = ({
         {...others}
       >
         <Card.Section className={classes.imageSection}>
-          <Skeleton visible={loading} radius={0}>
+          <Skeleton visible={loading} radius={0} height="100%">
             {!loading && (
               <Image
                 src={image}
