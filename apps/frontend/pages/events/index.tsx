@@ -1,6 +1,6 @@
-import { Grid } from '@mantine/core';
-import { EventCardImage } from 'components/Cards/event/EventCardImage';
+import { EventBanner } from 'components/Cards/event/EventBanner';
 import { ImageCard } from 'components/Cards/event/EventCard';
+import { EventCardImage } from 'components/Cards/event/EventCardImage';
 import PageGrid from 'components/Grids/PageGrid';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
 import { HomepageLayout } from 'components/PageLayouts/HomepageLayout';
@@ -86,18 +86,12 @@ const EventsPage = () => {
 
   return (
     <HomepageLayout>
-      {/* TODO: highlighted event */}
-      {/* <PageSection>
-        <EventBanner />
-      </PageSection> */}
       <PageSection title="Events">
-        <Grid>
-          {events.slice(0, 3).map((e, i) => (
-            <Grid.Col key={i} span={4}>
-              <EventCardImage {...e} />
-            </Grid.Col>
+        <PageGrid type="big">
+          {events.slice(0, 2).map((e, i) => (
+            <EventCardImage key={i} {...e} />
           ))}
-        </Grid>
+        </PageGrid>
       </PageSection>
       <PageSection
         title="Near you"
@@ -108,6 +102,10 @@ const EventsPage = () => {
             <ImageCard key={i} {...e} loading={loading} />
           ))}
         </PageGrid>
+      </PageSection>
+      {/* TODO: highlighted event */}
+      <PageSection>
+        <EventBanner />
       </PageSection>
     </HomepageLayout>
   );

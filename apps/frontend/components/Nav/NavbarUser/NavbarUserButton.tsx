@@ -51,7 +51,8 @@ const NavbarUserButton = forwardRef<HTMLButtonElement, Props>(
             {user && <Avatar size={40} radius="xl" src={user.image} />}
             <Box sx={() => ({ flex: '1' })}>
               <Text size="sm">{user?.name}</Text>
-              <Text size="xs" color="gray">
+              {/* TODO: handle text overflow */}
+              <Text size="xs" color="dimmed">
                 {user?.email}
               </Text>
             </Box>

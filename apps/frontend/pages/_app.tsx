@@ -67,7 +67,17 @@ const App = ({ Component, pageProps: { session, ...pageProps } }) => {
           <ReactQueryDevtools initialIsOpen={false} />
           <CustomMantineProvider>
             <Inspect>
-              <Container fluid px={0} sx={() => ({ minHeight: '100vh' })}>
+              <Container
+                fluid
+                px={0}
+                sx={(t) => ({
+                  minHeight: '100vh',
+                  color:
+                    t.colorScheme === 'dark'
+                      ? t.colors.gray[4]
+                      : t.colors.gray[9],
+                })}
+              >
                 {getLayout(<Component {...pageProps} />)}
                 <UserRoleModal />
               </Container>

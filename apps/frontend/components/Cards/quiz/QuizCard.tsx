@@ -96,7 +96,7 @@ export const QuizCard = ({
                 )}
               </Skeleton>
               <Skeleton visible={loading}>
-                <Text size="xs" inline>
+                <Text size="xs" inline className={classes.owner}>
                   {author?.name}
                 </Text>
               </Skeleton>
@@ -171,6 +171,11 @@ const useStyles = createStyles((theme) => {
 
     title: {
       display: 'block',
+      cursor: 'default',
+    },
+
+    owner: {
+      cursor: 'pointer',
     },
 
     icon1: {

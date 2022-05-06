@@ -62,7 +62,7 @@ export const NavbarItem = ({
   btnClass,
 }: Props) => {
   const router = useRouter();
-
+  const { isDark } = useAppColorscheme();
   const isActive = isCurrentRoute(router.pathname, href);
   const { classes } = useStyles(isActive);
 
@@ -72,6 +72,13 @@ export const NavbarItem = ({
         <ThemeIcon
           size="lg"
           variant={isActive ? 'filled' : 'light'}
+          sx={(t) => ({
+            backgroundColor: isActive
+              ? isDark
+                ? t.colors.gray[8]
+                : 'black'
+              : 'inital',
+          })}
         >
           {icon}
         </ThemeIcon>

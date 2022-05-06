@@ -20,13 +20,6 @@ const useStyles = createStyles((theme) => ({
       fontSize: 28,
     },
   },
-
-  description: {
-    color:
-      theme.colorScheme === 'dark'
-        ? theme.colors.gray[6]
-        : theme.colors.gray[6],
-  },
 }));
 
 interface Props {
@@ -44,7 +37,7 @@ export const PageSection = ({ title, description, children }: Props) => {
           <Title className={classes.title}>{title}</Title>
           {description && (
             <Box sx={(sx) => ({ maxWidth: 500 })} p={0}>
-              <Text size="sm" className={classes.description}>
+              <Text size="sm" color="dimmed">
                 {description}
               </Text>
             </Box>

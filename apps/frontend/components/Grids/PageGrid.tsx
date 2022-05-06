@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 import cn from 'classnames';
 
 interface Props {
-  type: 'small' | 'tiny' | 'tiniest';
+  type: 'big' | 'small' | 'tiny' | 'tiniest';
   children: ReactNode;
 }
 
@@ -21,6 +21,10 @@ const useStyles = createStyles((theme) => ({
   grid: {
     display: 'grid',
     gap: theme.spacing.md,
+  },
+
+  big: {
+    gridTemplateColumns: 'repeat(auto-fill, minmax(400px, 1fr))',
   },
 
   small: {
