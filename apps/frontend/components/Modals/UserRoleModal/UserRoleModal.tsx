@@ -9,7 +9,6 @@ import { UserRoleModalStep2 } from 'components/Modals/UserRoleModal/UserRoleModa
 import { useModalProps } from 'context/mantine';
 import { useRoleAssignAndAccountCreate } from 'hooks/api/role';
 import { useEffect } from 'react';
-import { useQueryClient } from 'react-query';
 import { useAssignRole } from 'store/use-assign-role';
 import { UserRoleReq } from 'types/role';
 
@@ -40,11 +39,8 @@ export const UserRoleModal = () => {
     mutate(mutationData);
   };
 
-  const queryClient = useQueryClient();
   useEffect(() => {
     if (isSuccess) {
-      queryClient.invalidateQueries('currentUser');
-      queryClient.invalidateQueries('users');
       setModal(ModalSteps.None);
     }
   }, [isSuccess]);

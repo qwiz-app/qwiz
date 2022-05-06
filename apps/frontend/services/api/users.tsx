@@ -1,4 +1,4 @@
-import { Prisma, Role, User } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
 import { parseData } from 'lib/axios';
 import http from 'services/http';
 import { UserRoleReq } from 'types/role';
