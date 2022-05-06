@@ -168,7 +168,9 @@ export const AppShell = ({ children }) => {
       })}
       header={matches.max.sm && Header}
     >
-      <Container fluid>{children}</Container>
+      <Container fluid p={0}>
+        {children}
+      </Container>
     </MantineAppShell>
   );
 };

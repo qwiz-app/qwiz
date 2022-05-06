@@ -90,7 +90,7 @@ const useStyles = createStyles((theme, _params, getRef) => {
 
   return {
     base: {
-      height: 220,
+      aspectRatio: '16/10',
       borderRadius: theme.radius.md,
     },
 

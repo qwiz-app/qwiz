@@ -24,14 +24,14 @@ const useStyles = createStyles((theme) => ({
   },
 
   small: {
-    gridTemplateColumns: 'repeat(auto-fill, minmax(310px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
   },
 
   tiny: {
-    gridTemplateColumns: 'repeat(auto-fill, minmax(290px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
   },
 
   tiniest: {
-    gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
   },
 }));
