@@ -54,7 +54,7 @@ export const useGlobalTheme = ({ colorScheme }) => {
       ],
     },
     primaryColor: isDark ? 'gray' : 'more-dark',
-    defaultRadius: 'xs',
+    defaultRadius: 'sm',
     loader: 'dots',
   };
 

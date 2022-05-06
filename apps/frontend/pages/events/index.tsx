@@ -1,6 +1,6 @@
 import { Grid } from '@mantine/core';
-import { EventCardImage } from 'components/Cards/EventCardImage';
-import { ImageCard } from 'components/Cards/ImageCard';
+import { EventCardImage } from 'components/Cards/event/EventCardImage';
+import { ImageCard } from 'components/Cards/event/EventCard';
 import PageGrid from 'components/Grids/PageGrid';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
 import { HomepageLayout } from 'components/PageLayouts/HomepageLayout';
@@ -103,7 +103,7 @@ const EventsPage = () => {
         title="Near you"
         description="Consequatur aut repellat dolores distinctio quo voluptas minima et."
       >
-        <PageGrid type="tiny">
+        <PageGrid type="small">
           {events.map((e, i) => (
             <ImageCard key={i} {...e} loading={loading} />
           ))}

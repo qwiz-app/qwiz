@@ -60,7 +60,7 @@ export const UserModalInfoCard = ({
           <Tooltip
             label={tooltipLabel()}
             position="right"
-            radius="sm"
+            
             sx={() => ({
               position: 'absolute',
               bottom: '-.15rem',

@@ -1,5 +1,5 @@
-import { CreateNew } from 'components/Cards/CreateNew';
-import { QuizCard } from 'components/Cards/QuizCard';
+import { CreateNew } from 'components/Cards/quiz/CreateNew';
+import { QuizCard } from 'components/Cards/quiz/QuizCard';
 import PageGrid from 'components/Grids/PageGrid';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
 import { CreateQuizModal } from 'components/Modals/Quiz/CreateQuizModal';
@@ -11,51 +11,46 @@ import { useEffect, useState } from 'react';
 const QuizPage = () => {
   const { data: author } = useCurrentUserInfo();
 
-  const events = [
+  const quizzes = [
     {
-      image:
-        'https://media.istockphoto.com/photos/empty-restaurant-interior-picture-id1224771205?k=20&m=1224771205&s=612x612&w=0&h=KOqgtFbNtE6WP4ACwkFtIq0KCEq0MljBs5PC5xsyryg=',
-      title: 'Best event in town',
+      image: 'https://i.imgur.com/wMYcSSH.png',
+      title: 'Best quiz in town',
       author,
       link: '/',
       published: false,
     },
     {
-      image: 'https://www.klikcup.com/images/objects/136/262.jpg',
-      title: 'Best event in town',
+      image: 'https://i.imgur.com/wMYcSSH.png',
+      title: 'Best quiz in town',
       author,
       link: '/',
       published: true,
     },
     {
-      image:
-        'https://www.harpcoventgarden.com/-/media/sites/microsites/h/the-harp-_-p180/images/2021/carousel/dsc_5650.ashx?w=1024',
-      title: 'Best event in town',
+      image: 'https://i.imgur.com/wMYcSSH.png',
+      title: 'Best quiz in town',
       author,
       link: '/',
       published: false,
     },
     {
-      image:
-        'https://media.istockphoto.com/photos/empty-restaurant-interior-picture-id1224771205?k=20&m=1224771205&s=612x612&w=0&h=KOqgtFbNtE6WP4ACwkFtIq0KCEq0MljBs5PC5xsyryg=',
+      image: 'https://i.imgur.com/wMYcSSH.png',
       category: 'Food',
-      title: 'Best event in town',
+      title: 'Best quiz in town',
       author,
       link: '/',
       published: true,
     },
     {
-      image:
-        'https://ichef.bbci.co.uk/news/1024/cpsprodpb/076A/production/_119289810_qq1200-gettyimages-1318536779.jpg',
-      title: 'Best event in town',
+      image: 'https://i.imgur.com/wMYcSSH.png',
+      title: 'Best quiz in town',
       author,
       link: '/',
       published: true,
     },
     {
-      image:
-        'https://media.istockphoto.com/photos/people-talking-and-toasting-in-a-pub-with-the-beers-picture-id1091469178?k=20&m=1091469178&s=612x612&w=0&h=bsu2Pdpx8EOm3uEcesThaxlQO9PpNrDKbeLVrjBNMfg=',
-      title: 'Best event in town',
+      image: 'https://i.imgur.com/wMYcSSH.png',
+      title: 'Best quiz in town',
       author,
 
       link: '/',
@@ -73,15 +68,28 @@ const QuizPage = () => {
 
   return (
     <HomepageLayout>
+      <PageSection
+        title="Create quiz"
+        description="Turn any Qwiz template into a new quiz"
+      >
+        <PageGrid type="tiniest">
+          <CreateNew onClick={() => setShowCreateQuizModal(true)} />
+          <CreateNew onClick={() => setShowCreateQuizModal(true)} />
+          <CreateNew onClick={() => setShowCreateQuizModal(true)} />
+          <CreateNew onClick={() => setShowCreateQuizModal(true)} />
+        </PageGrid>
+      </PageSection>
       <PageSection title="Recently edited">
         <PageGrid type="tiny">
-          <CreateNew onClick={() => setShowCreateQuizModal(true)} />
-          {events.map((e, i) => (
+          {quizzes.map((e, i) => (
             <QuizCard key={i} {...e} loading={loading} />
           ))}
         </PageGrid>
       </PageSection>
-      <CreateQuizModal opened={showCreateQuizModal} onClose={() => setShowCreateQuizModal(false)} />
+      <CreateQuizModal
+        opened={showCreateQuizModal}
+        onClose={() => setShowCreateQuizModal(false)}
+      />
     </HomepageLayout>
   );
 };

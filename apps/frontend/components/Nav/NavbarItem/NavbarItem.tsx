@@ -70,7 +70,6 @@ export const NavbarItem = ({
     <UnstyledButton className={cn(classes.navItem, btnClass)} onClick={onClick}>
       <Group>
         <ThemeIcon
-          radius="sm"
           size="lg"
           variant={isActive ? 'filled' : 'light'}
         >
