@@ -1,5 +1,6 @@
 import { CreateNew } from 'components/Cards/quiz/CreateNew';
 import { QuizCard } from 'components/Cards/quiz/QuizCard';
+import { QuizTemplateCard } from 'components/Cards/quiz/QuizTemplateCard';
 import PageGrid from 'components/Grids/PageGrid';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
 import { CreateQuizModal } from 'components/Modals/Quiz/CreateQuizModal';
@@ -52,7 +53,6 @@ const QuizPage = () => {
       image: 'https://i.imgur.com/wMYcSSH.png',
       title: 'Best quiz in town',
       author,
-
       link: '/',
       published: true,
     },
@@ -60,11 +60,11 @@ const QuizPage = () => {
 
   const [loading, setLoading] = useState(true);
 
-  const [showCreateQuizModal, setShowCreateQuizModal] = useState(false);
-
   useEffect(() => {
-    setTimeout(() => setLoading(false), 1000);
+    setTimeout(() => setLoading(false), 2000);
   }, []);
+
+  const [showCreateQuizModal, setShowCreateQuizModal] = useState(false);
 
   return (
     <HomepageLayout>
@@ -74,9 +74,9 @@ const QuizPage = () => {
       >
         <PageGrid type="tiniest">
           <CreateNew onClick={() => setShowCreateQuizModal(true)} />
-          <CreateNew onClick={() => setShowCreateQuizModal(true)} />
-          <CreateNew onClick={() => setShowCreateQuizModal(true)} />
-          <CreateNew onClick={() => setShowCreateQuizModal(true)} />
+          <QuizTemplateCard />
+          <QuizTemplateCard />
+          <QuizTemplateCard />
         </PageGrid>
       </PageSection>
       <PageSection title="Recently edited">

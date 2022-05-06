@@ -1,15 +1,16 @@
 import {
   Avatar,
+  Box,
   Group,
   Skeleton,
   Text,
   UnstyledButton,
   UnstyledButtonProps,
 } from '@mantine/core';
+import { useCurrentUserInfo } from 'hooks/api/users';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { CaretRight } from 'phosphor-react';
 import { forwardRef } from 'react';
-import { useCurrentUserInfo } from 'hooks/api/users';
 
 type Props = UnstyledButtonProps<any>;
 
@@ -18,6 +19,19 @@ const NavbarUserButton = forwardRef<HTMLButtonElement, Props>(
   (props: Props, ref) => {
     const { data: user, isLoading } = useCurrentUserInfo();
     const { isDark } = useAppColorscheme();
+
+    if (isLoading) {
+      return (
+        <Group position="apart" sx={() => ({ height: 56 })}>
+          <Group sx={() => ({ flex: '1' })}>
+            <Skeleton visible height={40} circle />
+            <Box sx={() => ({ flex: '1', height: '100%' })}>
+              <Skeleton height={40} />
+            </Box>
+          </Group>
+        </Group>
+      );
+    }
 
     return (
       <UnstyledButton
@@ -32,20 +46,18 @@ const NavbarUserButton = forwardRef<HTMLButtonElement, Props>(
         })}
         {...props}
       >
-        <Skeleton visible={user && isLoading} height={40}>
-          <Group position="apart">
-            <Group>
-              {!!user && <Avatar size={40} radius="xl" src={user.image} />}
-              <div>
-                <Text size="sm">{user?.name}</Text>
-                <Text size="xs" color="gray">
-                  {user?.email}
-                </Text>
-              </div>
-            </Group>
-            <CaretRight weight="regular" size={18} />
+        <Group position="apart">
+          <Group sx={() => ({ flex: '1' })}>
+            {user && <Avatar size={40} radius="xl" src={user.image} />}
+            <Box sx={() => ({ flex: '1' })}>
+              <Text size="sm">{user?.name}</Text>
+              <Text size="xs" color="gray">
+                {user?.email}
+              </Text>
+            </Box>
           </Group>
-        </Skeleton>
+          <CaretRight weight="regular" size={18} />
+        </Group>
       </UnstyledButton>
     );
   }

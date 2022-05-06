@@ -9,12 +9,13 @@ import {
 } from '@mantine/core';
 import Link from 'next/link';
 import { Tag, UsersThree } from 'phosphor-react';
+import cn from 'classnames';
 
 interface Props {
   link: string;
   image: string;
   title: string;
-  author: string;
+  owner: string;
   teams: number;
   price: number;
   currency: string;
@@ -25,7 +26,7 @@ export const ImageCard = ({
   link,
   image,
   title,
-  author,
+  owner,
   teams,
   currency,
   price,
@@ -33,15 +34,11 @@ export const ImageCard = ({
 }: Props) => {
   const { classes, theme } = useStyles();
 
-  const content = (
+  return loading ? (
+    <Skeleton className={classes.base} radius="md" />
+  ) : (
     <Link href={link} passHref>
-      <Card
-        p="lg"
-        // TODO: shadow doesnt show when wrapped in skeleton
-        shadow="md"
-        className={classes.card}
-        radius="md"
-      >
+      <Card p="lg" shadow="md" className={cn(classes.base, classes.card)}>
         <div
           className={classes.image}
           style={{ backgroundImage: `url(${image})` }}
@@ -49,61 +46,56 @@ export const ImageCard = ({
         <div className={classes.overlay} />
 
         <div className={classes.content}>
-          <div>
-            <Text size="lg" className={classes.title} weight={500}>
-              {title}
+          <Text size="lg" className={classes.title} weight={500}>
+            {title}
+          </Text>
+
+          <Group position="apart" spacing="xs">
+            <Text size="sm" className={classes.owner}>
+              {owner}
             </Text>
 
-            <Group position="apart" spacing="xs">
-              <Text size="sm" className={classes.author}>
-                {author}
-              </Text>
-
-              <Group spacing="lg">
-                <Tooltip label="Price per team">
-                  <Center>
-                    <Tag size={16} weight="bold" color={theme.colors.dark[2]} />
-                    <Text size="sm" className={classes.bodyText}>
-                      {currency}
-                      {price}
-                    </Text>
-                  </Center>
-                </Tooltip>
-                <Tooltip label="Teams">
-                  <Center>
-                    <UsersThree
-                      size={16}
-                      weight="bold"
-                      color={theme.colors.dark[2]}
-                    />
-                    <Text size="sm" className={classes.bodyText}>
-                      {teams}
-                    </Text>
-                  </Center>
-                </Tooltip>
-              </Group>
+            <Group spacing="lg">
+              <Tooltip label="Price per team">
+                <Center>
+                  <Tag size={16} weight="bold" color={theme.colors.dark[2]} />
+                  <Text size="sm" className={classes.bodyText}>
+                    {currency}
+                    {price}
+                  </Text>
+                </Center>
+              </Tooltip>
+              <Tooltip label="Teams">
+                <Center>
+                  <UsersThree
+                    size={16}
+                    weight="bold"
+                    color={theme.colors.dark[2]}
+                  />
+                  <Text size="sm" className={classes.bodyText}>
+                    {teams}
+                  </Text>
+                </Center>
+              </Tooltip>
             </Group>
-          </div>
+          </Group>
         </div>
       </Card>
     </Link>
   );
-
-  // TODO: higher skeleton radius has black border on corners
-  return loading ? <Skeleton>{content}</Skeleton> : content;
 };
 
 const useStyles = createStyles((theme, _params, getRef) => {
   const image = getRef('image');
 
   return {
-    wrapper: {
-      // width: '100%',
+    base: {
+      height: 220,
+      borderRadius: theme.radius.md,
     },
 
     card: {
       position: 'relative',
-      height: 220,
       backgroundColor:
         theme.colorScheme === 'dark'
           ? theme.colors.dark[6]
@@ -155,7 +147,7 @@ const useStyles = createStyles((theme, _params, getRef) => {
       marginLeft: 7,
     },
 
-    author: {
+    owner: {
       color: theme.colors.dark[2],
     },
   };

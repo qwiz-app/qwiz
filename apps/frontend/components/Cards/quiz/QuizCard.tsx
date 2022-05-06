@@ -1,19 +1,20 @@
-import React from 'react';
-import { Bookmark, Globe, Heart, Share, Lock } from 'phosphor-react';
 import {
-  Card,
-  Text,
   ActionIcon,
-  Group,
-  Center,
   Avatar,
+  Card,
+  Center,
   createStyles,
-  ThemeIcon,
+  Group,
   Image,
+  Skeleton,
+  Text,
+  ThemeIcon,
 } from '@mantine/core';
 import { User } from '@prisma/client';
-import Link from 'next/link';
 import { useAppColorscheme } from 'hooks/colorscheme';
+import Link from 'next/link';
+import { Bookmark, Globe, Heart, Lock, Share } from 'phosphor-react';
+import React, { useState } from 'react';
 
 interface QuizCardProps {
   image: string;
@@ -36,7 +37,10 @@ export const QuizCard = ({
 }: QuizCardProps &
   Omit<React.ComponentPropsWithoutRef<'div'>, keyof QuizCardProps>) => {
   const { classes, cx } = useStyles();
-  const { theme } = useAppColorscheme();
+
+  const [randomNumber] = useState(
+    Math.floor(Math.random() * (100 - 60 + 1)) + 60
+  );
 
   return (
     <Link href={link}>
@@ -48,18 +52,22 @@ export const QuizCard = ({
         {...others}
       >
         <Card.Section className={classes.imageSection}>
-          <Image
-            src={image}
-            withPlaceholder
-            alt="thumbnail"
-            height="100%"
-            fit="cover"
-            styles={{
-              root: { height: '100%' },
-              imageWrapper: { height: '100%' },
-              figure: { height: '100%' },
-            }}
-          />
+          <Skeleton visible={loading} radius={0}>
+            {!loading && (
+              <Image
+                src={image}
+                // withPlaceholder
+                alt="thumbnail"
+                height="100%"
+                fit="cover"
+                styles={{
+                  root: { height: '100%' },
+                  imageWrapper: { height: '100%' },
+                  figure: { height: '100%' },
+                }}
+              />
+            )}
+          </Skeleton>
 
           {/* TODO: tooltip */}
           <ThemeIcon variant="filled" className={classes.accessBadge} size="md">
@@ -68,20 +76,35 @@ export const QuizCard = ({
         </Card.Section>
 
         <Card.Section py={12} px={18}>
-          <Text className={classes.title} weight={500}>
-            {title}
-          </Text>
+          <Skeleton visible={loading} width={`${randomNumber}%`}>
+            <Text className={classes.title} weight={500}>
+              {title}
+            </Text>
+          </Skeleton>
 
           <Group position="apart" mt={6}>
             <Center>
-              <Avatar src={author?.image} size={20} radius="xl" mr="xs" />
-              <Text size="xs" inline>
-                {author?.name}
-              </Text>
+              <Skeleton
+                visible={loading}
+                circle
+                height={20}
+                sx={() => ({ flexShrink: 0 })}
+                mr="xs"
+              >
+                {!loading && (
+                  <Avatar src={author?.image} size={20} radius="xl" mr="xs" />
+                )}
+              </Skeleton>
+              <Skeleton visible={loading}>
+                <Text size="xs" inline>
+                  {author?.name}
+                </Text>
+              </Skeleton>
             </Center>
 
             <Group spacing={8} mr={0}>
               <ActionIcon
+                className={classes.icon1}
                 variant="hover"
                 onClick={(e: any) => {
                   e.preventDefault();
@@ -90,6 +113,7 @@ export const QuizCard = ({
                 <Heart size={16} weight="duotone" />
               </ActionIcon>
               <ActionIcon
+                className={classes.icon2}
                 variant="hover"
                 onClick={(e: any) => {
                   e.preventDefault();
@@ -98,6 +122,7 @@ export const QuizCard = ({
                 <Bookmark size={16} weight="duotone" />
               </ActionIcon>
               <ActionIcon
+                className={classes.icon3}
                 variant="hover"
                 onClick={(e: any) => {
                   e.preventDefault();
@@ -146,6 +171,24 @@ const useStyles = createStyles((theme) => {
 
     title: {
       display: 'block',
+    },
+
+    icon1: {
+      '&:hover': {
+        color: theme.colors.red[5],
+      },
+    },
+
+    icon2: {
+      '&:hover': {
+        color: theme.colors.orange[5],
+      },
+    },
+
+    icon3: {
+      '&:hover': {
+        color: theme.colors.blue[5],
+      },
     },
   };
 });
