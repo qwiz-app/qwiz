@@ -60,7 +60,7 @@ const QuizPage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => setLoading(false), 2000);
+    setTimeout(() => setLoading(false), 1500);
   }, []);
 
   const [showCreateQuizModal, setShowCreateQuizModal] = useState(false);
@@ -68,21 +68,21 @@ const QuizPage = () => {
   const templates = [
     {
       href: '/',
-      label: 'Audio',
-      image:
-        'https://www.commonsense.org/education/sites/default/files/styles/16_9_medium/public/blog-share/2020-bts-homepageimages-green.jpg?itok=Q8W9c7h9',
-    },
-    {
-      href: '/',
       label: 'Multiple choice',
       image:
-        'https://powerpointschool.com/wp-content/uploads/2018/04/Free-Creative-PowerPoint-Template.png',
+        'https://products.asiwallsolutions.com/img/patterns/PTN-M101-IMG1.jpg',
     },
     {
       href: '/',
       label: 'Visual',
       image:
-        'https://assets-global.website-files.com/5e4319072e6fb910d3a508a6/6196aad5a073b5d0287c61f1_EOY%20Templates%20-%20Blog%20Design.jpg',
+        'https://www.zilliondesigns.com/blog/wp-content/uploads/Pattern-Logos.jpg',
+    },
+    {
+      href: '/',
+      label: 'Audio',
+      image:
+        'https://media.iapp.org/2020/11/23160339/dark_patterns_pawel-czerwinski-jJi1bjfBWYo-unsplash.jpg',
     },
   ];
 

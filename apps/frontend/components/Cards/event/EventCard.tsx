@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Card,
   Center,
   createStyles,
@@ -51,9 +52,18 @@ export const ImageCard = ({
           </Text>
 
           <Group position="apart" spacing="xs">
-            <Text size="sm" className={classes.owner}>
-              {owner}
-            </Text>
+            <Group spacing={0}>
+              <Avatar
+                // TODO: placeholder
+                src="https://source.boringavatars.com/marble/64/random?square"
+                size={20}
+                radius="xl"
+                mr="xs"
+              />
+              <Text size="sm" className={classes.owner}>
+                {owner}
+              </Text>
+            </Group>
 
             <Group spacing="lg">
               <Tooltip label="Price per team">
@@ -90,7 +100,7 @@ const useStyles = createStyles((theme, _params, getRef) => {
 
   return {
     base: {
-      aspectRatio: '16/10',
+      aspectRatio: '17/11',
       borderRadius: theme.radius.md,
     },
 
