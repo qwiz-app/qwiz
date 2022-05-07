@@ -31,29 +31,17 @@ const QuizPage = () => {
       </PageSection>
       <PageSection title="Recently edited">
         <PageGrid type="tiny">
-          {/* TODO: show skeleton without duplication */}
-          {isLoading
-            ? skeletonData().map((quiz, idx) => (
-                <QuizCard
-                  key={idx}
-                  image={quiz?.thumbnail}
-                  link={`/quiz/${quiz.id}`}
-                  title={quiz.name}
-                  published
-                  author={author}
-                  loading
-                />
-              ))
-            : quizzes?.map((quiz) => (
-                <QuizCard
-                  key={quiz.id}
-                  image={quiz?.thumbnail}
-                  link={`/quiz/${quiz.id}`}
-                  title={quiz.name}
-                  published
-                  author={author}
-                />
-              ))}
+          {quizzes?.map((quiz) => (
+            <QuizCard
+              key={quiz.id}
+              image={quiz?.thumbnail}
+              link={`/quiz/${quiz.id}`}
+              title={quiz.name}
+              published
+              author={author}
+              loading={isLoading}
+            />
+          ))}
         </PageGrid>
       </PageSection>
       <CreateQuizModal
@@ -68,17 +56,6 @@ export default QuizPage;
 
 QuizPage.getLayout = function getLayout(page) {
   return <DashboardLayout>{page}</DashboardLayout>;
-};
-
-const skeletonData = () => {
-  const dummyArr = [0, 1, 2];
-
-  return dummyArr.map(() => ({
-    id: 1,
-    name: 'Quiz 1',
-    thumbnail: 'https://via.placeholder.com/150',
-    published: true,
-  }));
 };
 
 const templates = [
