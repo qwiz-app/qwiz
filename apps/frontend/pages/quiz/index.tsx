@@ -1,5 +1,6 @@
-import { CreateNew } from 'components/Cards/CreateNew';
-import { QuizCard } from 'components/Cards/QuizCard';
+import { Quiz } from '@prisma/client';
+import { QuizCard } from 'components/Cards/quiz/QuizCard';
+import { QuizCardSmall } from 'components/Cards/quiz/QuizCardSmall';
 import PageGrid from 'components/Grids/PageGrid';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
 import { CreateQuizModal } from 'components/Modals/Quiz/CreateQuizModal';
@@ -10,31 +11,62 @@ import { useCurrentUserInfo } from 'hooks/api/users';
 import { useEffect, useState } from 'react';
 
 const QuizPage = () => {
+  const [loading, setLoading] = useState(true);
+
   const { data: author } = useCurrentUserInfo();
 
-  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => setLoading(false), 1500);
+  }, []);
 
   const [showCreateQuizModal, setShowCreateQuizModal] = useState(false);
 
-  useEffect(() => {
-    setTimeout(() => setLoading(false), 1000);
-  }, []);
-
   const { data: quizzes } = useQuizzes();
+
+  const templates = [
+    {
+      href: '/',
+      label: 'Multiple choice',
+      image:
+        'https://products.asiwallsolutions.com/img/patterns/PTN-M101-IMG1.jpg',
+    },
+    {
+      href: '/',
+      label: 'Visual',
+      image:
+        'https://www.zilliondesigns.com/blog/wp-content/uploads/Pattern-Logos.jpg',
+    },
+    {
+      href: '/',
+      label: 'Audio',
+      image:
+        'https://media.iapp.org/2020/11/23160339/dark_patterns_pawel-czerwinski-jJi1bjfBWYo-unsplash.jpg',
+    },
+  ];
 
   return (
     <HomepageLayout>
+      <PageSection
+        title="Create quiz"
+        description="Turn any Qwiz template into a new quiz"
+      >
+        <PageGrid type="tiniest">
+          <QuizCardSmall.New onClick={() => setShowCreateQuizModal(true)} />
+          {templates.map((template, idx) => (
+            <QuizCardSmall.Template key={idx} {...template} />
+          ))}
+        </PageGrid>
+      </PageSection>
       <PageSection title="Recently edited">
         <PageGrid type="tiny">
-          <CreateNew onClick={() => setShowCreateQuizModal(true)} />
-          {quizzes?.map((quiz, i) => (
+          {quizzes?.map((quiz: Quiz) => (
             <QuizCard
-              key={i}
+              key={quiz.id}
+              image={quiz?.thumbnail}
               link={`/quiz/${quiz.id}`}
               title={quiz.name}
-              author={author}
               published
-              image={quiz?.thumbnail}
+              author={author}
               loading={loading}
             />
           ))}

@@ -4,7 +4,7 @@ import {
   Container,
   Group,
   Header as MantineHeader,
-  Navbar as MantineNavbar,
+  Navbar as MantineNavbar
 } from '@mantine/core';
 import LogoDark from 'assets/logo/qwiz-dark.svg';
 import LogoWhite from 'assets/logo/qwiz-white.svg';
@@ -31,7 +31,7 @@ import {
   Queue,
   SquaresFour,
   Trophy,
-  UsersThree,
+  UsersThree
 } from 'phosphor-react';
 import { useState } from 'react';
 
@@ -95,13 +95,13 @@ export const AppShell = ({ children }) => {
   // TODO: fix navbar height on mobile
   const Navbar = (
     <MantineNavbar
-      hiddenBreakpoint="xs"
+      hiddenBreakpoint="sm"
       hidden={!opened}
       p="md"
-      width={{ base: '100%', xs: 320 }}
+      width={{ base: '100%', sm: 260, md: 320 }}
       fixed
     >
-      {!matches.max.xs && (
+      {!matches.max.sm && (
         <MantineNavbar.Section>
           <NavbarHeader />
         </MantineNavbar.Section>
@@ -159,16 +159,18 @@ export const AppShell = ({ children }) => {
 
   return (
     <MantineAppShell
-      navbarOffsetBreakpoint="xs"
+      navbarOffsetBreakpoint="sm"
       navbar={Navbar}
       fixed
       sx={(t) => ({
         backgroundColor: isDark ? t.colors.dark[8] : t.colors.gray[0],
         minHeight: '100vh',
       })}
-      header={matches.max.xs && Header}
+      header={matches.max.sm && Header}
     >
-      <Container fluid>{children}</Container>
+      <Container fluid p={0}>
+        {children}
+      </Container>
     </MantineAppShell>
   );
 };

@@ -37,7 +37,6 @@ export const ThemeToggle = ({ mono, tooltip, tooltipPosition }: Props) => {
       placement="center"
       withArrow
       spacing="xs"
-      radius="sm"
       transitionDuration={250}
       target={
         <ActionIcon

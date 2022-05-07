@@ -2,14 +2,13 @@ import { LoadingOverlay, Modal } from '@mantine/core';
 import { Prisma, Role } from '@prisma/client';
 import {
   ModalSteps,
-  useUserRoleModal
+  useUserRoleModal,
 } from 'components/Modals/UserRoleModal/use-user-role-modal';
 import { UserRoleModalStep1 } from 'components/Modals/UserRoleModal/UserRoleModalStep1';
 import { UserRoleModalStep2 } from 'components/Modals/UserRoleModal/UserRoleModalStep2';
 import { useModalProps } from 'context/mantine';
 import { useRoleAssignAndAccountCreate } from 'hooks/api/role';
 import { useEffect } from 'react';
-import { useQueryClient } from 'react-query';
 import { useAssignRole } from 'store/use-assign-role';
 import { UserRoleReq } from 'types/role';
 
@@ -40,11 +39,8 @@ export const UserRoleModal = () => {
     mutate(mutationData);
   };
 
-  const queryClient = useQueryClient();
   useEffect(() => {
     if (isSuccess) {
-      queryClient.invalidateQueries('currentUser');
-      queryClient.invalidateQueries('users');
       setModal(ModalSteps.None);
     }
   }, [isSuccess]);
@@ -70,7 +66,7 @@ export const UserRoleModal = () => {
           onContinue={submitHandler}
         />
       )}
-      <LoadingOverlay visible={isLoading} radius="sm" />
+      <LoadingOverlay visible={isLoading} />
     </Modal>
   );
 };

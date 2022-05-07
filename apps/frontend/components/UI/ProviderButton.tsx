@@ -16,7 +16,6 @@ const ProviderButton = ({ id, name, onClick }: Props) => {
       onClick={() => onClick(id)}
       variant="light"
       size="lg"
-      radius="sm"
       sx={(t) => ({
         width: '100%',
       })}

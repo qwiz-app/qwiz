@@ -27,7 +27,6 @@ export const UserRoleCard = ({
       <Paper
         shadow="md"
         p="sm"
-        radius="sm"
         sx={{ backgroundImage: `url(${image})` }}
         className={cn([classes.card, selected && classes.selectedCard])}
       >
