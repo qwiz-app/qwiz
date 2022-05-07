@@ -14,7 +14,7 @@ import { User } from '@prisma/client';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import Link from 'next/link';
 import { Bookmark, Globe, Heart, Lock, Share } from 'phosphor-react';
-import React, { useState } from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 
 interface QuizCardProps {
   image: string;
@@ -106,7 +106,7 @@ export const QuizCard = ({
               <ActionIcon
                 className={classes.icon1}
                 variant="hover"
-                onClick={(e: any) => {
+                onClick={(e: SyntheticEvent) => {
                   e.preventDefault();
                 }}
               >
@@ -115,7 +115,7 @@ export const QuizCard = ({
               <ActionIcon
                 className={classes.icon2}
                 variant="hover"
-                onClick={(e: any) => {
+                onClick={(e: SyntheticEvent) => {
                   e.preventDefault();
                 }}
               >
@@ -124,7 +124,7 @@ export const QuizCard = ({
               <ActionIcon
                 className={classes.icon3}
                 variant="hover"
-                onClick={(e: any) => {
+                onClick={(e: SyntheticEvent) => {
                   e.preventDefault();
                 }}
               >

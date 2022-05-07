@@ -10,6 +10,7 @@ import {
 } from '@mantine/core';
 import { Role } from '@prisma/client';
 import { ArrowsClockwise, At } from 'phosphor-react';
+import { SyntheticEvent } from 'react';
 
 const useStyles = createStyles((theme) => ({
   icon: {
@@ -39,7 +40,7 @@ export const UserModalInfoCard = ({
 }: Props) => {
   const { classes } = useStyles();
 
-  const resetAvatarHandler = (e: any) => {
+  const resetAvatarHandler = (e: SyntheticEvent) => {
     e.preventDefault();
     onResetAvatar();
   };
