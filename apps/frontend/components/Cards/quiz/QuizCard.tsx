@@ -22,7 +22,7 @@ interface QuizCardProps {
   title: string;
   published: boolean;
   author: User;
-  loading: boolean;
+  loading?: boolean;
 }
 
 export const QuizCard = ({
@@ -32,7 +32,7 @@ export const QuizCard = ({
   title,
   author,
   published,
-  loading,
+  loading = false,
   ...others
 }: QuizCardProps &
   Omit<React.ComponentPropsWithoutRef<'div'>, keyof QuizCardProps>) => {

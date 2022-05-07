@@ -1,4 +1,3 @@
-import { Quiz } from '@prisma/client';
 import { QuizCard } from 'components/Cards/quiz/QuizCard';
 import { QuizCardSmall } from 'components/Cards/quiz/QuizCardSmall';
 import PageGrid from 'components/Grids/PageGrid';
@@ -8,41 +7,14 @@ import { HomepageLayout } from 'components/PageLayouts/HomepageLayout';
 import { PageSection } from 'components/PageLayouts/PageSection';
 import { useQuizzes } from 'hooks/api/quiz';
 import { useCurrentUserInfo } from 'hooks/api/users';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const QuizPage = () => {
-  const [loading, setLoading] = useState(true);
-
   const { data: author } = useCurrentUserInfo();
-
-  useEffect(() => {
-    setTimeout(() => setLoading(false), 1500);
-  }, []);
 
   const [showCreateQuizModal, setShowCreateQuizModal] = useState(false);
 
-  const { data: quizzes } = useQuizzes();
-
-  const templates = [
-    {
-      href: '/',
-      label: 'Multiple choice',
-      image:
-        'https://products.asiwallsolutions.com/img/patterns/PTN-M101-IMG1.jpg',
-    },
-    {
-      href: '/',
-      label: 'Visual',
-      image:
-        'https://www.zilliondesigns.com/blog/wp-content/uploads/Pattern-Logos.jpg',
-    },
-    {
-      href: '/',
-      label: 'Audio',
-      image:
-        'https://media.iapp.org/2020/11/23160339/dark_patterns_pawel-czerwinski-jJi1bjfBWYo-unsplash.jpg',
-    },
-  ];
+  const { data: quizzes, isLoading } = useQuizzes();
 
   return (
     <HomepageLayout>
@@ -59,17 +31,29 @@ const QuizPage = () => {
       </PageSection>
       <PageSection title="Recently edited">
         <PageGrid type="tiny">
-          {quizzes?.map((quiz: Quiz) => (
-            <QuizCard
-              key={quiz.id}
-              image={quiz?.thumbnail}
-              link={`/quiz/${quiz.id}`}
-              title={quiz.name}
-              published
-              author={author}
-              loading={loading}
-            />
-          ))}
+          {/* TODO: show skeleton without duplication */}
+          {isLoading
+            ? skeletonData().map((quiz, idx) => (
+                <QuizCard
+                  key={idx}
+                  image={quiz?.thumbnail}
+                  link={`/quiz/${quiz.id}`}
+                  title={quiz.name}
+                  published
+                  author={author}
+                  loading
+                />
+              ))
+            : quizzes?.map((quiz) => (
+                <QuizCard
+                  key={quiz.id}
+                  image={quiz?.thumbnail}
+                  link={`/quiz/${quiz.id}`}
+                  title={quiz.name}
+                  published
+                  author={author}
+                />
+              ))}
         </PageGrid>
       </PageSection>
       <CreateQuizModal
@@ -85,3 +69,35 @@ export default QuizPage;
 QuizPage.getLayout = function getLayout(page) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
+
+const skeletonData = () => {
+  const dummyArr = [0, 1, 2];
+
+  return dummyArr.map(() => ({
+    id: 1,
+    name: 'Quiz 1',
+    thumbnail: 'https://via.placeholder.com/150',
+    published: true,
+  }));
+};
+
+const templates = [
+  {
+    href: '/',
+    label: 'Multiple choice',
+    image:
+      'https://products.asiwallsolutions.com/img/patterns/PTN-M101-IMG1.jpg',
+  },
+  {
+    href: '/',
+    label: 'Visual',
+    image:
+      'https://www.zilliondesigns.com/blog/wp-content/uploads/Pattern-Logos.jpg',
+  },
+  {
+    href: '/',
+    label: 'Audio',
+    image:
+      'https://media.iapp.org/2020/11/23160339/dark_patterns_pawel-czerwinski-jJi1bjfBWYo-unsplash.jpg',
+  },
+];
