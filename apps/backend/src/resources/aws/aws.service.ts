@@ -1,27 +1,29 @@
 import { Injectable } from '@nestjs/common';
-import config from 'lib/config';
 import sha1 from 'sha1';
 import { getBrowserInstance } from 'lib/pupeteer';
 import S3 from 'aws-sdk/clients/s3';
-
-const s3 = new S3({
-  region: config.aws.region,
-  accessKeyId: config.aws.accessKeyId,
-  secretAccessKey: config.aws.secretKey,
-  signatureVersion: 'v4',
-});
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AWSService {
+  constructor(private configService: ConfigService) {}
+
+  s3 = new S3({
+    region: this.configService.get<string>('AWS_BUCKET_REGION'),
+    accessKeyId: this.configService.get<string>('AWS_BUCKET_ACCESS_KEY'),
+    secretAccessKey: this.configService.get<string>('AWS_BUCKET_SECRET_KEY'),
+    signatureVersion: 'v4',
+  });
+
   async upload(name: string, type: string) {
     const fileParams = {
-      Bucket: config.aws.bucketName,
+      Bucket: this.configService.get<string>('AWS_BUCKET_NAME'),
       Key: name,
       Expires: 600,
       ContentType: type,
     };
 
-    const url = await s3.getSignedUrlPromise('putObject', fileParams);
+    const url = await this.s3.getSignedUrlPromise('putObject', fileParams);
 
     return { url };
   }
@@ -45,19 +47,21 @@ export class AWSService {
     const fileName = sha1(salt);
 
     const params = {
-      Bucket: config.aws.bucketName,
+      Bucket: this.configService.get<string>('AWS_BUCKET_NAME'),
       Key: fileName,
       Body: imageBuffer,
       ContentType: 'image/jpeg',
     };
 
-    s3.upload(params, (err) => {
+    this.s3.upload(params, (err) => {
       if (err) {
         throw new Error(err);
       }
     });
 
-    const s3url = { url: `${config.aws.bucketUrl}${fileName}` };
+    const s3url = {
+      url: `${this.configService.get<string>('AWS_BUCKET_URL')}${fileName}`,
+    };
 
     return s3url;
   }

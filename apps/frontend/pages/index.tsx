@@ -4,6 +4,7 @@ import { FileUpload } from 'components/UI/FileUpload';
 import { useCurrentSession } from 'hooks/api/session';
 import { useUser, useUsers } from 'hooks/api/users';
 import { useFileUpload } from 'hooks/use-flle-upload';
+import { useGenerateThumbnail } from 'hooks/use-generate-thumbnail';
 import { signIn, signOut } from 'next-auth/react';
 import { useState } from 'react';
 
@@ -26,9 +27,18 @@ const IndexPage = () => {
   const { selectFile, uploadFile, uploadingStatus, url, file } =
     useFileUpload();
 
+  const { mutate } = useGenerateThumbnail();
+
   return (
     <Group direction="column">
       <p>Please select a file to upload</p>
+      <Button
+        onClick={() =>
+          mutate({
+            url: 'https://qwiz.party',
+          })
+        }
+      >Mutate</Button>
       <FileUpload
         selectFile={selectFile}
         loading={uploadingStatus === 'UPLOADING'}
