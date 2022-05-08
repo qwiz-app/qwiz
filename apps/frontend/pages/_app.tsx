@@ -8,10 +8,10 @@ import { CustomMantineProvider } from 'context/mantine';
 import Inspect from 'inspx';
 import config from 'lib/config';
 import { SessionProvider } from 'next-auth/react';
+import dynamic from 'next/dynamic';
 import Script from 'next/script';
 import { QueryCache, QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import dynamic from 'next/dynamic';
 
 const UserRoleModal = dynamic(() =>
   import('components/Modals/UserRoleModal/UserRoleModal').then(
@@ -35,6 +35,8 @@ const queryClient = new QueryClient({
 const App = ({ Component, pageProps: { session, ...pageProps } }) => {
   const getLayout = Component.getLayout || ((page) => page);
 
+  const plausibleUrl = `https://${config.plausible.domain}`;
+
   return (
     <>
       <Script
@@ -47,12 +49,12 @@ const App = ({ Component, pageProps: { session, ...pageProps } }) => {
         title="Qwiz"
         description="App for building pub quizzes"
         openGraph={{
-          url: `https://${config.plausible.domain}`,
+          url: plausibleUrl,
           title: 'Qwiz',
           description: 'App for building pub quizzes',
           images: [
             {
-              url: `https://${config.plausible.domain}/assets/images/cover.png`,
+              url: `${plausibleUrl}/assets/images/cover.png`,
               width: 1423,
               height: 800,
               alt: 'Cover logo',
@@ -82,8 +84,8 @@ const App = ({ Component, pageProps: { session, ...pageProps } }) => {
               >
                 <ScrollArea sx={{ flex: 1 }}>
                   {getLayout(<Component {...pageProps} />)}
+                  <UserRoleModal />
                 </ScrollArea>
-                <UserRoleModal />
               </Container>
             </Inspect>
           </CustomMantineProvider>

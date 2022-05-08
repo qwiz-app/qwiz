@@ -39,6 +39,7 @@ const IndexPage = () => {
           <p>Selected file: {file.name}</p>
           <Button
             onClick={uploadFile}
+            // TODO: windicss
             className="bg-purple-500 text-white p-2 rounded-sm shadow-md hover:bg-purple-700 transition-all"
             loading={uploadingStatus === 'UPLOADING'}
           >
