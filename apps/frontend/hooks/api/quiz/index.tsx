@@ -19,10 +19,13 @@ export const useQuiz = (id: string) =>
 export const useCreateQuiz = () => {
   const queryClient = useQueryClient();
 
-  queryClient.invalidateQueries('quizzes');
-
-  return useMutation((values: Prisma.QuizCreateWithoutOwnerInput) =>
-    createQuiz(values)
+  return useMutation(
+    (values: Prisma.QuizCreateWithoutOwnerInput) => createQuiz(values),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('quizzes');
+      },
+    }
   );
 };
 
