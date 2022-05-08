@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import {
   createStyles,
   Group,
@@ -11,17 +10,8 @@ import { useAppColorscheme } from 'hooks/colorscheme';
 import { isCurrentRoute } from 'lib/router';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { ReactNode } from 'react';
-
-export type NavbarItemModel = {
-  icon: ReactNode;
-  label?: string;
-  href?: string;
-  color?: string;
-  onClick?: () => void;
-  children?: ReactNode;
-  btnClass?: string;
-};
+import React from 'react';
+import { NavItemModel } from 'types/nav-item';
 
 const useStyles = createStyles((t, isActive: boolean) => {
   const { isDark } = useAppColorscheme();
@@ -29,6 +19,7 @@ const useStyles = createStyles((t, isActive: boolean) => {
     navItem: {
       borderRadius: t.radius.sm,
       padding: 8,
+      /* eslint-disable no-nested-ternary */
       background: isActive
         ? isDark
           ? t.colors.gray[9]
@@ -50,7 +41,7 @@ const useStyles = createStyles((t, isActive: boolean) => {
   };
 });
 
-type Props = NavbarItemModel;
+type Props = NavItemModel;
 
 export const NavbarItem = ({
   label,

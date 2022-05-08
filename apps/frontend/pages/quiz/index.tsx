@@ -6,13 +6,14 @@ import { CreateQuizModal } from 'components/Modals/Quiz/CreateQuizModal';
 import { HomepageLayout } from 'components/PageLayouts/HomepageLayout';
 import { PageSection } from 'components/PageLayouts/PageSection';
 import { useQuizzes } from 'hooks/api/quiz';
+import { useCurrentSession } from 'hooks/api/session';
 import { useState } from 'react';
 
 const QuizPage = () => {
   // TODO: maybe use session info if we are certain we only load our own quizzes
   // const { data: author } = useCurrentUserInfo();
   const { data: quizzes, isLoading, isPlaceholderData } = useQuizzes();
-
+  const { isOrganization } = useCurrentSession();
   const [showCreateQuizModal, setShowCreateQuizModal] = useState(false);
 
   return (
@@ -28,38 +29,24 @@ const QuizPage = () => {
           ))}
         </PageGrid>
       </PageSection>
-      <PageSection title="Recently edited">
-        <PageGrid type="tiny">
-          {quizzes.map((quiz) => (
-            <QuizCard
-              key={quiz.id}
-              image={quiz?.thumbnail}
-              href={`/quiz/${quiz.id}`}
-              title={quiz.name}
-              published
-              owner={quiz.owner}
-              loading={isLoading || isPlaceholderData}
-            />
-          ))}
-        </PageGrid>
-      </PageSection>
-      {/* placholders to test */}
-      <PageSection title="Placeholders to test">
-        <PageGrid type="tiny">
-          {quizzes.map((quiz, i) => (
-            <QuizCard
-              key={i}
-              image={quiz?.thumbnail}
-              href={`/quiz/${quiz.id}`}
-              title={quiz.name}
-              published
-              owner={quiz.owner}
-              loading
-            />
-          ))}
-          {/* placholders to test */}
-        </PageGrid>
-      </PageSection>
+      {/* TODO: temporary, should check and redirect in middleware */}
+      {isOrganization && (
+        <PageSection title="Recently edited">
+          <PageGrid type="tiny">
+            {quizzes?.map((quiz) => (
+              <QuizCard
+                key={quiz.id}
+                image={quiz?.thumbnail}
+                href={`/quiz/${quiz.id}`}
+                title={quiz.name}
+                published
+                owner={quiz.owner}
+                loading={isLoading || isPlaceholderData}
+              />
+            ))}
+          </PageGrid>
+        </PageSection>
+      )}
       <CreateQuizModal
         opened={showCreateQuizModal}
         onClose={() => setShowCreateQuizModal(false)}
