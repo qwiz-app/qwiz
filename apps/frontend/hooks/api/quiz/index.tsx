@@ -27,7 +27,7 @@ export const useCreateQuiz = () => {
 };
 
 // TODO: do we need a placholder when we are just showing skeletons?
-export const placholderQuizzes = generateArrayForRange(6).map((_, idx) => ({
+export const placholderQuizzes = generateArrayForRange(4).map((_, idx) => ({
   id: `${idx}`,
   name: 'Vue Quiz 1.0?',
   description: 'Show off your vue knowledge',

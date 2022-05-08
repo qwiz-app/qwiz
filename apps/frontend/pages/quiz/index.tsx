@@ -16,7 +16,6 @@ const QuizPage = () => {
   // const { data: author } = useCurrentUserInfo();
   const { data: quizzes, isLoading, isPlaceholderData } = useQuizzes();
   const { isDark } = useAppColorscheme();
-  const { isOrganization } = useCurrentSession();
   const [showCreateQuizModal, setShowCreateQuizModal] = useState(false);
   const hasQuizzes = quizzes && quizzes.length > 0;
 
@@ -33,41 +32,40 @@ const QuizPage = () => {
           ))}
         </PageGrid>
       </PageSection>
-      {/* TODO: temporary, should check and redirect in middleware */}
-      {isOrganization && (
-        <PageSection title="Recently edited">
-          <PageGrid type="tiny">
-            {quizzes?.map((quiz) => (
-              <QuizCard
-                key={quiz.id}
-                image={quiz?.thumbnail}
-                href={`/quiz/${quiz.id}`}
-                title={quiz.name}
-                published
-                owner={quiz.owner}
-                loading={isLoading || isPlaceholderData}
-              />
-            ))}
-          </PageGrid>
-          {!hasQuizzes && (
-            <Alert
-              title="No quizzes yet"
-              color={isDark ? 'gray' : 'dark'}
-              sx={(t) => ({
-                maxWidth: '500px',
-                backgroundColor: !isDark && t.colors.gray[2],
-              })}
-            >
-              <Stack align="start">
-                Choose any of the templates above or start blank 👩‍🎨️
-                <Button color="indigo" variant={isDark ? 'light' : 'filled'}>
-                  <Group spacing={4}>Create your first quiz</Group>
-                </Button>
-              </Stack>
-            </Alert>
-          )}
-        </PageSection>
-      )}
+
+      <PageSection title="Recently edited">
+        <PageGrid type="tiny">
+          {quizzes?.map((quiz) => (
+            <QuizCard
+              key={quiz.id}
+              image={quiz?.thumbnail}
+              href={`/quiz/${quiz.id}`}
+              title={quiz.name}
+              published
+              owner={quiz.owner}
+              loading={isLoading || isPlaceholderData}
+            />
+          ))}
+        </PageGrid>
+        {!hasQuizzes && (
+          <Alert
+            title="No quizzes yet"
+            color={isDark ? 'gray' : 'dark'}
+            sx={(t) => ({
+              maxWidth: '500px',
+              backgroundColor: !isDark && t.colors.gray[2],
+            })}
+          >
+            <Stack align="start">
+              Choose any of the templates above or start blank 👩‍🎨️
+              <Button color="indigo" variant={isDark ? 'light' : 'filled'}>
+                <Group spacing={4}>Create your first quiz</Group>
+              </Button>
+            </Stack>
+          </Alert>
+        )}
+      </PageSection>
+
       <CreateQuizModal
         opened={showCreateQuizModal}
         onClose={() => setShowCreateQuizModal(false)}
