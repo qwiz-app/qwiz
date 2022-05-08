@@ -96,6 +96,22 @@ export class QuizController {
     return this.quizService.remove({ id, ownerId: organization.id });
   }
 
+  @Post('thumbnail')
+  createThumbnail(
+    @Body()
+    payload: {
+      url: string;
+      size: {
+        width: number;
+        height: number;
+      };
+    }
+  ) {
+    const { url, size } = payload;
+
+    return this.quizService.createThumbnail(url, size);
+  }
+
   //* ADMIN-ONLY
   @Delete(':id/any')
   removeAny(@Param('id') id: string, @IsAdmin() isAdmin: boolean) {

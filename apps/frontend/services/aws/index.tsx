@@ -17,7 +17,7 @@ export const createThumbnail = ({
   },
 }: ThumbnailReq) =>
   http
-    .post<{ url: string }>(`/api/s3/thumbnail`, {
+    .post<{ url: string }>(`/api/quiz/thumbnail`, {
       url,
       size,
     })

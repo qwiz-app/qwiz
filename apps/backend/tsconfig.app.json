@@ -7,6 +7,7 @@
     "emitDecoratorMetadata": true,
     "target": "es2015",
     "baseUrl": "./src",
+    "esModuleInterop": true
   },
   "exclude": ["**/*.spec.ts", "**/*.test.ts"],
   "include": ["**/*.ts"]
