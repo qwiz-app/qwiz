@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from 'app.controller';
 
 import { PrismaService } from 'prisma.service';
+import { AWSModule } from 'resources/aws/aws.module';
 import { AttendeeModule } from './resources/attendee/attendee.module';
 import { OrganizationModule } from './resources/organization/organization.module';
 import { QuestionModule } from './resources/question/question.module';
@@ -17,6 +18,7 @@ import { QuizModule } from './resources/quiz/quiz.module';
     AttendeeModule,
     EventModule,
     QuizModule,
+    AWSModule,
   ],
   providers: [PrismaService],
   controllers: [AppController],

@@ -1,6 +1,6 @@
 import config from 'lib/config';
 import { useState } from 'react';
-import { generateS3Url, uploadFileToS3 } from 'services/api/file-upload';
+import { generateS3Url, uploadFileToS3 } from 'services/api/aws';
 import sha1 from 'sha1';
 
 export enum UploadStatusEnum {
