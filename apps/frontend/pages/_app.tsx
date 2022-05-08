@@ -2,7 +2,7 @@ import { NextSeo } from 'next-seo';
 import 'styles/global.scss';
 import 'windi.css';
 
-import { Container } from '@mantine/core';
+import { Container, ScrollArea } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { CustomMantineProvider } from 'context/mantine';
 import Inspect from 'inspx';
@@ -71,14 +71,18 @@ const App = ({ Component, pageProps: { session, ...pageProps } }) => {
                 fluid
                 px={0}
                 sx={(t) => ({
-                  minHeight: '100vh',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: '100vh',
                   color:
                     t.colorScheme === 'dark'
                       ? t.colors.gray[4]
                       : t.colors.gray[9],
                 })}
               >
-                {getLayout(<Component {...pageProps} />)}
+                <ScrollArea sx={{ flex: 1 }}>
+                  {getLayout(<Component {...pageProps} />)}
+                </ScrollArea>
                 <UserRoleModal />
               </Container>
             </Inspect>

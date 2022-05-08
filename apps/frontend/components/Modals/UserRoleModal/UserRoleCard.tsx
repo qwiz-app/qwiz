@@ -34,7 +34,7 @@ export const UserRoleCard = ({
           className={classes.title}
           size="md"
           variant="filled"
-          color={selected && (role === Role.ORGANIZER ? 'violet' : 'yellow')}
+          color={selected && (role === Role.ORGANIZATION ? 'violet' : 'yellow')}
         >
           {title}
         </Badge>

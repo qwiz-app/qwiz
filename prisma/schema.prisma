@@ -66,7 +66,7 @@ model VerificationToken {
 
 enum Role {
   ADMIN
-  ORGANIZER
+  ORGANIZATION
   ATTENDEE
 }
 
@@ -137,8 +137,7 @@ model Event {
   name           String
   banner         String?
   ownerId        String
-  //! TODO: DISABLED ONLY FOR TESTING PURPOSES
-  quizId         String?
+  quizId         String
   startDate      DateTime
   location       String
   price          Int
@@ -155,8 +154,10 @@ model Event {
 
 model Quiz {
   id          String   @id @default(cuid())
-  name        String
-  description String
+  name        String?  @default("Untitled")
+  description String?
+  thumbnail   String?
+  published   Boolean? @default(false)
   ownerId     String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -169,7 +170,7 @@ model Quiz {
   Event     Event[]
 }
 
-// when choosing existing question, if ANY INFO ic changed (any word in question, any answer, any answer added) - question is "forked" (but with no reference to the original - yet)
+// when choosing existing question, if ANY INFO is changed (any word in question, any answer, any answer added) - question is "forked" (but with no reference to the original - yet)
 // both question and all of the answers are added to its tables as new records
 model Question {
   id             String             @id @default(cuid())

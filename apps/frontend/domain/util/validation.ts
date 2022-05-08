@@ -20,6 +20,6 @@ export const exampleSchema = yup.object({
 });
 
 export const createQuizSchema = yup.object({
-  title: yup.string().required(),
+  name: yup.string().required(),
   description: yup.string().required(),
 })

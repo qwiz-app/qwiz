@@ -5,6 +5,7 @@ const whitelistedUrls = ['/'];
 
 export const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
   const cookie = req.headers.get('cookie');
+  const SIGN_IN = new URL('/signin', req.nextUrl.origin);
 
   const sessionToken = getFromCookie(
     cookie,
@@ -21,7 +22,7 @@ export const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
   }
 
   if (!sessionToken && !isApiUrl(req.url) && !isSignInUrl(req.url)) {
-    return NextResponse.redirect(new URL('/signin', req.nextUrl.origin));
+    return NextResponse.redirect(SIGN_IN);
   }
 
   return NextResponse.next();
@@ -38,6 +39,9 @@ const isApiUrl = (url: string) => {
 };
 
 const isSignInUrl = (url: string) => url.includes('signin');
+
+// TODO: allow only organizations: how to check for user role
+// const isQuizzesUrl = (url: string) => url.includes('quiz');
 
 export const cookieToObject = (cookie: string) =>
   cookie

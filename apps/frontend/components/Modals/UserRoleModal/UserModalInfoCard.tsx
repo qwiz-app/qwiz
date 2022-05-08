@@ -6,10 +6,11 @@ import {
   createStyles,
   Group,
   Text,
-  Tooltip
+  Tooltip,
 } from '@mantine/core';
 import { Role } from '@prisma/client';
 import { ArrowsClockwise, At } from 'phosphor-react';
+import { SyntheticEvent } from 'react';
 
 const useStyles = createStyles((theme) => ({
   icon: {
@@ -39,7 +40,7 @@ export const UserModalInfoCard = ({
 }: Props) => {
   const { classes } = useStyles();
 
-  const resetAvatarHandler = (e: any) => {
+  const resetAvatarHandler = (e: SyntheticEvent) => {
     e.preventDefault();
     onResetAvatar();
   };
@@ -60,7 +61,6 @@ export const UserModalInfoCard = ({
           <Tooltip
             label={tooltipLabel()}
             position="right"
-            
             sx={() => ({
               position: 'absolute',
               bottom: '-.15rem',
@@ -83,7 +83,7 @@ export const UserModalInfoCard = ({
         <Box mb={4}>
           <Badge
             size="sm"
-            color={role === Role.ORGANIZER ? 'violet' : 'yellow'}
+            color={role === Role.ORGANIZATION ? 'violet' : 'yellow'}
           >
             {role}
           </Badge>

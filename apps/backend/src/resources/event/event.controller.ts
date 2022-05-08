@@ -68,6 +68,7 @@ export class EventController {
     );
   }
 
+  // TODO: only allow delete if ours
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.eventService.remove({ id });

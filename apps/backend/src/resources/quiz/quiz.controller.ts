@@ -1,17 +1,16 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
-  Query,
-  DefaultValuePipe,
-  ParseBoolPipe,
+  Get,
   NotFoundException,
+  Param,
+  Patch,
+  Post,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { Organization, Prisma } from '@prisma/client';
+import { IsAdmin } from 'common/decorators/admin.decorator';
 import { OrganizationEntity } from 'common/decorators/organization.decorator';
 import { QuizService } from './quiz.service';
 
@@ -19,9 +18,18 @@ import { QuizService } from './quiz.service';
 export class QuizController {
   constructor(private readonly quizService: QuizService) {}
 
+  private includeWithUserAndCount: Prisma.QuizInclude = {
+    owner: {
+      include: {
+        user: true,
+      },
+    },
+    _count: true,
+  };
+
   @Post()
   create(
-    @Body() createQuizDto: Prisma.QuizUncheckedCreateWithoutOwnerInput,
+    @Body() createQuizDto: Prisma.QuizCreateWithoutOwnerInput,
     @OrganizationEntity() organization: Organization
   ) {
     return this.quizService.create({
@@ -30,24 +38,38 @@ export class QuizController {
     });
   }
 
+  //* ADMIN-ONLY
   @Get()
-  findAll(
-    @Query('owner', new DefaultValuePipe(false), ParseBoolPipe) owner: boolean,
-    @Query('count', new DefaultValuePipe(false), ParseBoolPipe) _count: boolean
-  ) {
-    const include = { owner, _count };
-    return this.quizService.findAll(include);
+  findAll(@IsAdmin() isAdmin: boolean) {
+    if (!isAdmin) {
+      throw new UnauthorizedException('Only admin can access this route.');
+    }
+    return this.quizService.findAll({}, this.includeWithUserAndCount);
+  }
+
+  @Get('/owner/me')
+  findAllByCurrentOwner(@OrganizationEntity() organization: Organization) {
+    return this.quizService.findAll(
+      { ownerId: organization.id },
+      this.includeWithUserAndCount
+    );
+  }
+
+  //* ADMIN-ONLY
+  @Get('/owner/:id')
+  findAllByOwner(@Param('id') ownerId: string, @IsAdmin() isAdmin: boolean) {
+    if (!isAdmin) {
+      throw new UnauthorizedException('Only admin can access this route.');
+    }
+    return this.quizService.findAll({ ownerId }, this.includeWithUserAndCount);
   }
 
   @Get(':id')
-  async findOne(
-    @Param('id') id: string,
-    @Query('owner', new DefaultValuePipe(true), ParseBoolPipe) owner: boolean,
-    @Query('count', new DefaultValuePipe(true), ParseBoolPipe) _count: boolean
-  ) {
-    const include = { owner, _count };
-    const quiz = await this.quizService.findOne({ id }, include);
-
+  async findOne(@Param('id') id: string) {
+    const quiz = await this.quizService.findOne(
+      { id },
+      this.includeWithUserAndCount
+    );
     if (!quiz) {
       throw new NotFoundException('Quiz not found.');
     }
@@ -67,7 +89,19 @@ export class QuizController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(
+    @Param('id') id: string,
+    @OrganizationEntity() organization: Organization
+  ) {
+    return this.quizService.remove({ id, ownerId: organization.id });
+  }
+
+  //* ADMIN-ONLY
+  @Delete(':id/any')
+  removeAny(@Param('id') id: string, @IsAdmin() isAdmin: boolean) {
+    if (!isAdmin) {
+      throw new UnauthorizedException('Only admin can access this route.');
+    }
     return this.quizService.remove({ id });
   }
 }

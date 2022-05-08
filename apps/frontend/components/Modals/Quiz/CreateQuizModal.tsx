@@ -1,9 +1,11 @@
 import { Button, Modal, Text } from '@mantine/core';
+import { Prisma } from '@prisma/client';
 import { FormikTextareaInput } from 'components/formik/FormikTextArea';
 import { FormikTextInput } from 'components/formik/FormikTextInput';
 import { useModalProps } from 'context/mantine';
 import { createQuizSchema } from 'domain/util/validation';
-import { Form, Formik, FormikValues } from 'formik';
+import { Form, Formik } from 'formik';
+import { useCreateQuiz } from 'hooks/api/quiz';
 
 interface Props {
   opened: boolean;
@@ -12,7 +14,7 @@ interface Props {
 
 export const CreateQuizModal = ({ opened, onClose }: Props) => {
   const { modalProps } = useModalProps();
-  const { initialValues, handleSubmit } = useCreateQuizModal();
+  const { initialValues, handleSubmit } = useCreateQuizModal(onClose);
 
   return (
     <Modal
@@ -31,7 +33,7 @@ export const CreateQuizModal = ({ opened, onClose }: Props) => {
         validationSchema={createQuizSchema}
       >
         <Form>
-          <FormikTextInput name="title" label="Title" />
+          <FormikTextInput name="name" label="Name" />
           <FormikTextareaInput name="description" label="Description" />
           <Button type="submit" mt={24}>
             Submit
@@ -42,12 +44,18 @@ export const CreateQuizModal = ({ opened, onClose }: Props) => {
   );
 };
 
-const useCreateQuizModal = () => {
+const useCreateQuizModal = (onClose: () => void) => {
+  const { mutate } = useCreateQuiz();
+
   const initialValues = {
-    title: '',
+    name: '',
     description: '',
   };
 
-  const handleSubmit = (values: FormikValues) => console.log(values);
+  const handleSubmit = (values: Prisma.QuizCreateWithoutOwnerInput) => {
+    mutate(values);
+    onClose();
+  };
+
   return { initialValues, handleSubmit };
 };

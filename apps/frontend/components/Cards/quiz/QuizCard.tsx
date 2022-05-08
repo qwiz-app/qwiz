@@ -10,27 +10,28 @@ import {
   Text,
   ThemeIcon,
 } from '@mantine/core';
-import { User } from '@prisma/client';
 import { useAppColorscheme } from 'hooks/colorscheme';
+import { generateRandomNumber } from 'lib/utils';
 import Link from 'next/link';
 import { Bookmark, Globe, Heart, Lock, Share } from 'phosphor-react';
-import React, { useState } from 'react';
+import React, { SyntheticEvent, useState } from 'react';
+import { OrganizationWithUser } from 'types/organization';
 
 interface QuizCardProps {
   image: string;
-  link: string;
+  href: string;
   title: string;
   published: boolean;
-  author: User;
+  owner: OrganizationWithUser;
   loading: boolean;
 }
 
 export const QuizCard = ({
   className,
   image,
-  link,
+  href,
   title,
-  author,
+  owner,
   published,
   loading,
   ...others
@@ -38,12 +39,10 @@ export const QuizCard = ({
   Omit<React.ComponentPropsWithoutRef<'div'>, keyof QuizCardProps>) => {
   const { classes, cx } = useStyles();
 
-  const [randomNumber] = useState(
-    Math.floor(Math.random() * (100 - 60 + 1)) + 60
-  );
+  const [randomNumber] = useState(generateRandomNumber({ from: 60, to: 100 }));
 
   return (
-    <Link href={link}>
+    <Link href={href}>
       <Card
         p={0}
         radius="md"
@@ -56,7 +55,7 @@ export const QuizCard = ({
             {!loading && (
               <Image
                 src={image}
-                // withPlaceholder
+                withPlaceholder
                 alt="thumbnail"
                 height="100%"
                 fit="cover"
@@ -74,7 +73,6 @@ export const QuizCard = ({
             {published ? <Globe weight="duotone" /> : <Lock weight="duotone" />}
           </ThemeIcon>
         </Card.Section>
-
         <Card.Section py={12} px={18}>
           <Skeleton visible={loading} width={`${randomNumber}%`}>
             <Text className={classes.title} weight={500}>
@@ -92,12 +90,18 @@ export const QuizCard = ({
                 mr="xs"
               >
                 {!loading && (
-                  <Avatar src={author?.image} size={20} radius="xl" mr="xs" />
+                  <Avatar
+                    src={owner.user.image}
+                    size={20}
+                    radius="xl"
+                    mr="xs"
+                  />
                 )}
               </Skeleton>
+              {/* TODO: skeleton not showing */}
               <Skeleton visible={loading}>
                 <Text size="xs" inline className={classes.owner}>
-                  {author?.name}
+                  {owner?.name}
                 </Text>
               </Skeleton>
             </Center>
@@ -106,7 +110,7 @@ export const QuizCard = ({
               <ActionIcon
                 className={classes.icon1}
                 variant="hover"
-                onClick={(e: any) => {
+                onClick={(e: SyntheticEvent) => {
                   e.preventDefault();
                 }}
               >
@@ -115,7 +119,7 @@ export const QuizCard = ({
               <ActionIcon
                 className={classes.icon2}
                 variant="hover"
-                onClick={(e: any) => {
+                onClick={(e: SyntheticEvent) => {
                   e.preventDefault();
                 }}
               >
@@ -124,7 +128,7 @@ export const QuizCard = ({
               <ActionIcon
                 className={classes.icon3}
                 variant="hover"
-                onClick={(e: any) => {
+                onClick={(e: SyntheticEvent) => {
                   e.preventDefault();
                 }}
               >

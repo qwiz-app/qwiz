@@ -34,13 +34,10 @@ export class OrganizationController {
   }
 
   @Get()
-  findAll(
-    @Query('user', new DefaultValuePipe(false), ParseBoolPipe) user: boolean,
-    @Query('count', new DefaultValuePipe(true), ParseBoolPipe) _count: boolean
-  ) {
+  findAll() {
     const include = {
-      user,
-      _count,
+      user: true,
+      _count: true,
     };
     return this.organizationService.findAll(include);
   }

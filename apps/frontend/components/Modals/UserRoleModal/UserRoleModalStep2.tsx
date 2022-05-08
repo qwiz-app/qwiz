@@ -20,10 +20,10 @@ export const UserRoleModalStep2 = ({ onBack, onContinue }: Props) => {
   const { isDark } = useAppColorscheme();
 
   const [hasCustomAvatar, setHasCustomAvatar] = useState(
-    selectedRole === Role.ORGANIZER
+    selectedRole === Role.ORGANIZATION
   );
   const [initalUserImage] = useState(() => {
-    if (selectedRole === Role.ORGANIZER) {
+    if (selectedRole === Role.ORGANIZATION) {
       return avatar;
     }
     return user.image || avatar;
@@ -64,7 +64,7 @@ export const UserRoleModalStep2 = ({ onBack, onContinue }: Props) => {
     </div>
   );
 
-  if (selectedRole === Role.ORGANIZER) {
+  if (selectedRole === Role.ORGANIZATION) {
     return (
       <Stack spacing={16}>
         <TextInput

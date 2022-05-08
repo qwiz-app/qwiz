@@ -19,7 +19,7 @@ export const UserRoleModalStep1 = ({ onContinue }: Props) => {
       image:
         'https://media.istockphoto.com/photos/empty-restaurant-interior-picture-id1224771205?k=20&m=1224771205&s=612x612&w=0&h=KOqgtFbNtE6WP4ACwkFtIq0KCEq0MljBs5PC5xsyryg=',
       title: 'Organization',
-      role: Role.ORGANIZER,
+      role: Role.ORGANIZATION,
     },
     {
       image:
@@ -63,7 +63,7 @@ const useStyles = createStyles((theme) => {
       borderStyle: 'solid',
       borderColor:
         // TODO: correct color aligned with mantine theme
-        selectedRole === Role.ORGANIZER
+        selectedRole === Role.ORGANIZATION
           ? theme.colors.violet[5]
           : theme.colors.yellow[4],
       position: 'absolute',

@@ -4,13 +4,12 @@ import {
   Container,
   Group,
   Header as MantineHeader,
-  Navbar as MantineNavbar
+  Navbar as MantineNavbar,
 } from '@mantine/core';
 import LogoDark from 'assets/logo/qwiz-dark.svg';
 import LogoWhite from 'assets/logo/qwiz-white.svg';
 import { NavbarDivider } from 'components/Nav/NavbarDivider';
 import { NavbarHeader } from 'components/Nav/NavbarHeader/NavbarHeader';
-import { NavbarItemModel } from 'components/Nav/NavbarItem/NavbarItem';
 import { NavbarList } from 'components/Nav/NavbarList/NavbarList';
 import { NavbarUserMenu } from 'components/Nav/NavbarUser/NavbarUserMenu';
 import NavSearchItem from 'components/Nav/NavSearchItem';
@@ -19,80 +18,24 @@ import { ThinScrollArea } from 'components/UI/ThinScrollArea';
 import { useCurrentSession } from 'hooks/api/session';
 import { useBreakpoints } from 'hooks/breakpoints';
 import { useAppColorscheme } from 'hooks/colorscheme';
+import { useNavItems } from 'hooks/use-nav-items';
 import Image from 'next/image';
-import { paths } from 'paths';
-import {
-  Binoculars,
-  Confetti,
-  Cube,
-  IconProps,
-  MagnifyingGlass,
-  PresentationChart,
-  Queue,
-  SquaresFour,
-  Trophy,
-  UsersThree
-} from 'phosphor-react';
+import { MagnifyingGlass } from 'phosphor-react';
 import { useState } from 'react';
 
 export const AppShell = ({ children }) => {
+  const { isAuthenticated } = useCurrentSession();
   const { isDark } = useAppColorscheme();
-  const [opened, setOpened] = useState(false);
-  const { isAuthenticated, isLoading } = useCurrentSession();
   const { matches } = useBreakpoints();
+  const { items, iconProps } = useNavItems();
 
+  const [opened, setOpened] = useState(false);
   const toggleNavbar = () => setOpened((prev) => !prev);
 
   const logo = isDark ? LogoWhite : LogoDark;
 
-  const iconProps: IconProps = {
-    size: 20,
-    weight: 'duotone',
-  };
-  const items: NavbarItemModel[] = [
-    {
-      label: 'Dashboard',
-      href: paths.home(),
-      icon: <SquaresFour {...iconProps} />,
-    },
-    {
-      label: 'Explore',
-      href: paths.explore(),
-      icon: <Binoculars {...iconProps} />,
-    },
-    {
-      label: 'Events',
-      href: paths.events(),
-      icon: <Confetti {...iconProps} />,
-    },
-    {
-      label: 'Quizzes',
-      href: paths.quiz(),
-      icon: <Queue {...iconProps} />,
-    },
-    {
-      label: 'Question packs',
-      href: paths.questionPacks(),
-      icon: <Cube {...iconProps} />,
-    },
-    {
-      label: 'Teams',
-      href: paths.teams(),
-      icon: <UsersThree {...iconProps} />,
-    },
-    {
-      label: 'Stats',
-      href: paths.stats(),
-      icon: <PresentationChart {...iconProps} />,
-    },
-    {
-      label: 'Leaderboard',
-      href: paths.leaderboard(),
-      icon: <Trophy {...iconProps} />,
-    },
-  ];
-
   // TODO: fix navbar height on mobile
+  // TODO: close mobile drawer after action or navigating
   const Navbar = (
     <MantineNavbar
       hiddenBreakpoint="sm"
@@ -124,7 +67,7 @@ export const AppShell = ({ children }) => {
       <>
         <NavbarDivider />
         <MantineNavbar.Section mt={12}>
-          {isAuthenticated || isLoading ? (
+          {isAuthenticated ? (
             <NavbarUserMenu.Account />
           ) : (
             <NavbarUserMenu.Guest />

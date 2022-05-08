@@ -38,9 +38,7 @@ export class QuestionService {
     });
   }
 
-  async remove(
-    where: Prisma.QuestionWhereUniqueInput & Prisma.QuestionWhereInput
-  ) {
+  async remove(where: Prisma.QuestionWhereInput) {
     try {
       return await this.prisma.question.deleteMany({ where });
     } catch (err) {

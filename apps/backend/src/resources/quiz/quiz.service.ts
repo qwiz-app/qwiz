@@ -10,8 +10,8 @@ export class QuizService {
     return this.prisma.quiz.create({ data });
   }
 
-  findAll(include: Prisma.QuizInclude) {
-    return this.prisma.quiz.findMany({ include });
+  findAll(where: Prisma.QuizWhereInput, include: Prisma.QuizInclude) {
+    return this.prisma.quiz.findMany({ where, include });
   }
 
   findOne(where: Prisma.QuizWhereUniqueInput, include: Prisma.QuizInclude) {
@@ -25,9 +25,9 @@ export class QuizService {
     return this.prisma.quiz.update({ where, data });
   }
 
-  async remove(where: Prisma.QuizWhereUniqueInput) {
+  async remove(where: Prisma.QuizWhereInput) {
     try {
-      return await this.prisma.quiz.delete({ where });
+      return await this.prisma.quiz.deleteMany({ where });
     } catch (err) {
       throw new NotFoundException(err?.meta?.cause || 'Something went wrong.');
     }
