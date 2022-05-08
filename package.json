@@ -51,6 +51,7 @@
     "framer-motion": "^6.3.3",
     "immer": "^9.0.12",
     "inspx": "^0.0.1-alpha.6",
+    "joi": "^17.6.0",
     "next": "12.1.6",
     "next-auth": "4.3.4",
     "next-http-proxy-middleware": "^1.2.4",

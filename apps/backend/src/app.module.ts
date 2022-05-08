@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import * as Joi from 'joi';
 
 import { AppController } from 'app.controller';
 import { PrismaService } from 'prisma.service';
@@ -23,6 +24,13 @@ import { QuizModule } from './resources/quiz/quiz.module';
     ConfigModule.forRoot({
       isGlobal: true,
       cache: true,
+      validationSchema: Joi.object({
+        AWS_BUCKET_ACCESS_KEY: Joi.string().required(),
+        AWS_BUCKET_SECRET_KEY: Joi.string().required(),
+        AWS_BUCKET_NAME: Joi.string().required(),
+        AWS_BUCKET_REGION: Joi.string().required(),
+        AWS_BUCKET_URL: Joi.string().required(),
+      }),
     }),
   ],
   providers: [PrismaService],
