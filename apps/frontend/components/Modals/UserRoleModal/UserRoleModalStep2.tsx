@@ -14,10 +14,77 @@ interface Props {
 }
 
 export const UserRoleModalStep2 = ({ onBack, onContinue }: Props) => {
+  const user = useCurrentUser();
+  const { isDark } = useAppColorscheme();
+
+  const { selectedRole, orgName, setOrgName, avatar, isOrgNameValid } =
+    useAssignRole();
+  const {
+    hasCustomAvatar,
+    initalUserImage,
+    generateAvatarHandler,
+    resetUserImageHandler,
+  } = useUserRoleModalAvatar();
+
+  const buttons = (
+    <div className="flex justify-end">
+      <Button onClick={onBack} variant={isDark ? 'light' : 'outline'}>
+        Back
+      </Button>
+      <Button ml={8} onClick={onContinue} disabled={!isOrgNameValid()}>
+        Create account
+      </Button>
+    </div>
+  );
+
+  if (selectedRole === Role.ORGANIZATION) {
+    return (
+      <Stack spacing={16}>
+        <TextInput
+          placeholder="The Irish Pub"
+          label="Organization name"
+          description="Your account name will remain unchanged"
+          variant="filled"
+          size="md"
+          value={orgName}
+          onChange={(e) => setOrgName(e.target.value)}
+          required
+          icon={<IdentificationBadge size={20} weight="duotone" />}
+        />
+        {orgName && (
+          <UserModalInfoCard
+            avatar={avatar}
+            role={selectedRole}
+            name={orgName}
+            email={user.email}
+            onGenerateAvatar={generateAvatarHandler}
+          />
+        )}
+
+        {buttons}
+      </Stack>
+    );
+  }
+
+  return (
+    <Stack>
+      <UserModalInfoCard
+        avatar={hasCustomAvatar ? avatar : initalUserImage}
+        role={selectedRole}
+        name={user.name}
+        email={user.email}
+        onGenerateAvatar={generateAvatarHandler}
+        onResetAvatar={resetUserImageHandler}
+      />
+      {buttons}
+    </Stack>
+  );
+};
+
+const useUserRoleModalAvatar = () => {
   const { selectedRole, orgName, setOrgName, avatar, setAvatar } =
     useAssignRole();
   const user = useCurrentUser();
-  const { isDark } = useAppColorscheme();
 
   const [hasCustomAvatar, setHasCustomAvatar] = useState(
     selectedRole === Role.ORGANIZATION
@@ -53,56 +120,10 @@ export const UserRoleModalStep2 = ({ onBack, onContinue }: Props) => {
     }
   };
 
-  const buttons = (
-    <div className="flex justify-end">
-      <Button onClick={onBack} variant={isDark ? 'light' : 'outline'}>
-        Back
-      </Button>
-      <Button ml={8} onClick={onContinue}>
-        Create account
-      </Button>
-    </div>
-  );
-
-  if (selectedRole === Role.ORGANIZATION) {
-    return (
-      <Stack spacing={16}>
-        <TextInput
-          placeholder="The Irish Pub"
-          label="Organization name"
-          description="Your account name will remain unchanged"
-          variant="filled"
-          size="md"
-          onChange={(e) => setOrgName(e.target.value)}
-          required
-          icon={<IdentificationBadge size={20} weight="duotone" />}
-        />
-        {orgName && (
-          <UserModalInfoCard
-            avatar={avatar}
-            role={selectedRole}
-            name={orgName}
-            email={user.email}
-            onGenerateAvatar={generateAvatarHandler}
-          />
-        )}
-
-        {buttons}
-      </Stack>
-    );
-  }
-
-  return (
-    <Stack>
-      <UserModalInfoCard
-        avatar={hasCustomAvatar ? avatar : initalUserImage}
-        role={selectedRole}
-        name={user.name}
-        email={user.email}
-        onGenerateAvatar={generateAvatarHandler}
-        onResetAvatar={resetUserImageHandler}
-      />
-      {buttons}
-    </Stack>
-  );
+  return {
+    hasCustomAvatar,
+    initalUserImage,
+    generateAvatarHandler,
+    resetUserImageHandler,
+  };
 };

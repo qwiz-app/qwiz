@@ -1,6 +1,5 @@
-// TODO: check rule?
-/* eslint-disable react-hooks/rules-of-hooks */
 import { Role } from '@prisma/client';
+import { useCallback, useEffect } from 'react';
 import create from 'zustand';
 
 export type UserRoleStore = {
@@ -32,6 +31,29 @@ export const useAssignRole = () => {
   const avatar = useStore((state) => state.avatar);
   const setAvatar = useStore((state) => state.setAvatar);
 
+  const orgRules = {
+    min: 3,
+    max: 50,
+  };
+
+  useEffect(() => {
+    if (orgName.trim().length > orgRules.max) {
+      setOrgName(orgName.substring(0, orgRules.max));
+    }
+  }, [orgName]);
+
+  const isOrgNameValid = useCallback(() => {
+    if (selectedRole === Role.ORGANIZATION) {
+      const trimmedOrgName = orgName.trim();
+      return (
+        trimmedOrgName &&
+        trimmedOrgName.length >= orgRules.min &&
+        trimmedOrgName.length <= orgRules.max
+      );
+    }
+    return true;
+  }, [orgName, selectedRole]);
+
   return {
     selectedRole,
     setSelectedRole,
@@ -39,5 +61,6 @@ export const useAssignRole = () => {
     setOrgName,
     avatar,
     setAvatar,
+    isOrgNameValid,
   };
 };

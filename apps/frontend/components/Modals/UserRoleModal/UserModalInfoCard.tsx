@@ -55,29 +55,31 @@ export const UserModalInfoCard = ({
 
   return (
     <Group noWrap align="content-start">
-      <Box sx={() => ({ position: 'relative' })}>
-        <Avatar src={avatar} size={94} radius={1000} />
-        {onGenerateAvatar && (
-          <Tooltip
-            label={tooltipLabel()}
-            position="right"
-            sx={() => ({
-              position: 'absolute',
-              bottom: '-.15rem',
-              right: '.3rem',
-            })}
-          >
-            <ActionIcon
-              size="md"
-              radius="xl"
-              variant="filled"
-              onClick={onGenerateAvatar}
-              onContextMenu={resetAvatarHandler}
+      <Box>
+        <Box sx={() => ({ position: 'relative' })}>
+          <Avatar src={avatar} size={94} radius={1000} />
+          {onGenerateAvatar && (
+            <Tooltip
+              label={tooltipLabel()}
+              position="right"
+              sx={() => ({
+                position: 'absolute',
+                bottom: '-.15rem',
+                right: '.3rem',
+              })}
             >
-              <ArrowsClockwise weight="bold" />
-            </ActionIcon>
-          </Tooltip>
-        )}
+              <ActionIcon
+                size="md"
+                radius="xl"
+                variant="filled"
+                onClick={onGenerateAvatar}
+                onContextMenu={resetAvatarHandler}
+              >
+                <ArrowsClockwise weight="bold" />
+              </ActionIcon>
+            </Tooltip>
+          )}
+        </Box>
       </Box>
       <div>
         <Box mb={4}>

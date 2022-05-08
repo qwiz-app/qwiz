@@ -39,7 +39,7 @@ export const QuizCard = ({
   Omit<React.ComponentPropsWithoutRef<'div'>, keyof QuizCardProps>) => {
   const { classes, cx } = useStyles();
 
-  const [randomNumber] = useState(generateRandomNumber({ from: 60, to: 100 }));
+  const [randomNumber] = useState(() => generateRandomNumber({ from: 60, to: 100 }));
 
   return (
     <Link href={href}>

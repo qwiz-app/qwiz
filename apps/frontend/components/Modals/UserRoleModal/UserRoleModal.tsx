@@ -23,14 +23,11 @@ export const UserRoleModal = () => {
     let data = null;
 
     if (role === Role.ORGANIZATION) {
-      data = {
-        name: orgName,
-      } as Prisma.OrganizationCreateInput;
+      data = { name: orgName } as Prisma.OrganizationCreateInput;
     } else if (role === Role.ATTENDEE) {
       data = {} as Prisma.AttendeeCreateInput;
     }
 
-    // TODO: add real validation with formik or yup?
     const mutationData: UserRoleReq = { role, data };
     if (avatar) {
       mutationData.image = avatar;
@@ -53,6 +50,8 @@ export const UserRoleModal = () => {
     <Modal
       centered
       {...modalProps}
+      closeOnClickOutside={false}
+      closeOnEscape={false}
       withCloseButton={false}
       opened={modal.valueOf() !== ModalSteps.None}
       onClose={closeModalHandler}
