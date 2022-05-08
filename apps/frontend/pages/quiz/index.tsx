@@ -1,3 +1,4 @@
+import { Alert, Button, Group, Stack } from '@mantine/core';
 import { QuizCard } from 'components/Cards/quiz/QuizCard';
 import { QuizCardSmall } from 'components/Cards/quiz/QuizCardSmall';
 import PageGrid from 'components/Grids/PageGrid';
@@ -7,14 +8,17 @@ import { HomepageLayout } from 'components/PageLayouts/HomepageLayout';
 import { PageSection } from 'components/PageLayouts/PageSection';
 import { useQuizzes } from 'hooks/api/quiz';
 import { useCurrentSession } from 'hooks/api/session';
+import { useAppColorscheme } from 'hooks/colorscheme';
 import { useState } from 'react';
 
 const QuizPage = () => {
   // TODO: maybe use session info if we are certain we only load our own quizzes
   // const { data: author } = useCurrentUserInfo();
   const { data: quizzes, isLoading, isPlaceholderData } = useQuizzes();
+  const { isDark } = useAppColorscheme();
   const { isOrganization } = useCurrentSession();
   const [showCreateQuizModal, setShowCreateQuizModal] = useState(false);
+  const hasQuizzes = quizzes && quizzes.length > 0;
 
   return (
     <HomepageLayout>
@@ -45,6 +49,23 @@ const QuizPage = () => {
               />
             ))}
           </PageGrid>
+          {!hasQuizzes && (
+            <Alert
+              title="No quizzes yet"
+              color={isDark ? 'gray' : 'dark'}
+              sx={(t) => ({
+                maxWidth: '500px',
+                backgroundColor: !isDark && t.colors.gray[2],
+              })}
+            >
+              <Stack align="start">
+                Choose any of the templates above or start blank 👩‍🎨️
+                <Button color="indigo" variant={isDark ? 'light' : 'filled'}>
+                  <Group spacing={4}>Create your first quiz</Group>
+                </Button>
+              </Stack>
+            </Alert>
+          )}
         </PageSection>
       )}
       <CreateQuizModal

@@ -53,24 +53,13 @@ export const NavbarItem = ({
   btnClass,
 }: Props) => {
   const router = useRouter();
-  const { isDark } = useAppColorscheme();
   const isActive = isCurrentRoute(router.pathname, href);
   const { classes } = useStyles(isActive);
 
   const btn = (
     <UnstyledButton className={cn(classes.navItem, btnClass)} onClick={onClick}>
       <Group>
-        <ThemeIcon
-          size="lg"
-          variant={isActive ? 'filled' : 'light'}
-          sx={(t) => ({
-            backgroundColor: isActive
-              ? isDark
-                ? t.colors.gray[8]
-                : 'black'
-              : 'inital',
-          })}
-        >
+        <ThemeIcon size="lg" variant={isActive ? 'filled' : 'light'}>
           {icon}
         </ThemeIcon>
         {children || <Text size="md">{label}</Text>}

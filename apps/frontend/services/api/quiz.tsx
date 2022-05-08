@@ -7,7 +7,7 @@ export const fetchQuizzes = () =>
   http.get<QuizWithOrganization[]>('/api/quiz/owner/me').then(parseData);
 
 export const fetchQuiz = (id: string) =>
-  http.get<QuizWithOrganization[]>(`/api/quiz/${id}`).then(parseData);
+  http.get<QuizWithOrganization>(`/api/quiz/${id}`).then(parseData);
 
 export const createQuiz = (data: Prisma.QuizCreateWithoutOwnerInput) =>
   http.post<Quiz>(`/api/quiz`, data).then(parseData);

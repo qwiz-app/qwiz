@@ -19,7 +19,6 @@ export const useQuiz = (id: string) =>
 export const useCreateQuiz = () => {
   const queryClient = useQueryClient();
 
-  // TODO: invalidate only our own quizzes: make backend only return our quizzes
   queryClient.invalidateQueries('quizzes');
 
   return useMutation((values: Prisma.QuizCreateWithoutOwnerInput) =>
