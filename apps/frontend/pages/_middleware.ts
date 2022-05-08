@@ -24,7 +24,6 @@ export const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
   );
 
   const role = getFromCookie(cookie, 'role');
-  console.log(role, 'role');
 
   if (!isApiUrl(req.url) && isWhitelistedUrl(req.nextUrl.pathname))
     return NextResponse.next();
