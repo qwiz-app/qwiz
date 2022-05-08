@@ -12,6 +12,7 @@ import Script from 'next/script';
 import { QueryCache, QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { UserRoleModal } from 'components/Modals/UserRoleModal/UserRoleModal';
+import { RoleGuard } from 'components/Guard/RoleGuard';
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
@@ -63,24 +64,26 @@ const App = ({ Component, pageProps: { session, ...pageProps } }) => {
           <ReactQueryDevtools initialIsOpen={false} />
           <CustomMantineProvider>
             <Inspect>
-              <Container
-                fluid
-                px={0}
-                sx={(t) => ({
-                  display: 'flex',
-                  flexDirection: 'column',
-                  height: '100vh',
-                  color:
-                    t.colorScheme === 'dark'
-                      ? t.colors.gray[4]
-                      : t.colors.gray[9],
-                })}
-              >
-                <ScrollArea sx={{ flex: 1 }}>
-                  {getLayout(<Component {...pageProps} />)}
-                  <UserRoleModal />
-                </ScrollArea>
-              </Container>
+              <RoleGuard>
+                <Container
+                  fluid
+                  px={0}
+                  sx={(t) => ({
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: '100vh',
+                    color:
+                      t.colorScheme === 'dark'
+                        ? t.colors.gray[4]
+                        : t.colors.gray[9],
+                  })}
+                >
+                  <ScrollArea sx={{ flex: 1 }}>
+                    {getLayout(<Component {...pageProps} />)}
+                    <UserRoleModal />
+                  </ScrollArea>
+                </Container>
+              </RoleGuard>
             </Inspect>
           </CustomMantineProvider>
         </QueryClientProvider>
