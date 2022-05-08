@@ -137,8 +137,7 @@ model Event {
   name           String
   banner         String?
   ownerId        String
-  //! TODO: DISABLED ONLY FOR TESTING PURPOSES
-  quizId         String?
+  quizId         String
   startDate      DateTime
   location       String
   price          Int
@@ -155,10 +154,10 @@ model Event {
 
 model Quiz {
   id          String   @id @default(cuid())
-  name        String
+  name        String?  @default("Untitled")
   description String?
   thumbnail   String?
-  published   Boolean
+  published   Boolean? @default(false)
   ownerId     String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
