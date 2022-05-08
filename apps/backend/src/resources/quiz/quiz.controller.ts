@@ -88,9 +88,20 @@ export class QuizController {
     );
   }
 
-  // TODO: only allow delete if ours
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(
+    @Param('id') id: string,
+    @OrganizationEntity() organization: Organization
+  ) {
+    return this.quizService.remove({ id, ownerId: organization.id });
+  }
+
+  //* ADMIN-ONLY
+  @Delete(':id/any')
+  removeAny(@Param('id') id: string, @IsAdmin() isAdmin: boolean) {
+    if (!isAdmin) {
+      throw new UnauthorizedException('Only admin can access this route.');
+    }
     return this.quizService.remove({ id });
   }
 }

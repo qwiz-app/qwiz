@@ -18,13 +18,12 @@ export const fetchOrganization = (id: string) =>
 export const createOrganization = (data: Prisma.OrganizationCreateInput) =>
   http.post<Organization>(`/api/organizations`, data).then(parseData);
 
-export const updateCurrentOrganization = (
-  data: Prisma.OrganizationUpdateInput
-) => http.patch<Organization>(`/api/organizations/me`, data).then(parseData);
+export const updateOrganization = (data: Prisma.OrganizationUpdateInput) =>
+  http.patch<Organization>(`/api/organizations/me`, data).then(parseData);
 
-export const deleteCurrentOrganization = () =>
+export const deleteOrganization = () =>
   http.delete<Organization>(`/api/organizations/me`).then(parseData);
 
 //* ADMIN-ONLY
-export const deleteOrganization = (id: string) =>
+export const deleteAnyOrganization = (id: string) =>
   http.delete<Organization>(`/api/organizations/${id}`).then(parseData);

@@ -2,6 +2,8 @@ import { Question, Prisma } from '@prisma/client';
 import { parseData } from 'lib/axios';
 import http from 'services/http';
 
+// TODO: types are completely wrong
+// create custom types
 export const fetchAvailableQuestions = () =>
   http
     .get<(Question & Prisma.QuestionInclude)[]>('/api/questions')
@@ -26,16 +28,21 @@ export const fetchAnyQuestion = (id: string) =>
     .get<Question & Prisma.QuestionInclude>(`/api/questions/${id}/any`)
     .then(parseData);
 
-export const updateAnyQuestion = (
-  id: string,
-  data: Prisma.QuestionUpdateInput
-) => http.patch<Question>(`/api/questions/${id}/any`, data).then(parseData);
-
-export const deleteAnyQuestion = (id: string) =>
-  http.delete<Question>(`/api/questions/${id}/any`).then(parseData);
-
 //* ADMIN-ONLY
 export const fetchAllQuestions = () =>
   http
     .get<(Question & Prisma.QuestionInclude)[]>('/api/questions/all')
     .then(parseData);
+
+//* ADMIN-ONLY
+export const updateAnyQuestion = (
+  id: string,
+  data: Prisma.QuestionUpdateInput
+) =>
+  http
+    .patch<{ count: number }>(`/api/questions/${id}/any`, data)
+    .then(parseData);
+
+//* ADMIN-ONLY
+export const deleteAnyQuestion = (id: string) =>
+  http.delete<{ count: number }>(`/api/questions/${id}/any`).then(parseData);

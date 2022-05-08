@@ -3,18 +3,8 @@ import { parseData } from 'lib/axios';
 import http from 'services/http';
 import { QuizWithOrganization } from 'types/organization';
 
-//* ADMIN-ONLY
 export const fetchQuizzes = () =>
-  http.get<QuizWithOrganization[]>('/api/quiz').then(parseData);
-
-export const fetchQuizzesByCurrentOwner = () =>
   http.get<QuizWithOrganization[]>('/api/quiz/owner/me').then(parseData);
-
-//* ADMIN-ONLY
-export const fetchQuizzesByOwner = (ownerId: string) =>
-  http
-    .get<QuizWithOrganization[]>(`/api/quiz/owner/${ownerId}`)
-    .then(parseData);
 
 export const fetchQuiz = (id: string) =>
   http.get<QuizWithOrganization[]>(`/api/quiz/${id}`).then(parseData);
@@ -27,3 +17,17 @@ export const updateQuiz = (id: string, data: Prisma.QuizUpdateInput) =>
 
 export const deleteQuiz = (id: string) =>
   http.delete<{ count: number }>(`/api/quiz/${id}`).then(parseData);
+
+//* ADMIN-ONLY
+export const fetchAnyQuizzes = () =>
+  http.get<QuizWithOrganization[]>('/api/quiz/all').then(parseData);
+
+//* ADMIN-ONLY
+export const fetchQuizzesByOwner = (ownerId: string) =>
+  http
+    .get<QuizWithOrganization[]>(`/api/quiz/owner/${ownerId}`)
+    .then(parseData);
+
+//* ADMIN-ONLY
+export const deleteAnyQuiz = (id: string) =>
+  http.delete<{ count: number }>(`/api/quiz/${id}/any`).then(parseData);
