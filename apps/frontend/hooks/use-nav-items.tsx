@@ -22,6 +22,8 @@ export const useNavItems = () => {
     weight: 'duotone',
   };
 
+
+
   const ALL_ITEMS: NavItemModel[] = [
     {
       label: 'Dashboard',

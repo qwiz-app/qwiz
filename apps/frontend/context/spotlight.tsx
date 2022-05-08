@@ -1,17 +1,22 @@
 import type { SpotlightAction } from '@mantine/spotlight';
 import { SpotlightProvider } from '@mantine/spotlight';
+import { useCurrentSession } from 'hooks/api/session';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useProviders } from 'hooks/providers';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { paths } from 'paths';
 import {
+  Binoculars,
+  Confetti,
   DiscordLogo,
   FileText,
   GithubLogo,
   GoogleLogo,
+  IconProps,
   MagnifyingGlass,
   Moon,
+  Queue,
   SignIn,
   SignOut,
   SquaresFour,
@@ -21,81 +26,125 @@ import {
 const useSpotlightActions = () => {
   const router = useRouter();
   const { toggleColorScheme, isDark } = useAppColorscheme();
-
+  const { isAuthenticated, isLoading } = useCurrentSession();
   const { signInWithProvider } = useProviders();
 
-  // TODO: configure showing auth vs non-auth options
-  const actions: SpotlightAction[] = [
-    {
-      title: 'Switch theme',
-      description: `Switch to ${isDark ? 'light' : 'dark'} mode`,
-      group: 'actions',
-      onTrigger: () => toggleColorScheme(),
-      icon: isDark ? (
-        <Sun size={24} weight="duotone" />
-      ) : (
-        <Moon size={24} weight="duotone" />
-      ),
-      keywords: ['theme', 'mode', 'dark', 'light', 'toggle'],
-    },
-    {
-      title: 'Sign in',
-      description: 'Sign in to your account',
-      group: 'actions',
-      onTrigger: () => router.push(paths.signIn()),
-      icon: <SignIn size={24} weight="duotone" />,
-      keywords: ['login', 'auth'],
-    },
-    {
-      title: 'Sign out',
-      description: 'Sign out of your account',
-      group: 'actions',
-      onTrigger: () =>
-        signOut({
-          callbackUrl: '/signin?signOut=true',
-        }),
-      icon: <SignOut size={24} weight="duotone" />,
-      keywords: ['logout', 'log out', 'signout'],
-    },
+  const iconProps: IconProps = {
+    size: 24,
+    weight: 'duotone',
+  };
+
+  const routeActions: SpotlightAction[] = [
     {
       title: 'Dashboard',
-      group: 'main',
+      group: 'Navigate',
       description: 'Go to your dashboard',
       onTrigger: () => router.push(paths.home()),
-      icon: <SquaresFour size={24} weight="duotone" />,
+      icon: <SquaresFour {...iconProps} />,
       keywords: ['home'],
     },
     {
-      title: 'Documentation',
-      group: 'main',
-      description: 'Visit documentation to lean more about all features',
-      onTrigger: () => console.log('Documentation'),
-      icon: <FileText size={24} weight="duotone" />,
+      title: 'Explore',
+      group: 'Navigate',
+      description: 'Go to your explore page',
+      onTrigger: () => router.push(paths.explore()),
+      icon: <Binoculars {...iconProps} />,
+    },
+    {
+      title: 'Events',
+      group: 'Navigate',
+      description: 'Go to your events events',
+      onTrigger: () => router.push(paths.events()),
+      icon: <Confetti {...iconProps} />,
+    },
+    {
+      title: 'Quizzes',
+      group: 'Navigate',
+      description: 'Go to your quizzes',
+      onTrigger: () => router.push(paths.quiz()),
+      icon: <Queue {...iconProps} />,
+    },
+  ];
+
+  const signinProviderActions: SpotlightAction[] = [
+    {
+      title: 'Sign in',
+      description: 'Sign in to your account',
+      group: 'Actions',
+      onTrigger: () => router.push(paths.signIn()),
+      icon: <SignIn {...iconProps} />,
+      keywords: ['login', 'auth'],
     },
     {
       title: 'Sign in with Google',
-      group: 'auth',
+      group: 'Auth',
       description: 'Sign in with your Google account',
       onTrigger: () => signInWithProvider('google', '/'),
       icon: <GoogleLogo size={24} weight="bold" />,
     },
     {
       title: 'Sign in with Github',
-      group: 'auth',
+      group: 'Auth',
       description: 'Sign in with your Github account',
       onTrigger: () => signInWithProvider('github', '/'),
-      icon: <GithubLogo size={24} weight="duotone" />,
+      icon: <GithubLogo {...iconProps} />,
     },
     {
       title: 'Sign in with Discord',
-      group: 'auth',
+      group: 'Auth',
       description: 'Sign in with your Discord account',
       onTrigger: () => signInWithProvider('discord', '/'),
-      icon: <DiscordLogo size={24} weight="duotone" />,
+      icon: <DiscordLogo {...iconProps} />,
     },
   ];
 
-  return actions;
+  const authActions: SpotlightAction[] = [
+    {
+      title: 'Sign out',
+      description: 'Sign out of your account',
+      group: 'Actions',
+      onTrigger: () =>
+        signOut({
+          callbackUrl: '/signin?signOut=true',
+        }),
+      icon: <SignOut {...iconProps} />,
+      keywords: ['logout', 'log out', 'signout'],
+    },
+  ];
+
+  // TODO: configure showing auth vs non-auth options
+  const generalActions: SpotlightAction[] = [
+    {
+      title: 'Switch theme',
+      description: `Switch to ${isDark ? 'light' : 'dark'} mode`,
+      group: 'Actions',
+      onTrigger: () => toggleColorScheme(),
+      icon: isDark ? <Sun {...iconProps} /> : <Moon {...iconProps} />,
+      keywords: ['theme', 'mode', 'dark', 'light', 'toggle'],
+    },
+    {
+      title: 'Documentation',
+      group: 'Resources',
+      description: 'Visit documentation to lean more about all features',
+      onTrigger: () => console.log('Documentation'),
+      icon: <FileText {...iconProps} />,
+    },
+  ];
+
+  const ACTIONS: SpotlightAction[] = [...generalActions];
+
+  if (isLoading) {
+    // TODO
+  } else if (isAuthenticated) {
+    // TODO: check route actions per role
+    ACTIONS.push(...routeActions);
+    ACTIONS.push(...authActions);
+  } else {
+    ACTIONS.push(...routeActions);
+    ACTIONS.push(...signinProviderActions);
+  }
+
+  return ACTIONS;
 };
 
 export const CustomSpotlightProvider = ({ children }) => {
