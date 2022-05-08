@@ -55,6 +55,23 @@ To run this project, add the following environment variables to your .env.local 
 
 `NEXT_PUBLIC_SENTRY_DSN=`
 
-And to your .env file in root dir (for Prisma)
+`SENTRY_IGNORE_API_RESOLUTION_ERROR=1` 
+
+`NEXT_PUBLIC_AWS_BUCKET_URL=`
+`AWS_IMG_ROOT={bucket url without protocol}`
+
+.env file in root dir (for Prisma)
 
 `DATABASE_URL="DATABASE_URL="mysql://url"`
+
+And .env file in apps/backend dir
+
+`AWS_BUCKET_ACCESS_KEY=`
+
+`AWS_BUCKET_SECRET_KEY=`
+
+`AWS_BUCKET_NAME=`
+
+`AWS_BUCKET_REGION=`
+
+`AWS_BUCKET_URL=`
