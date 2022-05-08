@@ -36,7 +36,7 @@ export class UserService {
     userData?: Prisma.UserUpdateInput
   ) {
     const data: Prisma.UserUpdateInput = {
-      role: Role.ORGANIZER,
+      role: Role.ORGANIZATION,
       organization: { create },
     };
     if (userData?.image) {

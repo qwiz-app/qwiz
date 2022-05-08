@@ -47,7 +47,7 @@ export class UserController {
     const { role, image } = payload;
     const { id } = user;
 
-    if (role === Role.ORGANIZER && 'name' in payload.data) {
+    if (role === Role.ORGANIZATION && 'name' in payload.data) {
       return this.userService.assignRoleAndCreateOrganization(
         { id },
         { ...payload.data },

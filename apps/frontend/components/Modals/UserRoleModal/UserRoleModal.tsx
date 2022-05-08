@@ -22,7 +22,7 @@ export const UserRoleModal = () => {
     const role = selectedRole;
     let data = null;
 
-    if (role === Role.ORGANIZER) {
+    if (role === Role.ORGANIZATION) {
       data = {
         name: orgName,
       } as Prisma.OrganizationCreateInput;

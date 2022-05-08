@@ -66,7 +66,7 @@ model VerificationToken {
 
 enum Role {
   ADMIN
-  ORGANIZER
+  ORGANIZATION
   ATTENDEE
 }
 
