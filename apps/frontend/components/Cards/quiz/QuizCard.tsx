@@ -10,20 +10,20 @@ import {
   Text,
   ThemeIcon,
 } from '@mantine/core';
-import { User } from '@prisma/client';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { generateRandomNumber } from 'lib/utils';
 import Link from 'next/link';
 import { Bookmark, Globe, Heart, Lock, Share } from 'phosphor-react';
 import React, { SyntheticEvent, useState } from 'react';
+import { OrganizationWithUser } from 'types/organization';
 
 interface QuizCardProps {
   image: string;
   href: string;
   title: string;
   published: boolean;
-  author: User;
-  loading?: boolean;
+  owner: OrganizationWithUser;
+  loading: boolean;
 }
 
 export const QuizCard = ({
@@ -31,7 +31,7 @@ export const QuizCard = ({
   image,
   href,
   title,
-  author,
+  owner,
   published,
   loading,
   ...others
@@ -90,12 +90,18 @@ export const QuizCard = ({
                 mr="xs"
               >
                 {!loading && (
-                  <Avatar src={author?.image} size={20} radius="xl" mr="xs" />
+                  <Avatar
+                    src={owner.user.image}
+                    size={20}
+                    radius="xl"
+                    mr="xs"
+                  />
                 )}
               </Skeleton>
+              {/* TODO: skeleton not showing */}
               <Skeleton visible={loading}>
                 <Text size="xs" inline className={classes.owner}>
-                  {author?.name}
+                  {owner?.name}
                 </Text>
               </Skeleton>
             </Center>

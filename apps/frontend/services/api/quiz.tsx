@@ -1,12 +1,13 @@
-import { Quiz, Prisma } from '@prisma/client';
+import { Prisma, Quiz } from '@prisma/client';
 import { parseData } from 'lib/axios';
 import http from 'services/http';
+import { QuizWithOrganization } from 'types/organization';
 
 export const fetchQuizzes = () =>
-  http.get<(Quiz & Prisma.QuizInclude)[]>('/api/quiz').then(parseData);
+  http.get<QuizWithOrganization[]>('/api/quiz').then(parseData);
 
 export const fetchQuiz = (id: string) =>
-  http.get<Quiz & Prisma.QuizInclude>(`/api/quiz/${id}`).then(parseData);
+  http.get<QuizWithOrganization[]>(`/api/quiz/${id}`).then(parseData);
 
 export const createQuiz = (data: Prisma.QuizCreateWithoutOwnerInput) =>
   http.post<Quiz>(`/api/quiz`, data).then(parseData);

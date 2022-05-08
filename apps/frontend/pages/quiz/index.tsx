@@ -6,11 +6,11 @@ import { CreateQuizModal } from 'components/Modals/Quiz/CreateQuizModal';
 import { HomepageLayout } from 'components/PageLayouts/HomepageLayout';
 import { PageSection } from 'components/PageLayouts/PageSection';
 import { useQuizzes } from 'hooks/api/quiz';
-import { useCurrentUserInfo } from 'hooks/api/users';
 import { useState } from 'react';
 
 const QuizPage = () => {
-  const { data: author } = useCurrentUserInfo();
+  // TODO: maybe use session info if we certain we only loading our own quizzes
+  // const { data: author } = useCurrentUserInfo();
   const { data: quizzes, isLoading, isPlaceholderData } = useQuizzes();
 
   const [showCreateQuizModal, setShowCreateQuizModal] = useState(false);
@@ -37,10 +37,27 @@ const QuizPage = () => {
               href={`/quiz/${quiz.id}`}
               title={quiz.name}
               published
-              author={author}
+              owner={quiz.owner}
               loading={isLoading || isPlaceholderData}
             />
           ))}
+        </PageGrid>
+      </PageSection>
+      {/* placholders to test */}
+      <PageSection title="Placeholders to test">
+        <PageGrid type="tiny">
+          {quizzes.map((quiz, i) => (
+            <QuizCard
+              key={i}
+              image={quiz?.thumbnail}
+              href={`/quiz/${quiz.id}`}
+              title={quiz.name}
+              published
+              owner={quiz.owner}
+              loading
+            />
+          ))}
+          {/* placholders to test */}
         </PageGrid>
       </PageSection>
       <CreateQuizModal

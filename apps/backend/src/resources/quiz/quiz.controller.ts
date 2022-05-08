@@ -1,15 +1,10 @@
 import {
   Body,
-  Controller,
-  DefaultValuePipe,
-  Delete,
+  Controller, Delete,
   Get,
   NotFoundException,
-  Param,
-  ParseBoolPipe,
-  Patch,
-  Post,
-  Query,
+  Param, Patch,
+  Post
 } from '@nestjs/common';
 import { Organization, Prisma } from '@prisma/client';
 import { OrganizationEntity } from 'common/decorators/organization.decorator';
@@ -32,22 +27,30 @@ export class QuizController {
 
   // TODO: only for admin
   // TODO: different endpoint for our own quizzes or for quiz by organization
+  // does not need to include user because we have it in session
   @Get()
-  findAll(
-    @Query('owner', new DefaultValuePipe(false), ParseBoolPipe) owner: boolean,
-    @Query('count', new DefaultValuePipe(false), ParseBoolPipe) _count: boolean
-  ) {
-    const include = { owner, _count };
+  findAll() {
+    const include: Prisma.QuizInclude = {
+      owner: {
+        include: {
+          user: true,
+        },
+      },
+      _count: true,
+    };
     return this.quizService.findAll(include);
   }
 
   @Get(':id')
-  async findOne(
-    @Param('id') id: string,
-    @Query('owner', new DefaultValuePipe(true), ParseBoolPipe) owner: boolean,
-    @Query('count', new DefaultValuePipe(true), ParseBoolPipe) _count: boolean
-  ) {
-    const include = { owner, _count };
+  async findOne(@Param('id') id: string) {
+    const include: Prisma.QuizInclude = {
+      owner: {
+        include: {
+          user: true,
+        },
+      },
+      _count: true,
+    };
     const quiz = await this.quizService.findOne({ id }, include);
 
     if (!quiz) {
