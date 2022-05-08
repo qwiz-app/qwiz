@@ -12,13 +12,14 @@ import {
 } from '@mantine/core';
 import { User } from '@prisma/client';
 import { useAppColorscheme } from 'hooks/colorscheme';
+import { generateRandomNumber } from 'lib/utils';
 import Link from 'next/link';
 import { Bookmark, Globe, Heart, Lock, Share } from 'phosphor-react';
 import React, { SyntheticEvent, useState } from 'react';
 
 interface QuizCardProps {
   image: string;
-  link: string;
+  href: string;
   title: string;
   published: boolean;
   author: User;
@@ -28,22 +29,20 @@ interface QuizCardProps {
 export const QuizCard = ({
   className,
   image,
-  link,
+  href,
   title,
   author,
   published,
-  loading = false,
+  loading,
   ...others
 }: QuizCardProps &
   Omit<React.ComponentPropsWithoutRef<'div'>, keyof QuizCardProps>) => {
   const { classes, cx } = useStyles();
 
-  const [randomNumber] = useState(
-    Math.floor(Math.random() * (100 - 60 + 1)) + 60
-  );
+  const [randomNumber] = useState(generateRandomNumber({ from: 60, to: 100 }));
 
   return (
-    <Link href={link}>
+    <Link href={href}>
       <Card
         p={0}
         radius="md"
@@ -56,7 +55,7 @@ export const QuizCard = ({
             {!loading && (
               <Image
                 src={image}
-                // withPlaceholder
+                withPlaceholder
                 alt="thumbnail"
                 height="100%"
                 fit="cover"
@@ -74,7 +73,6 @@ export const QuizCard = ({
             {published ? <Globe weight="duotone" /> : <Lock weight="duotone" />}
           </ThemeIcon>
         </Card.Section>
-
         <Card.Section py={12} px={18}>
           <Skeleton visible={loading} width={`${randomNumber}%`}>
             <Text className={classes.title} weight={500}>

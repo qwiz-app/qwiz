@@ -8,7 +8,7 @@ export const fetchQuizzes = () =>
 export const fetchQuiz = (id: string) =>
   http.get<Quiz & Prisma.QuizInclude>(`/api/quiz/${id}`).then(parseData);
 
-export const createQuiz = (data: Prisma.QuizUncheckedCreateInput) =>
+export const createQuiz = (data: Prisma.QuizCreateWithoutOwnerInput) =>
   http.post<Quiz>(`/api/quiz`, data).then(parseData);
 
 export const updateQuiz = (id: string, data: Prisma.QuizUpdateInput) =>
@@ -16,13 +16,3 @@ export const updateQuiz = (id: string, data: Prisma.QuizUpdateInput) =>
 
 export const deleteQuiz = (id: string) =>
   http.delete<{ count: number }>(`/api/quiz/${id}`).then(parseData);
-
-export const updateThumbnail = (
-  id: string,
-  data: {
-    thumbnail: string;
-  }
-) =>
-  http
-    .patch<{ count: number }>(`/api/quiz/${id}/thumbnail`, data)
-    .then(parseData);

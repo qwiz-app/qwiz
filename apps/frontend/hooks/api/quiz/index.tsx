@@ -1,12 +1,13 @@
 import { Prisma } from '@prisma/client';
 import { queryOnError as onError } from 'lib/axios';
-import { useMutation, useQuery } from 'react-query';
-import { createQuiz, fetchQuizzes, fetchQuiz } from 'services/api/quiz';
+import { generateArrayForRange } from 'lib/utils';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { createQuiz, fetchQuiz, fetchQuizzes } from 'services/api/quiz';
 
 export const useQuizzes = () =>
-  useQuery(['quizzes'], fetchQuizzes, {
+  useQuery('quizzes', fetchQuizzes, {
     onError,
-    placeholderData: skeletonData(),
+    placeholderData: placholderQuizzes,
   });
 
 export const useQuiz = (id: string) =>
@@ -15,21 +16,25 @@ export const useQuiz = (id: string) =>
     enabled: !!id,
   });
 
-export const useCreateQuiz = () =>
-  useMutation((values: Prisma.QuizUncheckedCreateInput) => createQuiz(values));
+export const useCreateQuiz = () => {
+  const queryClient = useQueryClient();
 
-const skeletonData = () => {
-  const dummyArr = [0, 1, 2];
+  // TODO: invalidate only our own quizzes: make backend only return our quizzes
+  queryClient.invalidateQueries('quizzes');
 
-  return dummyArr.map((_, idx) => ({
-    id: `${idx}`,
-    name: '',
-    thumbnail: '',
-    published: true,
-    loading: true,
-    description: '',
-    ownerId: '',
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  }));
+  return useMutation((values: Prisma.QuizCreateWithoutOwnerInput) =>
+    createQuiz(values)
+  );
 };
+
+export const placholderQuizzes = generateArrayForRange(6).map((_, idx) => ({
+  id: `${idx}`,
+  name: '',
+  thumbnail: '',
+  published: true,
+  loading: true,
+  description: '',
+  ownerId: '',
+  createdAt: new Date(),
+  updatedAt: new Date(),
+}));

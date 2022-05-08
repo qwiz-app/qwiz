@@ -11,16 +11,15 @@ import { useState } from 'react';
 
 const QuizPage = () => {
   const { data: author } = useCurrentUserInfo();
+  const { data: quizzes, isLoading, isPlaceholderData } = useQuizzes();
 
   const [showCreateQuizModal, setShowCreateQuizModal] = useState(false);
-
-  const { data: quizzes, isLoading } = useQuizzes();
 
   return (
     <HomepageLayout>
       <PageSection
         title="Create quiz"
-        description="Turn any Qwiz template into a new quiz"
+        description="Turn any Qwiz temsplate into a new quiz"
       >
         <PageGrid type="tiniest">
           <QuizCardSmall.New onClick={() => setShowCreateQuizModal(true)} />
@@ -31,15 +30,15 @@ const QuizPage = () => {
       </PageSection>
       <PageSection title="Recently edited">
         <PageGrid type="tiny">
-          {quizzes?.map((quiz) => (
+          {quizzes.map((quiz) => (
             <QuizCard
               key={quiz.id}
               image={quiz?.thumbnail}
-              link={`/quiz/${quiz.id}`}
+              href={`/quiz/${quiz.id}`}
               title={quiz.name}
               published
               author={author}
-              loading={isLoading}
+              loading={isLoading || isPlaceholderData}
             />
           ))}
         </PageGrid>

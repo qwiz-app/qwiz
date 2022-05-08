@@ -7,3 +7,14 @@ export const generateBoringAvatar = (seed: string) => {
 
   return `${source}${hash}?square`;
 };
+
+export const generateRandomNumber = ({
+  from,
+  to,
+}: {
+  from: number;
+  to: number;
+}) => Math.floor(Math.random() * (to - from + 1)) + from;
+
+export const generateArrayForRange = (range: number, start = 1) =>
+  [...Array(range)].map((_, i) => i + start);

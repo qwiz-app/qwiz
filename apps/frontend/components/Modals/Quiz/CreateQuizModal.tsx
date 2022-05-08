@@ -6,7 +6,6 @@ import { useModalProps } from 'context/mantine';
 import { createQuizSchema } from 'domain/util/validation';
 import { Form, Formik } from 'formik';
 import { useCreateQuiz } from 'hooks/api/quiz';
-import { useQueryClient } from 'react-query';
 
 interface Props {
   opened: boolean;
@@ -47,17 +46,16 @@ export const CreateQuizModal = ({ opened, onClose }: Props) => {
 
 const useCreateQuizModal = (onClose: () => void) => {
   const { mutate } = useCreateQuiz();
-  const queryClient = useQueryClient();
 
   const initialValues = {
     name: '',
     description: '',
   };
 
-  const handleSubmit = (values: Prisma.QuizUncheckedCreateInput) => {
+  const handleSubmit = (values: Prisma.QuizCreateWithoutOwnerInput) => {
     mutate(values);
     onClose();
-    queryClient.invalidateQueries(['quizzes']);
   };
+
   return { initialValues, handleSubmit };
 };

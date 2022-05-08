@@ -1,15 +1,15 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
-  Delete,
-  Query,
+  Controller,
   DefaultValuePipe,
-  ParseBoolPipe,
+  Delete,
+  Get,
   NotFoundException,
+  Param,
+  ParseBoolPipe,
+  Patch,
+  Post,
+  Query,
 } from '@nestjs/common';
 import { Organization, Prisma } from '@prisma/client';
 import { OrganizationEntity } from 'common/decorators/organization.decorator';
@@ -21,7 +21,7 @@ export class QuizController {
 
   @Post()
   create(
-    @Body() createQuizDto: Prisma.QuizUncheckedCreateWithoutOwnerInput,
+    @Body() createQuizDto: Prisma.QuizCreateWithoutOwnerInput,
     @OrganizationEntity() organization: Organization
   ) {
     return this.quizService.create({
@@ -30,6 +30,8 @@ export class QuizController {
     });
   }
 
+  // TODO: only for admin
+  // TODO: different endpoint for our own quizzes or for quiz by organization
   @Get()
   findAll(
     @Query('owner', new DefaultValuePipe(false), ParseBoolPipe) owner: boolean,
@@ -68,17 +70,10 @@ export class QuizController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.quizService.remove({ id });
-  }
-
-  @Patch(':id/thumbnail')
-  updateThumbnail(
-    @Param('id') id: string,
-    @Body()
-    body: {
-      thumbnail: string;
+    try {
+      return this.quizService.remove({ id });
+    } catch (err) {
+      throw new NotFoundException(err?.meta?.cause || 'Something went wrong.');
     }
-  ) {
-    return this.quizService.updateThumbnail({ id }, body.thumbnail);
   }
 }
