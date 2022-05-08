@@ -1,8 +1,9 @@
 import { Group, Stack } from '@mantine/core';
-import { NavbarItem, NavbarItemModel } from '../NavbarItem/NavbarItem';
+import { NavItemModel } from 'types/nav-item';
+import { NavbarItem } from '../NavbarItem/NavbarItem';
 
 type Props = {
-  items: NavbarItemModel[];
+  items: NavItemModel[];
 };
 
 export const NavbarList = ({ items }: Props) => {

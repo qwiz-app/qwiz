@@ -41,7 +41,7 @@ const isApiUrl = (url: string) => {
 const isSignInUrl = (url: string) => url.includes('signin');
 
 // TODO: allow only organizations: how to check for user role
-const isQuizzesUrl = (url: string) => url.includes('quiz');
+// const isQuizzesUrl = (url: string) => url.includes('quiz');
 
 export const cookieToObject = (cookie: string) =>
   cookie
