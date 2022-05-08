@@ -8,16 +8,10 @@ import { CustomMantineProvider } from 'context/mantine';
 import Inspect from 'inspx';
 import config from 'lib/config';
 import { SessionProvider } from 'next-auth/react';
-import dynamic from 'next/dynamic';
 import Script from 'next/script';
 import { QueryCache, QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-
-const UserRoleModal = dynamic(() =>
-  import('components/Modals/UserRoleModal/UserRoleModal').then(
-    (mod) => mod.UserRoleModal
-  )
-);
+import { UserRoleModal } from 'components/Modals/UserRoleModal/UserRoleModal';
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
