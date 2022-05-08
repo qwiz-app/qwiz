@@ -16,11 +16,15 @@ import { Attendee, Prisma, User } from '@prisma/client';
 import { IsAdmin } from 'common/decorators/admin.decorator';
 import { AttendeeEntity } from 'common/decorators/attendee.decorator';
 import { UserEntity } from 'common/decorators/user.decorator';
+import { UserService } from 'resources/user/user.service';
 import { AttendeeService } from './attendee.service';
 
 @Controller('attendees')
 export class AttendeeController {
-  constructor(private readonly attendeeService: AttendeeService) {}
+  constructor(
+    private readonly attendeeService: AttendeeService,
+    private readonly userService: UserService
+  ) {}
 
   @Post()
   async create(
@@ -99,17 +103,34 @@ export class AttendeeController {
   }
 
   @Delete(':id')
-  removeCurrent(@AttendeeEntity() attendee: Attendee) {
-    // TODO: delete user role
-    return this.attendeeService.remove({ id: attendee.id });
+  async removeCurrent(@AttendeeEntity() attendee: Attendee) {
+    const deletedAttendee = await this.attendeeService.remove({
+      id: attendee.id,
+    });
+    if (deletedAttendee.userId) {
+      await this.userService.update(
+        { id: deletedAttendee.userId },
+        { role: null }
+      );
+    }
+    return deletedAttendee;
   }
 
   //* ADMIN-ONLY
   @Delete(':id')
-  remove(@Param('id') id: string, @IsAdmin() isAdmin: boolean) {
+  async remove(@Param('id') id: string, @IsAdmin() isAdmin: boolean) {
     if (!isAdmin) {
       throw new UnauthorizedException('Only admin can access this route.');
     }
-    return this.attendeeService.remove({ id });
+    const deletedAttendee = await this.attendeeService.remove({
+      id,
+    });
+    if (deletedAttendee.userId) {
+      await this.userService.update(
+        { id: deletedAttendee.userId },
+        { role: null }
+      );
+    }
+    return deletedAttendee;
   }
 }

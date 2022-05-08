@@ -16,11 +16,15 @@ import { Organization, Prisma, User } from '@prisma/client';
 import { IsAdmin } from 'common/decorators/admin.decorator';
 import { OrganizationEntity } from 'common/decorators/organization.decorator';
 import { UserEntity } from 'common/decorators/user.decorator';
+import { UserService } from 'resources/user/user.service';
 import { OrganizationService } from './organization.service';
 
 @Controller('organizations')
 export class OrganizationController {
-  constructor(private readonly organizationService: OrganizationService) {}
+  constructor(
+    private readonly organizationService: OrganizationService,
+    private readonly userService: UserService
+  ) {}
 
   @Post()
   async create(
@@ -93,17 +97,34 @@ export class OrganizationController {
   }
 
   @Delete('me')
-  removeCurrent(@OrganizationEntity() organization: Organization) {
-    // TODO: delete user role
-    return this.organizationService.remove({ id: organization.id });
+  async removeCurrent(@OrganizationEntity() organization: Organization) {
+    const deletedOrganization = await this.organizationService.remove({
+      id: organization.id,
+    });
+    if (deletedOrganization.userId) {
+      await this.userService.update(
+        { id: deletedOrganization.userId },
+        { role: null }
+      );
+    }
+    return deletedOrganization;
   }
 
   //* ADMIN-ONLY
   @Delete(':id')
-  remove(@Param('id') id: string, @IsAdmin() isAdmin: boolean) {
+  async remove(@Param('id') id: string, @IsAdmin() isAdmin: boolean) {
     if (!isAdmin) {
       throw new UnauthorizedException('Only admin can access this route.');
     }
-    return this.organizationService.remove({ id });
+    const deletedOrganization = await this.organizationService.remove({
+      id,
+    });
+    if (deletedOrganization.userId) {
+      await this.userService.update(
+        { id: deletedOrganization.userId },
+        { role: null }
+      );
+    }
+    return deletedOrganization;
   }
 }
