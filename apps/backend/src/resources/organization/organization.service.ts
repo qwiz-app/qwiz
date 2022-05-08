@@ -36,7 +36,6 @@ export class OrganizationService {
 
   async remove(where: Prisma.OrganizationWhereUniqueInput) {
     try {
-
       return await this.prisma.organization.delete({ where });
     } catch (err) {
       throw new NotFoundException(err?.meta?.cause || 'Something went wrong.');

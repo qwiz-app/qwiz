@@ -10,8 +10,8 @@ export class QuizService {
     return this.prisma.quiz.create({ data });
   }
 
-  findAll(include: Prisma.QuizInclude) {
-    return this.prisma.quiz.findMany({ include });
+  findAll(where: Prisma.QuizWhereInput, include: Prisma.QuizInclude) {
+    return this.prisma.quiz.findMany({ where, include });
   }
 
   findOne(where: Prisma.QuizWhereUniqueInput, include: Prisma.QuizInclude) {

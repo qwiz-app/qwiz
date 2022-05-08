@@ -9,7 +9,7 @@ import { useQuizzes } from 'hooks/api/quiz';
 import { useState } from 'react';
 
 const QuizPage = () => {
-  // TODO: maybe use session info if we certain we only loading our own quizzes
+  // TODO: maybe use session info if we are certain we only load our own quizzes
   // const { data: author } = useCurrentUserInfo();
   const { data: quizzes, isLoading, isPlaceholderData } = useQuizzes();
 

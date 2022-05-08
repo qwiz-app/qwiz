@@ -1,18 +1,31 @@
 import {
   Body,
-  Controller, Delete,
+  Controller,
+  Delete,
   Get,
   NotFoundException,
-  Param, Patch,
-  Post
+  Param,
+  Patch,
+  Post,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { Organization, Prisma } from '@prisma/client';
+import { IsAdmin } from 'common/decorators/admin.decorator';
 import { OrganizationEntity } from 'common/decorators/organization.decorator';
 import { QuizService } from './quiz.service';
 
 @Controller('quiz')
 export class QuizController {
   constructor(private readonly quizService: QuizService) {}
+
+  private includeWithUserAndCount: Prisma.QuizInclude = {
+    owner: {
+      include: {
+        user: true,
+      },
+    },
+    _count: true,
+  };
 
   @Post()
   create(
@@ -25,34 +38,38 @@ export class QuizController {
     });
   }
 
-  // TODO: only for admin
-  // TODO: different endpoint for our own quizzes or for quiz by organization
-  // does not need to include user because we have it in session
+  //* ADMIN-ONLY
   @Get()
-  findAll() {
-    const include: Prisma.QuizInclude = {
-      owner: {
-        include: {
-          user: true,
-        },
-      },
-      _count: true,
-    };
-    return this.quizService.findAll(include);
+  findAll(@IsAdmin() isAdmin: boolean) {
+    if (!isAdmin) {
+      throw new UnauthorizedException('Only admin can access this route.');
+    }
+    return this.quizService.findAll({}, this.includeWithUserAndCount);
+  }
+
+  @Get('/owner/me')
+  findAllByCurrentOwner(@OrganizationEntity() organization: Organization) {
+    return this.quizService.findAll(
+      { ownerId: organization.id },
+      this.includeWithUserAndCount
+    );
+  }
+
+  //* ADMIN-ONLY
+  @Get('/owner/:id')
+  findAllByOwner(@Param('id') ownerId: string, @IsAdmin() isAdmin: boolean) {
+    if (!isAdmin) {
+      throw new UnauthorizedException('Only admin can access this route.');
+    }
+    return this.quizService.findAll({ ownerId }, this.includeWithUserAndCount);
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    const include: Prisma.QuizInclude = {
-      owner: {
-        include: {
-          user: true,
-        },
-      },
-      _count: true,
-    };
-    const quiz = await this.quizService.findOne({ id }, include);
-
+    const quiz = await this.quizService.findOne(
+      { id },
+      this.includeWithUserAndCount
+    );
     if (!quiz) {
       throw new NotFoundException('Quiz not found.');
     }
@@ -71,12 +88,9 @@ export class QuizController {
     );
   }
 
+  // TODO: only allow delete if ours
   @Delete(':id')
   remove(@Param('id') id: string) {
-    try {
-      return this.quizService.remove({ id });
-    } catch (err) {
-      throw new NotFoundException(err?.meta?.cause || 'Something went wrong.');
-    }
+    return this.quizService.remove({ id });
   }
 }

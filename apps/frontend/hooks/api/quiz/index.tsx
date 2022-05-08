@@ -2,10 +2,14 @@ import { Prisma } from '@prisma/client';
 import { queryOnError as onError } from 'lib/axios';
 import { generateArrayForRange } from 'lib/utils';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { createQuiz, fetchQuiz, fetchQuizzes } from 'services/api/quiz';
+import {
+  createQuiz,
+  fetchQuiz,
+  fetchQuizzesByCurrentOwner,
+} from 'services/api/quiz';
 
 export const useQuizzes = () =>
-  useQuery('quizzes', fetchQuizzes, {
+  useQuery('quizzes', fetchQuizzesByCurrentOwner, {
     onError,
     placeholderData: placholderQuizzes,
   });

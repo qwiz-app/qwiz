@@ -3,8 +3,18 @@ import { parseData } from 'lib/axios';
 import http from 'services/http';
 import { QuizWithOrganization } from 'types/organization';
 
+//* ADMIN-ONLY
 export const fetchQuizzes = () =>
   http.get<QuizWithOrganization[]>('/api/quiz').then(parseData);
+
+export const fetchQuizzesByCurrentOwner = () =>
+  http.get<QuizWithOrganization[]>('/api/quiz/owner/me').then(parseData);
+
+//* ADMIN-ONLY
+export const fetchQuizzesByOwner = (ownerId: string) =>
+  http
+    .get<QuizWithOrganization[]>(`/api/quiz/owner/${ownerId}`)
+    .then(parseData);
 
 export const fetchQuiz = (id: string) =>
   http.get<QuizWithOrganization[]>(`/api/quiz/${id}`).then(parseData);
