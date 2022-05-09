@@ -4,18 +4,17 @@ import {
   Box,
   Card,
   createStyles,
-  Divider,
+  FloatingTooltip,
   Group,
   Image,
   Input,
+  Loader,
   Skeleton,
   Text,
   ThemeIcon,
-  UnstyledButton,
 } from '@mantine/core';
 import { useAppColorscheme } from 'hooks/colorscheme';
-import { generateRandomNumber, relativeTimeTo } from 'lib/utils';
-import Link from 'next/link';
+import { relativeTimeTo } from 'lib/utils';
 import { useRouter } from 'next/router';
 import {
   Bookmark,
@@ -26,13 +25,7 @@ import {
   Lock,
   Share,
 } from 'phosphor-react';
-import React, {
-  SyntheticEvent,
-  useState,
-  useRef,
-  KeyboardEventHandler,
-  useEffect,
-} from 'react';
+import React, { SyntheticEvent, useEffect, useRef, useState } from 'react';
 import { QuizWithOrganization } from 'types/organization';
 
 interface QuizCardProps {
@@ -49,10 +42,6 @@ export const QuizCard = ({
   Omit<React.ComponentPropsWithoutRef<'div'>, keyof QuizCardProps>) => {
   const { classes, cx } = useStyles();
   const { isDark } = useAppColorscheme();
-
-  const [randomNumber] = useState(() =>
-    generateRandomNumber({ from: 60, to: 100 })
-  );
 
   const [editQuizName, setEditQuizName] = useState(false);
   const [editedQuizName, setEditedQuizName] = useState(quiz.name);
@@ -80,17 +69,33 @@ export const QuizCard = ({
 
   // TODO: typescript events ugh
   const onEnterQuizName = (e: any) => {
-    e.stopPropagation();
     if (e.key === 'Enter') {
       setEditQuizName(false);
+      // TODO: mutate name
+    } else if (e.key === 'Escape') {
+      console.log('escape');
+      setEditQuizName(false);
+      setEditedQuizName(quiz.name);
     }
+  };
+
+  useEffect(() => {
+    console.log('edit mode set to ', editQuizName);
+  }, [editQuizName]);
+
+  const onQuizNameBlurHandler = (e: SyntheticEvent) => {
+    setTimeout(() => {
+      console.log('blur');
+      setEditQuizName(false);
+    }, 10);
   };
 
   const router = useRouter();
 
   const onClickHandler = (e: SyntheticEvent) => {
-    e.stopPropagation();
-    if (!editQuizName) {
+    console.log('onClickHandler');
+
+    if (!editQuizName && editedQuizName === quiz.name) {
       router.push(`/quiz/${quiz.id}`);
     }
   };
@@ -141,26 +146,27 @@ export const QuizCard = ({
         </ThemeIcon>
       </Card.Section>
       <Card.Section py={12} px={18}>
-        <Skeleton visible={loading}>
+        <Skeleton visible={loading} sx={() => ({ overflow: 'visible' })}>
           <Group position="apart" spacing="sm" sx={() => ({ height: 30 })}>
             {!loading && !editQuizName ? (
-              <Text
-                sx={() => ({ flex: 1 })}
-                className={classes.title}
-                weight={500}
-                onClick={onClickQuizName}
-              >
-                {quiz.name}
-              </Text>
+              <FloatingTooltip label="Click to edit">
+                <Text
+                  sx={() => ({ flex: 1 })}
+                  className={classes.title}
+                  weight={500}
+                  onClick={onClickQuizName}
+                >
+                  {quiz.name}
+                </Text>
+              </FloatingTooltip>
             ) : (
               <Input
+                rightSection={<Loader size="sm" />}
                 sx={() => ({ flex: 1 })}
                 ref={quizNameRef}
                 variant="filled"
                 size="xs"
-                onClick={(e: SyntheticEvent) => {
-                  e.preventDefault();
-                }}
+                onClick={(e: SyntheticEvent) => e.stopPropagation()}
                 styles={{
                   input: {
                     fontSize: 16,
@@ -168,17 +174,12 @@ export const QuizCard = ({
                   },
                 }}
                 onKeyUp={onEnterQuizName}
-                onBlur={(e: SyntheticEvent) => {
-                  e.stopPropagation();
-                  console.log('blur');
-                  setEditQuizName(false);
-                }}
+                onBlur={onQuizNameBlurHandler}
                 value={editedQuizName}
                 onChange={(e) => setEditedQuizName(e.target.value)}
-                height={28}
               />
             )}
-            <ActionIcon variant="hover" onClick={onClickQuizName}>
+            <ActionIcon variant="hover">
               <DotsThree size={16} weight="duotone" />
             </ActionIcon>
           </Group>
@@ -206,11 +207,7 @@ export const QuizCard = ({
               })}
             />
 
-            {/* TODO: skeleton not showing */}
-            <Skeleton visible={loading}>
-              {/* <Text size="xs" sx={() => ({})} className={classes.owner}>
-                  {quiz.owner.name}
-                </Text> */}
+            <Skeleton visible={loading} sx={() => ({ overflow: 'visible' })}>
               <Text inline size="xs" color="dimmed" sx={() => ({})}>
                 Updated {relativeTimeTo(quiz.createdAt)}
               </Text>
@@ -218,11 +215,6 @@ export const QuizCard = ({
           </Group>
 
           <Group spacing={8} mr={0}>
-            {/* <Skeleton visible={loading}>
-                <Text size="xs" color="dimmed" sx={() => ({})}>
-                  Updated {relativeTimeTo(quiz.createdAt)}
-                </Text>
-              </Skeleton> */}
             <ActionIcon
               className={classes.icon1}
               variant="hover"
@@ -265,7 +257,7 @@ const useStyles = createStyles((theme) => {
       position: 'relative',
       backgroundColor:
         theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
-      transition: 'all 250ms',
+      transition: 'box-shadow 250ms',
 
       '&:hover': {
         borderColor: 'transparent',
