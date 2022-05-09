@@ -1,5 +1,7 @@
 import { NextSeo } from 'next-seo';
-import 'styles/global.scss';
+import 'styles/fonts.css';
+import 'styles/global.css';
+import 'styles/reset.css';
 import 'windi.css';
 
 import { Container, ScrollArea } from '@mantine/core';
