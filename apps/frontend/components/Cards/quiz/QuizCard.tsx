@@ -3,19 +3,20 @@ import {
   Avatar,
   Box,
   Card,
+  Code,
   createStyles,
   FloatingTooltip,
   Group,
-  Image, Loader,
+  Image,
+  Loader,
   Skeleton,
   Text,
   TextInput,
-  ThemeIcon
+  ThemeIcon,
 } from '@mantine/core';
-import { useQuizUpdate } from 'hooks/api/quiz';
+import { useQuizNameEdit } from 'hooks/api/quiz/use-quiz-name-edit';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { relativeTimeTo } from 'lib/utils';
-import { useRouter } from 'next/router';
 import {
   Bookmark,
   DotsThree,
@@ -23,10 +24,9 @@ import {
   Heart,
   ImageSquare,
   Lock,
-  Share
+  Share,
 } from 'phosphor-react';
-import React, { SyntheticEvent, useEffect, useRef, useState } from 'react';
-import { setTimeout } from 'timers';
+import React, { SyntheticEvent } from 'react';
 import { QuizWithOrganization } from 'types/organization';
 
 interface QuizCardProps {
@@ -43,76 +43,18 @@ export const QuizCard = ({
   Omit<React.ComponentPropsWithoutRef<'div'>, keyof QuizCardProps>) => {
   const { classes, cx } = useStyles();
   const { isDark } = useAppColorscheme();
-  const { mutate, isLoading: isNameUpdateLoading } = useQuizUpdate(quiz.id);
 
-  const [isQuizNameEditMode, setIsQuizNameEditMode] = useState(false);
-  const [editedQuizName, setEditedQuizName] = useState(quiz.name);
-  const DEFAULT_QUIZ_NAME = 'Untitled';
-
-  const quizNameRef = useRef<HTMLInputElement>();
   const { owner } = quiz;
-
-  useEffect(() => {
-    // reset quiz name when exited the mode
-    if (!isQuizNameEditMode) {
-      setEditedQuizName(quiz.name);
-    }
-  }, [isQuizNameEditMode]);
-
-  const updateQuizNameHandler = () => {
-    if (editedQuizName.trim() === quiz.name) {
-      setIsQuizNameEditMode(false);
-      return;
-    }
-    if (editedQuizName.trim() === '') {
-      setEditedQuizName(DEFAULT_QUIZ_NAME);
-    }
-
-    mutate(
-      { name: editedQuizName.trim() || null },
-      {
-        onSettled: (_, _2, variables) => {
-          setIsQuizNameEditMode(false);
-        },
-      }
-    );
-  };
-
-  const onClickToEditName = (e: SyntheticEvent) => {
-    setEditedQuizName(quiz.name);
-    e.stopPropagation();
-    setIsQuizNameEditMode(true);
-    setTimeout(() => {
-      quizNameRef.current?.focus();
-      quizNameRef.current?.select();
-    }, 0);
-  };
-
-  // TODO: typescript events ugh
-  const onEnterQuizName = (e: any) => {
-    if (e.key === 'Enter') {
-      updateQuizNameHandler();
-    } else if (e.key === 'Escape') {
-      setEditedQuizName(quiz.name);
-      setIsQuizNameEditMode(false);
-    }
-  };
-
-  const onQuizNameBlurHandler = (e: SyntheticEvent) => {
-    setTimeout(() => {
-      updateQuizNameHandler();
-    }, 0);
-  };
-
-  const router = useRouter();
-
-  const onClickHandler = (e: SyntheticEvent) => {
-    console.log('onClickHandler');
-
-    if (!isQuizNameEditMode && editedQuizName === quiz.name) {
-      router.push(`/quiz/${quiz.id}`);
-    }
-  };
+  const {
+    editedName,
+    setEditedName,
+    isEditMode,
+    isLoading,
+    onClickToEdit,
+    onKeyUp,
+    onBlurHandler,
+    nameRef,
+  } = useQuizNameEdit(quiz);
 
   return (
     // TODO: myb remove link from the component itself to be able to reuse the card in event creation
@@ -124,7 +66,7 @@ export const QuizCard = ({
       className={cx(classes.card, className)}
       {...others}
       onClick={(e: SyntheticEvent) => {
-        if (isQuizNameEditMode) {
+        if (isEditMode) {
           e.preventDefault();
         }
       }}
@@ -133,7 +75,7 @@ export const QuizCard = ({
         <Skeleton visible={loading} radius={0} height="100%">
           {!loading && (
             <Image
-              onClick={onClickHandler}
+              onClick={onClickToEdit}
               src={quiz.thumbnail}
               withPlaceholder
               // TODO: image into custom component
@@ -162,20 +104,20 @@ export const QuizCard = ({
       <Card.Section py={12} px={18}>
         <Skeleton visible={loading} sx={() => ({ overflow: 'visible' })}>
           <Group position="apart" spacing="sm" sx={() => ({ height: 30 })}>
-            {!loading && !isQuizNameEditMode ? (
+            {!loading && !isEditMode ? (
               <FloatingTooltip label="Click to edit">
                 <Text
                   weight={500}
                   sx={() => ({ flex: 1 })}
                   className={classes.title}
-                  onClick={onClickToEditName}
+                  onClick={onClickToEdit}
                 >
                   {quiz.name}
                 </Text>
               </FloatingTooltip>
             ) : (
               <TextInput
-                ref={quizNameRef}
+                ref={nameRef}
                 variant="filled"
                 size="xs"
                 sx={() => ({ flex: 1 })}
@@ -185,13 +127,13 @@ export const QuizCard = ({
                     fontWeight: 500,
                   },
                 }}
-                rightSection={isNameUpdateLoading ? <Loader size="sm" /> : null}
-                value={editedQuizName}
-                onChange={(e) => setEditedQuizName(e.target.value)}
+                rightSection={isLoading ? <Loader size="sm" /> : <Code>↵</Code>}
+                value={editedName}
+                onChange={(e) => setEditedName(e.target.value)}
                 onClick={(e: SyntheticEvent) => e.stopPropagation()}
-                onKeyUp={onEnterQuizName}
-                onBlur={onQuizNameBlurHandler}
-                disabled={isNameUpdateLoading}
+                onKeyUp={onKeyUp}
+                onBlur={onBlurHandler}
+                disabled={isLoading}
               />
             )}
             <ActionIcon variant="hover">
@@ -222,9 +164,12 @@ export const QuizCard = ({
               })}
             />
 
-            <Skeleton visible={loading} sx={() => ({ overflow: 'visible' })}>
+            <Skeleton
+              visible={loading}
+              sx={() => ({ overflow: loading ? 'hidden' : 'visible' })}
+            >
               <Text inline size="xs" color="dimmed" sx={() => ({})}>
-                Updated {relativeTimeTo(quiz.createdAt)}
+                Updated {relativeTimeTo(quiz.updatedAt)}
               </Text>
             </Skeleton>
           </Group>
