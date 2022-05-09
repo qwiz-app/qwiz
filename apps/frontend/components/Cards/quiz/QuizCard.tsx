@@ -2,17 +2,11 @@ import {
   ActionIcon,
   Avatar,
   Box,
-  Card,
-  Code,
-  createStyles,
+  Card, createStyles,
   FloatingTooltip,
   Group,
-  Image,
-  Loader,
-  Skeleton,
-  Text,
-  TextInput,
-  ThemeIcon,
+  Image, Skeleton,
+  Text, ThemeIcon
 } from '@mantine/core';
 import { useQuizNameEdit } from 'hooks/api/quiz/use-quiz-name-edit';
 import { useAppColorscheme } from 'hooks/colorscheme';
@@ -24,10 +18,11 @@ import {
   Heart,
   ImageSquare,
   Lock,
-  Share,
+  Share
 } from 'phosphor-react';
 import React, { SyntheticEvent } from 'react';
 import { QuizWithOrganization } from 'types/organization';
+import QuizNameEditInput from './QuizNameEditInput';
 
 interface QuizCardProps {
   quiz: QuizWithOrganization;
@@ -116,24 +111,13 @@ export const QuizCard = ({
                 </Text>
               </FloatingTooltip>
             ) : (
-              <TextInput
+              <QuizNameEditInput
+                isLoading={isLoading}
                 ref={nameRef}
-                variant="filled"
-                size="xs"
-                sx={() => ({ flex: 1 })}
-                styles={{
-                  input: {
-                    fontSize: 16,
-                    fontWeight: 500,
-                  },
-                }}
-                rightSection={isLoading ? <Loader size="sm" /> : <Code>↵</Code>}
-                value={editedName}
-                onChange={(e) => setEditedName(e.target.value)}
-                onClick={(e: SyntheticEvent) => e.stopPropagation()}
+                editedName={editedName}
                 onKeyUp={onKeyUp}
-                onBlur={onBlurHandler}
-                disabled={isLoading}
+                onBlurHandler={onBlurHandler}
+                setEditedName={setEditedName}
               />
             )}
             <ActionIcon variant="hover">
