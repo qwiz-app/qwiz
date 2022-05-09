@@ -6,13 +6,13 @@ import {
   createStyles,
   FloatingTooltip,
   Group,
-  Image,
-  Input,
-  Loader,
+  Image, Loader,
   Skeleton,
   Text,
-  ThemeIcon,
+  TextInput,
+  ThemeIcon
 } from '@mantine/core';
+import { useQuizUpdate } from 'hooks/api/quiz';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { relativeTimeTo } from 'lib/utils';
 import { useRouter } from 'next/router';
@@ -23,9 +23,10 @@ import {
   Heart,
   ImageSquare,
   Lock,
-  Share,
+  Share
 } from 'phosphor-react';
 import React, { SyntheticEvent, useEffect, useRef, useState } from 'react';
+import { setTimeout } from 'timers';
 import { QuizWithOrganization } from 'types/organization';
 
 interface QuizCardProps {
@@ -42,25 +43,45 @@ export const QuizCard = ({
   Omit<React.ComponentPropsWithoutRef<'div'>, keyof QuizCardProps>) => {
   const { classes, cx } = useStyles();
   const { isDark } = useAppColorscheme();
+  const { mutate, isLoading: isNameUpdateLoading } = useQuizUpdate(quiz.id);
 
-  const [editQuizName, setEditQuizName] = useState(false);
+  const [isQuizNameEditMode, setIsQuizNameEditMode] = useState(false);
   const [editedQuizName, setEditedQuizName] = useState(quiz.name);
-
-  const {
-    owner: { user },
-  } = quiz;
-
-  useEffect(() => {
-    if (!editQuizName) {
-      setEditedQuizName(quiz.name);
-    }
-  }, [editQuizName]);
+  const DEFAULT_QUIZ_NAME = 'Untitled';
 
   const quizNameRef = useRef<HTMLInputElement>();
+  const { owner } = quiz;
 
-  const onClickQuizName = (e: SyntheticEvent) => {
+  useEffect(() => {
+    // reset quiz name when exited the mode
+    if (!isQuizNameEditMode) {
+      setEditedQuizName(quiz.name);
+    }
+  }, [isQuizNameEditMode]);
+
+  const updateQuizNameHandler = () => {
+    if (editedQuizName.trim() === quiz.name) {
+      setIsQuizNameEditMode(false);
+      return;
+    }
+    if (editedQuizName.trim() === '') {
+      setEditedQuizName(DEFAULT_QUIZ_NAME);
+    }
+
+    mutate(
+      { name: editedQuizName.trim() || null },
+      {
+        onSettled: (_, _2, variables) => {
+          setIsQuizNameEditMode(false);
+        },
+      }
+    );
+  };
+
+  const onClickToEditName = (e: SyntheticEvent) => {
+    setEditedQuizName(quiz.name);
     e.stopPropagation();
-    setEditQuizName(true);
+    setIsQuizNameEditMode(true);
     setTimeout(() => {
       quizNameRef.current?.focus();
       quizNameRef.current?.select();
@@ -70,24 +91,17 @@ export const QuizCard = ({
   // TODO: typescript events ugh
   const onEnterQuizName = (e: any) => {
     if (e.key === 'Enter') {
-      setEditQuizName(false);
-      // TODO: mutate name
+      updateQuizNameHandler();
     } else if (e.key === 'Escape') {
-      console.log('escape');
-      setEditQuizName(false);
       setEditedQuizName(quiz.name);
+      setIsQuizNameEditMode(false);
     }
   };
 
-  useEffect(() => {
-    console.log('edit mode set to ', editQuizName);
-  }, [editQuizName]);
-
   const onQuizNameBlurHandler = (e: SyntheticEvent) => {
     setTimeout(() => {
-      console.log('blur');
-      setEditQuizName(false);
-    }, 10);
+      updateQuizNameHandler();
+    }, 0);
   };
 
   const router = useRouter();
@@ -95,7 +109,7 @@ export const QuizCard = ({
   const onClickHandler = (e: SyntheticEvent) => {
     console.log('onClickHandler');
 
-    if (!editQuizName && editedQuizName === quiz.name) {
+    if (!isQuizNameEditMode && editedQuizName === quiz.name) {
       router.push(`/quiz/${quiz.id}`);
     }
   };
@@ -110,7 +124,7 @@ export const QuizCard = ({
       className={cx(classes.card, className)}
       {...others}
       onClick={(e: SyntheticEvent) => {
-        if (editQuizName) {
+        if (isQuizNameEditMode) {
           e.preventDefault();
         }
       }}
@@ -148,35 +162,36 @@ export const QuizCard = ({
       <Card.Section py={12} px={18}>
         <Skeleton visible={loading} sx={() => ({ overflow: 'visible' })}>
           <Group position="apart" spacing="sm" sx={() => ({ height: 30 })}>
-            {!loading && !editQuizName ? (
+            {!loading && !isQuizNameEditMode ? (
               <FloatingTooltip label="Click to edit">
                 <Text
+                  weight={500}
                   sx={() => ({ flex: 1 })}
                   className={classes.title}
-                  weight={500}
-                  onClick={onClickQuizName}
+                  onClick={onClickToEditName}
                 >
                   {quiz.name}
                 </Text>
               </FloatingTooltip>
             ) : (
-              <Input
-                rightSection={<Loader size="sm" />}
-                sx={() => ({ flex: 1 })}
+              <TextInput
                 ref={quizNameRef}
                 variant="filled"
                 size="xs"
-                onClick={(e: SyntheticEvent) => e.stopPropagation()}
+                sx={() => ({ flex: 1 })}
                 styles={{
                   input: {
                     fontSize: 16,
                     fontWeight: 500,
                   },
                 }}
-                onKeyUp={onEnterQuizName}
-                onBlur={onQuizNameBlurHandler}
+                rightSection={isNameUpdateLoading ? <Loader size="sm" /> : null}
                 value={editedQuizName}
                 onChange={(e) => setEditedQuizName(e.target.value)}
+                onClick={(e: SyntheticEvent) => e.stopPropagation()}
+                onKeyUp={onEnterQuizName}
+                onBlur={onQuizNameBlurHandler}
+                disabled={isNameUpdateLoading}
               />
             )}
             <ActionIcon variant="hover">
@@ -194,7 +209,7 @@ export const QuizCard = ({
               sx={() => ({ flexShrink: 0 })}
             >
               {!loading && (
-                <Avatar src={user.image} size={20} radius="xl" mr="xs" />
+                <Avatar src={owner.user.image} size={20} radius="xl" mr="xs" />
               )}
             </Skeleton>
 
