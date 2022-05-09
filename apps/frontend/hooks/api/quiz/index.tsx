@@ -63,11 +63,11 @@ export const useQuizUpdate = (quizId: string) => {
         return { previousQuizzes };
       },
       // TODO: mislav zajebava
-      // onError(err, variables, context) {
-      //   if (context?.previousQuizzes) {
-      //     queryClient.setQueryData<Quiz[]>('quizzes', context.previousQuizzes);
-      //   }
-      // },
+      onError(err, variables, context: { previousQuizzes: Quiz[] }) {
+        if (context?.previousQuizzes) {
+          queryClient.setQueryData<Quiz[]>('quizzes', context.previousQuizzes);
+        }
+      },
       onSettled: (newQuiz) => {
         // queryClient.invalidateQueries('quizzes', newQuiz.id);
         queryClient.invalidateQueries('quizzes');
