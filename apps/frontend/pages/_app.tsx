@@ -13,7 +13,6 @@ import { SessionProvider } from 'next-auth/react';
 import Script from 'next/script';
 import { QueryCache, QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { UserRoleModal } from 'components/Modals/UserRoleModal/UserRoleModal';
 import { RoleGuard } from 'components/Guard/RoleGuard';
 
 const queryClient = new QueryClient({
