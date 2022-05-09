@@ -1,144 +1,259 @@
 import {
   ActionIcon,
   Avatar,
+  Box,
   Card,
-  Center,
   createStyles,
+  Divider,
   Group,
   Image,
+  Input,
   Skeleton,
   Text,
   ThemeIcon,
+  UnstyledButton,
 } from '@mantine/core';
 import { useAppColorscheme } from 'hooks/colorscheme';
-import { generateRandomNumber } from 'lib/utils';
+import { generateRandomNumber, relativeTimeTo } from 'lib/utils';
 import Link from 'next/link';
-import { Bookmark, Globe, Heart, Lock, Share } from 'phosphor-react';
-import React, { SyntheticEvent, useState } from 'react';
-import { OrganizationWithUser } from 'types/organization';
+import { useRouter } from 'next/router';
+import {
+  Bookmark,
+  DotsThree,
+  Globe,
+  Heart,
+  ImageSquare,
+  Lock,
+  Share,
+} from 'phosphor-react';
+import React, {
+  SyntheticEvent,
+  useState,
+  useRef,
+  KeyboardEventHandler,
+  useEffect,
+} from 'react';
+import { QuizWithOrganization } from 'types/organization';
 
 interface QuizCardProps {
-  image: string;
-  href: string;
-  title: string;
-  published: boolean;
-  owner: OrganizationWithUser;
+  quiz: QuizWithOrganization;
   loading: boolean;
 }
 
 export const QuizCard = ({
   className,
-  image,
-  href,
-  title,
-  owner,
-  published,
+  quiz,
   loading,
   ...others
 }: QuizCardProps &
   Omit<React.ComponentPropsWithoutRef<'div'>, keyof QuizCardProps>) => {
   const { classes, cx } = useStyles();
+  const { isDark } = useAppColorscheme();
 
-  const [randomNumber] = useState(() => generateRandomNumber({ from: 60, to: 100 }));
+  const [randomNumber] = useState(() =>
+    generateRandomNumber({ from: 60, to: 100 })
+  );
+
+  const [editQuizName, setEditQuizName] = useState(false);
+  const [editedQuizName, setEditedQuizName] = useState(quiz.name);
+
+  const {
+    owner: { user },
+  } = quiz;
+
+  useEffect(() => {
+    if (!editQuizName) {
+      setEditedQuizName(quiz.name);
+    }
+  }, [editQuizName]);
+
+  const quizNameRef = useRef<HTMLInputElement>();
+
+  const onClickQuizName = (e: SyntheticEvent) => {
+    e.stopPropagation();
+    setEditQuizName(true);
+    setTimeout(() => {
+      quizNameRef.current?.focus();
+      quizNameRef.current?.select();
+    }, 0);
+  };
+
+  // TODO: typescript events ugh
+  const onEnterQuizName = (e: any) => {
+    e.stopPropagation();
+    if (e.key === 'Enter') {
+      setEditQuizName(false);
+    }
+  };
+
+  const router = useRouter();
+
+  const onClickHandler = (e: SyntheticEvent) => {
+    e.stopPropagation();
+    if (!editQuizName) {
+      router.push(`/quiz/${quiz.id}`);
+    }
+  };
 
   return (
-    <Link href={href}>
-      <Card
-        p={0}
-        radius="md"
-        withBorder
-        className={cx(classes.card, className)}
-        {...others}
-      >
-        <Card.Section className={classes.imageSection}>
-          <Skeleton visible={loading} radius={0} height="100%">
-            {!loading && (
-              <Image
-                src={image}
-                withPlaceholder
-                alt="thumbnail"
-                height="100%"
-                fit="cover"
-                styles={{
-                  root: { height: '100%' },
-                  imageWrapper: { height: '100%' },
-                  figure: { height: '100%' },
+    // TODO: myb remove link from the component itself to be able to reuse the card in event creation
+    // don't redirect when in edit mode
+    <Card
+      p={0}
+      radius="md"
+      withBorder
+      className={cx(classes.card, className)}
+      {...others}
+      onClick={(e: SyntheticEvent) => {
+        if (editQuizName) {
+          e.preventDefault();
+        }
+      }}
+    >
+      <Card.Section className={classes.imageSection}>
+        <Skeleton visible={loading} radius={0} height="100%">
+          {!loading && (
+            <Image
+              onClick={onClickHandler}
+              src={quiz.thumbnail}
+              withPlaceholder
+              // TODO: image into custom component
+              placeholder={<ImageSquare size={52} weight="duotone" />}
+              alt="thumbnail"
+              height="100%"
+              fit="cover"
+              styles={{
+                root: { height: '100%' },
+                imageWrapper: { height: '100%' },
+                figure: { height: '100%' },
+              }}
+            />
+          )}
+        </Skeleton>
+
+        {/* TODO: tooltip */}
+        <ThemeIcon variant="filled" className={classes.accessBadge} size="md">
+          {quiz.published ? (
+            <Globe weight="duotone" />
+          ) : (
+            <Lock weight="duotone" />
+          )}
+        </ThemeIcon>
+      </Card.Section>
+      <Card.Section py={12} px={18}>
+        <Skeleton visible={loading}>
+          <Group position="apart" spacing="sm" sx={() => ({ height: 30 })}>
+            {!loading && !editQuizName ? (
+              <Text
+                sx={() => ({ flex: 1 })}
+                className={classes.title}
+                weight={500}
+                onClick={onClickQuizName}
+              >
+                {quiz.name}
+              </Text>
+            ) : (
+              <Input
+                sx={() => ({ flex: 1 })}
+                ref={quizNameRef}
+                variant="filled"
+                size="xs"
+                onClick={(e: SyntheticEvent) => {
+                  e.preventDefault();
                 }}
+                styles={{
+                  input: {
+                    fontSize: 16,
+                    fontWeight: 500,
+                  },
+                }}
+                onKeyUp={onEnterQuizName}
+                onBlur={(e: SyntheticEvent) => {
+                  e.stopPropagation();
+                  console.log('blur');
+                  setEditQuizName(false);
+                }}
+                value={editedQuizName}
+                onChange={(e) => setEditedQuizName(e.target.value)}
+                height={28}
               />
             )}
-          </Skeleton>
-
-          {/* TODO: tooltip */}
-          <ThemeIcon variant="filled" className={classes.accessBadge} size="md">
-            {published ? <Globe weight="duotone" /> : <Lock weight="duotone" />}
-          </ThemeIcon>
-        </Card.Section>
-        <Card.Section py={12} px={18}>
-          <Skeleton visible={loading} width={`${randomNumber}%`}>
-            <Text className={classes.title} weight={500}>
-              {title}
-            </Text>
-          </Skeleton>
-
-          <Group position="apart" mt={6}>
-            <Center>
-              <Skeleton
-                visible={loading}
-                circle
-                height={20}
-                sx={() => ({ flexShrink: 0 })}
-                mr="xs"
-              >
-                {!loading && (
-                  <Avatar
-                    src={owner.user.image}
-                    size={20}
-                    radius="xl"
-                    mr="xs"
-                  />
-                )}
-              </Skeleton>
-              {/* TODO: skeleton not showing */}
-              <Skeleton visible={loading}>
-                <Text size="xs" inline className={classes.owner}>
-                  {owner?.name}
-                </Text>
-              </Skeleton>
-            </Center>
-
-            <Group spacing={8} mr={0}>
-              <ActionIcon
-                className={classes.icon1}
-                variant="hover"
-                onClick={(e: SyntheticEvent) => {
-                  e.preventDefault();
-                }}
-              >
-                <Heart size={16} weight="duotone" />
-              </ActionIcon>
-              <ActionIcon
-                className={classes.icon2}
-                variant="hover"
-                onClick={(e: SyntheticEvent) => {
-                  e.preventDefault();
-                }}
-              >
-                <Bookmark size={16} weight="duotone" />
-              </ActionIcon>
-              <ActionIcon
-                className={classes.icon3}
-                variant="hover"
-                onClick={(e: SyntheticEvent) => {
-                  e.preventDefault();
-                }}
-              >
-                <Share size={16} weight="duotone" />
-              </ActionIcon>
-            </Group>
+            <ActionIcon variant="hover" onClick={onClickQuizName}>
+              <DotsThree size={16} weight="duotone" />
+            </ActionIcon>
           </Group>
-        </Card.Section>
-      </Card>
-    </Link>
+        </Skeleton>
+
+        <Group position="apart" spacing="xs" mt={6}>
+          <Group noWrap spacing="xs">
+            <Skeleton
+              visible={loading}
+              circle
+              height={20}
+              sx={() => ({ flexShrink: 0 })}
+            >
+              {!loading && (
+                <Avatar src={user.image} size={20} radius="xl" mr="xs" />
+              )}
+            </Skeleton>
+
+            {/* TODO: divider not working */}
+            <Box
+              sx={(t) => ({
+                width: '2px',
+                height: '18px',
+                background: isDark ? t.colors.dark[5] : t.colors.gray[4],
+              })}
+            />
+
+            {/* TODO: skeleton not showing */}
+            <Skeleton visible={loading}>
+              {/* <Text size="xs" sx={() => ({})} className={classes.owner}>
+                  {quiz.owner.name}
+                </Text> */}
+              <Text inline size="xs" color="dimmed" sx={() => ({})}>
+                Updated {relativeTimeTo(quiz.createdAt)}
+              </Text>
+            </Skeleton>
+          </Group>
+
+          <Group spacing={8} mr={0}>
+            {/* <Skeleton visible={loading}>
+                <Text size="xs" color="dimmed" sx={() => ({})}>
+                  Updated {relativeTimeTo(quiz.createdAt)}
+                </Text>
+              </Skeleton> */}
+            <ActionIcon
+              className={classes.icon1}
+              variant="hover"
+              onClick={(e: SyntheticEvent) => {
+                e.preventDefault();
+              }}
+            >
+              <Heart size={16} weight="duotone" />
+            </ActionIcon>
+            <ActionIcon
+              className={classes.icon2}
+              variant="hover"
+              onClick={(e: SyntheticEvent) => {
+                e.preventDefault();
+              }}
+            >
+              <Bookmark size={16} weight="duotone" />
+            </ActionIcon>
+            <ActionIcon
+              className={classes.icon3}
+              variant="hover"
+              onClick={(e: SyntheticEvent) => {
+                e.preventDefault();
+              }}
+            >
+              <Share size={16} weight="duotone" />
+            </ActionIcon>
+          </Group>
+        </Group>
+      </Card.Section>
+    </Card>
   );
 };
 
@@ -153,6 +268,7 @@ const useStyles = createStyles((theme) => {
       transition: 'all 250ms',
 
       '&:hover': {
+        borderColor: 'transparent',
         boxShadow: theme.shadows.xl,
       },
     },

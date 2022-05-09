@@ -9,7 +9,7 @@ import {
   Queue,
   SquaresFour,
   Trophy,
-  UsersThree,
+  UsersThree
 } from 'phosphor-react';
 import { NavItemModel } from 'types/nav-item';
 import { useCurrentSession } from './api/session';
