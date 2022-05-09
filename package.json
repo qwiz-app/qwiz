@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node dist/apps/backend/main.js",
     "build": "nx build backend --prod",
+    "build:frontend": "npx nx build frontend --prod",
     "test": "nx test",
     "lint": "nx lint",
     "db:generate": "npx prisma generate",

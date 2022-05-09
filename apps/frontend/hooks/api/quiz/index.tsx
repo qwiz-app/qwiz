@@ -62,11 +62,12 @@ export const useQuizUpdate = (quizId: string) => {
         // Return a context object with the snapshotted value
         return { previousQuizzes };
       },
-      onError(err, variables, context) {
-        if (context?.previousQuizzes) {
-          queryClient.setQueryData<Quiz[]>('quizzes', context.previousQuizzes);
-        }
-      },
+      // TODO: mislav zajebava
+      // onError(err, variables, context) {
+      //   if (context?.previousQuizzes) {
+      //     queryClient.setQueryData<Quiz[]>('quizzes', context.previousQuizzes);
+      //   }
+      // },
       onSettled: (newQuiz) => {
         // queryClient.invalidateQueries('quizzes', newQuiz.id);
         queryClient.invalidateQueries('quizzes');
