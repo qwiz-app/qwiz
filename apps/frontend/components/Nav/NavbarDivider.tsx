@@ -1,6 +1,5 @@
 import { Divider } from '@mantine/core';
 import { useAppColorscheme } from 'hooks/colorscheme';
-import React from 'react';
 
 export const NavbarDivider = () => {
   const { isDark } = useAppColorscheme();

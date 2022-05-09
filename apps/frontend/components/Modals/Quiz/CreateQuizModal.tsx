@@ -5,7 +5,7 @@ import { FormikTextInput } from 'components/formik/FormikTextInput';
 import { useModalProps } from 'context/mantine';
 import { createQuizSchema } from 'domain/util/validation';
 import { Form, Formik } from 'formik';
-import { useCreateQuiz } from 'hooks/api/quiz';
+import { useQuizCreate } from 'hooks/api/quiz';
 
 interface Props {
   opened: boolean;
@@ -14,7 +14,7 @@ interface Props {
 
 export const CreateQuizModal = ({ opened, onClose }: Props) => {
   const { modalProps } = useModalProps();
-  const { initialValues, handleSubmit } = useCreateQuizModal(onClose);
+  const { initialValues, handleSubmit } = useQuizCreateModal(onClose);
 
   return (
     <Modal
@@ -44,8 +44,8 @@ export const CreateQuizModal = ({ opened, onClose }: Props) => {
   );
 };
 
-const useCreateQuizModal = (onClose: () => void) => {
-  const { mutate } = useCreateQuiz();
+const useQuizCreateModal = (onClose: () => void) => {
+  const { mutate } = useQuizCreate();
 
   const initialValues = {
     name: '',

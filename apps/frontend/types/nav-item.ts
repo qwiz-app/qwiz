@@ -1,7 +1,6 @@
 import { Role } from '@prisma/client';
 import { ReactNode } from 'react';
 
-// TODO: move to types
 export type NavItemModel = {
   icon: ReactNode;
   label?: string;

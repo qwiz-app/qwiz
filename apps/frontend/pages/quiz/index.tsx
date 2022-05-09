@@ -1,4 +1,4 @@
-import { Alert, Button, Group, Stack } from '@mantine/core';
+import { Alert, Button,  Group, Stack } from '@mantine/core';
 import { QuizCard } from 'components/Cards/quiz/QuizCard';
 import { QuizCardSmall } from 'components/Cards/quiz/QuizCardSmall';
 import PageGrid from 'components/Grids/PageGrid';
@@ -37,11 +37,7 @@ const QuizPage = () => {
           {quizzes?.map((quiz) => (
             <QuizCard
               key={quiz.id}
-              image={quiz?.thumbnail}
-              href={`/quiz/${quiz.id}`}
-              title={quiz.name}
-              published
-              owner={quiz.owner}
+              quiz={quiz}
               loading={isLoading || isPlaceholderData}
             />
           ))}
