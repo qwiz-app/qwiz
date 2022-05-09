@@ -11,13 +11,14 @@ import {
   Menu,
   Skeleton,
   Text,
-  ThemeIcon
+  ThemeIcon,
 } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { useQuizDelete } from 'hooks/api/quiz';
 import { useQuizNameEdit } from 'hooks/api/quiz/use-quiz-name-edit';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { relativeTimeTo } from 'lib/utils';
+import { useRouter } from 'next/router';
 import {
   DotsThreeVertical,
   Globe,
@@ -25,7 +26,7 @@ import {
   LinkSimple,
   Lock,
   PencilSimpleLine,
-  TrashSimple
+  TrashSimple,
 } from 'phosphor-react';
 import React, { SyntheticEvent } from 'react';
 import { QuizWithOrganization } from 'types/organization';
@@ -45,8 +46,10 @@ export const QuizCard = ({
   Omit<React.ComponentPropsWithoutRef<'div'>, keyof QuizCardProps>) => {
   const { classes, cx } = useStyles();
   const { isDark } = useAppColorscheme();
-
   const { owner } = quiz;
+
+  const router = useRouter();
+  const modals = useModals();
   const { mutate: deleteQuiz, isLoading: isDeleteLoading } = useQuizDelete(
     quiz.id
   );
@@ -65,8 +68,6 @@ export const QuizCard = ({
     openDeleteConfirmModal();
   };
 
-  const modals = useModals();
-
   // TODO: add explanation messages when quiz cant be deleted - when its already used in an event - onError handler
   // TODO: prettify modal, add loaders, add notification
   const openDeleteConfirmModal = () =>
@@ -76,6 +77,12 @@ export const QuizCard = ({
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       onConfirm: () => deleteQuiz(),
     });
+
+  const onClickHandler = (e: SyntheticEvent) => {
+    if (!isEditMode) {
+      router.push(`/quiz/${quiz.id}`);
+    }
+  };
 
   return (
     // TODO: myb remove link from the component itself to be able to reuse the card in event creation
@@ -97,7 +104,7 @@ export const QuizCard = ({
         <Skeleton visible={loading} radius={0} height="100%">
           {!loading && (
             <Image
-              onClick={onClickToEdit}
+              onClick={onClickHandler}
               src={quiz.thumbnail}
               withPlaceholder
               // TODO: image into custom component
