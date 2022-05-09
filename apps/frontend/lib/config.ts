@@ -30,7 +30,6 @@ const config = {
   aws: {
     bucketUrl: process.env.NEXT_PUBLIC_AWS_BUCKET_URL,
     rootUrl: process.env.AWS_IMG_ROOT,
-    region: process.env.AWS_SES_REGION,
   },
   smtp: {
     user: process.env.SMTP_USER,
