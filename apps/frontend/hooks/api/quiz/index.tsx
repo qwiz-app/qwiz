@@ -61,9 +61,6 @@ export const useQuizUpdate = (quizId: string) => {
         // Return a context object with the snapshotted value
         return { previousQuizzes };
       },
-      onError: (err, newData, context) => {
-        queryClient.setQueryData('quizzes', context.previousQuizzes);
-      },
       onSettled: (newQuiz) => {
         // queryClient.invalidateQueries('quizzes', newQuiz.id);
         queryClient.invalidateQueries('quizzes');
