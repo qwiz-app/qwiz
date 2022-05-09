@@ -32,9 +32,9 @@ export default NextAuth({
   secret: config.secret,
   pages: {
     signIn: '/signin',
-    // TODO: isnt doing anything
     signOut: '/signin?signOut=true',
     error: '/signin',
+    verifyRequest: '/verify-request',
   },
   callbacks: {
     async session({ session, user }) {
