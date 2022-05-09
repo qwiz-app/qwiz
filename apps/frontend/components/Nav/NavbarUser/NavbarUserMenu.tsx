@@ -30,7 +30,7 @@ const Account = () => {
       </Menu.Item>
       <Menu.Item icon={<Gear weight="bold" />}>Settings</Menu.Item>
       <Divider />
-      <Menu.Label>Caution</Menu.Label>
+      <Menu.Label>Danger zone</Menu.Label>
       <Menu.Item
         color="red"
         icon={<SignOut weight="bold" />}

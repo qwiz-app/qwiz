@@ -2,23 +2,27 @@ import {
   ActionIcon,
   Avatar,
   Box,
-  Card, createStyles,
+  Card,
+  createStyles,
   FloatingTooltip,
   Group,
-  Image, Skeleton,
-  Text, ThemeIcon
+  Image,
+  Menu,
+  Skeleton,
+  Text,
+  ThemeIcon
 } from '@mantine/core';
 import { useQuizNameEdit } from 'hooks/api/quiz/use-quiz-name-edit';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { relativeTimeTo } from 'lib/utils';
 import {
-  Bookmark,
-  DotsThree,
+  DotsThreeVertical,
   Globe,
-  Heart,
   ImageSquare,
+  LinkSimple,
   Lock,
-  Share
+  PencilSimpleLine,
+  TrashSimple
 } from 'phosphor-react';
 import React, { SyntheticEvent } from 'react';
 import { QuizWithOrganization } from 'types/organization';
@@ -96,97 +100,95 @@ export const QuizCard = ({
           )}
         </ThemeIcon>
       </Card.Section>
+
       <Card.Section py={12} px={18}>
-        <Skeleton visible={loading} sx={() => ({ overflow: 'visible' })}>
-          <Group position="apart" spacing="sm" sx={() => ({ height: 30 })}>
-            {!loading && !isEditMode ? (
-              <FloatingTooltip label="Click to edit">
-                <Text
-                  weight={500}
-                  sx={() => ({ flex: 1 })}
-                  className={classes.title}
-                  onClick={onClickToEdit}
+        <Group spacing={0} position="apart" align="center">
+          <Box>
+            <Skeleton visible={loading} sx={() => ({ overflow: 'visible' })}>
+              <Group position="apart" spacing="sm" sx={() => ({ height: 30 })}>
+                {!loading && !isEditMode ? (
+                  <FloatingTooltip label="Click to edit">
+                    <Text
+                      id="quiz-card-name"
+                      weight={500}
+                      sx={() => ({ flex: 1 })}
+                      className={classes.title}
+                      onClick={onClickToEdit}
+                    >
+                      {quiz.name}
+                    </Text>
+                  </FloatingTooltip>
+                ) : (
+                  <QuizNameEditInput
+                    ref={nameRef}
+                    isLoading={isLoading}
+                    editedName={editedName}
+                    onKeyUp={onKeyUp}
+                    onBlurHandler={onBlurHandler}
+                    setEditedName={setEditedName}
+                  />
+                )}
+              </Group>
+            </Skeleton>
+            <Group position="apart" spacing="xs" mt={8}>
+              <Group noWrap spacing="xs">
+                <Skeleton
+                  visible={loading}
+                  circle
+                  height={20}
+                  sx={() => ({ flexShrink: 0 })}
                 >
-                  {quiz.name}
-                </Text>
-              </FloatingTooltip>
-            ) : (
-              <QuizNameEditInput
-                ref={nameRef}
-                isLoading={isLoading}
-                editedName={editedName}
-                onKeyUp={onKeyUp}
-                onBlurHandler={onBlurHandler}
-                setEditedName={setEditedName}
-              />
-            )}
-            <ActionIcon variant="hover">
-              <DotsThree size={16} weight="duotone" />
-            </ActionIcon>
-          </Group>
-        </Skeleton>
+                  {!loading && (
+                    <Avatar
+                      src={owner.user.image}
+                      size={20}
+                      radius="xl"
+                      mr="xs"
+                    />
+                  )}
+                </Skeleton>
 
-        <Group position="apart" spacing="xs" mt={6}>
-          <Group noWrap spacing="xs">
-            <Skeleton
-              visible={loading}
-              circle
-              height={20}
-              sx={() => ({ flexShrink: 0 })}
-            >
-              {!loading && (
-                <Avatar src={owner.user.image} size={20} radius="xl" mr="xs" />
-              )}
-            </Skeleton>
+                {/* TODO: divider not working */}
+                <Box
+                  sx={(t) => ({
+                    width: '2px',
+                    height: '18px',
+                    background: isDark ? t.colors.dark[5] : t.colors.gray[4],
+                  })}
+                />
 
-            {/* TODO: divider not working */}
-            <Box
-              sx={(t) => ({
-                width: '2px',
-                height: '18px',
-                background: isDark ? t.colors.dark[5] : t.colors.gray[4],
-              })}
-            />
-
-            <Skeleton
-              visible={loading}
-              sx={() => ({ overflow: loading ? 'hidden' : 'visible' })}
+                <Skeleton
+                  visible={loading}
+                  sx={() => ({ overflow: loading ? 'hidden' : 'visible' })}
+                >
+                  <Text inline size="xs" color="dimmed" sx={() => ({})}>
+                    Updated {relativeTimeTo(quiz.updatedAt)}
+                  </Text>
+                </Skeleton>
+              </Group>
+            </Group>
+          </Box>
+          <Menu
+            closeOnItemClick
+            trigger="click"
+            position="top"
+            control={
+              <ActionIcon variant="hover">
+                <DotsThreeVertical size={24} weight="bold" />
+              </ActionIcon>
+            }
+          >
+            <Menu.Item
+              icon={<PencilSimpleLine weight="bold" />}
+              onClick={onClickToEdit}
             >
-              <Text inline size="xs" color="dimmed" sx={() => ({})}>
-                Updated {relativeTimeTo(quiz.updatedAt)}
-              </Text>
-            </Skeleton>
-          </Group>
-
-          <Group spacing={8} mr={0}>
-            <ActionIcon
-              className={classes.icon1}
-              variant="hover"
-              onClick={(e: SyntheticEvent) => {
-                e.preventDefault();
-              }}
-            >
-              <Heart size={16} weight="duotone" />
-            </ActionIcon>
-            <ActionIcon
-              className={classes.icon2}
-              variant="hover"
-              onClick={(e: SyntheticEvent) => {
-                e.preventDefault();
-              }}
-            >
-              <Bookmark size={16} weight="duotone" />
-            </ActionIcon>
-            <ActionIcon
-              className={classes.icon3}
-              variant="hover"
-              onClick={(e: SyntheticEvent) => {
-                e.preventDefault();
-              }}
-            >
-              <Share size={16} weight="duotone" />
-            </ActionIcon>
-          </Group>
+              Rename
+            </Menu.Item>
+            <Menu.Item icon={<LinkSimple weight="bold" />}>Copy Link</Menu.Item>
+            <Menu.Item color="red" icon={<TrashSimple weight="bold" />}>
+              Delete
+            </Menu.Item>
+          </Menu>
         </Group>
       </Card.Section>
     </Card>

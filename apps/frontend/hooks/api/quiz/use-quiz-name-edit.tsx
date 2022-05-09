@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, SyntheticEvent } from 'react';
+import { SyntheticEvent, useRef, useState } from 'react';
 import { QuizWithOrganization } from 'types/organization';
 import { useQuizUpdate } from '.';
 
@@ -8,15 +8,9 @@ export const useQuizNameEdit = (quiz: QuizWithOrganization) => {
 
   const [isEditMode, setIsEditMode] = useState(false);
   const [editedName, setEditedName] = useState(quiz.name);
+  const [clickedFromMenu, setClickedFromMenu] = useState(false);
 
   const { mutate, isLoading } = useQuizUpdate(quiz.id);
-
-  useEffect(() => {
-    // reset quiz name when exited the mode
-    if (!isEditMode) {
-      setEditedName(quiz.name);
-    }
-  }, [isEditMode]);
 
   const peformNameUpdate = () => {
     if (editedName.trim() === quiz.name) {
@@ -41,14 +35,17 @@ export const useQuizNameEdit = (quiz: QuizWithOrganization) => {
     e.stopPropagation();
     setEditedName(quiz.name);
     setIsEditMode(true);
-    setTimeout(() => {
-      nameRef.current?.focus();
-      nameRef.current?.select();
-    }, 0);
+
+    if (e.currentTarget?.id === 'quiz-card-name') {
+      setClickedFromMenu(false);
+    } else {
+      setClickedFromMenu(true);
+    }
+
+    setTimeout(() => nameRef.current?.select(), 0);
   };
 
-  // TODO: typescript events ugh
-  const onKeyUp = (e: any) => {
+  const onKeyUp = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       peformNameUpdate();
     } else if (e.key === 'Escape') {
@@ -58,9 +55,15 @@ export const useQuizNameEdit = (quiz: QuizWithOrganization) => {
   };
 
   const onBlurHandler = (e: SyntheticEvent) => {
-    setTimeout(() => {
-      peformNameUpdate();
-    }, 0);
+    // workaround to get blur working when clicking from menu
+    if (clickedFromMenu) {
+      nameRef.current?.select();
+    } else {
+      setTimeout(() => {
+        peformNameUpdate();
+      }, 0);
+    }
+    setClickedFromMenu(false);
   };
 
   return {
@@ -75,3 +78,21 @@ export const useQuizNameEdit = (quiz: QuizWithOrganization) => {
     nameRef,
   };
 };
+
+interface KeyboardEvent<T = Element> extends SyntheticEvent<T> {
+  altKey: boolean;
+  /** @deprecated */
+  charCode: number;
+  ctrlKey: boolean;
+  getModifierState(key: string): boolean;
+  key: string;
+  /** @deprecated */
+  keyCode: number;
+  locale: string;
+  location: number;
+  metaKey: boolean;
+  repeat: boolean;
+  shiftKey: boolean;
+  /** @deprecated */
+  which: number;
+}

@@ -17,10 +17,10 @@ type Props = UnstyledButtonProps<any>;
 // eslint-disable-next-line react/display-name
 const NavbarUserButton = forwardRef<HTMLButtonElement, Props>(
   (props: Props, ref) => {
-    const { data: user, isLoading } = useCurrentUserInfo();
+    const { data: user, isLoading, isError } = useCurrentUserInfo();
     const { isDark } = useAppColorscheme();
 
-    if (isLoading) {
+    if (isLoading || isError) {
       return (
         <Group position="apart" sx={() => ({ height: 56 })}>
           <Group sx={() => ({ flex: '1' })}>

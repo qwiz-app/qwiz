@@ -1,5 +1,4 @@
-import { Loader, TextInput } from '@mantine/core';
-import { Code } from 'phosphor-react';
+import { Code, Loader, TextInput } from '@mantine/core';
 import { forwardRef, SyntheticEvent } from 'react';
 
 interface Props {
