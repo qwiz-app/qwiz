@@ -6,6 +6,8 @@ import 'windi.css';
 
 import { Container, ScrollArea } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
+import { RoleGuard } from 'components/Guard/RoleGuard';
+import { UserRoleModal } from 'components/Modals/UserRoleModal/UserRoleModal';
 import { CustomMantineProvider } from 'context/mantine';
 import Inspect from 'inspx';
 import config from 'lib/config';
@@ -13,7 +15,6 @@ import { SessionProvider } from 'next-auth/react';
 import Script from 'next/script';
 import { QueryCache, QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { RoleGuard } from 'components/Guard/RoleGuard';
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
