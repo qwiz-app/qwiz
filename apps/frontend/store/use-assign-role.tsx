@@ -2,7 +2,7 @@ import { Role } from '@prisma/client';
 import { useCallback, useEffect } from 'react';
 import create from 'zustand';
 
-export type UserRoleStore = {
+type UserRoleStore = {
   selectedRole: Role | null;
   orgName: string;
   setOrgName: (role: string) => void;

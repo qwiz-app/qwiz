@@ -112,8 +112,8 @@ export const QuizCard = ({
               </FloatingTooltip>
             ) : (
               <QuizNameEditInput
-                isLoading={isLoading}
                 ref={nameRef}
+                isLoading={isLoading}
                 editedName={editedName}
                 onKeyUp={onKeyUp}
                 onBlurHandler={onBlurHandler}

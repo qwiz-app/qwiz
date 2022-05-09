@@ -1,6 +1,6 @@
-import { TextInput, Loader } from '@mantine/core';
+import { Loader, TextInput } from '@mantine/core';
 import { Code } from 'phosphor-react';
-import React, { forwardRef, SyntheticEvent } from 'react';
+import { forwardRef, SyntheticEvent } from 'react';
 
 interface Props {
   editedName: string;
@@ -10,7 +10,6 @@ interface Props {
   setEditedName: (name: string) => void;
 }
 
-// TODO: move to zustand?
 const QuizNameEditInput = forwardRef<HTMLInputElement, Props>(
   function QuizNameEditInput(
     { editedName, isLoading, onKeyUp, onBlurHandler, setEditedName }: Props,
