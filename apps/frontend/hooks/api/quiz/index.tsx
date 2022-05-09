@@ -4,6 +4,7 @@ import { generateArrayForRange } from 'lib/utils';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import {
   createQuiz,
+  deleteQuiz,
   fetchQuiz,
   fetchQuizzes,
   updateQuiz,
@@ -70,6 +71,17 @@ export const useQuizUpdate = (quizId: string) => {
       },
     }
   );
+};
+
+export const useQuizDelete = (id: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation(() => deleteQuiz(id), {
+    onSuccess: () => {
+      // TODO: add optimistic update
+      queryClient.invalidateQueries('quizzes');
+    },
+  });
 };
 
 // TODO: do we need a placholder when we are just showing skeletons?

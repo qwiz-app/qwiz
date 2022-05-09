@@ -7,11 +7,14 @@ import {
   FloatingTooltip,
   Group,
   Image,
+  LoadingOverlay,
   Menu,
   Skeleton,
   Text,
   ThemeIcon
 } from '@mantine/core';
+import { useModals } from '@mantine/modals';
+import { useQuizDelete } from 'hooks/api/quiz';
 import { useQuizNameEdit } from 'hooks/api/quiz/use-quiz-name-edit';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { relativeTimeTo } from 'lib/utils';
@@ -44,16 +47,35 @@ export const QuizCard = ({
   const { isDark } = useAppColorscheme();
 
   const { owner } = quiz;
+  const { mutate: deleteQuiz, isLoading: isDeleteLoading } = useQuizDelete(
+    quiz.id
+  );
   const {
     editedName,
     setEditedName,
     isEditMode,
-    isLoading,
+    isLoading: isEditLoading,
     onClickToEdit,
     onKeyUp,
     onBlurHandler,
     nameRef,
   } = useQuizNameEdit(quiz);
+
+  const quizDeleteHandler = () => {
+    openDeleteConfirmModal();
+  };
+
+  const modals = useModals();
+
+  // TODO: add explanation messages when quiz cant be deleted - when its already used in an event - onError handler
+  // TODO: prettify modal, add loaders, add notification
+  const openDeleteConfirmModal = () =>
+    modals.openConfirmModal({
+      title: 'Please confirm your action',
+      children: <Text size="sm">Do you really want to delete this quiz?</Text>,
+      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      onConfirm: () => deleteQuiz(),
+    });
 
   return (
     // TODO: myb remove link from the component itself to be able to reuse the card in event creation
@@ -70,6 +92,7 @@ export const QuizCard = ({
         }
       }}
     >
+      <LoadingOverlay visible={isDeleteLoading} />
       <Card.Section className={classes.imageSection}>
         <Skeleton visible={loading} radius={0} height="100%">
           {!loading && (
@@ -121,7 +144,7 @@ export const QuizCard = ({
                 ) : (
                   <QuizNameEditInput
                     ref={nameRef}
-                    isLoading={isLoading}
+                    isLoading={isEditLoading}
                     editedName={editedName}
                     onKeyUp={onKeyUp}
                     onBlurHandler={onBlurHandler}
@@ -185,7 +208,11 @@ export const QuizCard = ({
               Rename
             </Menu.Item>
             <Menu.Item icon={<LinkSimple weight="bold" />}>Copy Link</Menu.Item>
-            <Menu.Item color="red" icon={<TrashSimple weight="bold" />}>
+            <Menu.Item
+              color="red"
+              icon={<TrashSimple weight="bold" />}
+              onClick={quizDeleteHandler}
+            >
               Delete
             </Menu.Item>
           </Menu>

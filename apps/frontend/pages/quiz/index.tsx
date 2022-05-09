@@ -1,4 +1,4 @@
-import { Alert, Button,  Group, Stack } from '@mantine/core';
+import { Alert, Button, Group, Stack } from '@mantine/core';
 import { QuizCard } from 'components/Cards/quiz/QuizCard';
 import { QuizCardSmall } from 'components/Cards/quiz/QuizCardSmall';
 import PageGrid from 'components/Grids/PageGrid';
