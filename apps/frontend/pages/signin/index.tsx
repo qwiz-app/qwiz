@@ -13,6 +13,7 @@ import { GetServerSideProps } from 'next';
 import { BuiltInProviderType } from 'next-auth/providers';
 import {
   ClientSafeProvider,
+  getCsrfToken,
   getProviders,
   LiteralUnion,
 } from 'next-auth/react';
@@ -20,11 +21,12 @@ import { useRouter } from 'next/router';
 import { paths } from 'paths';
 import { useEffect } from 'react';
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const csrfToken = await getCsrfToken(context);
   const providers = await getProviders();
   const redirectUrl = config.nextAuth.url;
   return {
-    props: { providers, redirectUrl },
+    props: { providers, redirectUrl, csrfToken },
   };
 };
 
@@ -34,6 +36,7 @@ export interface SignInProps {
     ClientSafeProvider
   > | null;
   redirectUrl: string;
+  csrfToken: string;
 }
 
 const SignInPage = (props: SignInProps) => {

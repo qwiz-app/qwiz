@@ -2,6 +2,7 @@ import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import GitHubProvider from 'next-auth/providers/github';
 import DiscordProvider from 'next-auth/providers/discord';
+import EmailProvider from 'next-auth/providers/email';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { PrismaClient } from '@prisma/client';
 import config from 'lib/config';
@@ -22,6 +23,10 @@ export default NextAuth({
     DiscordProvider({
       clientId: config.discord.clientId,
       clientSecret: config.discord.clientId,
+    }),
+    EmailProvider({
+      server: config.smtp.server,
+      from: config.smtp.from,
     }),
   ],
   secret: config.secret,
