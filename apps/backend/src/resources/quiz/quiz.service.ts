@@ -11,7 +11,13 @@ export class QuizService {
   }
 
   findAll(where: Prisma.QuizWhereInput, include: Prisma.QuizInclude) {
-    return this.prisma.quiz.findMany({ where, include });
+    return this.prisma.quiz.findMany({
+      where,
+      include,
+      orderBy: {
+        updatedAt: 'desc',
+      },
+    });
   }
 
   findOne(where: Prisma.QuizWhereUniqueInput, include: Prisma.QuizInclude) {

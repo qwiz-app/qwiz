@@ -6,6 +6,7 @@ import DashboardLayout from 'components/Layouts/DashboardLayout';
 import { CreateQuizModal } from 'components/Modals/Quiz/CreateQuizModal';
 import { HomepageLayout } from 'components/PageLayouts/HomepageLayout';
 import { PageSection } from 'components/PageLayouts/PageSection';
+import { motion } from 'framer-motion';
 import { useQuizzes } from 'hooks/api/quiz';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useState } from 'react';
@@ -35,11 +36,9 @@ const QuizPage = () => {
       <PageSection title="Recently edited">
         <PageGrid type="tiny">
           {quizzes?.map((quiz) => (
-            <QuizCard
-              key={quiz.id}
-              quiz={quiz}
-              loading={isLoading || isPlaceholderData}
-            />
+            <motion.div key={quiz.id} layoutId={quiz.id}>
+              <QuizCard quiz={quiz} loading={isLoading || isPlaceholderData} />
+            </motion.div>
           ))}
         </PageGrid>
         {!hasQuizzes && (
