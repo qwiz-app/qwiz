@@ -248,12 +248,57 @@ model QuizQuestion {
   quiz        Quiz                 @relation(fields: [quizId], references: [id], onUpdate: NoAction, onDelete: Restrict)
   question    Question             @relation(fields: [questionId], references: [id], onUpdate: NoAction, onDelete: Restrict)
   scoringMode QuestionScoringMode? @relation(fields: [scoringModeId], references: [id], onDelete: Restrict)
+  QuizSlide   QuizSlide?           @relation(fields: [quizSlideId], references: [id])
 
   // opposite relations
   eventAnswers EventTeamAnswer[]
+  quizSlideId  String?
 
   @@unique([quizId, questionId])
   @@unique([quizId, ordinal])
+}
+
+model QuizSlide {
+  id String @id @default(cuid())
+
+  quizQuestionId String
+
+  elements QuizSlideElement[]
+
+  quizQuestion QuizQuestion[]
+}
+
+model QuizSlideElement {
+  id String @id @default(cuid())
+
+  content String
+
+  type ElementType
+
+  pointId String
+
+  point     Point      @relation(fields: [pointId], references: [id])
+  QuizSlide QuizSlide? @relation(fields: [quizSlideId], references: [id])
+
+  quizSlideId String?
+}
+
+enum ElementType {
+  TEXT
+  IMAGE
+  AUDIO
+}
+
+model Point {
+  id String @id @default(cuid())
+
+  width  Decimal?
+  height Decimal?
+  x      Decimal?
+  y      Decimal?
+  z      Int?
+
+  QuizSlideElement QuizSlideElement[]
 }
 
 model EventTeamAnswer {

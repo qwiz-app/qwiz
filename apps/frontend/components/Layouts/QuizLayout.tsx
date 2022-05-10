@@ -49,7 +49,7 @@ const QuizLayout = ({ children }: Props) => {
                 justifyContent: 'center',
               }}
             >
-              <h1>{quiz.name}</h1>
+              <h1>{quiz?.name}</h1>
             </Grid.Col>
             <Grid.Col
               span={3}
@@ -65,7 +65,7 @@ const QuizLayout = ({ children }: Props) => {
                 sx={() => ({ flexShrink: 0 })}
               >
                 {!isLoading && (
-                  <Avatar src={user.image} size={24} radius="xl" mr="xs" />
+                  <Avatar src={user?.image} size={24} radius="xl" mr="xs" />
                 )}
               </Skeleton>
             </Grid.Col>
