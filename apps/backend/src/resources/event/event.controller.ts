@@ -10,8 +10,10 @@ import {
   Patch,
   Post,
   Query,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { Organization, Prisma } from '@prisma/client';
+import { IsAdmin } from 'common/decorators/admin.decorator';
 import { OrganizationEntity } from 'common/decorators/organization.decorator';
 import { EventService } from './event.service';
 
@@ -19,13 +21,20 @@ import { EventService } from './event.service';
 export class EventController {
   constructor(private readonly eventService: EventService) {}
 
+  private includeWithUserAndCount: Prisma.EventInclude = {
+    owner: {
+      include: {
+        user: true,
+      },
+    },
+    _count: true,
+  };
+
   @Post()
   create(
     @Body() createEventDto: Prisma.EventUncheckedCreateWithoutOwnerInput,
     @OrganizationEntity() organization: Organization
   ) {
-    // TODO: i broke it, doesnt work anymore
-    console.log('organization :>> ', organization);
     return this.eventService.create({
       ...createEventDto,
       ownerId: organization.id,
@@ -34,21 +43,28 @@ export class EventController {
 
   @Get()
   findAll(
-    @Query('owner', new DefaultValuePipe(false), ParseBoolPipe) owner: boolean,
     @Query('quiz', new DefaultValuePipe(false), ParseBoolPipe) quiz: boolean
   ) {
-    const include = { owner, quiz };
-    return this.eventService.findAll(include);
+    const include = { ...this.includeWithUserAndCount, quiz };
+
+    return this.eventService.findAll({}, include);
+  }
+
+  @Get('/owner/me')
+  findAllByCurrentOwner(
+    @OrganizationEntity() organization: Organization,
+    @Query('quiz', new DefaultValuePipe(false), ParseBoolPipe) quiz: boolean
+  ) {
+    const include = { ...this.includeWithUserAndCount, quiz };
+    return this.eventService.findAll({ ownerId: organization.id }, include);
   }
 
   @Get(':id')
   async findOne(
     @Param('id') id: string,
-    @Query('owner', new DefaultValuePipe(true), ParseBoolPipe) owner: boolean,
-    @Query('quiz', new DefaultValuePipe(false), ParseBoolPipe) quiz: boolean,
-    @Query('count', new DefaultValuePipe(true), ParseBoolPipe) _count: boolean
+    @Query('quiz', new DefaultValuePipe(false), ParseBoolPipe) quiz: boolean
   ) {
-    const include = { owner, quiz, _count };
+    const include = { ...this.includeWithUserAndCount, quiz };
     const event = await this.eventService.findOne({ id }, include);
     if (!event) {
       throw new NotFoundException('Event not found.');
@@ -68,9 +84,20 @@ export class EventController {
     );
   }
 
-  // TODO: only allow delete if ours
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(
+    @Param('id') id: string,
+    @OrganizationEntity() organization: Organization
+  ) {
+    return this.eventService.remove({ id, ownerId: organization.id });
+  }
+
+  //* ADMIN-ONLY
+  @Delete(':id/any')
+  removeAny(@Param('id') id: string, @IsAdmin() isAdmin: boolean) {
+    if (!isAdmin) {
+      throw new UnauthorizedException('Only admin can access this route.');
+    }
     return this.eventService.remove({ id });
   }
 }

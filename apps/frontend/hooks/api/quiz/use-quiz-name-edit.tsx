@@ -1,5 +1,5 @@
 import { SyntheticEvent, useRef, useState } from 'react';
-import { QuizWithOrganization } from 'types/organization';
+import { QuizWithOrganization } from 'types/quiz';
 import { useQuizUpdate } from './use-quiz-update';
 
 export const useQuizNameEdit = (quiz: QuizWithOrganization) => {

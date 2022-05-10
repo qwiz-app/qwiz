@@ -28,7 +28,7 @@ import {
   TrashSimple,
 } from 'phosphor-react';
 import React, { SyntheticEvent } from 'react';
-import { QuizWithOrganization } from 'types/organization';
+import { QuizWithOrganization } from 'types/quiz';
 import QuizNameEditInput from './QuizNameEditInput';
 
 interface QuizCardProps {

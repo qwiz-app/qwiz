@@ -10,8 +10,8 @@ export class EventService {
     return this.prisma.event.create({ data });
   }
 
-  findAll(include: Prisma.EventInclude) {
-    return this.prisma.event.findMany({ include });
+  findAll(where: Prisma.EventWhereInput, include: Prisma.EventInclude) {
+    return this.prisma.event.findMany({ where, include });
   }
 
   findOne(where: Prisma.EventWhereUniqueInput, include: Prisma.EventInclude) {
@@ -25,9 +25,9 @@ export class EventService {
     return this.prisma.event.update({ where, data });
   }
 
-  async remove(where: Prisma.EventWhereUniqueInput) {
+  async remove(where: Prisma.EventWhereInput) {
     try {
-      return await this.prisma.event.delete({ where });
+      return await this.prisma.event.deleteMany({ where });
     } catch (err) {
       throw new NotFoundException(err?.meta?.cause || 'Something went wrong.');
     }

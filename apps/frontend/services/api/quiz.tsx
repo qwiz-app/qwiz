@@ -1,7 +1,7 @@
 import { Prisma, Quiz } from '@prisma/client';
 import { parseData } from 'lib/axios';
 import http from 'services/http';
-import { QuizWithOrganization } from 'types/organization';
+import { QuizWithOrganization } from 'types/quiz';
 
 export const fetchQuizzes = () =>
   http.get<QuizWithOrganization[]>('/api/quiz/owner/me').then(parseData);
