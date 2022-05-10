@@ -10,10 +10,10 @@ export const useQuizzes = () =>
   });
 
 // TODO: do we need a placholder when we are just showing skeletons?
-export const placholderQuizzes = generateArrayForRange(4).map((_, idx) => ({
+const placholderQuizzes = generateArrayForRange(4).map((_, idx) => ({
   id: `${idx}`,
-  name: 'Vue Quiz 1.0?',
-  description: 'Show off your vue knowledge',
+  name: '',
+  description: '',
   thumbnail: null,
   published: false,
   ownerId: '',
@@ -21,16 +21,15 @@ export const placholderQuizzes = generateArrayForRange(4).map((_, idx) => ({
   updatedAt: new Date(),
   owner: {
     id: '',
-    name: 'Undefined Pub',
+    name: '',
     userId: '',
     user: {
       id: '',
-      name: 'Undefined Mc2',
-      email: 'undefined.mc2@gmail.com',
+      name: '',
+      email: '',
       emailVerified: null,
-      image:
-        'https://source.boringavatars.com/marble/120/2cce6d6c5d9614ac294d03a0cd030815e794750d?square',
-      role: 'ORGANIZATION',
+      image: '',
+      role: '',
     },
   },
 }));

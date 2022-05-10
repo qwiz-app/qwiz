@@ -17,75 +17,75 @@ import { useCardStyles } from '../use-card-styles';
 
 interface Props {
   event: EventWithOrganization;
-  loading?: boolean;
+  loading: boolean;
 }
 
 export const ImageCard = ({ event, loading }: Props) => {
   const { classes, theme } = useStyles();
   const { classes: classesCard } = useCardStyles();
 
-  return loading ? (
-    <Skeleton className={classes.base} radius="md" />
-  ) : (
-    <Link href={`/events/${event.id}`} passHref>
-      <Card
-        p="lg"
-        shadow="md"
-        className={cn(classes.base, classes.card, classesCard.card)}
-      >
-        <div
-          // TODO: placeholder gradient or something
-          className={classes.image}
-          style={{ backgroundImage: `url(${event.banner})` }}
-        />
-        <div className={classes.overlay} />
+  return (
+    <Skeleton className={classes.base} radius="md" visible={loading}>
+      <Link href={`/events/${event.id}`} passHref>
+        <Card
+          p="lg"
+          shadow="md"
+          className={cn(classes.base, classes.card, classesCard.card)}
+        >
+          <div
+            // TODO: placeholder gradient or something
+            className={classes.image}
+            style={{ backgroundImage: `url(${event.banner})` }}
+          />
+          <div className={classes.overlay} />
 
-        <div className={classes.content}>
-          <Text size="lg" className={classes.title} weight={500}>
-            {event.name}
-          </Text>
+          <div className={classes.content}>
+            <Text size="lg" className={classes.title} weight={500}>
+              {event.name}
+            </Text>
 
-          <Group position="apart" spacing="xs">
-            <Group spacing={0}>
-              <Avatar
-                // TODO: placeholder
-                src={event.owner.user.image}
-                size={20}
-                radius="xl"
-                mr="xs"
-              />
-              <Text size="sm" className={classes.owner}>
-                {event.owner.name}
-              </Text>
+            <Group position="apart" spacing="xs">
+              <Group spacing={0}>
+                <Avatar
+                  // TODO: placeholder
+                  src={event.owner.user.image}
+                  size={20}
+                  radius="xl"
+                  mr="xs"
+                />
+                <Text size="sm" className={classes.owner}>
+                  {event.owner.name}
+                </Text>
+              </Group>
+
+              <Group spacing="lg">
+                <Tooltip label="Price per team">
+                  <Center>
+                    <Tag size={16} weight="bold" color={theme.colors.dark[2]} />
+                    <Text size="sm" className={classes.bodyText}>
+                      {/* TODO: currencz */}
+                      {/* {event.currency} */} ${event.price}
+                    </Text>
+                  </Center>
+                </Tooltip>
+                <Tooltip label="Teams">
+                  <Center>
+                    <UsersThree
+                      size={16}
+                      weight="bold"
+                      color={theme.colors.dark[2]}
+                    />
+                    <Text size="sm" className={classes.bodyText}>
+                      {event.teamCountLimit}
+                    </Text>
+                  </Center>
+                </Tooltip>
+              </Group>
             </Group>
-
-            <Group spacing="lg">
-              <Tooltip label="Price per team">
-                <Center>
-                  <Tag size={16} weight="bold" color={theme.colors.dark[2]} />
-                  <Text size="sm" className={classes.bodyText}>
-                    {/* TODO: currencz */}
-                    {/* {event.currency} */} ${event.price}
-                  </Text>
-                </Center>
-              </Tooltip>
-              <Tooltip label="Teams">
-                <Center>
-                  <UsersThree
-                    size={16}
-                    weight="bold"
-                    color={theme.colors.dark[2]}
-                  />
-                  <Text size="sm" className={classes.bodyText}>
-                    {event.teamCountLimit}
-                  </Text>
-                </Center>
-              </Tooltip>
-            </Group>
-          </Group>
-        </div>
-      </Card>
-    </Link>
+          </div>
+        </Card>
+      </Link>
+    </Skeleton>
   );
 };
 

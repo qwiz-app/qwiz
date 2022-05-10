@@ -9,7 +9,7 @@ import { PageSection } from 'components/PageLayouts/PageSection';
 import { useEvents } from 'hooks/api/events';
 
 const EventsPage = () => {
-  const { data: events, isLoading } = useEvents();
+  const { data: events, isLoading, isPlaceholderData } = useEvents();
 
   // const hasEvents = events?.length > 0;
 
@@ -21,7 +21,7 @@ const EventsPage = () => {
             <HighlightedEventCard
               key={event.id}
               event={event}
-              loading={isLoading}
+              loading={isLoading || isPlaceholderData}
             />
           ))}
         </PageGrid>
@@ -34,7 +34,10 @@ const EventsPage = () => {
           {events?.map((event) => (
             // TODO: formik not working
             <FormikAnimatedListItem id={event.id} key={event.id}>
-              <ImageCard event={event} loading={isLoading} />
+              <ImageCard
+                event={event}
+                loading={isLoading || isPlaceholderData}
+              />
             </FormikAnimatedListItem>
           ))}
         </PageGrid>

@@ -135,7 +135,7 @@ export const QuizCard = ({
       <Card.Section py={12} px={18}>
         <Group spacing={0} position="apart" align="center">
           <Box>
-            <Skeleton visible={loading} sx={() => ({ overflow: 'visible' })}>
+            <Skeleton visible={loading}>
               <Group position="apart" spacing="sm" sx={() => ({ height: 30 })}>
                 {!loading && !isEditMode ? (
                   <FloatingTooltip label="Click to edit">
@@ -199,31 +199,35 @@ export const QuizCard = ({
               </Group>
             </Group>
           </Box>
-          <Menu
-            closeOnItemClick
-            trigger="click"
-            position="top"
-            control={
-              <ActionIcon variant="hover">
-                <DotsThreeVertical size={24} weight="bold" />
-              </ActionIcon>
-            }
-          >
-            <Menu.Item
-              icon={<PencilSimpleLine weight="bold" />}
-              onClick={onClickToEdit}
+          {!loading && (
+            <Menu
+              closeOnItemClick
+              trigger="click"
+              position="top"
+              control={
+                <ActionIcon variant="hover">
+                  <DotsThreeVertical size={24} weight="bold" />
+                </ActionIcon>
+              }
             >
-              Rename
-            </Menu.Item>
-            <Menu.Item icon={<LinkSimple weight="bold" />}>Copy Link</Menu.Item>
-            <Menu.Item
-              color="red"
-              icon={<TrashSimple weight="bold" />}
-              onClick={quizDeleteHandler}
-            >
-              Delete
-            </Menu.Item>
-          </Menu>
+              <Menu.Item
+                icon={<PencilSimpleLine weight="bold" />}
+                onClick={onClickToEdit}
+              >
+                Rename
+              </Menu.Item>
+              <Menu.Item icon={<LinkSimple weight="bold" />}>
+                Copy Link
+              </Menu.Item>
+              <Menu.Item
+                color="red"
+                icon={<TrashSimple weight="bold" />}
+                onClick={quizDeleteHandler}
+              >
+                Delete
+              </Menu.Item>
+            </Menu>
+          )}
         </Group>
       </Card.Section>
     </Card>

@@ -42,7 +42,7 @@ const SignInPage = (props: SignInProps) => {
 
   const { showNotification } = useNotifications();
   const { matches } = useBreakpoints();
-  const { classes } = useStyles();
+  const { classes } = useSignInStyles();
 
   const showErrorNotification = (err?: string) => {
     setTimeout(() => {
@@ -104,7 +104,7 @@ SignInPage.getLayout = function getLayout(page) {
   return <AuthLayout>{page}</AuthLayout>;
 };
 
-export const useStyles = createStyles((theme) => {
+const useSignInStyles = createStyles((theme) => {
   const { matches } = useBreakpoints();
 
   return {
