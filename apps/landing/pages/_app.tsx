@@ -9,7 +9,7 @@ const CustomApp = ({ Component, pageProps }: AppProps) => {
       <Script
         defer
         data-domain="qwiz.party"
-        src="https://stats.qwiz.party/js/plausible.js"
+        src="https://stats.qwiz.party/js/app.js"
         strategy="worker"
       />
       <NextSeo
