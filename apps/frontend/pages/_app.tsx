@@ -63,7 +63,7 @@ const App = ({ Component, pageProps: { session, ...pageProps } }) => {
       />
       <SessionProvider session={session}>
         <QueryClientProvider client={queryClient}>
-          <ReactQueryDevtools initialIsOpen={false} />
+          <ReactQueryDevtools initialIsOpen={false} position="top-right" />
           <CustomMantineProvider>
             <Inspect>
               <RoleGuard>
