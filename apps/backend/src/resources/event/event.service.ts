@@ -11,7 +11,13 @@ export class EventService {
   }
 
   findAll(where: Prisma.EventWhereInput, include: Prisma.EventInclude) {
-    return this.prisma.event.findMany({ where, include });
+    return this.prisma.event.findMany({
+      where,
+      include,
+      orderBy: {
+        startDate: 'asc',
+      },
+    });
   }
 
   findOne(where: Prisma.EventWhereUniqueInput, include: Prisma.EventInclude) {
@@ -19,10 +25,10 @@ export class EventService {
   }
 
   update(
-    where: Prisma.EventWhereUniqueInput,
+    where: Prisma.EventWhereInput,
     data: Prisma.EventUncheckedUpdateInput
   ) {
-    return this.prisma.event.update({ where, data });
+    return this.prisma.event.updateMany({ where, data });
   }
 
   async remove(where: Prisma.EventWhereInput) {

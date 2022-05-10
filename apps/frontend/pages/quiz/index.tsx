@@ -1,12 +1,12 @@
 import { Alert, Button, Group, Stack } from '@mantine/core';
 import { QuizCard } from 'components/Cards/quiz/QuizCard';
 import { QuizCardSmall } from 'components/Cards/quiz/QuizCardSmall';
+import { FormikAnimatedListItem } from 'components/Formik/FormikAnimatedListItem';
 import PageGrid from 'components/Grids/PageGrid';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
 import { CreateQuizModal } from 'components/Modals/Quiz/CreateQuizModal';
 import { HomepageLayout } from 'components/PageLayouts/HomepageLayout';
 import { PageSection } from 'components/PageLayouts/PageSection';
-import { motion } from 'framer-motion';
 import { useQuizzes } from 'hooks/api/quiz';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useState } from 'react';
@@ -14,10 +14,11 @@ import { useState } from 'react';
 const QuizPage = () => {
   // TODO: maybe use session info if we are certain we only load our own quizzes
   // const { data: author } = useCurrentUserInfo();
-  const { data: quizzes, isLoading, isPlaceholderData } = useQuizzes();
   const { isDark } = useAppColorscheme();
+
   const [showCreateQuizModal, setShowCreateQuizModal] = useState(false);
-  const hasQuizzes = quizzes && quizzes.length > 0;
+  const { data: quizzes, isLoading, isPlaceholderData } = useQuizzes();
+  const hasQuizzes = quizzes?.length > 0;
 
   return (
     <HomepageLayout>
@@ -36,9 +37,9 @@ const QuizPage = () => {
       <PageSection title="Recently edited">
         <PageGrid type="tiny">
           {quizzes?.map((quiz) => (
-            <motion.div key={quiz.id} layoutId={quiz.id}>
+            <FormikAnimatedListItem id={quiz.id} key={quiz.id}>
               <QuizCard quiz={quiz} loading={isLoading || isPlaceholderData} />
-            </motion.div>
+            </FormikAnimatedListItem>
           ))}
         </PageGrid>
         {!hasQuizzes && (

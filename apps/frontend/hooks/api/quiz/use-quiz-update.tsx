@@ -10,7 +10,7 @@ export const useQuizUpdate = (quizId: string) => {
     {
       // TODO: OPTIMISTIC UPDATE NAME - could be done better, by id?
       onMutate: async (newQuiz) => {
-        // await queryClient.cancelQueries(['quizzes', quizId]);
+        // await queryClient.cancelQueries(['quiz', quizId]);
         await queryClient.cancelQueries(['quizzes']);
 
         const previousQuizzes = queryClient.getQueryData('quizzes') as Quiz[];
