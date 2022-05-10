@@ -14,8 +14,7 @@ import {
   ThemeIcon,
 } from '@mantine/core';
 import { useModals } from '@mantine/modals';
-import { useQuizDelete } from 'hooks/api/quiz';
-import { useQuizNameEdit } from 'hooks/api/quiz/use-quiz-name-edit';
+import { useQuizDelete, useQuizNameEdit } from 'hooks/api/quiz';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { relativeTimeTo } from 'lib/utils';
 import { useRouter } from 'next/router';

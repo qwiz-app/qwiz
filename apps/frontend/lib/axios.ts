@@ -18,4 +18,4 @@ export const handleErrorResponse = (error: AxiosError) => {
   throw new Error(errorResponse);
 };
 
-export const queryOnError = (err: AxiosError) => err.response;
+export const onError = (err: AxiosError) => err.response;
