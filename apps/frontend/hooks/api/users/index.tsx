@@ -1,4 +1,4 @@
-import { queryOnError as onError } from 'lib/axios';
+import { onError } from 'lib/axios';
 import { useQuery } from 'react-query';
 import { fetchCurrentUser, fetchUser, fetchUsers } from 'services/api/users';
 
