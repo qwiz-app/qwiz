@@ -1,4 +1,5 @@
 import NextAuth from 'next-auth';
+import nodemailer from 'nodemailer'
 import GoogleProvider from 'next-auth/providers/google';
 import GitHubProvider from 'next-auth/providers/github';
 import DiscordProvider from 'next-auth/providers/discord';
@@ -6,6 +7,7 @@ import EmailProvider from 'next-auth/providers/email';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { PrismaClient } from '@prisma/client';
 import config from 'lib/config';
+import { html, text } from 'lib/email';
 
 const prisma = new PrismaClient();
 
@@ -27,6 +29,21 @@ export default NextAuth({
     EmailProvider({
       server: config.smtp.server,
       from: config.smtp.from,
+      async sendVerificationRequest({
+        identifier: email,
+        url,
+        provider: { server, from },
+      }) {
+        const { host } = new URL(url);
+        const transport = nodemailer.createTransport(server);
+        await transport.sendMail({
+          to: email,
+          from,
+          subject: `Sign in to ${host}`,
+          text: text({ url, host }),
+          html: html({ url, host, email }),
+        });
+      },
     }),
   ],
   secret: config.secret,
