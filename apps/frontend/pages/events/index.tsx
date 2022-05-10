@@ -1,7 +1,7 @@
 import { EventBanner } from 'components/Cards/event/EventBanner';
 import { ImageCard } from 'components/Cards/event/EventCard';
 import { HighlightedEventCard } from 'components/Cards/event/HighlightedEventCard';
-import { FormikAnimatedListItem } from 'components/Formik/FormikAnimatedListItem';
+import { FramerAnimatedListItem } from 'components/Framer/FramerAnimatedListItem';
 import PageGrid from 'components/Grids/PageGrid';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
 import { HomepageLayout } from 'components/PageLayouts/HomepageLayout';
@@ -33,12 +33,12 @@ const EventsPage = () => {
         <PageGrid type="small">
           {events?.map((event) => (
             // TODO: formik not working
-            <FormikAnimatedListItem id={event.id} key={event.id}>
+            <FramerAnimatedListItem id={event.id} key={event.id}>
               <ImageCard
                 event={event}
                 loading={isLoading || isPlaceholderData}
               />
-            </FormikAnimatedListItem>
+            </FramerAnimatedListItem>
           ))}
         </PageGrid>
       </PageSection>

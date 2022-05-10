@@ -1,7 +1,7 @@
 import { Alert, Button, Group, Stack } from '@mantine/core';
 import { QuizCard } from 'components/Cards/quiz/QuizCard';
 import { QuizCardSmall } from 'components/Cards/quiz/QuizCardSmall';
-import { FormikAnimatedListItem } from 'components/Formik/FormikAnimatedListItem';
+import { FramerAnimatedListItem } from 'components/Framer/FramerAnimatedListItem';
 import PageGrid from 'components/Grids/PageGrid';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
 import { CreateQuizModal } from 'components/Modals/Quiz/CreateQuizModal';
@@ -37,9 +37,9 @@ const QuizPage = () => {
       <PageSection title="Recently edited">
         <PageGrid type="tiny">
           {quizzes?.map((quiz) => (
-            <FormikAnimatedListItem id={quiz.id} key={quiz.id}>
+            <FramerAnimatedListItem id={quiz.id} key={quiz.id}>
               <QuizCard quiz={quiz} loading={isLoading || isPlaceholderData} />
-            </FormikAnimatedListItem>
+            </FramerAnimatedListItem>
           ))}
         </PageGrid>
         {!hasQuizzes && (
