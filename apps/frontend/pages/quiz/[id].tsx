@@ -1,5 +1,4 @@
-import DashboardLayout from 'components/Layouts/DashboardLayout';
-import { HomepageLayout } from 'components/PageLayouts/HomepageLayout';
+import QuizLayout from 'components/Layouts/QuizLayout';
 import { useQuiz } from 'hooks/api/quiz';
 import { useRouter } from 'next/router';
 
@@ -9,15 +8,15 @@ const QuizPage = () => {
   const { data: quiz } = useQuiz(router.query.id as string);
 
   return (
-    <HomepageLayout>
+    <div>
       <h1>{quiz?.name}</h1>
       <p>{quiz?.description}</p>
-    </HomepageLayout>
+    </div>
   );
 };
 
 export default QuizPage;
 
 QuizPage.getLayout = function getLayout(page) {
-  return <DashboardLayout>{page}</DashboardLayout>;
+  return <QuizLayout>{page}</QuizLayout>;
 };
