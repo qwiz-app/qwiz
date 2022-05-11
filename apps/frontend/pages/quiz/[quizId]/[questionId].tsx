@@ -24,9 +24,9 @@ const QuizPage = () => {
       setDraggedItems(parsedArr);
       return;
     }
-    const arr = [1, 2, 3, 4, 5].map((num) => ({
-      x: num * 50,
-      y: (num * 100) / 2,
+    const arr = [5].map((num) => ({
+      x: num * 0.1,
+      y: (num * 0.1) / 2,
       id: `${num}`,
       width: 0.1,
       height: 0.1,
@@ -67,6 +67,16 @@ const QuizPage = () => {
       <Grid.Col span={3}>
         <SideMenu />
       </Grid.Col>
+      <div
+        style={{
+          position: 'absolute',
+          top: 318,
+          left: 466,
+          width: 10,
+          height: 10,
+          backgroundColor: 'red',
+        }}
+      />
     </Grid>
   );
 };
@@ -86,8 +96,7 @@ const useStyles = createStyles((theme) => ({
       theme.colorScheme === 'dark'
         ? theme.colors.dark[6]
         : theme.colors.gray[2],
-    padding: theme.spacing.xl,
-    borderRadius: theme.radius.md,
+    // borderRadius: theme.radius.md,
     position: 'relative',
   },
 }));
