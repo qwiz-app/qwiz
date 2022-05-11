@@ -5,16 +5,19 @@ import { Plus } from 'phosphor-react';
 import { ThinScrollArea } from 'components/UI/ThinScrollArea';
 import { useRouter } from 'next/router';
 import { questions } from 'mock/questions';
+import cn from 'classnames';
 
 export const Slides = () => {
   const [items, setItems] = useState(questions);
   const { classes } = useStyles();
 
   const router = useRouter();
-  const { quizId } = router.query;
+  const { quizId, questionId } = router.query;
 
-  const handleClick = (questionId: string) => {
-    router.push(`/quiz/${quizId}/${questionId}`, undefined, { shallow: true });
+  const handleClick = (selectedQuestionId: string) => {
+    router.push(`/quiz/${quizId}/${selectedQuestionId}`, undefined, {
+      shallow: true,
+    });
   };
 
   return (
@@ -31,7 +34,13 @@ export const Slides = () => {
             value={item}
             style={{ listStyle: 'none' }}
           >
-            <Box className={classes.box} onClick={() => handleClick(item.id)}>
+            <Box
+              className={cn(
+                classes.box,
+                questionId === item.id && classes.selected
+              )}
+              onClick={() => handleClick(item.id)}
+            >
               <div>
                 <Text color="dimmed" size="sm">
                   {item.question}
@@ -60,6 +69,8 @@ const useStyles = createStyles((theme) => ({
     borderRadius: theme.radius.md,
     margin: theme.radius.md,
     cursor: 'pointer',
+    borderColor: 'transparent',
+    borderWidth: 2,
 
     '&:hover': {
       backgroundColor:
@@ -67,6 +78,14 @@ const useStyles = createStyles((theme) => ({
           ? theme.colors.dark[5]
           : theme.colors.gray[1],
     },
+  },
+
+  selected: {
+    borderColor:
+      theme.colorScheme === 'dark'
+        ? theme.colors.blue[5]
+        : theme.colors.blue[2],
+    borderWidth: 2,
   },
 
   addNew: {
