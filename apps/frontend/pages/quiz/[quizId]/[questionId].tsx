@@ -1,6 +1,7 @@
 import { AspectRatio, Box, createStyles, Grid } from '@mantine/core';
 import QuizLayout from 'components/Layouts/QuizLayout';
 import { DraggableElement } from 'components/Quiz/DraggableElement';
+import { SideMenu } from 'components/Quiz/SideMenu';
 import { motion } from 'framer-motion';
 import { useQuiz } from 'hooks/api/quiz';
 import { useRouter } from 'next/router';
@@ -13,7 +14,7 @@ const QuizPage = () => {
   const constraintsRef = useRef<HTMLDivElement>(null);
   const [draggedItems, setDraggedItems] = useState([]);
 
-  const { data: quiz } = useQuiz(router.query.id as string);
+  const { data: quiz } = useQuiz(router.query.quizId as string);
 
   useEffect(() => {
     const str = localStorage.getItem('array');
@@ -36,7 +37,7 @@ const QuizPage = () => {
   }, []);
 
   return (
-    <Grid>
+    <Grid className={classes.wrapper}>
       <Grid.Col span={9}>
         <AspectRatio ratio={16 / 9}>
           <Box className={classes.box}>
@@ -63,7 +64,9 @@ const QuizPage = () => {
           </Box>
         </AspectRatio>
       </Grid.Col>
-      <Grid.Col span={3}>question menu section</Grid.Col>
+      <Grid.Col span={3}>
+        <SideMenu />
+      </Grid.Col>
     </Grid>
   );
 };
@@ -75,6 +78,9 @@ QuizPage.getLayout = function getLayout(page) {
 };
 
 const useStyles = createStyles((theme) => ({
+  wrapper: {
+    height: '100%',
+  },
   box: {
     backgroundColor:
       theme.colorScheme === 'dark'

@@ -3,10 +3,19 @@ import { Reorder } from 'framer-motion';
 import { Text, Box, createStyles, Navbar } from '@mantine/core';
 import { Plus } from 'phosphor-react';
 import { ThinScrollArea } from 'components/UI/ThinScrollArea';
+import { useRouter } from 'next/router';
+import { questions } from 'mock/questions';
 
 export const Slides = () => {
   const [items, setItems] = useState(questions);
   const { classes } = useStyles();
+
+  const router = useRouter();
+  const { quizId } = router.query;
+
+  const handleClick = (questionId: string) => {
+    router.push(`/quiz/${quizId}/${questionId}`, undefined, { shallow: true });
+  };
 
   return (
     <Navbar.Section grow component={ThinScrollArea} className={classes.wrapper}>
@@ -22,7 +31,7 @@ export const Slides = () => {
             value={item}
             style={{ listStyle: 'none' }}
           >
-            <Box className={classes.box}>
+            <Box className={classes.box} onClick={() => handleClick(item.id)}>
               <div>
                 <Text color="dimmed" size="sm">
                   {item.question}
@@ -86,118 +95,3 @@ const useStyles = createStyles((theme) => ({
     position: 'relative',
   },
 }));
-
-const questions = [
-  {
-    id: '1',
-    question: 'What is the capital of the United States?',
-    answers: [
-      {
-        answer: 'Washington, D.C.',
-        correct: true,
-      },
-      {
-        answer: 'New York, NY',
-        correct: false,
-      },
-    ],
-  },
-  {
-    id: '2',
-    question: 'Who was the first president of the United States',
-    answers: [
-      {
-        answer: 'George Washington',
-        correct: true,
-      },
-      {
-        answer: 'John Adams',
-        correct: false,
-      },
-    ],
-  },
-  {
-    id: '3',
-    question: 'Who was the first president of the United States',
-    answers: [
-      {
-        answer: 'George Washington',
-        correct: true,
-      },
-      {
-        answer: 'John Adams',
-        correct: false,
-      },
-    ],
-  },
-  {
-    id: '4',
-    question: 'Who was the first president of the United States',
-    answers: [
-      {
-        answer: 'George Washington',
-        correct: true,
-      },
-      {
-        answer: 'John Adams',
-        correct: false,
-      },
-    ],
-  },
-  {
-    id: '5',
-    question: 'Who was the first president of the United States',
-    answers: [
-      {
-        answer: 'George Washington',
-        correct: true,
-      },
-      {
-        answer: 'John Adams',
-        correct: false,
-      },
-    ],
-  },
-  {
-    id: '6',
-    question: 'Who was the first president of the United States',
-    answers: [
-      {
-        answer: 'George Washington',
-        correct: true,
-      },
-      {
-        answer: 'John Adams',
-        correct: false,
-      },
-    ],
-  },
-  {
-    id: '7',
-    question: 'Who was the first president of the United States',
-    answers: [
-      {
-        answer: 'George Washington',
-        correct: true,
-      },
-      {
-        answer: 'John Adams',
-        correct: false,
-      },
-    ],
-  },
-  {
-    id: '8',
-    question: 'Who was the first president of the United States',
-    answers: [
-      {
-        answer: 'George Washington',
-        correct: true,
-      },
-      {
-        answer: 'John Adams',
-        correct: false,
-      },
-    ],
-  },
-];

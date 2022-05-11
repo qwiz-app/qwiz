@@ -24,7 +24,7 @@ const QuizLayout = ({ children }: Props) => {
   const router = useRouter();
   const { user, isLoading } = useCurrentSession();
 
-  const { data: quiz } = useQuiz(router.query.id as string);
+  const { data: quiz } = useQuiz(router.query.quizId as string);
 
   return (
     <AppShell
