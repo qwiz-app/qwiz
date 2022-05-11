@@ -1,17 +1,22 @@
-import { useState } from "react";
-
-export const useDraggableElement = () => {
-  const [position] = useState({
-    x: 0,
-    y: 0,
-  });
-
+export const useDraggableElement = ({ initial, id }) => {
   const updatePosition = ({ x, y }) => {
-    console.log({ x: x - 250, y: y - 82 }, 'updatePosition');
+    const arr = localStorage.getItem('array');
+    const parsedArr = JSON.parse(arr);
+    const newArr = parsedArr.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          x: x - 250,
+          y: y - 82,
+        };
+      }
+      return item;
+    });
+    const jsonArr = JSON.stringify(newArr);
+    localStorage.setItem('array', jsonArr);
   };
 
   return {
-    position,
     updatePosition,
   };
 };
