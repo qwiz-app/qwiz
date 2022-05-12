@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Group, Text } from '@mantine/core';
+import { Avatar, Badge, Box, Button, Group, Stack, Text } from '@mantine/core';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
 import { FileUpload } from 'components/UI/FileUpload';
 import { useCurrentSession } from 'hooks/api/session';
@@ -38,7 +38,9 @@ const IndexPage = () => {
             url: 'https://qwiz.party',
           })
         }
-      >Mutate</Button>
+      >
+        Mutate
+      </Button>
       <FileUpload
         selectFile={selectFile}
         loading={uploadingStatus === 'UPLOADING'}
@@ -74,7 +76,10 @@ const IndexPage = () => {
               alt={user.name}
               radius="xl"
             />
-            {user.name === currentUser?.name ? 'You' : user.name}
+            <Stack spacing={2} align="center">
+              <Text>{user.name === currentUser?.name ? 'You' : user.name}</Text>
+              <Badge>{user.role ?? 'No role assigned'}</Badge>
+            </Stack>
           </div>
         ))}
         {error && <p>{error.response.data?.message}</p>}
