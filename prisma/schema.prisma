@@ -260,7 +260,6 @@ model QuizQuestion {
   questionId    String
   quizSlideId   String
   scoringModeId Int    @default(1)
-  ordinal       Int
 
   // relations
   quiz        Quiz                 @relation(fields: [quizId], references: [id], onUpdate: NoAction, onDelete: Restrict)
@@ -272,13 +271,13 @@ model QuizQuestion {
   eventAnswers EventTeamAnswer[]
 
   @@unique([quizId, questionId])
-  @@unique([quizId, ordinal])
 }
 
 model QuizSlide {
   id              String  @id @default(cuid())
   quizId          String
   // TODO: slide styles
+  ordinal         Int
   backgroundColor String?
 
   // relations
@@ -287,6 +286,8 @@ model QuizSlide {
   // opposite relations
   elements      QuizSlideElement[]
   quizQuestions QuizQuestion[]
+
+  @@unique([quizId, ordinal])
 }
 
 model QuizSlideElement {
