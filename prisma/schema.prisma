@@ -258,7 +258,7 @@ model QuizQuestion {
   id            String @id @default(cuid())
   quizId        String
   questionId    String
-  quizSlideId   String
+  quizSlideId   String @unique
   scoringModeId Int    @default(1)
 
   // relations
@@ -284,8 +284,8 @@ model QuizSlide {
   quiz Quiz @relation(fields: [quizId], references: [id], onUpdate: NoAction, onDelete: Restrict)
 
   // opposite relations
-  elements      QuizSlideElement[]
-  quizQuestions QuizQuestion[]
+  elements     QuizSlideElement[]
+  quizQuestion QuizQuestion?
 
   @@unique([quizId, ordinal])
 }
