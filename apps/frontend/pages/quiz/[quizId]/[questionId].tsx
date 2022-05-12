@@ -4,12 +4,15 @@ import { DraggableElement } from 'components/Quiz/DraggableElement';
 import { SideMenu } from 'components/Quiz/SideMenu';
 import { motion } from 'framer-motion';
 import { useQuiz } from 'hooks/api/quiz';
+import { useBackgroundColor } from 'hooks/use-background-color';
 import { useRouter } from 'next/router';
 import { useRef, useEffect, useState } from 'react';
 
 const QuizPage = () => {
   const router = useRouter();
   const { classes } = useStyles();
+
+  const { backgroundColor } = useBackgroundColor();
 
   const constraintsRef = useRef<HTMLDivElement>(null);
   const [draggedItems, setDraggedItems] = useState([]);
@@ -40,7 +43,7 @@ const QuizPage = () => {
     <Grid className={classes.wrapper}>
       <Grid.Col span={9}>
         <AspectRatio ratio={16 / 9}>
-          <Box className={classes.box}>
+          <Box className={classes.box} style={{ backgroundColor }}>
             <motion.div
               style={{
                 width: '100%',
