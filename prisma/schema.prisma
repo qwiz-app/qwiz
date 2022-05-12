@@ -294,23 +294,24 @@ model QuizSlideElement {
   id                String  @id @default(cuid())
   quizSlideId       String?
   questionContentId String?
-  pointId           String
 
   // relations
   quizSlide       QuizSlide?       @relation(fields: [quizSlideId], references: [id], onDelete: Cascade)
   questionContent QuestionContent? @relation(fields: [questionContentId], references: [id], onDelete: Restrict)
-  point           Point            @relation(fields: [pointId], references: [id], onDelete: Restrict)
+  point           Point?
 }
 
 model Point {
-  id     String   @id @default(cuid())
-  width  Decimal?
-  height Decimal?
-  x      Decimal?
-  y      Decimal?
-  z      Int?
+  id                 String   @id @default(cuid())
+  quizSlideElementId String   @unique
+  width              Decimal?
+  height             Decimal?
+  x                  Decimal?
+  y                  Decimal?
+  z                  Int?
 
-  QuizSlideElement QuizSlideElement[]
+  quizSlideElement QuizSlideElement @relation(fields: [quizSlideElementId], references: [id], onDelete: Cascade)
+
 }
 
 model EventTeamAnswer {
