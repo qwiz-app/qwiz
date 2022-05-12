@@ -67,16 +67,6 @@ const QuizPage = () => {
       <Grid.Col span={3}>
         <SideMenu />
       </Grid.Col>
-      <div
-        style={{
-          position: 'absolute',
-          top: 318,
-          left: 466,
-          width: 10,
-          height: 10,
-          backgroundColor: 'red',
-        }}
-      />
     </Grid>
   );
 };
@@ -96,7 +86,7 @@ const useStyles = createStyles((theme) => ({
       theme.colorScheme === 'dark'
         ? theme.colors.dark[6]
         : theme.colors.gray[2],
-    // borderRadius: theme.radius.md,
+    borderRadius: theme.radius.md,
     position: 'relative',
   },
 }));
