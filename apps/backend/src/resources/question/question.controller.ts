@@ -21,6 +21,12 @@ import { QuestionService } from './question.service';
 export class QuestionController {
   constructor(private readonly questionService: QuestionService) {}
 
+  includeContentAndOwnerAndCategoriesAndMode = {
+    contents: true,
+    owner: true,
+    questionMode: true,
+  };
+
   @Post()
   create(
     @Body()
@@ -50,17 +56,12 @@ export class QuestionController {
 
   // Active questions which are either our own or global
   @Get('')
-  findAvailable(
-    @OrganizationEntity() organization: Organization,
-    @Query('owner', new DefaultValuePipe(false), ParseBoolPipe) owner: boolean,
-    @Query('questionType', new DefaultValuePipe(false), ParseBoolPipe)
-    questionType: boolean
-  ) {
+  findAvailable(@OrganizationEntity() organization: Organization) {
     const where = {
       isActive: true,
       OR: [{ isGlobal: true }, { ownerId: organization.id }],
     };
-    const include = { owner, questionType };
+    const include = this.includeContentAndOwnerAndCategoriesAndMode;
 
     return this.questionService.findAvailable(where, include);
   }
@@ -69,15 +70,15 @@ export class QuestionController {
   @Get('/all')
   findAll(
     @Query('owner', new DefaultValuePipe(false), ParseBoolPipe) owner: boolean,
-    @Query('questionType', new DefaultValuePipe(false), ParseBoolPipe)
-    questionType: boolean,
+    @Query('questionMode', new DefaultValuePipe(false), ParseBoolPipe)
+    questionMode: boolean,
     @IsAdmin() isAdmin: boolean
   ) {
     if (!isAdmin) {
       throw new UnauthorizedException('Only admin can access this route.');
     }
     const where = {};
-    const include = { owner, questionType };
+    const include = { owner, questionMode };
 
     return this.questionService.findAll(where, include);
   }
@@ -86,15 +87,15 @@ export class QuestionController {
   async findOne(
     @Param('id') id: string,
     @Query('owner', new DefaultValuePipe(true), ParseBoolPipe) owner: boolean,
-    @Query('questionType', new DefaultValuePipe(true), ParseBoolPipe)
-    questionType: boolean,
+    @Query('questionMode', new DefaultValuePipe(true), ParseBoolPipe)
+    questionMode: boolean,
     @OrganizationEntity() organization: Organization
   ) {
     const where = {
       id,
       OR: [{ isGlobal: true }, { ownerId: organization.id }],
     };
-    const include = { owner, questionType };
+    const include = { owner, questionMode };
     const question = await this.questionService.findOne(where, include);
 
     if (!question) {
@@ -138,15 +139,15 @@ export class QuestionController {
   async findAny(
     @Param('id') id: string,
     @Query('owner', new DefaultValuePipe(false), ParseBoolPipe) owner: boolean,
-    @Query('questionType', new DefaultValuePipe(false), ParseBoolPipe)
-    questionType: boolean,
+    @Query('questionMode', new DefaultValuePipe(false), ParseBoolPipe)
+    questionMode: boolean,
     @IsAdmin() isAdmin: boolean
   ) {
     if (!isAdmin) {
       throw new UnauthorizedException('Only admin can access this route.');
     }
 
-    const include = { owner, questionType };
+    const include = { owner, questionMode };
 
     const question = await this.questionService.findOne({ id }, include);
 

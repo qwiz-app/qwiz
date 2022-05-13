@@ -1,17 +1,20 @@
 import { Question, Prisma } from '@prisma/client';
 import { parseData } from 'lib/axios';
 import http from 'services/http';
+import { QuestionWithContentAndOwnerAndCategoriesAndMode } from 'types/question';
 
 // TODO: types are completely wrong
 // create custom types
 export const fetchAvailableQuestions = () =>
   http
-    .get<(Question & Prisma.QuestionInclude)[]>('/api/questions')
+    .get<QuestionWithContentAndOwnerAndCategoriesAndMode[]>('/api/questions')
     .then(parseData);
 
 export const fetchQuestion = (id: string) =>
   http
-    .get<Question & Prisma.QuestionInclude>(`/api/questions/${id}`)
+    .get<QuestionWithContentAndOwnerAndCategoriesAndMode>(
+      `/api/questions/${id}`
+    )
     .then(parseData);
 
 // TODO: use mutation
@@ -27,13 +30,17 @@ export const deleteQuestion = (id: string) =>
 
 export const fetchAnyQuestion = (id: string) =>
   http
-    .get<Question & Prisma.QuestionInclude>(`/api/questions/${id}/any`)
+    .get<QuestionWithContentAndOwnerAndCategoriesAndMode>(
+      `/api/questions/${id}/any`
+    )
     .then(parseData);
 
 //* ADMIN-ONLY
 export const fetchAllQuestions = () =>
   http
-    .get<(Question & Prisma.QuestionInclude)[]>('/api/questions/all')
+    .get<QuestionWithContentAndOwnerAndCategoriesAndMode[]>(
+      '/api/questions/all'
+    )
     .then(parseData);
 
 //* ADMIN-ONLY
