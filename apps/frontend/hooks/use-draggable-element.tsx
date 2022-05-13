@@ -1,19 +1,29 @@
 import { useEffect, useState } from 'react';
 import { updatePoint } from 'services/api/slide';
 
-export const useDraggableElement = ({ id, ref }) => {
+export const useDraggableElement = ({ id, ref, dimensions }) => {
   const { calculateRatio } = useCalculateRatio({
     ref,
   });
 
   const updatePosition = ({ x, y }) => {
-    const ratio = calculateRatio({ x, y });
+    const coords = calculateOffset({ dimensions, x, y });
+    const ratio = calculateRatio(coords);
 
     updatePoint(id, ratio);
   };
 
   return {
     updatePosition,
+  };
+};
+
+export const calculateOffset = ({ dimensions, x, y }) => {
+  const { width, height } = dimensions;
+
+  return {
+    x: x - width / 2,
+    y: y - height / 2,
   };
 };
 

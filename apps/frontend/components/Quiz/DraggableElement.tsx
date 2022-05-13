@@ -30,7 +30,11 @@ export const DraggableElement = ({
   content,
   id,
 }: Props) => {
-  const { updatePosition } = useDraggableElement({ id, ref: constraintsRef });
+  const { updatePosition } = useDraggableElement({
+    id,
+    ref: constraintsRef,
+    dimensions,
+  });
 
   const { coordinates } = useCalculateCoordinates({
     ref: constraintsRef,
