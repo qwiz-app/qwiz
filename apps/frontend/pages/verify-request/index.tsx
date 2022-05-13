@@ -41,11 +41,11 @@ const VerifyRequest = () => {
             </Text>
           </Stack>
         </Box>
-        <Stack mt={32}>
+        <Stack mt={32} align="center">
           <Text
             sx={(t) => ({
               color: t.colors.violet[isDark ? 4 : 6],
-              transform: 'translateX(-4px)',
+              transform: 'translateX(-2px)',
             })}
           >
             <Group position="center" spacing={4}>

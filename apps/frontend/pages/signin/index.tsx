@@ -93,7 +93,9 @@ const SignInPage = (props: SignInProps) => {
         <div>{matches.min.md && <AuthIllustration />}</div>
         <Stack align={matches.min.md ? 'left' : 'center'}>
           <AuthTitle />
-          <AuthProviders {...props} />
+          <Stack>
+            <AuthProviders {...props} />
+          </Stack>
         </Stack>
       </Group>
       <AuthLogo className={classes.logo} />

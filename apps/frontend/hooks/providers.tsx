@@ -1,10 +1,16 @@
 import config from 'lib/config';
 import { BuiltInProviderType } from 'next-auth/providers';
 import { signIn } from 'next-auth/react';
-import { DiscordLogo, GithubLogo, GoogleLogo, IconProps } from 'phosphor-react';
+import {
+  DiscordLogo,
+  Envelope,
+  GithubLogo,
+  GoogleLogo,
+  IconProps,
+} from 'phosphor-react';
 import React from 'react';
 
-export type ProviderId = 'discord' | 'google' | 'github';
+export type ProviderId = 'discord' | 'google' | 'github' | 'email';
 
 type ProviderStylesModel = Record<ProviderId, ProviderStyleModel>;
 
@@ -30,6 +36,10 @@ export const useProviders = () => {
     discord: {
       color: '#5865F2',
       icon: <DiscordLogo size={size} weight={weight} />,
+    },
+    email: {
+      color: '#DB4437',
+      icon: <Envelope size={size} weight={weight} />,
     },
   };
 
