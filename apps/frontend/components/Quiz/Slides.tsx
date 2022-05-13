@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Reorder } from 'framer-motion';
-import { Text, Box, createStyles, Navbar } from '@mantine/core';
+import { Text, Box, createStyles, Navbar, Skeleton } from '@mantine/core';
 import { Plus } from 'phosphor-react';
 import { ThinScrollArea } from 'components/UI/ThinScrollArea';
 import { useRouter } from 'next/router';
 import cn from 'classnames';
 import { useQuiz } from 'hooks/api/quiz';
+import { SlideWithQuestionAndElements } from 'types/slide';
 
 export const Slides = () => {
   const { classes } = useStyles();
@@ -14,7 +15,9 @@ export const Slides = () => {
 
   const { data: quiz, isSuccess } = useQuiz(quizId as string);
 
-  const [slides, setSlides] = useState([]);
+  const [slides, setSlides] = useState<
+    SlideWithQuestionAndElements[] | number[]
+  >([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -42,19 +45,27 @@ export const Slides = () => {
             value={slide}
             style={{ listStyle: 'none' }}
           >
-            <Box
-              className={cn(
-                classes.box,
-                questionId === slide.id && classes.selected
-              )}
-              onClick={() => handleClick(slide.id)}
+            <Skeleton
+              visible={!isSuccess}
+              sx={(theme) => ({
+                borderRadius: theme.radius.md,
+                margin: !isSuccess ? theme.radius.md : 0,
+              })}
             >
-              <div>
-                <Text color="dimmed" size="sm">
-                  {slide.ordinal}
-                </Text>
-              </div>
-            </Box>
+              <Box
+                className={cn(
+                  classes.box,
+                  questionId === slide.id && classes.selected
+                )}
+                onClick={() => handleClick(slide.id)}
+              >
+                <div>
+                  <Text color="dimmed" size="sm">
+                    {slide.ordinal}
+                  </Text>
+                </div>
+              </Box>
+            </Skeleton>
           </Reorder.Item>
         ))}
       </Reorder.Group>
