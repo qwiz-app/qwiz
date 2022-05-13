@@ -14,9 +14,11 @@ export const fetchQuestion = (id: string) =>
     .get<Question & Prisma.QuestionInclude>(`/api/questions/${id}`)
     .then(parseData);
 
+// TODO: use mutation
 export const createQuestion = (data: Prisma.QuestionCreateInput) =>
   http.post<Question>(`/api/questions`, data).then(parseData);
 
+// TODO: use mutation
 export const updateQuestion = (id: string, data: Prisma.QuestionUpdateInput) =>
   http.patch<{ count: number }>(`/api/questions/${id}`, data).then(parseData);
 

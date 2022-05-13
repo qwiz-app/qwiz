@@ -23,17 +23,29 @@ export class QuestionController {
 
   @Post()
   create(
-    @Body() createQuestionDto: Prisma.QuestionCreateWithoutOwnerInput,
+    @Body()
+    {
+      contents,
+      ...createQuestionDto
+    }: Prisma.QuestionCreateInput & {
+      contents: Prisma.QuestionContentCreateWithoutQuestionInput[];
+    },
     @OrganizationEntity() organization: Organization,
     @IsAdmin() isAdmin: boolean
   ) {
     // question is global by default if made by admin
     const orgId = organization?.id ?? null;
-    return this.questionService.create({
+
+    const data = {
       ...createQuestionDto,
       isGlobal: isAdmin,
       ownerId: isAdmin ? null : orgId,
-    });
+      contents: {
+        create: contents,
+      },
+    };
+    const include = { contents: true };
+    return this.questionService.create(data, include);
   }
 
   // Active questions which are either our own or global

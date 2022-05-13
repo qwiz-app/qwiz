@@ -6,8 +6,14 @@ import { PrismaService } from 'prisma.service';
 export class QuestionService {
   constructor(private prisma: PrismaService) {}
 
-  create(data: Prisma.QuestionUncheckedCreateInput) {
-    return this.prisma.question.create({ data });
+  create(
+    data: Prisma.QuestionUncheckedCreateInput,
+    include: Prisma.QuestionInclude
+  ) {
+    return this.prisma.question.create({
+      data,
+      include,
+    });
   }
 
   findAvailable(
