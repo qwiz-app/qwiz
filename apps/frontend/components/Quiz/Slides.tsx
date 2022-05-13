@@ -6,6 +6,7 @@ import { ThinScrollArea } from 'components/UI/ThinScrollArea';
 import { useRouter } from 'next/router';
 import { questions } from 'mock/questions';
 import cn from 'classnames';
+import { useQuiz } from 'hooks/api/quiz';
 
 export const Slides = () => {
   const [items, setItems] = useState(questions);
@@ -13,6 +14,8 @@ export const Slides = () => {
 
   const router = useRouter();
   const { quizId, questionId } = router.query;
+
+  const { data: quiz } = useQuiz(quizId as string);
 
   const handleClick = (selectedQuestionId: string) => {
     router.push(`/quiz/${quizId}/${selectedQuestionId}`, undefined, {
@@ -25,25 +28,26 @@ export const Slides = () => {
       <Reorder.Group
         axis="y"
         values={items}
+        // TODO: reorder
         onReorder={setItems}
         style={{ padding: 0, marginBottom: 56 }}
       >
-        {items.map((item) => (
+        {quiz?.slides?.map((slide) => (
           <Reorder.Item
-            key={item.id}
-            value={item}
+            key={slide.id}
+            value={slide}
             style={{ listStyle: 'none' }}
           >
             <Box
               className={cn(
                 classes.box,
-                questionId === item.id && classes.selected
+                questionId === slide.id && classes.selected
               )}
-              onClick={() => handleClick(item.id)}
+              onClick={() => handleClick(slide.id)}
             >
               <div>
                 <Text color="dimmed" size="sm">
-                  {item.question}
+                  {slide.ordinal}
                 </Text>
               </div>
             </Box>

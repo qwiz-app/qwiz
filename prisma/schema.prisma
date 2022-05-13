@@ -304,8 +304,8 @@ model QuizSlideElement {
 model Point {
   id                 String   @id @default(cuid())
   quizSlideElementId String   @unique
-  width              Decimal?
-  height             Decimal?
+  width              Int?
+  height             Int?
   x                  Decimal?
   y                  Decimal?
   z                  Int?

@@ -3,10 +3,10 @@ import QuizLayout from 'components/Layouts/QuizLayout';
 import { DraggableElement } from 'components/Quiz/DraggableElement';
 import { SideMenu } from 'components/Quiz/SideMenu';
 import { motion } from 'framer-motion';
-import { useQuiz } from 'hooks/api/quiz';
+import { useSlide } from 'hooks/api/slide';
 import { useBackgroundColor } from 'hooks/use-background-color';
 import { useRouter } from 'next/router';
-import { useRef, useEffect, useState } from 'react';
+import { useRef } from 'react';
 
 const QuizPage = () => {
   const router = useRouter();
@@ -15,29 +15,8 @@ const QuizPage = () => {
   const { backgroundColor } = useBackgroundColor();
 
   const constraintsRef = useRef<HTMLDivElement>(null);
-  const [draggedItems, setDraggedItems] = useState([]);
 
-  const { data: quiz } = useQuiz(router.query.quizId as string);
-
-  useEffect(() => {
-    const str = localStorage.getItem('array');
-    const parsedArr = JSON.parse(str);
-
-    if (parsedArr) {
-      setDraggedItems(parsedArr);
-      return;
-    }
-    const arr = [5].map((num) => ({
-      x: num * 0.1,
-      y: (num * 0.1) / 2,
-      id: `${num}`,
-      width: 0.1,
-      height: 0.1,
-      z: 1,
-    }));
-    const jsonArr = JSON.stringify(arr);
-    localStorage.setItem('array', jsonArr);
-  }, []);
+  const { data: slide } = useSlide(router.query.questionId as string);
 
   return (
     <Grid className={classes.wrapper}>
@@ -51,18 +30,22 @@ const QuizPage = () => {
               }}
               ref={constraintsRef}
             />
-            {draggedItems?.map((item) => (
+            {slide?.elements?.map((element) => (
               <DraggableElement
-                key={item.id}
+                key={element.id}
                 initial={{
-                  x: item.x,
-                  y: item.y,
+                  x: element.point.x,
+                  y: element.point.y,
                 }}
                 constraintsRef={constraintsRef}
-                id={item.id}
-              >
-                {quiz?.name}
-              </DraggableElement>
+                id={element.id}
+                dimensions={{
+                  width: element?.point?.width,
+                  height: element?.point?.height,
+                }}
+                type={element.questionContent.type}
+                content={element.questionContent.content}
+              />
             ))}
           </Box>
         </AspectRatio>
