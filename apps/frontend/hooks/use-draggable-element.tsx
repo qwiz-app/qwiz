@@ -1,13 +1,22 @@
-import { useEffect, useState } from 'react';
+import { RefObject, useEffect, useState } from 'react';
 import { updatePoint } from 'services/api/slide';
 
-export const useDraggableElement = ({ id, ref, dimensions, divRef }) => {
+interface UseDraggableElementProps {
+  id: string;
+  ref: RefObject<HTMLDivElement>;
+  dimensions: Dimensions;
+}
+
+export const useDraggableElement = ({
+  id,
+  ref,
+  dimensions,
+}: UseDraggableElementProps) => {
   const { calculateRatio } = useCalculateRatio({
     ref,
   });
 
-  const updatePosition = ({ x, y }) => {
-    console.log(divRef?.current?.getBoundingClientRect());
+  const updatePosition = ({ x, y }: Coordinates) => {
     const coords = calculateOffset({ dimensions, x, y });
     const ratio = calculateRatio(coords);
 
@@ -19,7 +28,11 @@ export const useDraggableElement = ({ id, ref, dimensions, divRef }) => {
   };
 };
 
-export const calculateOffset = ({ dimensions, x, y }) => {
+type CalculateOffsetProps = {
+  dimensions: Dimensions;
+} & Coordinates;
+
+export const calculateOffset = ({ dimensions, x, y }: CalculateOffsetProps) => {
   const { width, height } = dimensions;
 
   return {
@@ -28,8 +41,12 @@ export const calculateOffset = ({ dimensions, x, y }) => {
   };
 };
 
-export const useCalculateRatio = ({ ref }) => {
-  const [dimensions, setDimensions] = useState(null);
+interface UseCalculateRatioProps {
+  ref: RefObject<HTMLDivElement>;
+}
+
+export const useCalculateRatio = ({ ref }: UseCalculateRatioProps) => {
+  const [dimensions, setDimensions] = useState<Coordinates>(null);
 
   useEffect(() => {
     setDimensions({
@@ -48,8 +65,16 @@ export const useCalculateRatio = ({ ref }) => {
   return { calculateRatio };
 };
 
-export const useCalculateCoordinates = ({ ratio, ref }) => {
-  const [coordinates, setCoordinates] = useState({
+interface UseCalculateCoordinatesProps {
+  ratio: Coordinates;
+  ref: RefObject<HTMLDivElement>;
+}
+
+export const useCalculateCoordinates = ({
+  ratio,
+  ref,
+}: UseCalculateCoordinatesProps) => {
+  const [coordinates, setCoordinates] = useState<Coordinates>({
     x: 0,
     y: 0,
   });
@@ -64,7 +89,17 @@ export const useCalculateCoordinates = ({ ratio, ref }) => {
   return { coordinates };
 };
 
-export const OFFSET = {
+export const OFFSET: Coordinates = {
   x: 216,
   y: 68,
 };
+
+export interface Dimensions {
+  width: number;
+  height: number;
+}
+
+export interface Coordinates {
+  x: number;
+  y: number;
+}

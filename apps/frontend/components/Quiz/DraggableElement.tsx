@@ -1,22 +1,17 @@
 import { QuestionElementType } from '@prisma/client';
-import { Decimal } from '@prisma/client/runtime';
 import { motion } from 'framer-motion';
 import {
+  Coordinates,
+  Dimensions,
   useCalculateCoordinates,
   useDraggableElement,
 } from 'hooks/use-draggable-element';
-import { RefObject, useRef } from 'react';
+import { RefObject } from 'react';
 
 interface Props {
   constraintsRef: RefObject<HTMLDivElement>;
-  initial: {
-    x: Decimal;
-    y: Decimal;
-  };
-  dimensions: {
-    width: number;
-    height: number;
-  };
+  initial: Coordinates;
+  dimensions: Dimensions;
   type: QuestionElementType;
   content: string;
   id: string;
@@ -30,15 +25,11 @@ export const DraggableElement = ({
   content,
   id,
 }: Props) => {
-  const ref = useRef<HTMLDivElement>(null);
-
   const { updatePosition } = useDraggableElement({
     id,
     ref: constraintsRef,
     dimensions,
-    divRef: ref,
   });
-
 
   const { coordinates } = useCalculateCoordinates({
     ref: constraintsRef,
@@ -69,7 +60,6 @@ export const DraggableElement = ({
           background: `url(${type === 'IMAGE' ? content : ''})`,
           backgroundSize: 'cover',
         }}
-        ref={ref}
       >
         {type === 'TEXT' && content}
       </div>
