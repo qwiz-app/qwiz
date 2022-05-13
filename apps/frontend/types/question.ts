@@ -1,4 +1,5 @@
 import {
+  Prisma,
   Question,
   QuestionCategory,
   QuestionContent,
@@ -13,3 +14,7 @@ export type QuestionWithContentAndOwnerAndCategoriesAndMode =
     categories?: QuestionCategory[];
     questionMode?: QuestionMode;
   };
+
+export type QuestionCreateWithContentInput = Prisma.QuestionCreateInput & {
+  contents: Prisma.QuestionContentCreateWithoutQuestionInput[];
+};
