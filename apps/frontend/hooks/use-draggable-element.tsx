@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { updatePoint } from 'services/api/slide';
 
 export const useDraggableElement = ({ id, ref }) => {
   const { calculateRatio } = useCalculateRatio({
@@ -8,20 +9,7 @@ export const useDraggableElement = ({ id, ref }) => {
   const updatePosition = ({ x, y }) => {
     const ratio = calculateRatio({ x, y });
 
-    const arr = localStorage.getItem('array');
-    const parsedArr = JSON.parse(arr);
-
-    const newArr = parsedArr.map((item) => {
-      if (item.id === id) {
-        return {
-          ...item,
-          ...ratio,
-        };
-      }
-      return item;
-    });
-    const jsonArr = JSON.stringify(newArr);
-    localStorage.setItem('array', jsonArr);
+    updatePoint(id, ratio);
   };
 
   return {

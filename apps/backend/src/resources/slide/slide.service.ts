@@ -9,4 +9,8 @@ export class SlideService {
   findOne(where: Prisma.QuizSlideWhereUniqueInput, include: Prisma.QuizSlideInclude) {
     return this.prisma.quizSlide.findUnique({ where, include });
   }
+
+  updatePoint(where: Prisma.PointWhereUniqueInput, data: Prisma.PointUpdateInput) {
+    return this.prisma.point.update({ where, data });
+  }
 }

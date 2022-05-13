@@ -35,7 +35,7 @@ export const MainSlide = () => {
               y: element.point.y,
             }}
             constraintsRef={constraintsRef}
-            id={element.id}
+            id={element.point.id}
             dimensions={{
               width: element?.point?.width,
               height: element?.point?.height,
