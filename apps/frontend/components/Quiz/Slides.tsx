@@ -1,21 +1,26 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Reorder } from 'framer-motion';
 import { Text, Box, createStyles, Navbar } from '@mantine/core';
 import { Plus } from 'phosphor-react';
 import { ThinScrollArea } from 'components/UI/ThinScrollArea';
 import { useRouter } from 'next/router';
-import { questions } from 'mock/questions';
 import cn from 'classnames';
 import { useQuiz } from 'hooks/api/quiz';
 
 export const Slides = () => {
-  const [items, setItems] = useState(questions);
   const { classes } = useStyles();
-
   const router = useRouter();
   const { quizId, questionId } = router.query;
 
-  const { data: quiz } = useQuiz(quizId as string);
+  const { data: quiz, isSuccess } = useQuiz(quizId as string);
+
+  const [slides, setSlides] = useState([]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setSlides(quiz.slides);
+    }
+  }, [isSuccess]);
 
   const handleClick = (selectedQuestionId: string) => {
     router.push(`/quiz/${quizId}/${selectedQuestionId}`, undefined, {
@@ -27,12 +32,11 @@ export const Slides = () => {
     <Navbar.Section grow component={ThinScrollArea} className={classes.wrapper}>
       <Reorder.Group
         axis="y"
-        values={items}
-        // TODO: reorder
-        onReorder={setItems}
+        values={slides}
+        onReorder={setSlides}
         style={{ padding: 0, marginBottom: 56 }}
       >
-        {quiz?.slides?.map((slide) => (
+        {slides?.map((slide) => (
           <Reorder.Item
             key={slide.id}
             value={slide}
