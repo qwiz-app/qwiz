@@ -5,7 +5,7 @@ import {
   useCalculateCoordinates,
   useDraggableElement,
 } from 'hooks/use-draggable-element';
-import { RefObject } from 'react';
+import { RefObject, useRef } from 'react';
 
 interface Props {
   constraintsRef: RefObject<HTMLDivElement>;
@@ -30,11 +30,15 @@ export const DraggableElement = ({
   content,
   id,
 }: Props) => {
+  const ref = useRef<HTMLDivElement>(null);
+
   const { updatePosition } = useDraggableElement({
     id,
     ref: constraintsRef,
     dimensions,
+    divRef: ref,
   });
+
 
   const { coordinates } = useCalculateCoordinates({
     ref: constraintsRef,
@@ -65,6 +69,7 @@ export const DraggableElement = ({
           background: `url(${type === 'IMAGE' ? content : ''})`,
           backgroundSize: 'cover',
         }}
+        ref={ref}
       >
         {type === 'TEXT' && content}
       </div>

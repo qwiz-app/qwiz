@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { updatePoint } from 'services/api/slide';
 
-export const useDraggableElement = ({ id, ref, dimensions }) => {
+export const useDraggableElement = ({ id, ref, dimensions, divRef }) => {
   const { calculateRatio } = useCalculateRatio({
     ref,
   });
 
   const updatePosition = ({ x, y }) => {
+    console.log(divRef?.current?.getBoundingClientRect());
     const coords = calculateOffset({ dimensions, x, y });
     const ratio = calculateRatio(coords);
 

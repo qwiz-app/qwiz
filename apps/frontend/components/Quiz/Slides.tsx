@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Reorder } from 'framer-motion';
-import { Text, Box, createStyles, Navbar, Skeleton } from '@mantine/core';
+import { Text, Box, createStyles, Navbar } from '@mantine/core';
 import { Plus } from 'phosphor-react';
 import { ThinScrollArea } from 'components/UI/ThinScrollArea';
 import { useRouter } from 'next/router';
@@ -15,9 +15,7 @@ export const Slides = () => {
 
   const { data: quiz, isSuccess } = useQuiz(quizId as string);
 
-  const [slides, setSlides] = useState<
-    SlideWithQuestionAndElements[] | number[]
-  >([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+  const [slides, setSlides] = useState<SlideWithQuestionAndElements[]>(null);
 
   useEffect(() => {
     if (isSuccess) {
@@ -33,24 +31,18 @@ export const Slides = () => {
 
   return (
     <Navbar.Section grow component={ThinScrollArea} className={classes.wrapper}>
-      <Reorder.Group
-        axis="y"
-        values={slides}
-        onReorder={setSlides}
-        style={{ padding: 0, marginBottom: 56 }}
-      >
-        {slides?.map((slide) => (
-          <Reorder.Item
-            key={slide.id}
-            value={slide}
-            style={{ listStyle: 'none' }}
-          >
-            <Skeleton
-              visible={!isSuccess}
-              sx={(theme) => ({
-                borderRadius: theme.radius.md,
-                margin: !isSuccess ? theme.radius.md : 0,
-              })}
+      {slides && (
+        <Reorder.Group
+          axis="y"
+          values={slides}
+          onReorder={setSlides}
+          style={{ padding: 0, marginBottom: 56 }}
+        >
+          {slides.map((slide) => (
+            <Reorder.Item
+              key={slide.id}
+              value={slide}
+              style={{ listStyle: 'none' }}
             >
               <Box
                 className={cn(
@@ -65,10 +57,10 @@ export const Slides = () => {
                   </Text>
                 </div>
               </Box>
-            </Skeleton>
-          </Reorder.Item>
-        ))}
-      </Reorder.Group>
+            </Reorder.Item>
+          ))}
+        </Reorder.Group>
+      )}
       <Box className={classes.addNew}>
         <Plus />
         <Text ml={8}>New Question</Text>
