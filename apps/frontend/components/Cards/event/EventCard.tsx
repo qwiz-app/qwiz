@@ -35,7 +35,11 @@ export const ImageCard = ({ event, loading }: Props) => {
           <div
             // TODO: placeholder gradient or something
             className={classes.image}
-            style={{ backgroundImage: `url(${event.banner})` }}
+            style={{
+              backgroundImage: `url(${event.banner})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
           />
           <div className={classes.overlay} />
 
@@ -45,18 +49,20 @@ export const ImageCard = ({ event, loading }: Props) => {
             </Text>
 
             <Group position="apart" spacing="xs">
-              <Group spacing={0}>
-                <Avatar
-                  // TODO: placeholder
-                  src={event.owner.user.image}
-                  size={20}
-                  radius="xl"
-                  mr="xs"
-                />
-                <Text size="sm" className={classes.owner}>
-                  {event.owner.name}
-                </Text>
-              </Group>
+              <Link href={`/organization/${event.ownerId}`}>
+                <Group spacing={0}>
+                  <Avatar
+                    // TODO: placeholder
+                    src={event.owner.user.image}
+                    size={20}
+                    radius="xl"
+                    mr="xs"
+                  />
+                  <Text size="sm" className={classes.owner}>
+                    {event.owner.name}
+                  </Text>
+                </Group>
+              </Link>
 
               <Group spacing="lg">
                 <Tooltip label="Price per team">

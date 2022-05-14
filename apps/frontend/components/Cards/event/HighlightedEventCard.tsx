@@ -4,7 +4,7 @@ import {
   Paper,
   Skeleton,
   Text,
-  Title
+  Title,
 } from '@mantine/core';
 import cn from 'classnames';
 import { useAppColorscheme } from 'hooks/colorscheme';
@@ -30,6 +30,8 @@ export const HighlightedEventCard = ({ event, loading }: Props) => {
       sx={{
         // TODO: placeholder gradient or something
         backgroundImage: event?.banner ? `url(${event.banner})` : 'transparent',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
       }}
       className={cn(classes.base, classesCard.card, classes.card)}
     >

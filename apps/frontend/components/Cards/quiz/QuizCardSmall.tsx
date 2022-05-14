@@ -37,7 +37,11 @@ export const Template = ({
         >
           <div
             className={classes.image}
-            style={{ backgroundImage: `url(${image})` }}
+            style={{
+              backgroundImage: `url(${image})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
           />
         </Card>
         <Text weight={600} ml={4}>

@@ -37,11 +37,7 @@ export const EventHeader = ({ event, loading }: Props) => {
   const [isOwner] = useState(false);
   const [isReserved] = useState(false);
 
-  const organizationPage = `/organization/${event?.owner.id}`;
-
-  if (!event) {
-    return <div>No event found</div>;
-  }
+  const organizationPage = `/organization/${event.ownerId}`;
 
   return (
     <Skeleton visible={loading} radius="md">
@@ -68,7 +64,7 @@ export const EventHeader = ({ event, loading }: Props) => {
           <Link href={organizationPage}>
             <Avatar
               // TODO: placeholder
-              src={event?.owner?.user.image}
+              src={event.owner.user.image}
               size={164}
               className={classes.avatar}
               sx={() => ({
@@ -159,7 +155,7 @@ const useStyles = createStyles((t) => {
       transform: 'translateY(-65%)',
       // TODO: shadow takes color of avatar
       boxShadow: t.shadows.xl,
-      borderRadius: 10000,
+      borderRadius: '100rem',
     },
 
     orgName: {
