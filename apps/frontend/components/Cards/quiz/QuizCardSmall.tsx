@@ -1,7 +1,9 @@
 import { Card, Center, createStyles, Stack, Text } from '@mantine/core';
+import cn from 'classnames';
 import Link from 'next/link';
 import { Plus } from 'phosphor-react';
 import React from 'react';
+import { useCardStyles } from '../use-card-styles';
 
 interface TemplateProps {
   href: string;
@@ -21,6 +23,7 @@ export const Template = ({
 }: TemplateProps &
   Omit<React.ComponentPropsWithoutRef<'div'>, keyof TemplateProps>) => {
   const { classes } = useStyles();
+  const { classes: classesCard } = useCardStyles();
 
   return (
     <Link href="href">
@@ -28,7 +31,7 @@ export const Template = ({
         <Card
           radius="md"
           withBorder
-          className={classes.card}
+          className={cn(classesCard.card, classes.card)}
           onClick={onClick}
           {...rest}
         >
@@ -50,13 +53,14 @@ export const New = ({
   ...rest
 }: NewProps & Omit<React.ComponentPropsWithoutRef<'div'>, keyof NewProps>) => {
   const { classes } = useStyles();
+  const { classes: classesCard } = useCardStyles();
 
   return (
     <Stack spacing={8}>
       <Card
         radius="md"
         withBorder
-        className={classes.card}
+        className={cn(classesCard.card, classes.card)}
         onClick={onClick}
         {...rest}
       >
@@ -76,20 +80,10 @@ const useStyles = createStyles((theme, params, getRef) => {
 
   return {
     card: {
-      position: 'relative',
       aspectRatio: '16/9',
-      backgroundColor:
-        theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
-      transition: 'all 250ms',
-
-      color:
-        theme.colorScheme === 'dark'
-          ? theme.colors.dark[3]
-          : theme.colors.dark[0],
       cursor: 'pointer',
 
       '&:hover': {
-        boxShadow: theme.shadows.xl,
         background:
           theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.white,
       },

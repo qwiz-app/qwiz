@@ -1,6 +1,6 @@
-import { Quiz } from '@prisma/client';
+import { Event } from '@prisma/client';
 import { OrganizationWithUser } from './organization';
 
-export type EventWithOrganization = Quiz & {
+export type EventWithOrganization = Event & {
   owner: OrganizationWithUser;
 };

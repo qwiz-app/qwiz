@@ -6,110 +6,102 @@ import {
   Group,
   Skeleton,
   Text,
-  Tooltip,
+  Tooltip
 } from '@mantine/core';
+import cn from 'classnames';
+import { useAppColorscheme } from 'hooks/colorscheme';
 import Link from 'next/link';
 import { Tag, UsersThree } from 'phosphor-react';
-import cn from 'classnames';
+import { EventWithOrganization } from 'types/event';
+import { useCardStyles } from '../use-card-styles';
 
 interface Props {
-  link: string;
-  image: string;
-  title: string;
-  owner: string;
-  teams: number;
-  price: number;
-  currency: string;
-  loading?: boolean;
+  event: EventWithOrganization;
+  loading: boolean;
 }
 
-export const ImageCard = ({
-  link,
-  image,
-  title,
-  owner,
-  teams,
-  currency,
-  price,
-  loading,
-}: Props) => {
+export const ImageCard = ({ event, loading }: Props) => {
   const { classes, theme } = useStyles();
+  const { classes: classesCard } = useCardStyles();
 
-  return loading ? (
-    <Skeleton className={classes.base} radius="md" />
-  ) : (
-    <Link href={link} passHref>
-      <Card p="lg" shadow="md" className={cn(classes.base, classes.card)}>
-        <div
-          className={classes.image}
-          style={{ backgroundImage: `url(${image})` }}
-        />
-        <div className={classes.overlay} />
+  return (
+    <Skeleton className={classes.base} radius="md" visible={loading}>
+      <Link href={`/events/${event.id}`} passHref>
+        <Card
+          p="lg"
+          shadow="md"
+          className={cn(classes.base, classes.card, classesCard.card)}
+        >
+          <div
+            // TODO: placeholder gradient or something
+            className={classes.image}
+            style={{ backgroundImage: `url(${event.banner})` }}
+          />
+          <div className={classes.overlay} />
 
-        <div className={classes.content}>
-          <Text size="lg" className={classes.title} weight={500}>
-            {title}
-          </Text>
+          <div className={classes.content}>
+            <Text size="lg" className={classes.title} weight={500}>
+              {event.name}
+            </Text>
 
-          <Group position="apart" spacing="xs">
-            <Group spacing={0}>
-              <Avatar
-                // TODO: placeholder
-                src="https://source.boringavatars.com/marble/64/random?square"
-                size={20}
-                radius="xl"
-                mr="xs"
-              />
-              <Text size="sm" className={classes.owner}>
-                {owner}
-              </Text>
+            <Group position="apart" spacing="xs">
+              <Group spacing={0}>
+                <Avatar
+                  // TODO: placeholder
+                  src={event.owner.user.image}
+                  size={20}
+                  radius="xl"
+                  mr="xs"
+                />
+                <Text size="sm" className={classes.owner}>
+                  {event.owner.name}
+                </Text>
+              </Group>
+
+              <Group spacing="lg">
+                <Tooltip label="Price per team">
+                  <Center>
+                    <Tag size={16} weight="bold" color={theme.colors.dark[2]} />
+                    <Text size="sm" className={classes.bodyText}>
+                      {/* TODO: currencz */}
+                      {/* {event.currency} */} ${event.price}
+                    </Text>
+                  </Center>
+                </Tooltip>
+                <Tooltip label="Teams">
+                  <Center>
+                    <UsersThree
+                      size={16}
+                      weight="bold"
+                      color={theme.colors.dark[2]}
+                    />
+                    <Text size="sm" className={classes.bodyText}>
+                      {event.teamCountLimit}
+                    </Text>
+                  </Center>
+                </Tooltip>
+              </Group>
             </Group>
-
-            <Group spacing="lg">
-              <Tooltip label="Price per team">
-                <Center>
-                  <Tag size={16} weight="bold" color={theme.colors.dark[2]} />
-                  <Text size="sm" className={classes.bodyText}>
-                    {currency}
-                    {price}
-                  </Text>
-                </Center>
-              </Tooltip>
-              <Tooltip label="Teams">
-                <Center>
-                  <UsersThree
-                    size={16}
-                    weight="bold"
-                    color={theme.colors.dark[2]}
-                  />
-                  <Text size="sm" className={classes.bodyText}>
-                    {teams}
-                  </Text>
-                </Center>
-              </Tooltip>
-            </Group>
-          </Group>
-        </div>
-      </Card>
-    </Link>
+          </div>
+        </Card>
+      </Link>
+    </Skeleton>
   );
 };
 
-const useStyles = createStyles((theme, _params, getRef) => {
+const useStyles = createStyles((t, _params, getRef) => {
+  const { isDark } = useAppColorscheme();
   const image = getRef('image');
 
   return {
     base: {
       aspectRatio: '17/11',
-      borderRadius: theme.radius.md,
+      borderRadius: t.radius.md,
     },
 
     card: {
       position: 'relative',
-      backgroundColor:
-        theme.colorScheme === 'dark'
-          ? theme.colors.dark[6]
-          : theme.colors.gray[0],
+
       cursor: 'pointer',
 
       [`&:hover .${image}`]: {
@@ -126,6 +118,7 @@ const useStyles = createStyles((theme, _params, getRef) => {
       bottom: 0,
       backgroundSize: 'cover',
       transition: 'transform 500ms ease',
+      background: isDark ? t.colors.dark[6] : t.colors.gray[7],
     },
 
     overlay: {
@@ -148,17 +141,17 @@ const useStyles = createStyles((theme, _params, getRef) => {
     },
 
     title: {
-      color: theme.white,
+      color: t.white,
       marginBottom: 5,
     },
 
     bodyText: {
-      color: theme.colors.dark[2],
+      color: t.colors.dark[2],
       marginLeft: 7,
     },
 
     owner: {
-      color: theme.colors.dark[2],
+      color: t.colors.dark[2],
     },
   };
 });

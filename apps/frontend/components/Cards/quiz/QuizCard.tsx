@@ -11,7 +11,7 @@ import {
   Menu,
   Skeleton,
   Text,
-  ThemeIcon,
+  ThemeIcon
 } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { useQuizDelete, useQuizNameEdit } from 'hooks/api/quiz';
@@ -25,10 +25,11 @@ import {
   LinkSimple,
   Lock,
   PencilSimpleLine,
-  TrashSimple,
+  TrashSimple
 } from 'phosphor-react';
 import React, { SyntheticEvent } from 'react';
 import { QuizWithOrganization } from 'types/quiz';
+import { useCardStyles } from '../use-card-styles';
 import QuizNameEditInput from './QuizNameEditInput';
 
 interface QuizCardProps {
@@ -44,6 +45,7 @@ export const QuizCard = ({
 }: QuizCardProps &
   Omit<React.ComponentPropsWithoutRef<'div'>, keyof QuizCardProps>) => {
   const { classes, cx } = useStyles();
+  const { classes: classesCard } = useCardStyles();
   const { isDark } = useAppColorscheme();
   const { owner } = quiz;
 
@@ -90,7 +92,7 @@ export const QuizCard = ({
       p={0}
       radius="md"
       withBorder
-      className={cx(classes.card, className)}
+      className={cx(classesCard.card, className)}
       {...others}
       onClick={(e: SyntheticEvent) => {
         if (isEditMode) {
@@ -133,7 +135,7 @@ export const QuizCard = ({
       <Card.Section py={12} px={18}>
         <Group spacing={0} position="apart" align="center">
           <Box>
-            <Skeleton visible={loading} sx={() => ({ overflow: 'visible' })}>
+            <Skeleton visible={loading}>
               <Group position="apart" spacing="sm" sx={() => ({ height: 30 })}>
                 {!loading && !isEditMode ? (
                   <FloatingTooltip label="Click to edit">
@@ -197,31 +199,35 @@ export const QuizCard = ({
               </Group>
             </Group>
           </Box>
-          <Menu
-            closeOnItemClick
-            trigger="click"
-            position="top"
-            control={
-              <ActionIcon variant="hover">
-                <DotsThreeVertical size={24} weight="bold" />
-              </ActionIcon>
-            }
-          >
-            <Menu.Item
-              icon={<PencilSimpleLine weight="bold" />}
-              onClick={onClickToEdit}
+          {!loading && (
+            <Menu
+              closeOnItemClick
+              trigger="click"
+              position="top"
+              control={
+                <ActionIcon variant="hover">
+                  <DotsThreeVertical size={24} weight="bold" />
+                </ActionIcon>
+              }
             >
-              Rename
-            </Menu.Item>
-            <Menu.Item icon={<LinkSimple weight="bold" />}>Copy Link</Menu.Item>
-            <Menu.Item
-              color="red"
-              icon={<TrashSimple weight="bold" />}
-              onClick={quizDeleteHandler}
-            >
-              Delete
-            </Menu.Item>
-          </Menu>
+              <Menu.Item
+                icon={<PencilSimpleLine weight="bold" />}
+                onClick={onClickToEdit}
+              >
+                Rename
+              </Menu.Item>
+              <Menu.Item icon={<LinkSimple weight="bold" />}>
+                Copy Link
+              </Menu.Item>
+              <Menu.Item
+                color="red"
+                icon={<TrashSimple weight="bold" />}
+                onClick={quizDeleteHandler}
+              >
+                Delete
+              </Menu.Item>
+            </Menu>
+          )}
         </Group>
       </Card.Section>
     </Card>
@@ -232,18 +238,6 @@ const useStyles = createStyles((theme) => {
   const { isDark } = useAppColorscheme();
 
   return {
-    card: {
-      position: 'relative',
-      backgroundColor:
-        theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
-      transition: 'box-shadow 250ms',
-
-      '&:hover': {
-        borderColor: 'transparent',
-        boxShadow: theme.shadows.xl,
-      },
-    },
-
     imageSection: {
       position: 'relative',
       aspectRatio: '16/9',
@@ -267,24 +261,6 @@ const useStyles = createStyles((theme) => {
 
     owner: {
       cursor: 'pointer',
-    },
-
-    icon1: {
-      '&:hover': {
-        color: theme.colors.red[5],
-      },
-    },
-
-    icon2: {
-      '&:hover': {
-        color: theme.colors.orange[5],
-      },
-    },
-
-    icon3: {
-      '&:hover': {
-        color: theme.colors.blue[5],
-      },
     },
   };
 });
