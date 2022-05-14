@@ -1,11 +1,11 @@
 import {
   getFromCookie,
-  isApiUrl,
-  isOrganizationUrl,
-  isSignInUrl,
   isVercelEnv,
+  isApiUrl,
   isWhitelistedUrl,
-} from 'lib/utils';
+  isSignInUrl,
+  isOrganizationUrl,
+} from 'lib/routes';
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
 export const whitelistedUrls = ['/', '/verify-request'];

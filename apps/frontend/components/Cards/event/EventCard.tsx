@@ -6,7 +6,7 @@ import {
   Group,
   Skeleton,
   Text,
-  Tooltip
+  Tooltip,
 } from '@mantine/core';
 import cn from 'classnames';
 import { useAppColorscheme } from 'hooks/colorscheme';
@@ -76,7 +76,7 @@ export const ImageCard = ({ event, loading }: Props) => {
                       color={theme.colors.dark[2]}
                     />
                     <Text size="sm" className={classes.bodyText}>
-                      {event.teamCountLimit}
+                      {event.teamCount}
                     </Text>
                   </Center>
                 </Tooltip>

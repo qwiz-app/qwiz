@@ -4,5 +4,5 @@ import { SlideWithQuestionAndElements } from './slide';
 
 export type QuizWithOrganization = Quiz & {
   owner: OrganizationWithUser;
-  slides: SlideWithQuestionAndElements[];
+  slides?: SlideWithQuestionAndElements[];
 };

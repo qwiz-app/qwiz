@@ -1,8 +1,6 @@
-import relativeTime from 'dayjs/plugin/relativeTime';
 import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import sha1 from 'sha1';
-import config from 'lib/config';
-import { organizationUrls, whitelistedUrls } from 'pages/_middleware';
 
 export const generateBoringAvatar = (seed: string) => {
   const source = 'https://source.boringavatars.com/marble/120/';
@@ -34,32 +32,23 @@ export const relativeTimeUntil = (date: Date) => {
   return dayjs().from(date);
 };
 
-export const isWhitelistedUrl = (url: string) => whitelistedUrls.includes(url);
+export enum DateTimeFormat {
+  DATE_NO_YEAR = 'MMMM DD',
+  DATE = 'MMMM DD, YYYY',
+  TIME = 'HH:mm',
+  DATE_TIME = 'MMMM DD, YYYY [at] HH:mm',
+}
 
-export const isVercelEnv = () => config.vercel === '1';
-
-export const isApiUrl = (url: string) => {
-  const splitUrl = url.split('/');
-
-  return splitUrl.includes('api');
+export const formatDate = (
+  date: Date,
+  format: DateTimeFormat | string = DateTimeFormat.DATE_TIME
+) => {
+  return dayjs(date).format(format);
 };
 
-export const isSignInUrl = (url: string) => url.includes('signin');
-
-export const isOrganizationUrl = (url: string) =>
-  organizationUrls.includes(url);
-
-// TODO: allow only organizations: how to check for user role
-// const isQuizzesUrl = (url: string) => url.includes('quiz');
-
-export const cookieToObject = (cookie: string) =>
-  cookie
-    ?.split('; ')
-    .filter(Boolean)
-    .map((s) => s.split('='))
-    .reduce((acc, [k, v]) => ({ ...acc, [k]: v }), {}) ?? {};
-
-export const getFromCookie = (cookie: string, field: string): string | null => {
-  const obj = cookieToObject(cookie);
-  return obj[field] ?? null;
-};
+// numbers
+export const formatCurrency = (amount: number, currency = 'USD') =>
+  new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency,
+  }).format(amount);

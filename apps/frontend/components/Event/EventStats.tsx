@@ -1,22 +1,37 @@
-import { Grid, Group } from '@mantine/core';
+import { Grid, Group, Skeleton } from '@mantine/core';
 import { useAppColorscheme } from 'hooks/colorscheme';
+import { DateTimeFormat, formatCurrency, formatDate } from 'lib/utils';
 import {
   Calendar,
-  ClockAfternoon, IconProps, MapPin, Tag, UsersFour
+  ClockAfternoon,
+  IconProps,
+  MapPin,
+  Tag,
+  UsersFour,
 } from 'phosphor-react';
+import { EventWithOrganization } from 'types/event';
 import { EventStat } from './EventStat';
 
-const EventStats = (props) => {
+interface Props {
+  event: EventWithOrganization;
+  loading: boolean;
+}
+
+const EventStats = ({ event, loading }: Props) => {
   const { theme, isDark } = useAppColorscheme();
   const iconProps: IconProps = {
     size: 32,
     weight: 'duotone',
   };
 
+  if (!event) {
+    return <Skeleton visible={loading} />;
+  }
+
   const eventStats = [
     {
       label: 'Date',
-      value: 'June 6th',
+      value: formatDate(event.startDate, DateTimeFormat.DATE_NO_YEAR),
       icon: (
         <Calendar
           {...iconProps}
@@ -26,7 +41,7 @@ const EventStats = (props) => {
     },
     {
       label: 'Time',
-      value: '19:00',
+      value: formatDate(event.startDate, DateTimeFormat.TIME),
       icon: (
         <ClockAfternoon
           {...iconProps}
@@ -36,7 +51,7 @@ const EventStats = (props) => {
     },
     {
       label: 'Teams',
-      value: '22',
+      value: event.teamCount.toString(),
       icon: (
         <UsersFour
           {...iconProps}
@@ -46,7 +61,7 @@ const EventStats = (props) => {
     },
     {
       label: 'Price per team',
-      value: '$12',
+      value: formatCurrency(event.price, event.currency),
       icon: (
         <Tag
           {...iconProps}
@@ -56,7 +71,7 @@ const EventStats = (props) => {
     },
     {
       label: 'Location',
-      value: 'Sesvete',
+      value: event.location,
       icon: (
         <MapPin
           {...iconProps}
@@ -74,8 +89,10 @@ const EventStats = (props) => {
         })}
       >
         {eventStats.map((stat) => (
-          <Grid.Col key={stat.label} span={3}>
-            <EventStat {...stat} />
+          <Grid.Col span={3} key={stat.label}>
+            <Skeleton visible={loading} radius="md">
+              <EventStat {...stat} />
+            </Skeleton>
           </Grid.Col>
         ))}
       </Grid>
