@@ -7,7 +7,9 @@ import {
 } from '@mantine/core';
 import cn from 'classnames';
 import { useAppColorscheme } from 'hooks/colorscheme';
-import { isCurrentRoute } from 'lib/router';
+import {
+  isActiveRoute
+} from 'lib/router';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { NavItemModel } from 'types/nav-item';
@@ -52,7 +54,7 @@ export const NavbarItem = ({
   btnClass,
 }: Props) => {
   const router = useRouter();
-  const isActive = isCurrentRoute(router.pathname, href);
+  const isActive = isActiveRoute(router.pathname, href);
   const { classes } = useStyles(isActive);
 
   const btn = (
