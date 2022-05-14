@@ -1,4 +1,4 @@
-import { Alert, Button, Stack } from '@mantine/core';
+import { NoQuizzesAlert } from 'components/Cards/quiz/NoQuizzesAlert';
 import { QuizCard } from 'components/Cards/quiz/QuizCard';
 import { QuizCardSmall } from 'components/Cards/quiz/QuizCardSmall';
 import { FramerAnimatedListItem } from 'components/Framer/FramerAnimatedListItem';
@@ -8,14 +8,9 @@ import { CreateQuizModal } from 'components/Modals/Quiz/CreateQuizModal';
 import { HomepageLayout } from 'components/PageLayouts/HomepageLayout';
 import { PageSection } from 'components/PageLayouts/PageSection';
 import { useQuizzes } from 'hooks/api/quiz';
-import { useAppColorscheme } from 'hooks/colorscheme';
 import { useState } from 'react';
 
 const QuizPage = () => {
-  // TODO: maybe use session info if we are certain we only load our own quizzes
-  // const { data: author } = useCurrentUserInfo();
-  const { isDark } = useAppColorscheme();
-
   const [showCreateQuizModal, setShowCreateQuizModal] = useState(false);
   const { data: quizzes, isLoading, isPlaceholderData } = useQuizzes();
   const hasQuizzes = quizzes?.length > 0;
@@ -42,23 +37,7 @@ const QuizPage = () => {
             </FramerAnimatedListItem>
           ))}
         </PageGrid>
-        {!hasQuizzes && (
-          <Alert
-            title="No quizzes yet"
-            color={isDark ? 'gray' : 'dark'}
-            sx={(t) => ({
-              maxWidth: '500px',
-              backgroundColor: !isDark && t.colors.gray[2],
-            })}
-          >
-            <Stack align="start">
-              Choose any of the templates above or start blank 👩‍🎨️
-              <Button color="indigo" variant={isDark ? 'light' : 'filled'}>
-                Create your first quiz
-              </Button>
-            </Stack>
-          </Alert>
-        )}
+        {!hasQuizzes && <NoQuizzesAlert />}
       </PageSection>
 
       <CreateQuizModal
