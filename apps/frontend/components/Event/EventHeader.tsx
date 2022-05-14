@@ -27,8 +27,8 @@ export const EventHeader = (props) => {
   const { isDark } = useAppColorscheme();
   const { classes } = useStyles();
 
-  const [isOwner, setIsOwner] = useState(false);
-  const [isReserved, setIsReserved] = useState(true);
+  const [isOwner] = useState(false);
+  const [isReserved] = useState(true);
 
   const organizationPage = `organization/${'fakeid'}`;
 
