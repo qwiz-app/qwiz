@@ -1,4 +1,4 @@
-import { Alert, Button, Group, Stack } from '@mantine/core';
+import { Alert, Button, Stack } from '@mantine/core';
 import { QuizCard } from 'components/Cards/quiz/QuizCard';
 import { QuizCardSmall } from 'components/Cards/quiz/QuizCardSmall';
 import PageGrid from 'components/Grids/PageGrid';
@@ -53,7 +53,7 @@ const QuizPage = () => {
             <Stack align="start">
               Choose any of the templates above or start blank 👩‍🎨️
               <Button color="indigo" variant={isDark ? 'light' : 'filled'}>
-                <Group spacing={4}>Create your first quiz</Group>
+                Create your first quiz
               </Button>
             </Stack>
           </Alert>

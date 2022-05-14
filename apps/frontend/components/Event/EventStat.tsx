@@ -21,7 +21,7 @@ export const EventStat = ({ label, value, icon }: Props) => {
         <Box>
           <Text
             color="dimmed"
-            sx={() => ({
+            sx={(t) => ({
               fontSize: 10,
             })}
             transform="uppercase"

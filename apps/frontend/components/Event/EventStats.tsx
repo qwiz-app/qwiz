@@ -1,14 +1,9 @@
-import { Group, Grid } from '@mantine/core';
+import { Grid, Group } from '@mantine/core';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import {
-  IconProps,
   Calendar,
-  ClockAfternoon,
-  UsersFour,
-  Tag,
-  MapPin,
+  ClockAfternoon, IconProps, MapPin, Tag, UsersFour
 } from 'phosphor-react';
-import React from 'react';
 import { EventStat } from './EventStat';
 
 const EventStats = (props) => {
