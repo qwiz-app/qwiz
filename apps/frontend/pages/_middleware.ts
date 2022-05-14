@@ -8,7 +8,7 @@ import {
 } from 'lib/utils';
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
-export const whitelistedUrls = ['/'];
+export const whitelistedUrls = ['/', '/verify-request'];
 
 export const organizationUrls = ['/quiz'];
 
