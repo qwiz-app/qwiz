@@ -31,8 +31,9 @@ export const MainSlide = () => {
           <DraggableElement
             key={element.id}
             initial={{
-              x: element.point.x,
-              y: element.point.y,
+              // TODO: mislav shall fix this :maja:
+              x: element.point.x as unknown as number,
+              y: element.point.y as unknown as number,
             }}
             constraintsRef={constraintsRef}
             id={element.point.id}

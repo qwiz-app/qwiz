@@ -43,6 +43,8 @@ model Session {
 
 model User {
   id            String    @id @default(cuid())
+  // TODO
+  // name          String    @default("Unknown")
   name          String?
   email         String?   @unique
   emailVerified DateTime?
