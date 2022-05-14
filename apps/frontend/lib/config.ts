@@ -31,6 +31,12 @@ const config = {
     bucketUrl: process.env.NEXT_PUBLIC_AWS_BUCKET_URL,
     rootUrl: process.env.AWS_IMG_ROOT,
   },
+  smtp: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+    from: process.env.SMTP_FROM,
+    server: `smtp://${process.env.SMTP_USER}:${process.env.SMTP_PASS}@email-smtp.${process.env.AWS_SES_REGION}.amazonaws.com:587`,
+  },
 };
 
 export default config;

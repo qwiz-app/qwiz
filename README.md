@@ -58,7 +58,16 @@ To run this project, add the following environment variables to your .env.local 
 `SENTRY_IGNORE_API_RESOLUTION_ERROR=1` 
 
 `NEXT_PUBLIC_AWS_BUCKET_URL=`
+
 `AWS_IMG_ROOT={bucket url without protocol}`
+
+`AWS_SES_REGION=`
+
+`SMTP_USER=`
+
+`SMTP_PASS=`
+
+`SMTP_FROM=`
 
 .env file in root dir (for Prisma)
 

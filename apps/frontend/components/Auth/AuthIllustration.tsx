@@ -12,7 +12,7 @@ export const AuthIllustration = (props) => {
     <div {...props}>
       <Image
         src={illustration}
-        alt="city"
+        alt="Peep"
         objectFit="contain"
         className="signin-hero"
         width={620}
