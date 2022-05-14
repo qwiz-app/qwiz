@@ -1,37 +1,66 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Reorder } from 'framer-motion';
 import { Text, Box, createStyles, Navbar } from '@mantine/core';
 import { Plus } from 'phosphor-react';
 import { ThinScrollArea } from 'components/UI/ThinScrollArea';
+import { useRouter } from 'next/router';
+import cn from 'classnames';
+import { useQuiz } from 'hooks/api/quiz';
+import { SlideWithQuestionAndElements } from 'types/slide';
 
 export const Slides = () => {
-  const [items, setItems] = useState(questions);
   const { classes } = useStyles();
+  const router = useRouter();
+  const { quizId, questionId } = router.query;
+
+  const { data: quiz, isSuccess } = useQuiz(quizId as string);
+
+  const [slides, setSlides] = useState<SlideWithQuestionAndElements[]>(null);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setSlides(quiz.slides);
+    }
+  }, [isSuccess]);
+
+  const handleClick = (selectedQuestionId: string) => {
+    router.push(`/quiz/${quizId}/${selectedQuestionId}`, undefined, {
+      shallow: true,
+    });
+  };
 
   return (
     <Navbar.Section grow component={ThinScrollArea} className={classes.wrapper}>
-      <Reorder.Group
-        axis="y"
-        values={items}
-        onReorder={setItems}
-        style={{ padding: 0, marginBottom: 56 }}
-      >
-        {items.map((item) => (
-          <Reorder.Item
-            key={item.id}
-            value={item}
-            style={{ listStyle: 'none' }}
-          >
-            <Box className={classes.box}>
-              <div>
-                <Text color="dimmed" size="sm">
-                  {item.question}
-                </Text>
-              </div>
-            </Box>
-          </Reorder.Item>
-        ))}
-      </Reorder.Group>
+      {slides && (
+        <Reorder.Group
+          axis="y"
+          values={slides}
+          onReorder={setSlides}
+          style={{ padding: 0, marginBottom: 56 }}
+        >
+          {slides.map((slide) => (
+            <Reorder.Item
+              key={slide.id}
+              value={slide}
+              style={{ listStyle: 'none' }}
+            >
+              <Box
+                className={cn(
+                  classes.box,
+                  questionId === slide.id && classes.selected
+                )}
+                onClick={() => handleClick(slide.id)}
+              >
+                <div>
+                  <Text color="dimmed" size="sm">
+                    {slide.ordinal}
+                  </Text>
+                </div>
+              </Box>
+            </Reorder.Item>
+          ))}
+        </Reorder.Group>
+      )}
       <Box className={classes.addNew}>
         <Plus />
         <Text ml={8}>New Question</Text>
@@ -51,6 +80,8 @@ const useStyles = createStyles((theme) => ({
     borderRadius: theme.radius.md,
     margin: theme.radius.md,
     cursor: 'pointer',
+    borderColor: 'transparent',
+    borderWidth: 2,
 
     '&:hover': {
       backgroundColor:
@@ -58,6 +89,14 @@ const useStyles = createStyles((theme) => ({
           ? theme.colors.dark[5]
           : theme.colors.gray[1],
     },
+  },
+
+  selected: {
+    borderColor:
+      theme.colorScheme === 'dark'
+        ? theme.colors.blue[5]
+        : theme.colors.blue[2],
+    borderWidth: 2,
   },
 
   addNew: {
@@ -86,118 +125,3 @@ const useStyles = createStyles((theme) => ({
     position: 'relative',
   },
 }));
-
-const questions = [
-  {
-    id: '1',
-    question: 'What is the capital of the United States?',
-    answers: [
-      {
-        answer: 'Washington, D.C.',
-        correct: true,
-      },
-      {
-        answer: 'New York, NY',
-        correct: false,
-      },
-    ],
-  },
-  {
-    id: '2',
-    question: 'Who was the first president of the United States',
-    answers: [
-      {
-        answer: 'George Washington',
-        correct: true,
-      },
-      {
-        answer: 'John Adams',
-        correct: false,
-      },
-    ],
-  },
-  {
-    id: '3',
-    question: 'Who was the first president of the United States',
-    answers: [
-      {
-        answer: 'George Washington',
-        correct: true,
-      },
-      {
-        answer: 'John Adams',
-        correct: false,
-      },
-    ],
-  },
-  {
-    id: '4',
-    question: 'Who was the first president of the United States',
-    answers: [
-      {
-        answer: 'George Washington',
-        correct: true,
-      },
-      {
-        answer: 'John Adams',
-        correct: false,
-      },
-    ],
-  },
-  {
-    id: '5',
-    question: 'Who was the first president of the United States',
-    answers: [
-      {
-        answer: 'George Washington',
-        correct: true,
-      },
-      {
-        answer: 'John Adams',
-        correct: false,
-      },
-    ],
-  },
-  {
-    id: '6',
-    question: 'Who was the first president of the United States',
-    answers: [
-      {
-        answer: 'George Washington',
-        correct: true,
-      },
-      {
-        answer: 'John Adams',
-        correct: false,
-      },
-    ],
-  },
-  {
-    id: '7',
-    question: 'Who was the first president of the United States',
-    answers: [
-      {
-        answer: 'George Washington',
-        correct: true,
-      },
-      {
-        answer: 'John Adams',
-        correct: false,
-      },
-    ],
-  },
-  {
-    id: '8',
-    question: 'Who was the first president of the United States',
-    answers: [
-      {
-        answer: 'George Washington',
-        correct: true,
-      },
-      {
-        answer: 'John Adams',
-        correct: false,
-      },
-    ],
-  },
-];

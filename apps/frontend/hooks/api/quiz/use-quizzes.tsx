@@ -19,6 +19,22 @@ const placholderQuizzes = generateArrayForRange(4).map((_, idx) => ({
   ownerId: '',
   createdAt: new Date(),
   updatedAt: new Date(),
+  slides: [
+    {
+      id: `${idx}`,
+      quizId: `${idx}`,
+      backgroundColor: '#ffffff',
+      ordinal: 1,
+      elements: [],
+      question: {
+        id: `${idx}`,
+        quizId: `${idx}`,
+        questionId: `${idx}`,
+        quizSlideId: `${idx}`,
+        scoringModeId: idx,
+      },
+    },
+  ],
   owner: {
     id: '',
     name: '',

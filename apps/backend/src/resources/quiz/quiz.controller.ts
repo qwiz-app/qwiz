@@ -68,7 +68,20 @@ export class QuizController {
   async findOne(@Param('id') id: string) {
     const quiz = await this.quizService.findOne(
       { id },
-      this.includeWithUserAndCount
+      {
+        slides: {
+          include: {
+            quizQuestion: true,
+            elements: {
+              include: {
+                questionContent: true,
+                point: true,
+              }
+            },
+          },
+        },
+        ...this.includeWithUserAndCount,
+      }
     );
     if (!quiz) {
       throw new NotFoundException('Quiz not found.');

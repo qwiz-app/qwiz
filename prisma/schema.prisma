@@ -132,21 +132,27 @@ model EventTeam {
   @@unique([eventId, teamId])
 }
 
+enum Currency {
+  USD
+  EUR
+}
+
 model Event {
-  id             String   @id @default(cuid())
-  name           String
-  banner         String?
-  ownerId        String
-  quizId         String
-  startDate      DateTime
-  location       String
-  price          Int
-  teamCountLimit Int
-  createdAt      DateTime @default(now())
+  id        String   @id @default(cuid())
+  name      String
+  banner    String?
+  ownerId   String
+  quizId    String
+  startDate DateTime
+  location  String
+  teamCount Int
+  price     Int
+  currency  Currency @default(value: USD)
+  createdAt DateTime @default(now())
 
   // relations
   owner Organization @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  quiz  Quiz?        @relation(fields: [quizId], references: [id], onDelete: Restrict)
+  quiz  Quiz         @relation(fields: [quizId], references: [id], onDelete: Restrict)
 
   // opposite relations
   teams EventTeam[]
@@ -154,7 +160,7 @@ model Event {
 
 model Quiz {
   id          String   @id @default(cuid())
-  name        String?  @default("Untitled")
+  name        String   @default("Untitled")
   description String?
   thumbnail   String?
   published   Boolean? @default(false)
@@ -167,19 +173,24 @@ model Quiz {
 
   // opposite relations
   questions QuizQuestion[]
-  Event     Event[]
+  event     Event[]
+  slides    QuizSlide[]
 }
 
-// when choosing existing question, if ANY INFO is changed (any word in question, any answer, any answer added) - question is "forked" (but with no reference to the original - yet)
+enum QuestionElementType {
+  TEXT
+  IMAGE
+  AUDIO
+}
+
+// when choosing existing question, if ANY INFO is changed (any word in question, any answer, any answer added) - question is "forked" (with no reference to the original)
 // both question and all of the answers are added to its tables as new records
 model Question {
   id             String             @id @default(cuid())
-  text           String
-  image          String?
-  audio          String?
-  // TODO: set default question mode - single text question
-  questionTypeId Int                @default(1)
   ownerId        String?
+  contents       QuestionContent[]
+  // TODO: set default question mode - single text question
+  questionModeId Int                @default(1)
   isGlobal       Boolean            @default(false)
   isActive       Boolean            @default(true)
   categories     QuestionCategory[]
@@ -189,10 +200,29 @@ model Question {
 
   // relations
   owner        Organization? @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  questionType QuestionMode? @relation(fields: [questionTypeId], references: [id], onDelete: Restrict)
+  questionMode QuestionMode? @relation(fields: [questionModeId], references: [id], onDelete: Restrict)
 
   // opposite relations
   quizQuestions QuizQuestion[]
+}
+
+model QuestionContent {
+  id         String              @id @default(cuid())
+  questionId String
+  type       QuestionElementType
+  content    String
+
+  // relations
+  question         Question           @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  quizSlideElement QuizSlideElement[]
+}
+
+model QuestionCategory {
+  id   String @id @default(cuid())
+  name String @unique
+
+  // opposite relations
+  questions Question[]
 }
 
 model Answer {
@@ -215,45 +245,73 @@ model QuestionMode {
 }
 
 model QuestionScoringMode {
-  id          Int    @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   name        String
-  description String @db.Text
+  description String? @db.Text
 
   // opposite relations
   questions QuizQuestion[]
-}
-
-model QuestionCategory {
-  id          String @id @default(cuid())
-  name        String @unique
-  description String @db.Text
-
-  // opposite relations
-  questions Question[]
 }
 
 // question instance for a specific quiz
 model QuizQuestion {
   id            String @id @default(cuid())
   quizId        String
-  // onUpdate: No action is a workaround from https://github.com/prisma/prisma/issues/10758
   questionId    String
-  ordinal       Int
-  // we probably want to override original question mode (scoring)
-  // ie. for modes such as "betting on answer" or "fastest correct answer"
-  // maybe we have different mode tables - question mode on original question (single, photo, audio, multiple) & scoring mode on our instance
+  quizSlideId   String @unique
   scoringModeId Int    @default(1)
 
   // relations
   quiz        Quiz                 @relation(fields: [quizId], references: [id], onUpdate: NoAction, onDelete: Restrict)
   question    Question             @relation(fields: [questionId], references: [id], onUpdate: NoAction, onDelete: Restrict)
+  quizSlide   QuizSlide            @relation(fields: [quizSlideId], references: [id])
   scoringMode QuestionScoringMode? @relation(fields: [scoringModeId], references: [id], onDelete: Restrict)
 
   // opposite relations
   eventAnswers EventTeamAnswer[]
 
   @@unique([quizId, questionId])
+}
+
+model QuizSlide {
+  id              String  @id @default(cuid())
+  quizId          String
+  // TODO: slide styles
+  ordinal         Int
+  backgroundColor String?
+
+  // relations
+  quiz Quiz @relation(fields: [quizId], references: [id], onUpdate: NoAction, onDelete: Restrict)
+
+  // opposite relations
+  elements     QuizSlideElement[]
+  quizQuestion QuizQuestion?
+
   @@unique([quizId, ordinal])
+}
+
+model QuizSlideElement {
+  id                String  @id @default(cuid())
+  quizSlideId       String?
+  questionContentId String?
+
+  // relations
+  quizSlide       QuizSlide?       @relation(fields: [quizSlideId], references: [id], onDelete: Cascade)
+  questionContent QuestionContent? @relation(fields: [questionContentId], references: [id], onDelete: Restrict)
+  point           Point?
+}
+
+model Point {
+  id                 String   @id @default(cuid())
+  quizSlideElementId String   @unique
+  width              Int?
+  height             Int?
+  x                  Decimal?
+  y                  Decimal?
+  z                  Int?
+
+  quizSlideElement QuizSlideElement @relation(fields: [quizSlideElementId], references: [id], onDelete: Cascade)
+
 }
 
 model EventTeamAnswer {
