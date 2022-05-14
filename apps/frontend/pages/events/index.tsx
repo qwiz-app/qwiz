@@ -7,10 +7,14 @@ import DashboardLayout from 'components/Layouts/DashboardLayout';
 import { HomepageLayout } from 'components/PageLayouts/HomepageLayout';
 import { PageSection } from 'components/PageLayouts/PageSection';
 import { useEvents } from 'hooks/api/events';
+import { useEffect } from 'react';
 
 const EventsPage = () => {
   const { data: events, isLoading, isPlaceholderData } = useEvents();
 
+  useEffect(() => {
+    console.log(events);
+  }, [events]);
   // const hasEvents = events?.length > 0;
 
   return (

@@ -85,7 +85,7 @@ export const UserModalInfoCard = ({
         <Box mb={4}>
           <Badge
             size="sm"
-            color={role === Role.ORGANIZATION ? 'violet' : 'yellow'}
+            color={role === Role.ORGANIZATION ? 'indigo' : 'yellow'}
           >
             {role}
           </Badge>

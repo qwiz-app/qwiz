@@ -20,7 +20,7 @@ export const AuthTitle = () => {
           <span>Welcome</span>
           <HandWaving
             size={38}
-            color={isDark ? theme.colors.violet[4] : 'currentColor'}
+            color={isDark ? theme.colors.indigo[4] : 'currentColor'}
             weight="duotone"
             style={{ marginTop: -6 }}
           />

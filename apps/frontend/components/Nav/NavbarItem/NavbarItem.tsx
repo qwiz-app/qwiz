@@ -3,13 +3,11 @@ import {
   Group,
   Text,
   ThemeIcon,
-  UnstyledButton
+  UnstyledButton,
 } from '@mantine/core';
 import cn from 'classnames';
 import { useAppColorscheme } from 'hooks/colorscheme';
-import {
-  isActiveRoute
-} from 'lib/router';
+import { isActiveRoute } from 'lib/router';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { NavItemModel } from 'types/nav-item';
