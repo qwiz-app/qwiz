@@ -59,10 +59,17 @@ const EventsPage = () => {
     [events]
   );
 
-  const renderEvents = (arr: EventWithOrganization[]) =>
+  const renderEvents = (arr: EventWithOrganization[], highlighted = false) =>
     arr?.map((event) => (
       <FramerAnimatedListItem id={event.id} key={event.id}>
-        <ImageCard event={event} loading={isLoadingOrPlaceholder} />
+        {highlighted ? (
+          <HighlightedEventCard
+            event={event}
+            loading={isLoadingOrPlaceholder}
+          />
+        ) : (
+          <ImageCard event={event} loading={isLoadingOrPlaceholder} />
+        )}
       </FramerAnimatedListItem>
     ));
 
@@ -73,7 +80,7 @@ const EventsPage = () => {
           <PageGrid type="big">
             {isLoadingOrPlaceholder
               ? highlightedPlaceholderSkeletons
-              : renderEvents(highlightedEvents)}
+              : renderEvents(highlightedEvents, true)}
           </PageGrid>
         </PageSection>
       )}

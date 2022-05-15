@@ -49,12 +49,8 @@ export const HighlightedEventCard = ({ event, loading }: Props) => {
       className={cn(classes.base, classesCard.card, classes.card)}
     >
       <Box className={classes.overlay} />
-
       <Stack sx={{ width: '100%' }}>
         <Group position="apart" sx={{ width: '100%' }}>
-          <Title order={3} className={classes.title}>
-            {event?.name}
-          </Title>
           <Tooltip label={formatDate(event.startDate)}>
             <Badge variant="filled" color="dark">
               {relativeTimeTo(event.startDate)}
@@ -71,15 +67,20 @@ export const HighlightedEventCard = ({ event, loading }: Props) => {
               radius="xl"
               mr="xs"
             />
-            <Text size="sm" lineClamp={1}>
+            <Text size="sm" lineClamp={1} className={classes.owner}>
               {event.owner.name}
             </Text>
           </Group>
         </Link>
       </Stack>
-      <Button ml="auto" variant="white" color="dark" onClick={gotoEvent}>
-        Check it out
-      </Button>
+      <Group position="apart" sx={{ width: '100%' }}>
+        <Title order={3} className={classes.title} color="white">
+          {event?.name}
+        </Title>
+        <Button ml="auto" variant="white" color="dark" onClick={gotoEvent}>
+          Check it out
+        </Button>
+      </Group>
     </Paper>
   );
 };
@@ -107,7 +108,7 @@ const useStyles = createStyles((t) => {
 
     overlay: {
       position: 'absolute',
-      top: '20%',
+      top: 0,
       left: 0,
       right: 0,
       bottom: 0,
@@ -115,10 +116,16 @@ const useStyles = createStyles((t) => {
         'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .85) 90%)',
     },
 
+    owner: {
+      color: t.white,
+      zIndex: 2,
+    },
+
     title: {
       color: t.white,
       lineHeight: 1.2,
       fontSize: 32,
+      zIndex: 2,
     },
 
     tag: {
@@ -126,6 +133,7 @@ const useStyles = createStyles((t) => {
       opacity: 0.7,
       fontWeight: 700,
       textTransform: 'uppercase',
+      zIndex: 2,
     },
   };
 });
