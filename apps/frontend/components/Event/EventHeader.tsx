@@ -12,7 +12,7 @@ import {
   Skeleton,
   Stack,
   Title,
-  Tooltip
+  Tooltip,
 } from '@mantine/core';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import Link from 'next/link';
@@ -20,7 +20,7 @@ import {
   CalendarCheck,
   CircleWavyCheck,
   NotePencil,
-  ShareNetwork
+  ShareNetwork,
 } from 'phosphor-react';
 import { useState } from 'react';
 import { EventWithOrganization } from 'types/event';
@@ -67,9 +67,6 @@ export const EventHeader = ({ event, loading }: Props) => {
               src={event.owner.user.image}
               size={164}
               className={classes.avatar}
-              sx={() => ({
-                cursor: 'pointer',
-              })}
             />
           </Link>
           <Stack
@@ -153,9 +150,9 @@ const useStyles = createStyles((t) => {
   return {
     avatar: {
       transform: 'translateY(-45%)',
-      // TODO: shadow takes color of avatar
       boxShadow: t.shadows.xl,
       borderRadius: '100rem',
+      cursor: 'pointer',
     },
 
     orgName: {

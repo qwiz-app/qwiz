@@ -7,7 +7,7 @@ import {
   IconProps,
   MapPin,
   Tag,
-  UsersFour
+  UsersFour,
 } from 'phosphor-react';
 import { EventWithOrganization } from 'types/event';
 import { EventStat } from './EventStat';
@@ -18,7 +18,7 @@ interface Props {
 }
 
 const EventStats = ({ event, loading }: Props) => {
-  const { theme, isDark } = useAppColorscheme();
+  const { theme } = useAppColorscheme();
   const iconProps: IconProps = {
     size: 32,
     weight: 'duotone',
@@ -30,52 +30,27 @@ const EventStats = ({ event, loading }: Props) => {
     {
       label: 'Date',
       value: formatDate(event.startDate, DateTimeFormat.DATE_NO_YEAR),
-      icon: (
-        <Calendar
-          {...iconProps}
-          color={isDark ? theme.colors.indigo[4] : 'currentColor'}
-        />
-      ),
+      icon: <Calendar {...iconProps} color={theme.colors.indigo[4]} />,
     },
     {
       label: 'Time',
       value: formatDate(event.startDate, DateTimeFormat.TIME),
-      icon: (
-        <ClockAfternoon
-          {...iconProps}
-          color={isDark ? theme.colors.orange[4] : 'currentColor'}
-        />
-      ),
+      icon: <ClockAfternoon {...iconProps} color={theme.colors.orange[4]} />,
     },
     {
       label: 'Teams',
       value: event.teamCount.toString(),
-      icon: (
-        <UsersFour
-          {...iconProps}
-          color={isDark ? theme.colors.teal[4] : 'currentColor'}
-        />
-      ),
+      icon: <UsersFour {...iconProps} color={theme.colors.teal[4]} />,
     },
     {
       label: 'Price per team',
       value: formatCurrency(event.price, event.currency),
-      icon: (
-        <Tag
-          {...iconProps}
-          color={isDark ? theme.colors.red[4] : 'currentColor'}
-        />
-      ),
+      icon: <Tag {...iconProps} color={theme.colors.red[4]} />,
     },
     {
       label: 'Location',
       value: event.location,
-      icon: (
-        <MapPin
-          {...iconProps}
-          color={isDark ? theme.colors.blue[4] : 'currentColor'}
-        />
-      ),
+      icon: <MapPin {...iconProps} color={theme.colors.blue[4]} />,
     },
   ];
 

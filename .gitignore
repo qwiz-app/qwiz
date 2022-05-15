@@ -45,4 +45,3 @@ Thumbs.db
 
 # Sentry
 .sentryclirc
-apps/frontend/components/Event
