@@ -34,7 +34,7 @@ export const PageSection = ({ title, description, children }: Props) => {
     <section>
       {title && (
         <Box className={classes.headerWrapper}>
-          <Title className={classes.title}>{title}</Title>
+          {title && <Title className={classes.title}>{title}</Title>}
           {description && (
             <Box sx={(sx) => ({ maxWidth: 500 })} p={0}>
               <Text size="sm" color="dimmed">

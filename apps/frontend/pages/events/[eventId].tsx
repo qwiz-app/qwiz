@@ -1,8 +1,6 @@
 /* eslint-disable react/jsx-no-undef */
-import { Container, Stack } from '@mantine/core';
-import EventAdditionalInfo from 'components/Event/EventAdditionalInfo';
-import { EventHeader } from 'components/Event/EventHeader';
-import EventStats from 'components/Event/EventStats';
+import { Container } from '@mantine/core';
+import EventProfile from 'components/Event/EventProfile';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
 import { useEvent } from 'hooks/api/events/use-event';
 import { useRouter } from 'next/router';
@@ -25,14 +23,7 @@ const EventPage = () => {
   return (
     <Container size="lg">
       {hasEventOrIsPlacholder ? (
-        <Stack align="stretch">
-          <EventHeader event={event} loading={isLoading || isPlaceholderData} />
-          <EventStats event={event} loading={isLoading || isPlaceholderData} />
-          <EventAdditionalInfo
-            event={event}
-            loading={isLoading || isPlaceholderData}
-          />
-        </Stack>
+        <EventProfile event={event} loading={isLoading || isPlaceholderData} />
       ) : (
         // at this point it will never show
         <div>TODO: No event found</div>

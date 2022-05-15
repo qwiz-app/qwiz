@@ -12,7 +12,7 @@ import {
   Skeleton,
   Stack,
   Title,
-  Tooltip,
+  Tooltip
 } from '@mantine/core';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import Link from 'next/link';
@@ -20,7 +20,7 @@ import {
   CalendarCheck,
   CircleWavyCheck,
   NotePencil,
-  ShareNetwork,
+  ShareNetwork
 } from 'phosphor-react';
 import { useState } from 'react';
 import { EventWithOrganization } from 'types/event';

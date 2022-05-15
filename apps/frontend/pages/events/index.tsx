@@ -6,23 +6,63 @@ import PageGrid from 'components/Grids/PageGrid';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
 import { HomepageLayout } from 'components/PageLayouts/HomepageLayout';
 import { PageSection } from 'components/PageLayouts/PageSection';
+import dayjs from 'dayjs';
 import { useEvents } from 'hooks/api/events';
+import { useMemo } from 'react';
+import { EventWithOrganization } from 'types/event';
 
 const EventsPage = () => {
   const { data: events, isLoading, isPlaceholderData } = useEvents();
 
+  const isLoadingOrPlaceholder = isLoading || isPlaceholderData;
+
   const hasEvents = events?.length > 0;
+
+  const now = dayjs();
+
+  const activeEvents = useMemo(
+    () => events?.filter((event) => dayjs(event.startDate) >= now),
+    [events]
+  );
+
+  const pastEvents = useMemo(
+    () =>
+      events?.filter((event) => dayjs(event.startDate).add(4, 'hour') < now),
+    [events]
+  );
+
+  const highlightedEvents = useMemo(
+    () => activeEvents?.reverse().slice(0, 1),
+    [activeEvents]
+  );
+
+  const placeholderSkeletons = useMemo(
+    () =>
+      events?.map((event) => (
+        <FramerAnimatedListItem id={event.id} key={event.id}>
+          <ImageCard event={event} loading={isLoadingOrPlaceholder} />
+        </FramerAnimatedListItem>
+      )),
+    [events]
+  );
+
+  const renderEvents = (arr: EventWithOrganization[]) =>
+    arr?.map((event) => (
+      <FramerAnimatedListItem id={event.id} key={event.id}>
+        <ImageCard event={event} loading={isLoadingOrPlaceholder} />
+      </FramerAnimatedListItem>
+    ));
 
   return (
     <HomepageLayout>
       {hasEvents && (
-        <PageSection title="Incoming events">
+        <PageSection title="Highlighted event">
           <PageGrid type="big">
-            {events?.slice(0, 2).map((event, i) => (
+            {highlightedEvents?.map((event, i) => (
               <HighlightedEventCard
                 key={event.id}
                 event={event}
-                loading={isLoading || isPlaceholderData}
+                loading={isLoadingOrPlaceholder}
               />
             ))}
           </PageGrid>
@@ -30,25 +70,28 @@ const EventsPage = () => {
       )}
       <PageSection
         title="Your events"
-        description="Consequatur aut repellat dolores distinctio quo voluptas minima et."
+        description="All of your incoming events"
       >
         <PageGrid type="small">
-          {events?.map((event) => (
-            // TODO: formik not working
-            <FramerAnimatedListItem id={event.id} key={event.id}>
-              <ImageCard
-                event={event}
-                loading={isLoading || isPlaceholderData}
-              />
-            </FramerAnimatedListItem>
-          ))}
+          {isLoadingOrPlaceholder
+            ? placeholderSkeletons
+            : renderEvents(activeEvents)}
         </PageGrid>
         {!hasEvents && <NoEventsAlert />}
       </PageSection>
-      {/* TODO: highlighted event */}
-      {/* <PageSection>
-        <EventBanner />
-      </PageSection> */}
+      {hasEvents && (
+        <PageSection
+          title="Past events"
+          description="All of your finished events"
+        >
+          <PageGrid type="small">
+            {isLoadingOrPlaceholder
+              ? placeholderSkeletons
+              : renderEvents(pastEvents)}
+          </PageGrid>
+          {!hasEvents && <NoEventsAlert />}
+        </PageSection>
+      )}
     </HomepageLayout>
   );
 };

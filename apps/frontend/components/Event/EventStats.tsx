@@ -2,12 +2,10 @@ import { Box, createStyles, Skeleton } from '@mantine/core';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { DateTimeFormat, formatCurrency, formatDate } from 'lib/utils';
 import {
-  Calendar,
-  ClockAfternoon,
-  IconProps,
+  Calendar, ClockAfternoon, IconProps,
   MapPin,
   Tag,
-  UsersFour,
+  UsersFour
 } from 'phosphor-react';
 import { EventWithOrganization } from 'types/event';
 import { EventStat } from './EventStat';

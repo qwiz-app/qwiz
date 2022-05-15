@@ -15,7 +15,7 @@ export class EventService {
       where,
       include,
       orderBy: {
-        startDate: 'asc',
+        startDate: 'desc',
       },
     });
   }

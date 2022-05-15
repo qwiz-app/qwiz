@@ -11,7 +11,7 @@ import {
 } from '@mantine/core';
 import cn from 'classnames';
 import { useAppColorscheme } from 'hooks/colorscheme';
-import { formatCurrency } from 'lib/utils';
+import { formatCurrency, formatDate, relativeTimeTo } from 'lib/utils';
 import Link from 'next/link';
 import { Tag, UsersThree } from 'phosphor-react';
 import { EventWithOrganization } from 'types/event';
@@ -45,61 +45,76 @@ export const ImageCard = ({ event, loading }: Props) => {
           />
           <Box className={classes.overlay} />
 
-          <Box className={classes.content}>
-            <Text
-              size="lg"
-              className={classes.title}
-              weight={500}
-              lineClamp={2}
-            >
-              {event.name}
-            </Text>
+          <Box className={classes.contentWrapper}>
+            {/* <Box></Box> */}
 
-            <Group position="apart" spacing="xs" noWrap>
-              <Link href={`/organization/${event.ownerId}`}>
-                <Group spacing={0} noWrap>
-                  <Avatar
-                    // TODO: placeholder
-                    src={event.owner.user.image}
-                    size={20}
-                    radius="xl"
-                    mr="xs"
-                  />
-                  <Text size="sm" className={classes.owner} lineClamp={1}>
-                    {event.owner.name}
+            <Box className={classes.content}>
+              <Group position="apart">
+                <Text
+                  size="lg"
+                  className={classes.title}
+                  weight={500}
+                  lineClamp={2}
+                >
+                  {event.name}
+                </Text>
+                <Tooltip label={formatDate(event.startDate)}>
+                  <Text size="xs" color="dimmed">
+                    {relativeTimeTo(event.startDate)}
                   </Text>
-                </Group>
-              </Link>
-
-              <Group
-                spacing="lg"
-                noWrap
-                sx={() => ({
-                  flexShrink: 0,
-                })}
-              >
-                <Tooltip label="Price per team">
-                  <Center>
-                    <Tag size={16} weight="bold" color={theme.colors.dark[2]} />
-                    <Text size="sm" className={classes.bodyText}>
-                      {formatCurrency(event.price, event.currency)}
-                    </Text>
-                  </Center>
-                </Tooltip>
-                <Tooltip label="Teams">
-                  <Center>
-                    <UsersThree
-                      size={16}
-                      weight="bold"
-                      color={theme.colors.dark[2]}
-                    />
-                    <Text size="sm" className={classes.bodyText}>
-                      {event.teamCount}
-                    </Text>
-                  </Center>
                 </Tooltip>
               </Group>
-            </Group>
+
+              <Group position="apart" spacing="xs" noWrap>
+                <Link href={`/organization/${event.ownerId}`}>
+                  <Group spacing={0} noWrap>
+                    <Avatar
+                      // TODO: placeholder
+                      src={event.owner.user.image}
+                      size={20}
+                      radius="xl"
+                      mr="xs"
+                    />
+                    <Text size="sm" className={classes.owner} lineClamp={1}>
+                      {event.owner.name}
+                    </Text>
+                  </Group>
+                </Link>
+
+                <Group
+                  spacing="lg"
+                  noWrap
+                  sx={() => ({
+                    flexShrink: 0,
+                  })}
+                >
+                  <Tooltip label="Price per team">
+                    <Center>
+                      <Tag
+                        size={16}
+                        weight="bold"
+                        color={theme.colors.dark[2]}
+                      />
+                      <Text size="sm" className={classes.bodyText}>
+                        {formatCurrency(event.price, event.currency)}
+                      </Text>
+                    </Center>
+                  </Tooltip>
+                  <Tooltip label="Teams">
+                    <Center>
+                      <UsersThree
+                        size={16}
+                        weight="bold"
+                        color={theme.colors.dark[2]}
+                      />
+                      <Text size="sm" className={classes.bodyText}>
+                        {event.teamCount}
+                      </Text>
+                    </Center>
+                  </Tooltip>
+                </Group>
+              </Group>
+            </Box>
           </Box>
         </Card>
       </Link>
@@ -147,6 +162,16 @@ const useStyles = createStyles((t, _params, getRef) => {
       bottom: 0,
       backgroundImage:
         'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .85) 90%)',
+    },
+
+    contentWrapper: {
+      height: '100%',
+      position: 'relative',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      zIndex: 1,
+      marginTop: 'auto',
     },
 
     content: {

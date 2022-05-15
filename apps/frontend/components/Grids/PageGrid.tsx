@@ -1,6 +1,7 @@
-import { createStyles } from '@mantine/core';
+import { Box, createStyles } from '@mantine/core';
 import { ReactNode } from 'react';
 import cn from 'classnames';
+import { useBreakpoints } from 'hooks/breakpoints';
 
 interface Props {
   type: 'big' | 'small' | 'tiny' | 'tiniest';
@@ -9,33 +10,43 @@ interface Props {
 
 const PageGrid = ({ type, children }: Props) => {
   const { classes } = useStyles();
-
   const className = classes[type];
 
-  return <div className={cn(classes.grid, className)}>{children}</div>;
+  return <Box className={cn(classes.grid, className)}>{children}</Box>;
 };
 
 export default PageGrid;
 
-const useStyles = createStyles((theme) => ({
-  grid: {
-    display: 'grid',
-    gap: theme.spacing.md,
-  },
+const useStyles = createStyles((theme) => {
+  const { matches } = useBreakpoints();
+  return {
+    grid: {
+      display: 'grid',
+      gap: theme.spacing.md,
+    },
 
-  big: {
-    gridTemplateColumns: 'repeat(auto-fill, minmax(400px, 1fr))',
-  },
+    big: {
+      gridTemplateColumns: matches.min.lg
+        ? 'repeat(auto-fill, minmax(500px, 1fr))'
+        : '1fr',
+    },
 
-  small: {
-    gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-  },
+    small: {
+      gridTemplateColumns: matches.min.sm
+        ? 'repeat(auto-fill, minmax(320px, 1fr))'
+        : '1fr',
+    },
 
-  tiny: {
-    gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-  },
+    tiny: {
+      gridTemplateColumns: matches.min.sm
+        ? 'repeat(auto-fill, minmax(320px, 1fr))'
+        : '1fr',
+    },
 
-  tiniest: {
-    gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-  },
-}));
+    tiniest: {
+      gridTemplateColumns: matches.min.sm
+        ? 'repeat(auto-fill, minmax(260px, 1fr))'
+        : '1fr',
+    },
+  };
+});

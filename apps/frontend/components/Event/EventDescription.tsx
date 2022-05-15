@@ -14,7 +14,7 @@ const EventDescription = ({ event, loading }: Props) => {
   return (
     <Paper
       sx={() => ({
-        minHeight: 250,
+        minHeight: 400,
       })}
       radius="md"
       p="xl"
