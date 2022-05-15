@@ -5,26 +5,18 @@ import { useBreakpoints } from 'hooks/breakpoints';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 import { PaperPlaneRight, SmileySad } from 'phosphor-react';
 import { useResendEmail } from 'store/use-resend-email';
 
 const VerifyRequest = () => {
-  const router = useRouter();
-
   const { isDark, theme } = useAppColorscheme();
   const { matches } = useBreakpoints();
 
-  const { email } = useResendEmail();
+  const { getFromCookie } = useResendEmail();
 
   const resendEmailHandler = () => {
-    signIn('email', { email });
-    router.push({
-      pathname: '/verify-request',
-      query: {
-        email,
-      },
-    });
+    const email = getFromCookie();
+    signIn('email', { email, callbackUrl: '/' });
   };
 
   return (

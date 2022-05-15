@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import create from 'zustand';
+import cookieCutter from 'cookie-cutter';
 
 type EmailStore = {
   email: string;
@@ -24,8 +25,21 @@ export const useResendEmail = () => {
     }
   }, [router]);
 
+  const saveToCookie = () => {
+    const date = new Date();
+    // !set expiry in 24 hrs
+    date.setTime(date.getTime() + 24 * 60 * 60 * 1000);
+    cookieCutter.set('email', email, { expires: date });
+  };
+
+  const getFromCookie = () => {
+    return cookieCutter.get('email');
+  };
+
   return {
     email,
     setEmail,
+    saveToCookie,
+    getFromCookie,
   };
 };

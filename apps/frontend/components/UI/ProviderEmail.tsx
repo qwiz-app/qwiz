@@ -25,7 +25,7 @@ export const ProviderEmail = ({ csrfToken }: Props) => {
   const { isDark } = useAppColorscheme();
   const router = useRouter();
 
-  const { email, setEmail } = useResendEmail();
+  const { email, setEmail, saveToCookie } = useResendEmail();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,11 +33,9 @@ export const ProviderEmail = ({ csrfToken }: Props) => {
       csrfToken,
       email,
     });
+    saveToCookie();
     router.push({
       pathname: '/verify-request',
-      query: {
-        email,
-      },
     });
   };
 
