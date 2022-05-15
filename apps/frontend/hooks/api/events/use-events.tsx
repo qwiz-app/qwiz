@@ -22,6 +22,7 @@ const placeholderEvents: EventWithOrganization[] = generateArrayForRange(4).map(
     id: `${idx}`,
     name: '',
     banner: null,
+    description: '',
     ownerId: '',
     quizId: '',
     startDate: new Date(),

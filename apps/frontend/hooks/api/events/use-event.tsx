@@ -13,8 +13,7 @@ export const useEvent = (id: string) =>
 const placeholderData: EventWithOrganization = {
   id: '',
   name: 'Placholder',
-  // placeholder image
-  banner: '',
+  banner: null,
   description: '',
   ownerId: '',
   quizId: '',
