@@ -46,6 +46,19 @@ const EventsPage = () => {
     [events]
   );
 
+  const highlightedPlaceholderSkeletons = useMemo(
+    () =>
+      events?.slice(0, 1).map((event) => (
+        <FramerAnimatedListItem id={event.id} key={event.id}>
+          <HighlightedEventCard
+            event={event}
+            loading={isLoadingOrPlaceholder}
+          />
+        </FramerAnimatedListItem>
+      )),
+    [events]
+  );
+
   const renderEvents = (arr: EventWithOrganization[]) =>
     arr?.map((event) => (
       <FramerAnimatedListItem id={event.id} key={event.id}>
@@ -55,16 +68,12 @@ const EventsPage = () => {
 
   return (
     <HomepageLayout>
-      {hasEvents && (
+      {(hasEvents || isLoadingOrPlaceholder) && (
         <PageSection title="Highlighted event">
           <PageGrid type="big">
-            {highlightedEvents?.map((event, i) => (
-              <HighlightedEventCard
-                key={event.id}
-                event={event}
-                loading={isLoadingOrPlaceholder}
-              />
-            ))}
+            {isLoadingOrPlaceholder
+              ? highlightedPlaceholderSkeletons
+              : renderEvents(highlightedEvents)}
           </PageGrid>
         </PageSection>
       )}
