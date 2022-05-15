@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Box,
   Card,
   Center,
   createStyles,
@@ -10,6 +11,7 @@ import {
 } from '@mantine/core';
 import cn from 'classnames';
 import { useAppColorscheme } from 'hooks/colorscheme';
+import { formatCurrency } from 'lib/utils';
 import Link from 'next/link';
 import { Tag, UsersThree } from 'phosphor-react';
 import { EventWithOrganization } from 'types/event';
@@ -32,7 +34,7 @@ export const ImageCard = ({ event, loading }: Props) => {
           shadow="md"
           className={cn(classes.base, classes.card, classesCard.card)}
         >
-          <div
+          <Box
             // TODO: placeholder gradient or something
             className={classes.image}
             style={{
@@ -41,16 +43,21 @@ export const ImageCard = ({ event, loading }: Props) => {
               backgroundPosition: 'center',
             }}
           />
-          <div className={classes.overlay} />
+          <Box className={classes.overlay} />
 
-          <div className={classes.content}>
-            <Text size="lg" className={classes.title} weight={500}>
+          <Box className={classes.content}>
+            <Text
+              size="lg"
+              className={classes.title}
+              weight={500}
+              lineClamp={2}
+            >
               {event.name}
             </Text>
 
-            <Group position="apart" spacing="xs">
+            <Group position="apart" spacing="xs" noWrap>
               <Link href={`/organization/${event.ownerId}`}>
-                <Group spacing={0}>
+                <Group spacing={0} noWrap>
                   <Avatar
                     // TODO: placeholder
                     src={event.owner.user.image}
@@ -58,19 +65,24 @@ export const ImageCard = ({ event, loading }: Props) => {
                     radius="xl"
                     mr="xs"
                   />
-                  <Text size="sm" className={classes.owner}>
+                  <Text size="sm" className={classes.owner} lineClamp={1}>
                     {event.owner.name}
                   </Text>
                 </Group>
               </Link>
 
-              <Group spacing="lg">
+              <Group
+                spacing="lg"
+                noWrap
+                sx={() => ({
+                  flexShrink: 0,
+                })}
+              >
                 <Tooltip label="Price per team">
                   <Center>
                     <Tag size={16} weight="bold" color={theme.colors.dark[2]} />
                     <Text size="sm" className={classes.bodyText}>
-                      {/* TODO: currencz */}
-                      {/* {event.currency} */} ${event.price}
+                      {formatCurrency(event.price, event.currency)}
                     </Text>
                   </Center>
                 </Tooltip>
@@ -88,7 +100,7 @@ export const ImageCard = ({ event, loading }: Props) => {
                 </Tooltip>
               </Group>
             </Group>
-          </div>
+          </Box>
         </Card>
       </Link>
     </Skeleton>

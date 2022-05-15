@@ -1,4 +1,4 @@
-import { Grid, Group, Skeleton } from '@mantine/core';
+import { Box, createStyles, Skeleton } from '@mantine/core';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { DateTimeFormat, formatCurrency, formatDate } from 'lib/utils';
 import {
@@ -7,7 +7,7 @@ import {
   IconProps,
   MapPin,
   Tag,
-  UsersFour,
+  UsersFour
 } from 'phosphor-react';
 import { EventWithOrganization } from 'types/event';
 import { EventStat } from './EventStat';
@@ -24,9 +24,7 @@ const EventStats = ({ event, loading }: Props) => {
     weight: 'duotone',
   };
 
-  if (!event) {
-    return <Skeleton visible={loading} />;
-  }
+  const { classes } = useStyles();
 
   const eventStats = [
     {
@@ -80,24 +78,25 @@ const EventStats = ({ event, loading }: Props) => {
       ),
     },
   ];
+
   return (
-    <Group mt={16}>
-      <Grid
-        columns={15}
-        sx={(t) => ({
-          flex: 1,
-        })}
-      >
-        {eventStats.map((stat) => (
-          <Grid.Col span={3} key={stat.label}>
-            <Skeleton visible={loading} radius="md">
-              <EventStat {...stat} />
-            </Skeleton>
-          </Grid.Col>
-        ))}
-      </Grid>
-    </Group>
+    <Box className={classes.grid}>
+      {eventStats.map((stat) => (
+        <Skeleton visible={loading} radius="md" key={stat.label}>
+          <EventStat {...stat} />
+        </Skeleton>
+      ))}
+    </Box>
   );
 };
+
+const useStyles = createStyles(() => ({
+  grid: {
+    flex: 1,
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+    gap: 16,
+  },
+}));
 
 export default EventStats;

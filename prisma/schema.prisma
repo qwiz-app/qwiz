@@ -140,17 +140,18 @@ enum Currency {
 }
 
 model Event {
-  id        String   @id @default(cuid())
-  name      String
-  banner    String?
-  ownerId   String
-  quizId    String
-  startDate DateTime
-  location  String
-  teamCount Int
-  price     Int
-  currency  Currency @default(value: USD)
-  createdAt DateTime @default(now())
+  id          String   @id @default(cuid())
+  name        String
+  description String   @db.Text
+  banner      String?
+  ownerId     String
+  quizId      String
+  startDate   DateTime
+  location    String
+  teamCount   Int
+  price       Int
+  currency    Currency @default(value: USD)
+  createdAt   DateTime @default(now())
 
   // relations
   owner Organization @relation(fields: [ownerId], references: [id], onDelete: Cascade)

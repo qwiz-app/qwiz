@@ -15,6 +15,7 @@ const placeholderData: EventWithOrganization = {
   name: 'Placholder',
   // placeholder image
   banner: '',
+  description: '',
   ownerId: '',
   quizId: '',
   startDate: new Date(),

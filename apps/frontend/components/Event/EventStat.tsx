@@ -9,27 +9,42 @@ interface Props {
 
 export const EventStat = ({ label, value, icon }: Props) => {
   return (
-    <Paper radius="md" px="md" py="sm">
+    <Paper
+      radius="md"
+      px="md"
+      py="sm"
+      sx={() => ({
+        height: '100%',
+      })}
+    >
       <Group
         align="center"
         sx={() => ({
           height: '100%',
         })}
         spacing="sm"
+        noWrap
       >
-        {icon}
+        <Box
+          sx={(t) => ({
+            flexShrink: 0,
+          })}
+        >
+          {icon}
+        </Box>
         <Box>
           <Text
             color="dimmed"
             sx={(t) => ({
               fontSize: 10,
             })}
+            lineClamp={1}
             transform="uppercase"
             weight={700}
           >
             {label}
           </Text>
-          <Text weight={700} size="md">
+          <Text weight={700} lineClamp={1} size="md">
             {value}
           </Text>
         </Box>

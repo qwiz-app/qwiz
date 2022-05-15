@@ -50,5 +50,6 @@ export const formatDate = (
 export const formatCurrency = (amount: number, currency = 'USD') =>
   new Intl.NumberFormat('en-US', {
     style: 'currency',
+    minimumSignificantDigits: 1,
     currency,
   }).format(amount);

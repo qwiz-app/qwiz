@@ -57,11 +57,15 @@ export const NavbarItem = ({
 
   const btn = (
     <UnstyledButton className={cn(classes.navItem, btnClass)} onClick={onClick}>
-      <Group>
+      <Group noWrap>
         <ThemeIcon size="lg" variant={isActive ? 'filled' : 'light'}>
           {icon}
         </ThemeIcon>
-        {children || <Text size="md">{label}</Text>}
+        {children || (
+          <Text size="md" lineClamp={1}>
+            {label}
+          </Text>
+        )}
       </Group>
     </UnstyledButton>
   );

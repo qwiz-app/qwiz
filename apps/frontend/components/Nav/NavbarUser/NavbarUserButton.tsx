@@ -5,7 +5,7 @@ import {
   Skeleton,
   Text,
   UnstyledButton,
-  UnstyledButtonProps,
+  UnstyledButtonProps
 } from '@mantine/core';
 import { useCurrentUserInfo } from 'hooks/api/users';
 import { useAppColorscheme } from 'hooks/colorscheme';
@@ -50,9 +50,10 @@ const NavbarUserButton = forwardRef<HTMLButtonElement, Props>(
           <Group sx={() => ({ flex: '1' })}>
             {user && <Avatar size={40} radius="xl" src={user.image} />}
             <Box sx={() => ({ flex: '1' })}>
-              <Text size="sm">{user?.name}</Text>
-              {/* TODO: handle text overflow */}
-              <Text size="xs" color="dimmed">
+              <Text size="sm" lineClamp={1}>
+                {user?.name}
+              </Text>
+              <Text size="xs" color="dimmed" lineClamp={1}>
                 {user?.email}
               </Text>
             </Box>

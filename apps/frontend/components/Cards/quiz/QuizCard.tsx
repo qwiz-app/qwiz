@@ -11,7 +11,7 @@ import {
   Menu,
   Skeleton,
   Text,
-  ThemeIcon
+  ThemeIcon,
 } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { useQuizDelete, useQuizNameEdit } from 'hooks/api/quiz';
@@ -25,7 +25,7 @@ import {
   LinkSimple,
   Lock,
   PencilSimpleLine,
-  TrashSimple
+  TrashSimple,
 } from 'phosphor-react';
 import React, { SyntheticEvent } from 'react';
 import { QuizWithOrganization } from 'types/quiz';
@@ -133,35 +133,40 @@ export const QuizCard = ({
       </Card.Section>
 
       <Card.Section py={12} px={18}>
-        <Group spacing={0} position="apart" align="center">
+        <Group spacing={0} position="apart" align="center" noWrap>
           <Box>
-            <Skeleton visible={loading}>
-              <Group position="apart" spacing="sm" sx={() => ({ height: 30 })}>
-                {!loading && !isEditMode ? (
-                  <FloatingTooltip label="Click to edit">
+            <FloatingTooltip label="Click to edit">
+              <Skeleton visible={loading}>
+                <Group
+                  position="apart"
+                  spacing="sm"
+                  sx={() => ({ height: 30 })}
+                >
+                  {!loading && !isEditMode ? (
                     <Text
                       id="quiz-card-name"
                       weight={500}
                       sx={() => ({ flex: 1 })}
                       className={classes.title}
                       onClick={onClickToEdit}
+                      lineClamp={1}
                     >
                       {quiz.name}
                     </Text>
-                  </FloatingTooltip>
-                ) : (
-                  <QuizNameEditInput
-                    ref={nameRef}
-                    isLoading={isEditLoading}
-                    editedName={editedName}
-                    onKeyUp={onKeyUp}
-                    onBlurHandler={onBlurHandler}
-                    setEditedName={setEditedName}
-                  />
-                )}
-              </Group>
-            </Skeleton>
-            <Group position="apart" spacing="xs" mt={8}>
+                  ) : (
+                    <QuizNameEditInput
+                      ref={nameRef}
+                      isLoading={isEditLoading}
+                      editedName={editedName}
+                      onKeyUp={onKeyUp}
+                      onBlurHandler={onBlurHandler}
+                      setEditedName={setEditedName}
+                    />
+                  )}
+                </Group>
+              </Skeleton>
+            </FloatingTooltip>
+            <Group position="apart" spacing="xs">
               <Group noWrap spacing="xs">
                 <Skeleton
                   visible={loading}
@@ -188,10 +193,7 @@ export const QuizCard = ({
                   })}
                 />
 
-                <Skeleton
-                  visible={loading}
-                  sx={() => ({ overflow: loading ? 'hidden' : 'visible' })}
-                >
+                <Skeleton visible={loading}>
                   <Text inline size="xs" color="dimmed" sx={() => ({})}>
                     Updated {relativeTimeTo(quiz.updatedAt)}
                   </Text>
