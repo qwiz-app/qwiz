@@ -5,10 +5,14 @@ import {
   Group,
   Stack,
   Text,
-  TextInput
+  TextInput,
 } from '@mantine/core';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useProviders } from 'hooks/providers';
+import { useRouter } from 'next/router';
+import { FormEvent } from 'react';
+import http from 'services/http';
+import { useResendEmail } from 'store/use-resend-email';
 import { useInputLabelStyles } from './use-input-label-styles';
 
 interface Props {
@@ -19,11 +23,27 @@ export const ProviderEmail = ({ csrfToken }: Props) => {
   const { providerStyles } = useProviders();
   const { classes } = useInputLabelStyles();
   const { isDark } = useAppColorscheme();
+  const router = useRouter();
+
+  const { email, setEmail } = useResendEmail();
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    http.post('/api/auth/signin/email', {
+      csrfToken,
+      email,
+    });
+    router.push({
+      pathname: '/verify-request',
+      query: {
+        email,
+      },
+    });
+  };
 
   return (
     <form
-      method="post"
-      action="/api/auth/signin/email"
+      onSubmit={handleSubmit}
       style={{ width: '100%' }}
     >
       <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
@@ -35,6 +55,8 @@ export const ProviderEmail = ({ csrfToken }: Props) => {
           variant="filled"
           type="email"
           name="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           id="email"
           size="md"
           required={false}
