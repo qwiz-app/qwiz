@@ -14,7 +14,6 @@ import { useRouter } from 'next/router';
 import { FadersHorizontal, PaintRoller } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 
-
 export const SideMenu = () => {
   const { classes } = useStyles();
   const { backgroundColor, setBackgroundColor } = useBackgroundColor();
@@ -31,7 +30,7 @@ export const SideMenu = () => {
   const [answers, setAnswers] = useState([]);
 
   return (
-    <Paper className={classes.wrapper} shadow="xs">
+    <Paper className={classes.wrapper} shadow="xs" radius="md">
       <Tabs variant="outline" p="md">
         <Tabs.Tab label="Settings" icon={<FadersHorizontal size={32} />}>
           <Text>Edit question #{questionId}</Text>
