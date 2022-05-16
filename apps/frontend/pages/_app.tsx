@@ -5,7 +5,6 @@ import 'styles/reset.css';
 import 'windi.css';
 
 import { Container, ScrollArea } from '@mantine/core';
-import { showNotification } from '@mantine/notifications';
 import { RoleGuard } from 'components/Guard/RoleGuard';
 import { UserRoleModal } from 'components/Modals/UserRoleModal/UserRoleModal';
 import { CustomMantineProvider } from 'context/mantine';
@@ -19,12 +18,12 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
     onError: (err: any) => {
-      showNotification({
-        title: 'Something went wrong',
-        message: err?.message || 'Try again later',
-        color: 'red',
-        autoClose: 6000,
-      });
+      // showNotification({
+      //   title: 'Something went wrong',
+      //   message: err?.message || 'Try again later',
+      //   color: 'red',
+      //   autoClose: 6000,
+      // });
     },
   }),
 });

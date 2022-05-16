@@ -5,7 +5,7 @@ import { fetchAllEvents, fetchEvents } from 'services/api/events';
 import { EventWithOrganization } from 'types/event';
 
 export const useAllEvents = () =>
-  useQuery('events', fetchAllEvents, {
+  useQuery('allEvents', fetchAllEvents, {
     onError,
     placeholderData: placeholderEvents,
   });

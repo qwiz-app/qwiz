@@ -3,6 +3,7 @@ import { ImageCard } from 'components/Cards/event/EventCard';
 import { HighlightedEventCard } from 'components/Cards/event/HighlightedEventCard';
 import { FramerAnimatedListItem } from 'components/Framer/FramerAnimatedListItem';
 import dayjs from 'dayjs';
+import { useCurrentSession } from 'hooks/api/session';
 import { useMemo } from 'react';
 import { UseQueryResult } from 'react-query';
 import { EventWithOrganization } from 'types/event';
@@ -12,10 +13,13 @@ export const useEventsPage = ({
   isPlaceholderData,
   isLoading,
 }: UseQueryResult<EventWithOrganization[], AxiosError<any, any>>) => {
+  const { isOrganization, isLoading: sessionLoading } = useCurrentSession();
+
   const hasEvents = events?.length > 0;
   const isLoadingOrPlaceholder = isLoading || isPlaceholderData;
-
   const now = dayjs();
+
+  const isOrgOrLoading = isOrganization || sessionLoading;
 
   const activeEvents = useMemo(
     () => events?.filter((event) => dayjs(event.startDate) >= now),
@@ -36,7 +40,10 @@ export const useEventsPage = ({
   const placeholderSkeletons = useMemo(
     () =>
       events?.map((event) => (
-        <FramerAnimatedListItem id={event.id} key={event.id}>
+        <FramerAnimatedListItem
+          id={`${isOrgOrLoading && 'org.'}${event.id}`}
+          key={`${isOrgOrLoading && 'org.'}${event.id}`}
+        >
           <ImageCard event={event} loading={isLoadingOrPlaceholder} />
         </FramerAnimatedListItem>
       )),
@@ -45,8 +52,11 @@ export const useEventsPage = ({
 
   const highlightedPlaceholderSkeletons = useMemo(
     () =>
-      events?.slice(0, 1).map((event) => (
-        <FramerAnimatedListItem id={event.id} key={event.id}>
+      events?.slice(0, 2).map((event) => (
+        <FramerAnimatedListItem
+          id={`higlight.${isOrgOrLoading && 'org.'}${event.id}`}
+          key={`higlight.${isOrgOrLoading && 'org.'}${event.id}`}
+        >
           <HighlightedEventCard
             event={event}
             loading={isLoadingOrPlaceholder}
@@ -59,8 +69,12 @@ export const useEventsPage = ({
   const renderEvents = (arr: EventWithOrganization[], highlighted = false) =>
     arr?.map((event) => (
       <FramerAnimatedListItem
-        id={`${highlighted && 'higlight-'}${event.id}`}
-        key={event.id}
+        id={`${highlighted && 'higlight.'}${isOrgOrLoading && 'org.'}${
+          event.id
+        }`}
+        key={`${highlighted && 'higlight.'}${isOrgOrLoading && 'org.'}${
+          event.id
+        }`}
       >
         {highlighted ? (
           <HighlightedEventCard
