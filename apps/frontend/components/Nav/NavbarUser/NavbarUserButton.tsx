@@ -7,6 +7,7 @@ import {
   UnstyledButton,
   UnstyledButtonProps
 } from '@mantine/core';
+import { AvatarRoleIndicator } from 'components/UI/AvatarRoleIndicator';
 import { useCurrentUserInfo } from 'hooks/api/users';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { CaretRight } from 'phosphor-react';
@@ -48,7 +49,11 @@ const NavbarUserButton = forwardRef<HTMLButtonElement, Props>(
       >
         <Group position="apart">
           <Group sx={() => ({ flex: '1' })}>
-            {user && <Avatar size={40} radius="xl" src={user.image} />}
+            {user && (
+              <AvatarRoleIndicator role={user.role}>
+                <Avatar size={40} radius="xl" src={user.image} />
+              </AvatarRoleIndicator>
+            )}
             <Box sx={() => ({ flex: '1' })}>
               <Text size="sm" lineClamp={1}>
                 {user?.name}
