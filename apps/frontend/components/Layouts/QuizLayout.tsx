@@ -1,20 +1,14 @@
 import {
-  AppShell,
-  Navbar,
-  Header,
-  ActionIcon,
-  Grid,
-  Skeleton,
-  Avatar,
+  ActionIcon, AppShell, Avatar, Grid, Group, Header, Navbar, Skeleton, Title
 } from '@mantine/core';
 import { Slides } from 'components/Quiz/Slides';
-import { ReactNode } from 'react';
-import { useAppColorscheme } from 'hooks/colorscheme';
-import { CaretLeft } from 'phosphor-react';
-import { useRouter } from 'next/router';
-import { useCurrentSession } from 'hooks/api/session';
-import { useQuiz } from 'hooks/api/quiz';
 import { FloatingQuizMenu } from 'components/UI/FloatingQuizMenu';
+import { useQuiz } from 'hooks/api/quiz';
+import { useCurrentSession } from 'hooks/api/session';
+import { useAppColorscheme } from 'hooks/colorscheme';
+import { useRouter } from 'next/router';
+import { CaretLeft } from 'phosphor-react';
+import { ReactNode } from 'react';
 
 interface Props {
   children: ReactNode;
@@ -30,47 +24,57 @@ const QuizLayout = ({ children }: Props) => {
   return (
     <AppShell
       padding="md"
+      fixed
+      sx={() => ({ height: '100%', flex: 1 })}
       navbar={
-        <Navbar width={{ base: 200 }}>
+        <Navbar fixed width={{ base: 220 }}>
           <Slides />
         </Navbar>
       }
       header={
-        <Header height={60} px="xs">
-          <Grid align="center">
-            <Grid.Col span={3}>
-              <ActionIcon onClick={() => router.push('/quiz')}>
-                <CaretLeft size={24} weight="light" />
-              </ActionIcon>
-            </Grid.Col>
-            <Grid.Col
-              span={6}
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-              }}
-            >
-              <h1>{quiz?.name}</h1>
-            </Grid.Col>
-            <Grid.Col
-              span={3}
-              sx={{
-                display: 'flex',
-                justifyContent: 'right',
-              }}
-            >
-              <Skeleton
-                visible={isLoading}
-                circle
-                height={24}
-                sx={() => ({ flexShrink: 0 })}
+        <Header height={60} p="sm" fixed>
+          <Group
+            align="center"
+            position="apart"
+            sx={(t) => ({ width: '100%', height: '100%' })}
+          >
+            <Grid sx={{ width: '100%' }}>
+              <Grid.Col span={3}>
+                <ActionIcon onClick={() => router.push('/quiz')}>
+                  <CaretLeft size={24} weight="duotone" />
+                </ActionIcon>
+              </Grid.Col>
+              <Grid.Col
+                span={6}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                }}
               >
-                {!isLoading && (
-                  <Avatar src={user?.image} size={24} radius="xl" mr="xs" />
-                )}
-              </Skeleton>
-            </Grid.Col>
-          </Grid>
+                <Title order={5} m={0}>
+                  {quiz?.name}
+                </Title>
+              </Grid.Col>
+              <Grid.Col
+                span={3}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'right',
+                }}
+              >
+                <Skeleton
+                  visible={isLoading}
+                  circle
+                  height={30}
+                  sx={() => ({ flexShrink: 0 })}
+                >
+                  {!isLoading && (
+                    <Avatar src={user?.image} size={30} radius="xl" />
+                  )}
+                </Skeleton>
+              </Grid.Col>
+            </Grid>
+          </Group>
         </Header>
       }
       styles={(theme) => ({
