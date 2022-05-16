@@ -11,7 +11,7 @@ import { SlideWithQuestionAndElements } from 'types/slide';
 export const Slides = () => {
   const { classes } = useStyles();
   const router = useRouter();
-  const { quizId, questionId } = router.query;
+  const { quizId, slideId } = router.query;
 
   const { data: quiz, isSuccess } = useQuiz(quizId as string);
 
@@ -47,7 +47,7 @@ export const Slides = () => {
               <Box
                 className={cn(
                   classes.box,
-                  questionId === slide.id && classes.selected
+                  slideId === slide.id && classes.selected
                 )}
                 onClick={() => handleClick(slide.id)}
               >
