@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import cn from 'classnames';
 import { useQuiz } from 'hooks/api/quiz';
 import { SlideWithQuestionAndElements } from 'types/slide';
+import { useSlideCreate } from 'hooks/api/slide';
 
 export const Slides = () => {
   const { classes } = useStyles();
@@ -14,6 +15,7 @@ export const Slides = () => {
   const { quizId, slideId } = router.query;
 
   const { data: quiz, isSuccess } = useQuiz(quizId as string);
+  const { mutate: createSlide } = useSlideCreate();
 
   const [slides, setSlides] = useState<SlideWithQuestionAndElements[]>(null);
 
@@ -23,10 +25,27 @@ export const Slides = () => {
     }
   }, [isSuccess]);
 
-  const handleClick = (selectedQuestionId: string) => {
-    router.push(`/quiz/${quizId}/${selectedQuestionId}`, undefined, {
+  const handleClick = (selectedSlideId: string) => {
+    router.push(`/quiz/${quizId}/${selectedSlideId}`, undefined, {
       shallow: true,
     });
+  };
+
+  const handleCreateSlide = () => {
+    createSlide(
+      {
+        quizId: quizId as string,
+        ordinal: slides.length + 1,
+      },
+      {
+        onSuccess: (slide) => {
+          setSlides([...slides, slide]);
+          router.push(`/quiz/${quizId}/${slide.id}`, undefined, {
+            shallow: true,
+          });
+        },
+      }
+    );
   };
 
   return (
@@ -61,7 +80,7 @@ export const Slides = () => {
           ))}
         </Reorder.Group>
       )}
-      <Box className={classes.addNew}>
+      <Box className={classes.addNew} onClick={handleCreateSlide}>
         <Plus />
         <Text ml={8}>New Question</Text>
       </Box>

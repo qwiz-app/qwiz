@@ -34,6 +34,11 @@ export class SlideController {
     return quiz;
   }
 
+  @Post()
+  async create(@Body() createSlideDto: Prisma.QuizSlideUncheckedCreateInput) {
+    return this.slideService.create(createSlideDto);
+  }
+
   @Patch('point/:id')
   async updatePoint(
     @Param('id') id: string,

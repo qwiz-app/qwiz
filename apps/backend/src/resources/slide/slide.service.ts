@@ -13,6 +13,12 @@ export class SlideService {
     return this.prisma.quizSlide.findUnique({ where, include });
   }
 
+  create(data: Prisma.QuizSlideUncheckedCreateInput) {
+    return this.prisma.quizSlide.create({
+      data,
+    });
+  }
+
   updatePoint(
     where: Prisma.PointWhereUniqueInput,
     data: Prisma.PointUpdateInput
