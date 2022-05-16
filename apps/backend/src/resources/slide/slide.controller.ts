@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   NotFoundException,
   Param,
@@ -57,5 +58,10 @@ export class SlideController {
     @Body() createQuestionContentDto: Prisma.QuestionContentCreateInput
   ) {
     return this.slideService.createQuestionContent(createQuestionContentDto);
+  }
+
+  @Delete('question-content/:id')
+  async deleteQuestionContent(@Param('id') id: string) {
+    return this.slideService.deleteQuestionContent(id);
   }
 }

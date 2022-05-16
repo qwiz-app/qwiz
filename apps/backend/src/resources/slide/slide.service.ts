@@ -27,9 +27,15 @@ export class SlideService {
     return this.prisma.questionContent.update({ where, data });
   }
 
-  createQuestionContent(
-    data: Prisma.QuestionContentCreateInput
-  ) {
+  createQuestionContent(data: Prisma.QuestionContentCreateInput) {
     return this.prisma.questionContent.create({ data });
+  }
+
+  deleteQuestionContent(id: string) {
+    return this.prisma.questionContent.delete({
+      where: {
+        id,
+      },
+    });
   }
 }

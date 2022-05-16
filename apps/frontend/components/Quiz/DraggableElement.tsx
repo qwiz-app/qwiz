@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { createStyles, Input } from '@mantine/core';
+import { ActionIcon, createStyles, Input } from '@mantine/core';
 import { useDebouncedValue } from '@mantine/hooks';
 import { QuestionElementType } from '@prisma/client';
 import { motion } from 'framer-motion';
@@ -12,6 +12,9 @@ import {
 import { ChangeEvent, RefObject, useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 import { updateContent } from 'services/api/slide';
+import { TrashSimple } from 'phosphor-react';
+import { useQuestionContentDelete } from 'hooks/api/slide';
+import { useRouter } from 'next/router';
 
 interface Props {
   constraintsRef: RefObject<HTMLDivElement>;
@@ -32,8 +35,14 @@ export const DraggableElement = ({
   content,
   id,
 }: Props) => {
+  const router = useRouter();
+
+  const { slideId } = router.query;
+
   const { classes } = useStyles();
   const didMount = useRef(false);
+
+  const { mutate: deleteContent } = useQuestionContentDelete(slideId as string);
 
   const { updatePosition } = useDraggableElement({
     id,
@@ -96,6 +105,16 @@ export const DraggableElement = ({
                 className={cn([isEditing && classes.editing, classes.input])}
                 onFocus={() => setIsEditing(true)}
                 onBlur={() => setIsEditing(false)}
+                rightSection={
+                  <ActionIcon
+                    size={32}
+                    radius="xl"
+                    variant="filled"
+                    onClick={() => deleteContent(content.id)}
+                  >
+                    <TrashSimple />
+                  </ActionIcon>
+                }
               />
             ) : (
               // eslint-disable-next-line jsx-a11y/click-events-have-key-events

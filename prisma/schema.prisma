@@ -300,7 +300,7 @@ model QuizSlideElement {
 
   // relations
   quizSlide       QuizSlide?       @relation(fields: [quizSlideId], references: [id], onDelete: Cascade)
-  questionContent QuestionContent? @relation(fields: [questionContentId], references: [id], onDelete: Restrict)
+  questionContent QuestionContent? @relation(fields: [questionContentId], references: [id], onDelete: Cascade)
   point           Point?
 }
 
