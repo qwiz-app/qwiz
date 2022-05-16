@@ -35,8 +35,16 @@ export class SlideController {
   @Patch('point/:id')
   async updatePoint(
     @Param('id') id: string,
-    @Body() updateQuizDto: Prisma.PointUpdateInput
+    @Body() updatePointDto: Prisma.PointUpdateInput
   ) {
-    return this.slideService.updatePoint({ id }, updateQuizDto);
+    return this.slideService.updatePoint({ id }, updatePointDto);
+  }
+
+  @Patch('question-content/:id')
+  async updateQuestionContent(
+    @Param('id') id: string,
+    @Body() updateQuestionContentDto: Prisma.QuestionContentUpdateInput
+  ) {
+    return this.slideService.updateQuestionContent({ id }, updateQuestionContentDto);
   }
 }
