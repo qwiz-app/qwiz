@@ -5,6 +5,7 @@ import {
   NotFoundException,
   Param,
   Patch,
+  Post,
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { SlideService } from './slide.service';
@@ -45,6 +46,16 @@ export class SlideController {
     @Param('id') id: string,
     @Body() updateQuestionContentDto: Prisma.QuestionContentUpdateInput
   ) {
-    return this.slideService.updateQuestionContent({ id }, updateQuestionContentDto);
+    return this.slideService.updateQuestionContent(
+      { id },
+      updateQuestionContentDto
+    );
+  }
+
+  @Post('question-content')
+  async createQuestionContent(
+    @Body() createQuestionContentDto: Prisma.QuestionContentCreateInput
+  ) {
+    return this.slideService.createQuestionContent(createQuestionContentDto);
   }
 }

@@ -1,9 +1,19 @@
-import { useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { onError } from 'lib/axios';
-import { fetchSlide } from 'services/api/slide';
+import { createContent, fetchSlide } from 'services/api/slide';
 
 export const useSlide = (id: string) =>
-  useQuery(['quiz', id], ({ queryKey }) => fetchSlide(queryKey[1]), {
+  useQuery(['slide', id], ({ queryKey }) => fetchSlide(queryKey[1]), {
     onError,
     enabled: !!id,
   });
+
+export const useQuestionContentCreate = (slideId: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation(createContent, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['slide', slideId]);
+    },
+  });
+};

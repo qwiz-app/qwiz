@@ -14,6 +14,7 @@ import { CaretLeft } from 'phosphor-react';
 import { useRouter } from 'next/router';
 import { useCurrentSession } from 'hooks/api/session';
 import { useQuiz } from 'hooks/api/quiz';
+import { FloatingQuizMenu } from 'components/UI/FloatingQuizMenu';
 
 interface Props {
   children: ReactNode;
@@ -80,6 +81,7 @@ const QuizLayout = ({ children }: Props) => {
       })}
     >
       {children}
+      <FloatingQuizMenu />
     </AppShell>
   );
 };

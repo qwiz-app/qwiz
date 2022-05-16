@@ -16,3 +16,10 @@ export const updateContent = (
   http
     .patch<{ count: number }>(`/api/slide/question-content/${id}`, data)
     .then(parseData);
+
+export const createContent = (
+  data: Prisma.QuestionContentCreateInput
+) =>
+  http
+    .post<{ count: number }>(`/api/slide/question-content`, data)
+    .then(parseData);
