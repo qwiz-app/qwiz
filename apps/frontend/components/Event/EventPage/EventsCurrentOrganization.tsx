@@ -7,6 +7,7 @@ import { useAppColorscheme } from 'hooks/colorscheme';
 import { useRouter } from 'next/router';
 import { PlusCircle } from 'phosphor-react';
 import { useEventsPage } from './use-events-page';
+import { EventCreateCard } from '../../Cards/event/EventCreateCard';
 
 export const EventsCurrentOrganization = () => {
   const {
@@ -56,6 +57,7 @@ export const EventsCurrentOrganization = () => {
         description="All of your incoming events"
       >
         <PageGrid type="small">
+          <EventCreateCard />
           {isLoadingOrPlaceholder
             ? placeholderSkeletons
             : renderEvents(activeEvents)}

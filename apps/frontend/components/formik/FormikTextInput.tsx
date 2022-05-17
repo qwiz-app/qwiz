@@ -7,9 +7,20 @@ type Props = TextInputProps & {
 };
 
 export const FormikTextInput: FC<Props> = memo(function FormikTextInput(props) {
-  const { field, errorMessage, textInputProps } = useFormikTextInput(props);
+  const {
+    field: { value, ...rest },
+    errorMessage,
+    textInputProps,
+  } = useFormikTextInput(props);
 
-  return <TextInput {...field} {...textInputProps} error={errorMessage} />;
+  return (
+    <TextInput
+      {...rest}
+      {...textInputProps}
+      value={value ?? ''}
+      error={errorMessage}
+    />
+  );
 });
 
 const useFormikTextInput = (props: Props) => {

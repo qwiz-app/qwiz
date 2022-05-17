@@ -12,8 +12,9 @@ export const fetchEvents = () =>
 export const fetchEvent = (id: string) =>
   http.get<EventWithOrganization>(`/api/events/${id}`).then(parseData);
 
-export const createEvent = (data: Prisma.EventCreateWithoutOwnerInput) =>
-  http.post<Event>(`/api/events`, data).then(parseData);
+export const createEvent = (
+  data: Prisma.EventUncheckedCreateWithoutOwnerInput
+) => http.post<Event>(`/api/events`, data).then(parseData);
 
 export const updateEvent = (id: string, data: Prisma.EventUpdateInput) =>
   http.patch<{ count: number }>(`/api/events/${id}`, data).then(parseData);
