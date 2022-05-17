@@ -23,11 +23,12 @@ import { useSelectedQuestion } from './QuizQuestion/use-selected-question';
 import { SidePanelWrapper } from './SidePanelWrapper';
 
 export const SidePanelQuestions = () => {
+  const { data: me } = useCurrentOrganizationInfo();
   const { data: questions } = useAvailableQuestions();
   const { selectedQuestion, setSelectedQuestion } = useSelectedQuestion();
-  const { data: me } = useCurrentOrganizationInfo();
-  const [filtersOpened, setFiltersOpened] = useState(false);
+  const modals = useModals();
 
+  const [filtersOpened, setFiltersOpened] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState('all');
 
   const shownQuestions = useMemo(() => {
@@ -40,9 +41,8 @@ export const SidePanelQuestions = () => {
     if (selectedFilter === 'others') {
       return questions.filter((question) => question.owner.id === me.id);
     }
+    return [];
   }, [selectedFilter, questions]);
-
-  const modals = useModals();
 
   const questionUseHandler = (
     question: QuestionWithContentAndOwnerAndCategoriesAndMode,
