@@ -1,4 +1,4 @@
-import { Box, createStyles, Text, Title } from '@mantine/core';
+import { Box, createStyles, Group, Text, Title } from '@mantine/core';
 import React from 'react';
 
 const useStyles = createStyles((theme) => ({
@@ -26,21 +26,30 @@ interface Props {
   title?: string | React.ReactNode;
   description?: string;
   children: React.ReactNode;
+  rightSlot?: React.ReactNode;
 }
 
-export const PageSection = ({ title, description, children }: Props) => {
+export const PageSection = ({
+  title,
+  description,
+  children,
+  rightSlot,
+}: Props) => {
   const { classes } = useStyles();
   return (
     <section>
       {title && (
         <Box className={classes.headerWrapper}>
-          {title && <Title className={classes.title}>{title}</Title>}
+          <Group align="center" position="apart">
+            {title && <Title className={classes.title}>{title}</Title>}
+            {rightSlot}
+          </Group>
           {description && (
-            <Box sx={(sx) => ({ maxWidth: 500 })} p={0}>
+            <Group sx={(sx) => ({ maxWidth: 500 })} p={0}>
               <Text size="sm" color="dimmed">
                 {description}
               </Text>
-            </Box>
+            </Group>
           )}
         </Box>
       )}
