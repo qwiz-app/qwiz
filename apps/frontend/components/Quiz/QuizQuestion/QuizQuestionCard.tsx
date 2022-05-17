@@ -1,13 +1,13 @@
 import {
-  Badge,
-  Box,
-  createStyles,
-  Group,
-  Paper,
-  Stack,
-  Text,
-  Tooltip,
-  UnstyledButton,
+    Badge,
+    Box,
+    createStyles,
+    Group,
+    Paper,
+    Stack,
+    Text,
+    Tooltip,
+    UnstyledButton
 } from '@mantine/core';
 import { formatDate, relativeTimeTo } from 'lib/utils';
 import { QuestionWithContentAndOwnerAndCategoriesAndMode } from 'types/question';
@@ -48,12 +48,11 @@ const QuizQuestionCard = ({ question, onSelect }: Props) => {
             </Text>
             {question.categories?.length > 0 && (
               <Group spacing={4}>
-                <Badge size="xs" color="green">
-                  Sports
-                </Badge>
-                <Badge size="xs" color="orange">
-                  Science
-                </Badge>
+                {question.categories.map((category) => (
+                  <Badge size="xs" color="indigo" key={category.id}>
+                    {category.name}
+                  </Badge>
+                ))}
               </Group>
             )}
           </Stack>
