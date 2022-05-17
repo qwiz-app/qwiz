@@ -7,7 +7,7 @@ import {
   Stack,
   Text,
   Tooltip,
-  UnstyledButton,
+  UnstyledButton
 } from '@mantine/core';
 import { formatDate, relativeTimeTo } from 'lib/utils';
 import { QuestionWithContentAndOwnerAndCategoriesAndMode } from 'types/question';

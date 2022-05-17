@@ -1,7 +1,7 @@
 import {
   Badge,
-  Box,
-  createStyles,
+  Box, createStyles,
+  Group,
   Image,
   Paper,
   SimpleGrid,
@@ -25,16 +25,14 @@ export const SelectedQuestionModalContent = ({ question }: Props) => {
 
   const hasTextElements = textElements?.length > 0;
   const hasImageElements = imageElements?.length > 0;
+  const hasCategories = question.categories?.length > 0;
 
   const { classes } = useStyles();
 
   return (
     <Box>
-      <Box>
-        <Title order={5} align="left" mt={20} mb={24}>
-          Question contents
-        </Title>
-        <Stack classNames={classes.sectionElementsWrapper} spacing="lg">
+      <Box mt={24}>
+        <Stack classNames={classes.sectionsWrapper} spacing="lg">
           {hasTextElements && (
             <Paper
               withBorder
@@ -43,10 +41,10 @@ export const SelectedQuestionModalContent = ({ question }: Props) => {
               radius="md"
               className={classes.sectionElementsWrapper}
             >
-              <Badge size="md" className={classes.badge} variant="filled">
+              <Badge size="sm" className={classes.badge} variant="light">
                 Textual
               </Badge>
-              <Stack align="start">
+              <Stack align="start" spacing={4}>
                 {textElements.map((elem) => (
                   <Paper key={elem.id} radius="sm">
                     <Title order={6}>{elem.content}</Title>
@@ -60,13 +58,14 @@ export const SelectedQuestionModalContent = ({ question }: Props) => {
             <Paper
               withBorder
               p="md"
+              pt="lg"
               radius="md"
               className={classes.sectionElementsWrapper}
             >
-              <Badge size="md" className={classes.badge} variant="filled">
+              <Badge size="sm" className={classes.badge} variant="light">
                 Images
               </Badge>
-              <Stack align="start">
+              <Stack align="start" spacing={8}>
                 <SimpleGrid cols={2}>
                   {imageElements.map((elem) => (
                     <Paper
@@ -81,14 +80,51 @@ export const SelectedQuestionModalContent = ({ question }: Props) => {
               </Stack>
             </Paper>
           )}
-        </Stack>
-      </Box>
-      <Box>
-        <Title order={5} align="left" mt={20} mb={24}>
-          Accepted answers
-        </Title>
-        <Stack classNames={classes.sectionElementsWrapper} spacing="lg">
-          Answers
+
+          <Paper
+            withBorder
+            p="md"
+            pt="lg"
+            radius="md"
+            className={classes.sectionElementsWrapper}
+          >
+            <Badge size="sm" className={classes.badge} variant="light">
+              Answers
+            </Badge>
+            <Group align="start" spacing={8}>
+              {['answer1', 'answer2'].map((elem) => (
+                <Badge variant="light" key={elem} radius="sm" size="md">
+                  {elem}
+                </Badge>
+              ))}
+            </Group>
+          </Paper>
+
+          {hasCategories && (
+            <Group align="start" spacing={8}>
+              {question.isGlobal && (
+                <Badge color="green" variant="dot" size="sm">
+                  Global
+                </Badge>
+              )}
+              {!question.isGlobal && (
+                <Badge color="indigo" variant="dot" size="sm">
+                  Personal
+                </Badge>
+              )}
+              {question.categories.map((elem) => (
+                <Badge
+                  variant="light"
+                  color="indigo"
+                  size="sm"
+                  key={elem.id}
+                  radius="xl"
+                >
+                  {elem.name}
+                </Badge>
+              ))}
+            </Group>
+          )}
         </Stack>
       </Box>
     </Box>
@@ -96,7 +132,7 @@ export const SelectedQuestionModalContent = ({ question }: Props) => {
 };
 
 const useStyles = createStyles((theme) => ({
-  sectionWrapper: {
+  sectionsWrapper: {
     width: '100%',
   },
 
