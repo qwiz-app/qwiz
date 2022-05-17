@@ -8,7 +8,7 @@ import {
   Stack,
   Text,
   Tooltip,
-  UnstyledButton
+  UnstyledButton,
 } from '@mantine/core';
 import { QuestionElementType } from '@prisma/client';
 import { formatDate, relativeTimeTo } from 'lib/utils';
@@ -41,7 +41,10 @@ export const QuizQuestionCard = ({ question, onSelect }: Props) => {
   const isSelected = selectedQuestion?.id === question.id;
 
   return (
-    <UnstyledButton onClick={() => onSelect(question)}>
+    <UnstyledButton
+      onClick={() => onSelect(question)}
+      className={classes.btnWrapper}
+    >
       <Paper withBorder p="md" radius="md" className={classes.cardPaper}>
         <Stack spacing="sm">
           <Group spacing={4} align="center" position="apart">
@@ -84,10 +87,7 @@ export const QuizQuestionCard = ({ question, onSelect }: Props) => {
               </Group>
             )}
             {isSelected ? (
-              <Tooltip
-                withArrow
-                label="Question selected"
-              >
+              <Tooltip withArrow label="Question selected">
                 <ActionIcon size="lg" variant="transparent" color="green">
                   <CheckCircle size={24} weight="duotone" />
                 </ActionIcon>
@@ -111,6 +111,10 @@ export const QuizQuestionCard = ({ question, onSelect }: Props) => {
 };
 
 const useStyles = createStyles((theme) => ({
+  btnWrapper: {
+    width: '100%',
+  },
+
   cardPaper: {
     background:
       theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.white,

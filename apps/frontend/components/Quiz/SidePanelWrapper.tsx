@@ -1,12 +1,13 @@
-import { Box, createStyles, Paper, Title } from '@mantine/core';
+import { Box, createStyles, Group, Paper, Title } from '@mantine/core';
 import { ReactNode } from 'react';
 
 interface Props {
   children: ReactNode;
+  slot?: ReactNode;
   title: string;
 }
 
-export const SidePanelWrapper = ({ children, title }: Props) => {
+export const SidePanelWrapper = ({ children, slot, title }: Props) => {
   const { classes } = useStyles();
 
   return (
@@ -20,18 +21,18 @@ export const SidePanelWrapper = ({ children, title }: Props) => {
         height: 'calc(100vh - 95px)',
       })}
     >
-      <Box>
+      <Group position="apart" spacing={4}>
         <Title order={5}>{title}</Title>
-      </Box>
+        {slot}
+      </Group>
       <Box
-        mt={16}
         sx={() => ({
           height: '100%',
         })}
         // added for scroll area temp fix
         pb={50}
       >
-        {children}
+        <Box mt={12}>{children}</Box>
       </Box>
     </Paper>
   );

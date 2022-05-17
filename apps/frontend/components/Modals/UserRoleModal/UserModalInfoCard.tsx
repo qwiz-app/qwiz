@@ -60,6 +60,7 @@ export const UserModalInfoCard = ({
           <Avatar src={avatar} size={94} radius={1000} />
           {onGenerateAvatar && (
             <Tooltip
+              withArrow
               label={tooltipLabel()}
               position="right"
               sx={() => ({
