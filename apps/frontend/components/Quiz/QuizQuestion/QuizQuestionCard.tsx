@@ -1,33 +1,33 @@
 import {
-    Badge,
-    Box,
-    createStyles,
-    Group,
-    Paper,
-    Stack,
-    Text,
-    Tooltip,
-    UnstyledButton
+  Badge,
+  Box,
+  createStyles,
+  Group,
+  Paper,
+  Stack,
+  Text,
+  Tooltip,
+  UnstyledButton,
 } from '@mantine/core';
 import { formatDate, relativeTimeTo } from 'lib/utils';
 import { QuestionWithContentAndOwnerAndCategoriesAndMode } from 'types/question';
 
 interface Props {
   question: QuestionWithContentAndOwnerAndCategoriesAndMode;
-  onSelect: (id: string) => void;
+  onSelect?: (id: QuestionWithContentAndOwnerAndCategoriesAndMode) => void;
 }
 
 const QuizQuestionCard = ({ question, onSelect }: Props) => {
   const { classes } = useStyles();
   return (
-    <UnstyledButton onClick={() => onSelect(question.id)}>
+    <UnstyledButton onClick={() => onSelect(question)}>
       <Paper withBorder p="md" className={classes.cardPaper}>
         <Stack spacing={8}>
           <Stack spacing={8}>
             <Group spacing={4} align="center" position="apart">
               <Box>
                 {question.isGlobal && (
-                  <Badge color="blue" variant="dot" size="sm">
+                  <Badge color="green" variant="dot" size="sm">
                     Global
                   </Badge>
                 )}

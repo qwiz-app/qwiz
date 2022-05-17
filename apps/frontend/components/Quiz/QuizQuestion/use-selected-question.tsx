@@ -1,14 +1,17 @@
 import create from 'zustand';
 
-import { Question } from '@prisma/client';
+import { QuestionWithContentAndOwnerAndCategoriesAndMode } from 'types/question';
 
 type SelectedQuestion = {
-  selectedQuestion: Question | null;
-  setSelectedQuestion: (role: Question | null) => void;
+  selectedQuestion: QuestionWithContentAndOwnerAndCategoriesAndMode | null;
+  setSelectedQuestion: (
+    role: QuestionWithContentAndOwnerAndCategoriesAndMode | null
+  ) => void;
 };
 
 export const useSelectedQuestion = create<SelectedQuestion>((set) => ({
   selectedQuestion: null,
-  setSelectedQuestion: (selectedQuestion: Question) =>
-    set((state) => ({ ...state, selectedQuestion })),
+  setSelectedQuestion: (
+    selectedQuestion: QuestionWithContentAndOwnerAndCategoriesAndMode
+  ) => set((state) => ({ ...state, selectedQuestion })),
 }));
