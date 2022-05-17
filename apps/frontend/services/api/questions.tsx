@@ -7,8 +7,6 @@ import {
   QuestionWithContentAndOwnerAndCategoriesAndMode,
 } from 'types/question';
 
-// TODO: types are completely wrong
-// create custom types
 export const fetchAvailableQuestions = () =>
   http
     .get<QuestionWithContentAndOwnerAndCategoriesAndMode[]>('/api/questions')

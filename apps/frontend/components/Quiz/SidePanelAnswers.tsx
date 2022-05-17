@@ -1,5 +1,5 @@
-import React from 'react';
+import { SidePanelWrapper } from './SidePanelWrapper';
 
 export const SidePanelAnswers = (props) => {
-  return <>answers</>;
+  return <SidePanelWrapper title="Answers">answers</SidePanelWrapper>;
 };

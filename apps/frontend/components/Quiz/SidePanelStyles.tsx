@@ -1,5 +1,5 @@
-import React from 'react';
+import { SidePanelWrapper } from './SidePanelWrapper';
 
 export const SidePanelStyles = (props) => {
-  return <>styles</>;
+  return <SidePanelWrapper title="Customization">styles</SidePanelWrapper>;
 };

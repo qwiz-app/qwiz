@@ -26,6 +26,7 @@ QuizPage.getLayout = function getLayout(page) {
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
-    height: '100%',
+    maxHeight: '100vh',
+    overflow: 'hidden',
   },
 }));

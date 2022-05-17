@@ -7,7 +7,7 @@ import {
   User,
 } from '@prisma/client';
 
-export type QuestionWithContent = Question & { content: QuestionContent };
+export type QuestionWithContent = Question & { contents: QuestionContent };
 export type QuestionWithContentAndOwnerAndCategoriesAndMode =
   QuestionWithContent & {
     owner?: User;

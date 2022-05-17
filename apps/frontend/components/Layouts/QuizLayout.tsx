@@ -1,5 +1,13 @@
 import {
-  ActionIcon, AppShell, Avatar, Grid, Group, Header, Navbar, Skeleton, Title
+  ActionIcon,
+  AppShell,
+  Avatar,
+  Grid,
+  Group,
+  Header,
+  Navbar,
+  Skeleton,
+  Title
 } from '@mantine/core';
 import { Slides } from 'components/Quiz/Slides';
 import { FloatingQuizMenu } from 'components/UI/FloatingQuizMenu';
@@ -25,7 +33,7 @@ const QuizLayout = ({ children }: Props) => {
     <AppShell
       padding="md"
       fixed
-      sx={() => ({ height: '100%', flex: 1 })}
+      sx={() => ({ height: '100vh' })}
       navbar={
         <Navbar fixed width={{ base: 220 }}>
           <Slides />
