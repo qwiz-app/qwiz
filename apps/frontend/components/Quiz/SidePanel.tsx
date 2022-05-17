@@ -11,7 +11,6 @@ import { questions } from 'mock/questions';
 import { useRouter } from 'next/router';
 import { FadersHorizontal, PaintRoller } from 'phosphor-react';
 import { useEffect, useState } from 'react';
-import { SidePanelWrapper } from './SidePanelWrapper';
 
 export const SidePanel = () => {
   const { backgroundColor, setBackgroundColor } = useBackgroundColor();
@@ -28,7 +27,8 @@ export const SidePanel = () => {
   const [answers, setAnswers] = useState([]);
 
   return (
-    <SidePanelWrapper>
+    // TODO: move to new specific panels
+    <div>
       <Tabs variant="pills" p="md">
         <Tabs.Tab
           label="Settings"
@@ -71,7 +71,7 @@ export const SidePanel = () => {
           </Accordion>
         </Tabs.Tab>
       </Tabs>
-    </SidePanelWrapper>
+    </div>
   );
 };
 

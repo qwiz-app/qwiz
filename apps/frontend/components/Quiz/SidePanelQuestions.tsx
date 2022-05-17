@@ -2,14 +2,12 @@ import { Box, Stack } from '@mantine/core';
 import { ThinScrollArea } from 'components/UI/ThinScrollArea';
 import { useAvailableQuestions } from 'hooks/api/question';
 import QuizQuestionCard from './QuizQuestion/QuizQuestionCard';
+import { useSelectedQuestion } from './QuizQuestion/use-selected-question';
 import { SidePanelWrapper } from './SidePanelWrapper';
 
-interface Props {
-  onSelectQuestion: (questionId: string) => void;
-}
-
-export const SidePanelQuestions = ({ onSelectQuestion }: Props) => {
+export const SidePanelQuestions = (props) => {
   const { data: questions } = useAvailableQuestions();
+  const { selectedQuestion, setSelectedQuestion } = useSelectedQuestion();
 
   return (
     <SidePanelWrapper title="Available questions">
@@ -20,10 +18,11 @@ export const SidePanelQuestions = ({ onSelectQuestion }: Props) => {
             <QuizQuestionCard
               key={question.id}
               question={question}
-              onSelect={onSelectQuestion}
+              onSelect={() => setSelectedQuestion(question)}
             />
           ))}
         </Stack>
+        Selected {selectedQuestion?.id ?? 'None'}
       </Box>
     </SidePanelWrapper>
   );
