@@ -1,20 +1,19 @@
 import {
-  Accordion, ColorPicker,
-  createStyles,
+  Accordion,
+  ColorPicker,
   Divider,
-  Paper,
   Select,
   Tabs,
-  Text
+  Text,
 } from '@mantine/core';
 import { useBackgroundColor } from 'hooks/use-background-color';
 import { questions } from 'mock/questions';
 import { useRouter } from 'next/router';
 import { FadersHorizontal, PaintRoller } from 'phosphor-react';
 import { useEffect, useState } from 'react';
+import { SidePanelWrapper } from './SidePanelWrapper';
 
 export const SidePanel = () => {
-  const { classes } = useStyles();
   const { backgroundColor, setBackgroundColor } = useBackgroundColor();
 
   const router = useRouter();
@@ -29,7 +28,7 @@ export const SidePanel = () => {
   const [answers, setAnswers] = useState([]);
 
   return (
-    <Paper className={classes.wrapper} shadow="xs" radius="md">
+    <SidePanelWrapper>
       <Tabs variant="pills" p="md">
         <Tabs.Tab
           label="Settings"
@@ -72,14 +71,8 @@ export const SidePanel = () => {
           </Accordion>
         </Tabs.Tab>
       </Tabs>
-    </Paper>
+    </SidePanelWrapper>
   );
 };
-
-const useStyles = createStyles((theme) => ({
-  wrapper: {
-    height: '100%',
-  },
-}));
 
 const questionTypes = ['Text', 'Audio', 'Image', 'Video'];

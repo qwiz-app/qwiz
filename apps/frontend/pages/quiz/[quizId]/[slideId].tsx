@@ -1,7 +1,7 @@
 import { createStyles, Grid } from '@mantine/core';
 import QuizLayout from 'components/Layouts/QuizLayout';
 import { MainSlide } from 'components/Quiz/MainSlide';
-import QuizRightSide from 'components/Quiz/QuizRightSide';
+import { QuizRightSide } from 'components/Quiz/QuizRightSide';
 
 const QuizPage = () => {
   const { classes } = useStyles();
