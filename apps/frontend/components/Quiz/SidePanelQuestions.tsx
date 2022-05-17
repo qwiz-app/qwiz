@@ -4,7 +4,11 @@ import { useAvailableQuestions } from 'hooks/api/question';
 import QuizQuestionCard from './QuizQuestion/QuizQuestionCard';
 import { SidePanelWrapper } from './SidePanelWrapper';
 
-export const SidePanelQuestions = (props) => {
+interface Props {
+  onSelectQuestion: (questionId: string) => void;
+}
+
+export const SidePanelQuestions = ({ onSelectQuestion }: Props) => {
   const { data: questions } = useAvailableQuestions();
 
   return (
@@ -13,7 +17,11 @@ export const SidePanelQuestions = (props) => {
       <Box component={ThinScrollArea} style={{ height: '100%' }}>
         <Stack spacing={8}>
           {questions?.map((question) => (
-            <QuizQuestionCard key={question.id} question={question} />
+            <QuizQuestionCard
+              key={question.id}
+              question={question}
+              onSelect={onSelectQuestion}
+            />
           ))}
         </Stack>
       </Box>

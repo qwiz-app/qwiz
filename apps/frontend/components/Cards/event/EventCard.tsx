@@ -7,7 +7,7 @@ import {
   Group,
   Skeleton,
   Text,
-  Tooltip,
+  Tooltip
 } from '@mantine/core';
 import cn from 'classnames';
 import { useAppColorscheme } from 'hooks/colorscheme';
