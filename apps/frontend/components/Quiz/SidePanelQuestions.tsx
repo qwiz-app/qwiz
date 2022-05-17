@@ -1,9 +1,9 @@
-import { Box, Stack } from '@mantine/core';
+import { Box, Button, Group, Stack } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { ThinScrollArea } from 'components/UI/ThinScrollArea';
 import { useAvailableQuestions } from 'hooks/api/question';
 import { QuestionWithContentAndOwnerAndCategoriesAndMode } from 'types/question';
-import QuizQuestionCard from './QuizQuestion/QuizQuestionCard';
+import { QuizQuestionCard } from './QuizQuestion/QuizQuestionCard';
 import { SelectedQuestionModalContent } from './QuizQuestion/SelectedQuestionModalContent';
 import { useSelectedQuestion } from './QuizQuestion/use-selected-question';
 import { SidePanelWrapper } from './SidePanelWrapper';
@@ -13,14 +13,34 @@ export const SidePanelQuestions = (props) => {
   const { selectedQuestion, setSelectedQuestion } = useSelectedQuestion();
   const modals = useModals();
 
-  const clickedQuestionHandler = (
-    question: QuestionWithContentAndOwnerAndCategoriesAndMode
+  const questionUseHandler = (
+    question: QuestionWithContentAndOwnerAndCategoriesAndMode,
+    id: string
   ) => {
     setSelectedQuestion(question);
-    modals.openModal({
-      title: 'Selected question',
+    modals.closeModal(id);
+  };
+
+  const openQuestionModal = (
+    question: QuestionWithContentAndOwnerAndCategoriesAndMode
+  ) => {
+    const isSelected = selectedQuestion?.id === question.id;
+
+    const id = modals.openModal({
+      title: 'Question information',
       radius: 'md',
-      children: <SelectedQuestionModalContent question={question} />,
+      children: (
+        <Stack pt={4}>
+          <SelectedQuestionModalContent question={question} />
+          <Group position="right">
+            {!isSelected && (
+              <Button onClick={() => questionUseHandler(question, id)}>
+                Use question
+              </Button>
+            )}
+          </Group>
+        </Stack>
+      ),
     });
   };
 
@@ -33,7 +53,7 @@ export const SidePanelQuestions = (props) => {
             <QuizQuestionCard
               key={question.id}
               question={question}
-              onSelect={clickedQuestionHandler}
+              onSelect={openQuestionModal}
             />
           ))}
         </Stack>
