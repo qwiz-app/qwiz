@@ -1,12 +1,11 @@
 import {
-  Accordion,
-  ColorPicker,
+  Accordion, ColorPicker,
   createStyles,
   Divider,
   Paper,
   Select,
   Tabs,
-  Text,
+  Text
 } from '@mantine/core';
 import { useBackgroundColor } from 'hooks/use-background-color';
 import { questions } from 'mock/questions';
@@ -14,7 +13,7 @@ import { useRouter } from 'next/router';
 import { FadersHorizontal, PaintRoller } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 
-export const SideMenu = () => {
+export const SidePanel = () => {
   const { classes } = useStyles();
   const { backgroundColor, setBackgroundColor } = useBackgroundColor();
 
@@ -31,8 +30,11 @@ export const SideMenu = () => {
 
   return (
     <Paper className={classes.wrapper} shadow="xs" radius="md">
-      <Tabs variant="outline" p="md">
-        <Tabs.Tab label="Settings" icon={<FadersHorizontal size={32} />}>
+      <Tabs variant="pills" p="md">
+        <Tabs.Tab
+          label="Settings"
+          icon={<FadersHorizontal size={24} weight="duotone" />}
+        >
           <Text>Edit question #{questionId}</Text>
           <Divider my="sm" />
           <Text my={12}>Acccepted answers</Text>
@@ -54,7 +56,10 @@ export const SideMenu = () => {
             searchable
           />
         </Tabs.Tab>
-        <Tabs.Tab label="Design" icon={<PaintRoller size={32} />}>
+        <Tabs.Tab
+          label="Design"
+          icon={<PaintRoller size={24} weight="duotone" />}
+        >
           <Accordion>
             <Accordion.Item label="Background">
               <ColorPicker

@@ -37,7 +37,7 @@ export const FloatingQuizMenu = () => {
   };
 
   return (
-    <Paper shadow="xs" p="md" className={classes.wrapper}>
+    <Paper shadow="xs" p="md" className={classes.wrapper} radius="md">
       <Group spacing="xs">
         <Button
           leftIcon={<TextT size={18} weight="duotone" />}

@@ -1,7 +1,7 @@
 import { createStyles, Grid } from '@mantine/core';
 import QuizLayout from 'components/Layouts/QuizLayout';
 import { MainSlide } from 'components/Quiz/MainSlide';
-import { SideMenu } from 'components/Quiz/SideMenu';
+import QuizRightSide from 'components/Quiz/QuizRightSide';
 
 const QuizPage = () => {
   const { classes } = useStyles();
@@ -12,7 +12,7 @@ const QuizPage = () => {
         <MainSlide />
       </Grid.Col>
       <Grid.Col span={3}>
-        <SideMenu />
+        <QuizRightSide />
       </Grid.Col>
     </Grid>
   );
