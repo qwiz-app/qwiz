@@ -1,9 +1,7 @@
 import {
   Accordion,
   ColorPicker,
-  createStyles,
   Divider,
-  Paper,
   Select,
   Tabs,
   Text,
@@ -14,9 +12,7 @@ import { useRouter } from 'next/router';
 import { FadersHorizontal, PaintRoller } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 
-
-export const SideMenu = () => {
-  const { classes } = useStyles();
+export const SidePanel = () => {
   const { backgroundColor, setBackgroundColor } = useBackgroundColor();
 
   const router = useRouter();
@@ -31,9 +27,13 @@ export const SideMenu = () => {
   const [answers, setAnswers] = useState([]);
 
   return (
-    <Paper className={classes.wrapper} shadow="xs">
-      <Tabs variant="outline" p="md">
-        <Tabs.Tab label="Settings" icon={<FadersHorizontal size={32} />}>
+    // TODO: move to new specific panels
+    <div>
+      <Tabs variant="pills" p="md">
+        <Tabs.Tab
+          label="Settings"
+          icon={<FadersHorizontal size={24} weight="duotone" />}
+        >
           <Text>Edit question #{questionId}</Text>
           <Divider my="sm" />
           <Text my={12}>Acccepted answers</Text>
@@ -55,7 +55,10 @@ export const SideMenu = () => {
             searchable
           />
         </Tabs.Tab>
-        <Tabs.Tab label="Design" icon={<PaintRoller size={32} />}>
+        <Tabs.Tab
+          label="Design"
+          icon={<PaintRoller size={24} weight="duotone" />}
+        >
           <Accordion>
             <Accordion.Item label="Background">
               <ColorPicker
@@ -68,14 +71,8 @@ export const SideMenu = () => {
           </Accordion>
         </Tabs.Tab>
       </Tabs>
-    </Paper>
+    </div>
   );
 };
-
-const useStyles = createStyles((theme) => ({
-  wrapper: {
-    height: '100%',
-  },
-}));
 
 const questionTypes = ['Text', 'Audio', 'Image', 'Video'];

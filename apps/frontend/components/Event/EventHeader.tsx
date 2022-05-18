@@ -118,6 +118,7 @@ export const EventHeader = ({ event, loading }: Props) => {
                   </Button>
                 )}
                 <Tooltip
+                  withArrow
                   label="Share with your friends"
                   color={isDark ? 'gray' : 'dark'}
                   position="bottom"

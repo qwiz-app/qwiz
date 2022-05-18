@@ -58,7 +58,7 @@ export const ImageCard = ({ event, loading }: Props) => {
                 >
                   {event.name}
                 </Text>
-                <Tooltip label={formatDate(event.startDate)}>
+                <Tooltip withArrow label={formatDate(event.startDate)}>
                   <Text size="xs" color="dimmed">
                     {relativeTimeTo(event.startDate)}
                   </Text>
@@ -88,7 +88,7 @@ export const ImageCard = ({ event, loading }: Props) => {
                     flexShrink: 0,
                   })}
                 >
-                  <Tooltip label="Price per team">
+                  <Tooltip withArrow label="Price per team">
                     <Center>
                       <Tag
                         size={16}
@@ -100,7 +100,7 @@ export const ImageCard = ({ event, loading }: Props) => {
                       </Text>
                     </Center>
                   </Tooltip>
-                  <Tooltip label="Teams">
+                  <Tooltip withArrow label="Teams">
                     <Center>
                       <UsersThree
                         size={16}

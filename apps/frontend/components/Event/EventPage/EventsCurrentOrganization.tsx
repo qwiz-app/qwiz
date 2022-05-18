@@ -1,7 +1,11 @@
+import { Button } from '@mantine/core';
 import { NoEventsAlert } from 'components/Cards/event/NoEventsAlert';
 import PageGrid from 'components/Grids/PageGrid';
 import { PageSection } from 'components/PageLayouts/PageSection';
 import { useEvents } from 'hooks/api/events';
+import { useAppColorscheme } from 'hooks/colorscheme';
+import { useRouter } from 'next/router';
+import { PlusCircle } from 'phosphor-react';
 import { useEventsPage } from './use-events-page';
 
 export const EventsCurrentOrganization = () => {
@@ -16,10 +20,30 @@ export const EventsCurrentOrganization = () => {
     renderEvents,
   } = useEventsPage(useEvents());
 
+  const { isDark } = useAppColorscheme();
+  const router = useRouter();
+
   return (
     <>
       {(hasEvents || isLoadingOrPlaceholder) && (
-        <PageSection title="Highlighted event">
+        <PageSection
+          title="Highlighted event"
+          rightSlot={
+            hasEvents &&
+            !isLoadingOrPlaceholder && (
+              <Button
+                ml="auto"
+                color="indigo"
+                variant={isDark ? 'light' : 'filled'}
+                rightIcon={<PlusCircle size={20} weight="duotone" />}
+                size="md"
+                onClick={() => router.push('/events/create')}
+              >
+                Create an event
+              </Button>
+            )
+          }
+        >
           <PageGrid type="big">
             {isLoadingOrPlaceholder
               ? highlightedPlaceholderSkeletons

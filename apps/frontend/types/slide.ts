@@ -1,10 +1,10 @@
 import {
   Point,
   QuestionContent,
-  QuizQuestion,
   QuizSlide,
   QuizSlideElement,
 } from '@prisma/client';
+import { QuizQuestionWithContents } from './question';
 
 export type SlideElementWithQuestionContentAndPoint = QuizSlideElement & {
   point: Point;
@@ -12,6 +12,6 @@ export type SlideElementWithQuestionContentAndPoint = QuizSlideElement & {
 };
 
 export type SlideWithQuestionAndElements = QuizSlide & {
-  question: QuizQuestion;
+  quizQuestion: QuizQuestionWithContents;
   elements: SlideElementWithQuestionContentAndPoint[];
 };

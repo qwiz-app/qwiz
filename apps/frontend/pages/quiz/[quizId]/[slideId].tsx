@@ -1,18 +1,21 @@
 import { createStyles, Grid } from '@mantine/core';
 import QuizLayout from 'components/Layouts/QuizLayout';
-import { MainSlide } from 'components/Quiz/MainSlide';
-import { SideMenu } from 'components/Quiz/SideMenu';
+import { MainSlideNew } from 'components/Quiz/MainSlideNew';
+import { useSelectedQuestion } from 'components/Quiz/QuizQuestion/use-selected-question';
+import { QuizRightSide } from 'components/Quiz/QuizRightSide';
 
 const QuizPage = () => {
   const { classes } = useStyles();
+  const { selectedQuestion } = useSelectedQuestion();
 
   return (
     <Grid className={classes.wrapper}>
       <Grid.Col span={9}>
-        <MainSlide />
+        {/* <MainSlide /> */}
+        <MainSlideNew question={selectedQuestion} />
       </Grid.Col>
       <Grid.Col span={3}>
-        <SideMenu />
+        <QuizRightSide />
       </Grid.Col>
     </Grid>
   );
@@ -26,6 +29,7 @@ QuizPage.getLayout = function getLayout(page) {
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
-    height: '100%',
+    maxHeight: '100vh',
+    overflow: 'hidden',
   },
 }));

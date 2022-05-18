@@ -10,7 +10,7 @@ import {
   Patch,
   Post,
   Query,
-  UnauthorizedException,
+  UnauthorizedException
 } from '@nestjs/common';
 import { Organization, Prisma } from '@prisma/client';
 import { IsAdmin } from 'common/decorators/admin.decorator';
@@ -21,10 +21,11 @@ import { QuestionService } from './question.service';
 export class QuestionController {
   constructor(private readonly questionService: QuestionService) {}
 
-  includeContentAndOwnerAndCategoriesAndMode = {
+  includeContentAndOwnerAndCategoriesAndMode: Prisma.QuestionInclude = {
     contents: true,
     owner: true,
     questionMode: true,
+    categories: true,
   };
 
   @Post()
@@ -32,9 +33,11 @@ export class QuestionController {
     @Body()
     {
       contents,
+      categories,
       ...createQuestionDto
     }: Prisma.QuestionCreateInput & {
       contents: Prisma.QuestionContentCreateWithoutQuestionInput[];
+      categories?: string[];
     },
     @OrganizationEntity() organization: Organization,
     @IsAdmin() isAdmin: boolean
@@ -42,15 +45,18 @@ export class QuestionController {
     // question is global by default if made by admin
     const orgId = organization?.id ?? null;
 
-    const data = {
+    const data: Prisma.QuestionUncheckedCreateInput = {
       ...createQuestionDto,
       isGlobal: isAdmin,
       ownerId: isAdmin ? null : orgId,
       contents: {
         create: contents,
       },
+      categories: {
+        connect: categories.map((id) => ({ id })),
+      },
     };
-    const include = { contents: true };
+    const include = this.includeContentAndOwnerAndCategoriesAndMode;
     return this.questionService.create(data, include);
   }
 
@@ -78,7 +84,7 @@ export class QuestionController {
       throw new UnauthorizedException('Only admin can access this route.');
     }
     const where = {};
-    const include = { owner, questionMode };
+    const include = this.includeContentAndOwnerAndCategoriesAndMode;
 
     return this.questionService.findAll(where, include);
   }
@@ -95,7 +101,7 @@ export class QuestionController {
       id,
       OR: [{ isGlobal: true }, { ownerId: organization.id }],
     };
-    const include = { owner, questionMode };
+    const include = this.includeContentAndOwnerAndCategoriesAndMode;
     const question = await this.questionService.findOne(where, include);
 
     if (!question) {

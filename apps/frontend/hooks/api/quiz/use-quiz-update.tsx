@@ -1,5 +1,5 @@
 import { Prisma, Quiz } from '@prisma/client';
-import { useQueryClient, useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { updateQuiz } from 'services/api/quiz';
 
 export const useQuizUpdate = (quizId: string) => {

@@ -7,6 +7,8 @@ import { useCurrentSession } from 'hooks/api/session';
 const EventsPage = () => {
   const { isOrganization, isLoading } = useCurrentSession();
 
+  // TODO: isnt working live, shows all after inital organization account creation
+
   return (
     <HomepageLayout>
       {isOrganization || isLoading ? (

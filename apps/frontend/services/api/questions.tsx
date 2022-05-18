@@ -2,13 +2,9 @@ import { Prisma } from '@prisma/client';
 import { parseData } from 'lib/axios';
 import http from 'services/http';
 import {
-  QuestionCreateWithContentInput,
-  QuestionWithContent,
-  QuestionWithContentAndOwnerAndCategoriesAndMode,
+  QuestionCreateWithContentInput, QuestionWithContentAndOwnerAndCategoriesAndMode
 } from 'types/question';
 
-// TODO: types are completely wrong
-// create custom types
 export const fetchAvailableQuestions = () =>
   http
     .get<QuestionWithContentAndOwnerAndCategoriesAndMode[]>('/api/questions')
@@ -22,7 +18,12 @@ export const fetchQuestion = (id: string) =>
     .then(parseData);
 
 export const createQuestion = (data: QuestionCreateWithContentInput) =>
-  http.post<QuestionWithContent>(`/api/questions`, data).then(parseData);
+  http
+    .post<QuestionWithContentAndOwnerAndCategoriesAndMode>(
+      `/api/questions`,
+      data
+    )
+    .then(parseData);
 
 // TODO: use mutation
 export const updateQuestion = (id: string, data: Prisma.QuestionUpdateInput) =>

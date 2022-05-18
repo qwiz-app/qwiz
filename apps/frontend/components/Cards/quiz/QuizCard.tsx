@@ -11,9 +11,10 @@ import {
   Menu,
   Skeleton,
   Text,
-  ThemeIcon,
+  ThemeIcon
 } from '@mantine/core';
 import { useModals } from '@mantine/modals';
+import { useNotifications } from '@mantine/notifications';
 import { useQuizDelete, useQuizNameEdit } from 'hooks/api/quiz';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { relativeTimeTo } from 'lib/utils';
@@ -25,7 +26,7 @@ import {
   LinkSimple,
   Lock,
   PencilSimpleLine,
-  TrashSimple,
+  TrashSimple
 } from 'phosphor-react';
 import React, { SyntheticEvent } from 'react';
 import { QuizWithOrganization } from 'types/quiz';
@@ -51,6 +52,7 @@ export const QuizCard = ({
 
   const router = useRouter();
   const modals = useModals();
+  const { showNotification } = useNotifications();
   const { mutate: deleteQuiz, isLoading: isDeleteLoading } = useQuizDelete(
     quiz.id
   );
@@ -69,14 +71,20 @@ export const QuizCard = ({
     openDeleteConfirmModal();
   };
 
-  // TODO: add explanation messages when quiz cant be deleted - when its already used in an event - onError handler
-  // TODO: prettify modal, add loaders, add notification
   const openDeleteConfirmModal = () =>
     modals.openConfirmModal({
       title: 'Please confirm your action',
       children: <Text size="sm">Do you really want to delete this quiz?</Text>,
-      labels: { confirm: 'Confirm', cancel: 'Cancel' },
-      onConfirm: () => deleteQuiz(),
+      labels: { confirm: 'Delete', cancel: 'Cancel' },
+      onConfirm: () => {
+        deleteQuiz();
+        showNotification({
+          title: 'Quiz deleted',
+          message: 'Quiz has successfully been deleted',
+          color: 'green',
+        });
+      },
+      confirmProps: { color: 'red' },
     });
 
   const onClickHandler = (e: SyntheticEvent) => {
@@ -87,7 +95,6 @@ export const QuizCard = ({
 
   return (
     // TODO: myb remove link from the component itself to be able to reuse the card in event creation
-    // don't redirect when in edit mode
     <Card
       p={0}
       radius="md"

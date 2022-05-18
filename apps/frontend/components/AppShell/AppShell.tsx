@@ -4,7 +4,7 @@ import {
   Container,
   Group,
   Header as MantineHeader,
-  Navbar as MantineNavbar,
+  Navbar as MantineNavbar
 } from '@mantine/core';
 import LogoDark from 'assets/logo/qwiz-dark.svg';
 import LogoWhite from 'assets/logo/qwiz-white.svg';

@@ -10,7 +10,7 @@ import {
   Stack,
   Text,
   Title,
-  Tooltip
+  Tooltip,
 } from '@mantine/core';
 import cn from 'classnames';
 import { useAppColorscheme } from 'hooks/colorscheme';
@@ -51,7 +51,7 @@ export const HighlightedEventCard = ({ event, loading }: Props) => {
       <Box className={classes.overlay} />
       <Stack sx={{ width: '100%' }}>
         <Group position="apart" sx={{ width: '100%' }}>
-          <Tooltip label={formatDate(event.startDate)}>
+          <Tooltip withArrow label={formatDate(event.startDate)}>
             <Badge variant="filled" color="dark">
               {relativeTimeTo(event.startDate)}
             </Badge>

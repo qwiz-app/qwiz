@@ -41,8 +41,11 @@ export const MainSlide = () => {
               width: element?.point?.width,
               height: element?.point?.height,
             }}
-            type={element.questionContent.type}
-            content={element.questionContent.content}
+            content={{
+              id: element.questionContent.id,
+              value: element.questionContent.content,
+              type: element.questionContent.type,
+            }}
           />
         ))}
       </Box>
