@@ -1,16 +1,17 @@
+import { Button, SimpleGrid } from '@mantine/core';
 import { FormikAutocomplete } from 'components/formik/FormikAutocomplete';
-import { Button } from '@mantine/core';
-import { memo } from 'react';
-import { Form, useFormikContext } from 'formik';
-import { PageSection } from 'components/PageLayouts/PageSection';
-import PageGrid from 'components/Grids/PageGrid';
-import { useQuizzes } from 'hooks/api/quiz';
-import { FileUpload } from 'components/UI/FileUpload';
-import { EventFormValues } from 'types/forms/EventFormValues';
-import { FormikTextInput } from 'components/formik/FormikTextInput';
 import { FormikDatePicker } from 'components/formik/FormikDatePicker';
-import { FormikTimeInput } from 'components/formik/FormikTimeInput';
+import { FormikNumberInput } from 'components/formik/FormikNumberInput';
 import { FormikRichText } from 'components/formik/FormikRichText';
+import { FormikTextInput } from 'components/formik/FormikTextInput';
+import { FormikTimeInput } from 'components/formik/FormikTimeInput';
+import PageGrid from 'components/Grids/PageGrid';
+import { PageSection } from 'components/PageLayouts/PageSection';
+import { FileUpload } from 'components/UI/FileUpload';
+import { Form, useFormikContext } from 'formik';
+import { useQuizzes } from 'hooks/api/quiz';
+import { memo } from 'react';
+import { EventFormValues } from 'types/forms/EventFormValues';
 
 type Props = Record<string, never>;
 
@@ -23,15 +24,19 @@ export const EventForm = memo(function EventForm(props: Props) {
         <PageGrid type="big">
           <FormikTextInput name="name" label="Name" />
           <FormikTextInput name="location" label="Location" />
-          <FormikTextInput name="price" type="number" label="Price per team" />
-          <FormikTextInput name="teamCount" type="number" label="Team count" />
+          <SimpleGrid cols={2}>
+            <FormikNumberInput name="teamCount" label="Team count" />
+            <FormikNumberInput name="price" label="Price per team ($)" />
+          </SimpleGrid>
           <FormikAutocomplete
             name="quizId"
             label="Quiz"
             options={quizOptions}
           />
-          <FormikDatePicker name="startDate" label="Start date" />
-          <FormikTimeInput name="startTime" label="Start time" />
+          <SimpleGrid cols={2}>
+            <FormikDatePicker name="startDate" label="Start date" />
+            <FormikTimeInput name="startTime" label="Start time" />
+          </SimpleGrid>
           <FormikRichText name="description" label="Description" />
           <FileUpload selectFile={handleFileUpload} />
           <Button type="submit" loading={isSubmitting} disabled={isSubmitting}>

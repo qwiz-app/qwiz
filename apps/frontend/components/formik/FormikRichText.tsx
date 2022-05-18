@@ -8,9 +8,12 @@ type Props = {
   label: string;
 };
 
-export const FormikRichText = memo(function FormikRichText(props: Props) {
+export const FormikRichText = memo(function FormikRichText({
+  name,
+  label: labelProp,
+}: Props) {
   const { value, label, errorMessage, handleChange, handleBlur } =
-    useFormikRichText(props);
+    useFormikRichText({ name, label: labelProp });
 
   return (
     <Box>

@@ -8,19 +8,22 @@ import { eventSchema } from 'domain/util/validation';
 import { useEventCreate } from 'hooks/api/events/use-event-create';
 import { useRouter } from 'next/router';
 import { paths } from 'paths';
+import { Container } from '@mantine/core';
 
 const EventsPage = () => {
   const { initialValues, handleSubmit } = useEventPage();
 
   return (
     <HomepageLayout>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={handleSubmit}
-        validationSchema={eventSchema}
-      >
-        <EventForm />
-      </Formik>
+      <Container size="sm">
+        <Formik
+          initialValues={initialValues}
+          onSubmit={handleSubmit}
+          validationSchema={eventSchema}
+        >
+          <EventForm />
+        </Formik>
+      </Container>
     </HomepageLayout>
   );
 };
@@ -33,8 +36,8 @@ const useEventPage = () => {
     name: '',
     location: '',
     description: '',
-    price: undefined,
-    teamCount: undefined,
+    price: null,
+    teamCount: null,
     startDate: undefined,
     startTime: undefined,
     quizId: undefined,
