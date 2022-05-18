@@ -51,7 +51,10 @@ export class QuizController {
   findAllByCurrentOwner(@OrganizationEntity() organization: Organization) {
     return this.quizService.findAll(
       { ownerId: organization.id },
-      this.includeWithUserAndCount
+      {
+        slides: true,
+        ...this.includeWithUserAndCount,
+      }
     );
   }
 
@@ -76,7 +79,7 @@ export class QuizController {
               include: {
                 questionContent: true,
                 point: true,
-              }
+              },
             },
           },
         },
