@@ -1,5 +1,11 @@
 import {
-  Box, Button, createStyles, Group, Navbar, Stack, Text
+  Box,
+  Button,
+  createStyles,
+  Group,
+  Navbar,
+  Stack,
+  Text,
 } from '@mantine/core';
 import cn from 'classnames';
 import { ThinScrollArea } from 'components/UI/ThinScrollArea';

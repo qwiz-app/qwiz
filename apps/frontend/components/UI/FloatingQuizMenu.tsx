@@ -1,5 +1,6 @@
 import { Button, createStyles, Group, Paper, Modal } from '@mantine/core';
 import { QuestionElementType } from '@prisma/client';
+import { useModalProps } from 'context/mantine';
 import { useQuestionContentCreate } from 'hooks/api/slide';
 import { useFileUpload } from 'hooks/use-flle-upload';
 import { useRouter } from 'next/router';
@@ -110,6 +111,7 @@ const generateMutateData = ({
 const UploadImageModal = ({ opened, onClose, slideId }) => {
   const { selectFile, uploadFile, uploadingStatus, url, file } =
     useFileUpload();
+  const { modalProps } = useModalProps();
 
   const { mutate } = useQuestionContentCreate(slideId as string);
 
@@ -129,11 +131,11 @@ const UploadImageModal = ({ opened, onClose, slideId }) => {
   useEffect(() => {
     if (file) {
       uploadFile();
-    } 
+    }
   }, [file]);
 
   return (
-    <Modal opened={opened} onClose={onClose}>
+    <Modal {...modalProps} opened={opened} onClose={onClose}>
       <FileUpload selectFile={selectFile} />
     </Modal>
   );
