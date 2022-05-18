@@ -6,6 +6,13 @@ import { PrismaService } from 'prisma.service';
 export class SlideService {
   constructor(private prisma: PrismaService) {}
 
+  findAllForQuiz(
+    where: Prisma.QuizSlideWhereInput,
+    include: Prisma.QuizSlideInclude
+  ) {
+    return this.prisma.quizSlide.findMany({ where, include });
+  }
+
   findOne(
     where: Prisma.QuizSlideWhereUniqueInput,
     include: Prisma.QuizSlideInclude

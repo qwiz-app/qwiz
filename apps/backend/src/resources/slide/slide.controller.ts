@@ -15,6 +15,17 @@ import { SlideService } from './slide.service';
 export class SlideController {
   constructor(private readonly slideService: SlideService) {}
 
+  @Get('quiz/:quizId')
+  findAllForQuiz(@Param('quizId') quizId: string) {
+    const include: Prisma.QuizSlideInclude = {
+      elements: true,
+      quiz: true,
+    };
+    const where = { quizId };
+
+    return this.slideService.findAllForQuiz(where, include);
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string) {
     const quiz = await this.slideService.findOne(
