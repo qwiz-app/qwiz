@@ -1,12 +1,18 @@
-import { Box, Button, createStyles, Group, Navbar, Stack } from '@mantine/core';
+import {
+  Box,
+  Button,
+  createStyles,
+  Group,
+  LoadingOverlay,
+  Navbar,
+  Stack,
+} from '@mantine/core';
 import { ThinScrollArea } from 'components/UI/ThinScrollArea';
-import { Reorder } from 'framer-motion';
-import { useQuiz } from 'hooks/api/quiz';
-import { useSlideCreate } from 'hooks/api/slide';
+import { useSlideCreate, useSlides } from 'hooks/api/slide';
 import { useRouter } from 'next/router';
 import { Plus } from 'phosphor-react';
-import { useEffect, useState } from 'react';
-import { SlideWithQuestionAndElements } from 'types/slide';
+import { useEffect } from 'react';
+// import { SlideWithQuestionAndElements } from 'types/slide';
 import { SlidePreview } from './SlidePreview';
 
 export const Slides = () => {
@@ -14,16 +20,21 @@ export const Slides = () => {
   const router = useRouter();
   const { quizId, slideId } = router.query;
 
-  const { data: quiz, isSuccess } = useQuiz(quizId as string);
-  const { mutate: createSlide } = useSlideCreate();
+  const { mutate: createSlide, isLoading: isCreateLoading } = useSlideCreate();
 
-  const [slides, setSlides] = useState<SlideWithQuestionAndElements[]>(null);
+  const { data: rqSlides } = useSlides(quizId as string, quizId === 'edit');
 
   useEffect(() => {
-    if (isSuccess) {
-      setSlides(quiz.slides);
-    }
-  }, [isSuccess]);
+    console.log('RQ Slides', rqSlides);
+  }, [rqSlides]);
+
+  // const [slides, setSlides] = useState<SlideWithQuestionAndElements[]>(null);
+
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     setSlides(quiz.slides);
+  //   }
+  // }, [isSuccess]);
 
   const handleSlideClick = (selectedSlideId: string) => {
     router.push(`/quiz/${quizId}/${selectedSlideId}`, undefined, {
@@ -35,17 +46,30 @@ export const Slides = () => {
     createSlide(
       {
         quizId: quizId as string,
-        ordinal: slides.length + 1,
+        // TODO
+        // ordinal: 1,
       },
       {
         onSuccess: (slide) => {
-          setSlides([...slides, slide]);
+          // setSlides([...slides, slide]);
           router.push(`/quiz/${quizId}/${slide.id}`, undefined, {
             shallow: true,
           });
         },
       }
     );
+  };
+
+  const redirecToGeneralHandler = () => {
+    let whereTo = 'edit';
+
+    if (rqSlides?.length) {
+      const [last] = rqSlides.slice(-1);
+      // TODO: doesnt work when we are deleting our last one because its not deleted yet
+      whereTo = last.id;
+    }
+
+    router.push(`/quiz/${quizId}/${whereTo}`);
   };
 
   return (
@@ -59,10 +83,11 @@ export const Slides = () => {
           sx={() => ({ height: '100%', flex: 1 })}
           component={ThinScrollArea}
         >
-          {slides && (
+          <LoadingOverlay visible={isCreateLoading} />
+          {/* {rqSlides && (
             <Reorder.Group
               axis="y"
-              values={slides}
+              values={rqSlides}
               onReorder={setSlides}
               style={{ padding: 0 }}
             >
@@ -81,7 +106,17 @@ export const Slides = () => {
                 </Reorder.Item>
               ))}
             </Reorder.Group>
-          )}
+          )} */}
+          {rqSlides?.map((slide, i) => (
+            <SlidePreview
+              key={slide.id}
+              slide={slide}
+              order={i + 1}
+              selectedSlideId={slideId as string}
+              onSlideClick={handleSlideClick}
+              onDeleteCurrentSlide={redirecToGeneralHandler}
+            />
+          ))}
         </Box>
         <Group p="xs">
           <Button
