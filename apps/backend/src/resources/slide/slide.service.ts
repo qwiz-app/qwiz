@@ -10,7 +10,13 @@ export class SlideService {
     where: Prisma.QuizSlideWhereInput,
     include: Prisma.QuizSlideInclude
   ) {
-    return this.prisma.quizSlide.findMany({ where, include });
+    return this.prisma.quizSlide.findMany({
+      where,
+      include,
+      orderBy: {
+        ordinal: 'asc',
+      },
+    });
   }
 
   findOne(

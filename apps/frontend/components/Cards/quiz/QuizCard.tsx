@@ -11,7 +11,7 @@ import {
   Menu,
   Skeleton,
   Text,
-  ThemeIcon,
+  ThemeIcon
 } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { useNotifications } from '@mantine/notifications';
@@ -26,7 +26,7 @@ import {
   LinkSimple,
   Lock,
   PencilSimpleLine,
-  TrashSimple,
+  TrashSimple
 } from 'phosphor-react';
 import React, { SyntheticEvent } from 'react';
 import { QuizWithOrganization } from 'types/quiz';

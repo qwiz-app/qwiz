@@ -1,8 +1,15 @@
-import { Box, Button, createStyles, Group, Navbar, Stack } from '@mantine/core';
+import {
+  Box,
+  Button,
+  createStyles,
+  Group,
+  LoadingOverlay,
+  Navbar,
+  Stack,
+} from '@mantine/core';
 import { ThinScrollArea } from 'components/UI/ThinScrollArea';
-import { Reorder } from 'framer-motion';
 import { useQuiz } from 'hooks/api/quiz';
-import { useSlideCreate } from 'hooks/api/slide';
+import { useSlideCreate, useSlides } from 'hooks/api/slide';
 import { useRouter } from 'next/router';
 import { Plus } from 'phosphor-react';
 import { useEffect, useState } from 'react';
@@ -15,7 +22,13 @@ export const Slides = () => {
   const { quizId, slideId } = router.query;
 
   const { data: quiz, isSuccess } = useQuiz(quizId as string);
-  const { mutate: createSlide } = useSlideCreate();
+  const { mutate: createSlide, isLoading: isCreateLoading } = useSlideCreate();
+
+  const { data: rqSlides } = useSlides(quizId as string, quizId === 'edit');
+
+  useEffect(() => {
+    console.log('RQ Slides', rqSlides);
+  }, [rqSlides]);
 
   const [slides, setSlides] = useState<SlideWithQuestionAndElements[]>(null);
 
@@ -35,7 +48,8 @@ export const Slides = () => {
     createSlide(
       {
         quizId: quizId as string,
-        ordinal: slides.length + 1,
+        // TODO: will break
+        ordinal: 1,
       },
       {
         onSuccess: (slide) => {
@@ -59,10 +73,11 @@ export const Slides = () => {
           sx={() => ({ height: '100%', flex: 1 })}
           component={ThinScrollArea}
         >
-          {slides && (
+          <LoadingOverlay visible={isCreateLoading} />
+          {/* {rqSlides && (
             <Reorder.Group
               axis="y"
-              values={slides}
+              values={rqSlides}
               onReorder={setSlides}
               style={{ padding: 0 }}
             >
@@ -81,7 +96,16 @@ export const Slides = () => {
                 </Reorder.Item>
               ))}
             </Reorder.Group>
-          )}
+          )} */}
+          {rqSlides?.map((slide, i) => (
+            <SlidePreview
+              key={slide.id}
+              slide={slide}
+              order={i + 1}
+              selectedSlideId={slideId as string}
+              onSlideClick={handleSlideClick}
+            />
+          ))}
         </Box>
         <Group p="xs">
           <Button

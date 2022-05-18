@@ -4,7 +4,7 @@ import {
   createStyles,
   LoadingOverlay,
   Menu,
-  Text,
+  Text
 } from '@mantine/core';
 import cn from 'classnames';
 import { useSlideDelete } from 'hooks/api/slide';
@@ -20,7 +20,7 @@ import {
   NumberCircleThree,
   NumberCircleTwo,
   NumberCircleZero,
-  TrashSimple,
+  TrashSimple
 } from 'phosphor-react';
 import { SyntheticEvent } from 'react';
 import { SlideWithQuestionAndElements } from 'types/slide';
@@ -30,6 +30,7 @@ interface Props {
   selectedSlideId: string;
   order: number;
   onSlideClick: (slideId: string) => void;
+  onDeleteCurrentSlide?: () => void;
 }
 
 const iconNumberMap = {
@@ -50,6 +51,7 @@ export const SlidePreview = ({
   order,
   selectedSlideId,
   onSlideClick,
+  onDeleteCurrentSlide,
 }: Props) => {
   const { classes } = useStyles();
   const { mutate: deleteSlide, isLoading: isDeleting } = useSlideDelete(
