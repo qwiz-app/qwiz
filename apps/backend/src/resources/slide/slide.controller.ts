@@ -53,6 +53,13 @@ export class SlideController {
     return this.slideService.create(createSlideDto);
   }
 
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.slideService.remove({
+      id,
+    });
+  }
+
   @Patch('point/:id')
   async updatePoint(
     @Param('id') id: string,

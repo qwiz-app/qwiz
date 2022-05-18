@@ -268,7 +268,7 @@ model QuizQuestion {
   // relations
   quiz        Quiz                 @relation(fields: [quizId], references: [id], onUpdate: NoAction, onDelete: Cascade)
   question    Question             @relation(fields: [questionId], references: [id], onUpdate: NoAction, onDelete: Cascade)
-  quizSlide   QuizSlide            @relation(fields: [quizSlideId], references: [id], onUpdate: NoAction)
+  quizSlide   QuizSlide            @relation(fields: [quizSlideId], references: [id], onUpdate: NoAction, onDelete: Cascade)
   scoringMode QuestionScoringMode? @relation(fields: [scoringModeId], references: [id], onDelete: Restrict)
 
   // opposite relations
@@ -283,7 +283,7 @@ model QuizSlide {
   backgroundColor String?
 
   // relations
-  quiz Quiz @relation(fields: [quizId], references: [id], onUpdate: NoAction, onDelete: Restrict)
+  quiz Quiz @relation(fields: [quizId], references: [id], onUpdate: NoAction, onDelete: Cascade)
 
   // opposite relations
   elements     QuizSlideElement[]

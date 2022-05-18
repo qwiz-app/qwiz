@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'prisma.service';
 
@@ -24,6 +24,14 @@ export class SlideService {
     return this.prisma.quizSlide.create({
       data,
     });
+  }
+
+  async remove(where: Prisma.QuizQuestionWhereUniqueInput) {
+    try {
+      return await this.prisma.quizSlide.delete({ where });
+    } catch (err) {
+      throw new NotFoundException(err?.meta?.cause || 'Something went wrong.');
+    }
   }
 
   updatePoint(

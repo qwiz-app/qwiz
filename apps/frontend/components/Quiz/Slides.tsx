@@ -1,13 +1,4 @@
-import {
-  Box,
-  Button,
-  createStyles,
-  Group,
-  Navbar,
-  Stack,
-  Text,
-} from '@mantine/core';
-import cn from 'classnames';
+import { Box, Button, createStyles, Group, Navbar, Stack } from '@mantine/core';
 import { ThinScrollArea } from 'components/UI/ThinScrollArea';
 import { Reorder } from 'framer-motion';
 import { useQuiz } from 'hooks/api/quiz';
@@ -16,6 +7,7 @@ import { useRouter } from 'next/router';
 import { Plus } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 import { SlideWithQuestionAndElements } from 'types/slide';
+import { SlidePreview } from './SlidePreview';
 
 export const Slides = () => {
   const { classes } = useStyles();
@@ -80,19 +72,11 @@ export const Slides = () => {
                   value={slide}
                   style={{ listStyle: 'none' }}
                 >
-                  <Box
-                    className={cn(
-                      classes.box,
-                      slideId === slide.id && classes.selected
-                    )}
-                    onClick={() => handleClick(slide.id)}
-                  >
-                    <div>
-                      <Text color="dimmed" size="sm">
-                        {slide.ordinal}
-                      </Text>
-                    </div>
-                  </Box>
+                  <SlidePreview
+                    slide={slide}
+                    slideId={slideId as string}
+                    onSlideClick={handleClick}
+                  />
                 </Reorder.Item>
               ))}
             </Reorder.Group>
@@ -114,40 +98,6 @@ export const Slides = () => {
 };
 
 const useStyles = createStyles((theme) => ({
-  box: {
-    backgroundColor:
-      theme.colorScheme === 'dark'
-        ? theme.colors.dark[6]
-        : theme.colors.gray[0],
-    textAlign: 'center',
-    padding: theme.spacing.md,
-    borderRadius: theme.radius.md,
-    margin: theme.radius.md,
-    cursor: 'pointer',
-    borderColor: 'transparent',
-    borderWidth: 2,
-    aspectRatio: '17/11',
-
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-
-    '&:hover': {
-      backgroundColor:
-        theme.colorScheme === 'dark'
-          ? theme.colors.dark[5]
-          : theme.colors.gray[1],
-    },
-  },
-
-  selected: {
-    borderColor:
-      theme.colorScheme === 'dark'
-        ? theme.colors.blue[5]
-        : theme.colors.blue[2],
-    borderWidth: 2,
-  },
-
   addNew: {
     position: 'fixed',
     display: 'flex',

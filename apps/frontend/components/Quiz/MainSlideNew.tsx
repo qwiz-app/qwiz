@@ -6,7 +6,7 @@ import {
   Image,
   LoadingOverlay,
   Stack,
-  Title,
+  Title
 } from '@mantine/core';
 import { QuestionElementType } from '@prisma/client';
 import { useBackgroundColor } from 'hooks/use-background-color';
@@ -40,7 +40,7 @@ export const MainSlideNew = ({ question }: Props) => {
       <Box className={classes.box} style={{ backgroundColor }}>
         {/* TODO */}
         <LoadingOverlay visible={isLoading} />
-        <Stack align="center" spacing={32}>
+        <Stack align="center" spacing={50}>
           {hasTextElements && (
             <Stack>
               {textElements?.map((elem) => (
