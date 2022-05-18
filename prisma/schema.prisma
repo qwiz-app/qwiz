@@ -268,13 +268,11 @@ model QuizQuestion {
   // relations
   quiz        Quiz                 @relation(fields: [quizId], references: [id], onUpdate: NoAction, onDelete: Cascade)
   question    Question             @relation(fields: [questionId], references: [id], onUpdate: NoAction, onDelete: Cascade)
-  quizSlide   QuizSlide            @relation(fields: [quizSlideId], references: [id])
+  quizSlide   QuizSlide            @relation(fields: [quizSlideId], references: [id], onUpdate: NoAction)
   scoringMode QuestionScoringMode? @relation(fields: [scoringModeId], references: [id], onDelete: Restrict)
 
   // opposite relations
   eventAnswers EventTeamAnswer[]
-
-  @@unique([quizId, questionId])
 }
 
 model QuizSlide {
@@ -300,7 +298,7 @@ model QuizSlideElement {
   questionContentId String?
 
   // relations
-  quizSlide       QuizSlide?       @relation(fields: [quizSlideId], references: [id], onDelete: Cascade)
+  quizSlide       QuizSlide?       @relation(fields: [quizSlideId], references: [id], onUpdate: NoAction, onDelete: Cascade)
   questionContent QuestionContent? @relation(fields: [questionContentId], references: [id], onDelete: Cascade)
   point           Point?
 }
@@ -333,7 +331,7 @@ model EventTeamAnswer {
 
   // relations
   eventTeam EventTeam    @relation(fields: [eventTeamId], references: [id], onUpdate: NoAction, onDelete: Restrict)
-  question  QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Restrict)
+  question  QuizQuestion @relation(fields: [questionId], references: [id], onUpdate: NoAction, onDelete: Restrict)
 
   @@unique([eventTeamId, questionId])
 }
