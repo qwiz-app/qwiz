@@ -6,8 +6,9 @@ import {
   Chips,
   Collapse,
   Group,
+  LoadingOverlay,
   Stack,
-  Tooltip
+  Tooltip,
 } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { FramerAnimatedListItem } from 'components/Framer/FramerAnimatedListItem';
@@ -41,8 +42,9 @@ export const SidePanelQuestions = () => {
     if (selectedFilter === 'global') {
       return questions.filter((question) => question.owner === null);
     }
-    if (selectedFilter === 'others') {
-      return questions.filter((question) => question.owner.id === me.id);
+    if (selectedFilter === 'personal') {
+      console.log(me);
+      return questions.filter((question) => question.ownerId === me.id);
     }
     return [];
   }, [selectedFilter, questions]);
@@ -90,6 +92,7 @@ export const SidePanelQuestions = () => {
         questionId,
       });
     } else {
+      // TODO: isnt updated live, gotta switch slides first - fix this
       createQuizQuestion({
         quizId: slide.quizId,
         quizSlideId: slide.id,
@@ -131,13 +134,13 @@ export const SidePanelQuestions = () => {
       {/* TODO: height, scroll and overflow troubles */}
       <Box component={ThinScrollArea} style={{ height: '100%' }}>
         <Stack spacing={8}>
+          <LoadingOverlay visible={updateLoading || createLoading} />
           {shownQuestions?.map((question) => (
             <FramerAnimatedListItem key={question.id} id={question.id}>
               <QuizQuestionCard
                 question={question}
                 onSelect={openQuestionModal}
                 onUseQuestion={questionUseSelectedHandler}
-                loading={updateLoading || createLoading}
               />
             </FramerAnimatedListItem>
           ))}

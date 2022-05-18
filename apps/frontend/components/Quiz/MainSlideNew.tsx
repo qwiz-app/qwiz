@@ -4,6 +4,7 @@ import {
   createStyles,
   Group,
   Image,
+  LoadingOverlay,
   Stack,
   Title,
 } from '@mantine/core';
@@ -17,7 +18,7 @@ interface Props {
 }
 
 export const MainSlideNew = ({ question }: Props) => {
-  const { slide } = useCurrentSlide();
+  const { slide, isLoading } = useCurrentSlide();
 
   const contents = slide?.quizQuestion?.question?.contents;
 
@@ -37,6 +38,8 @@ export const MainSlideNew = ({ question }: Props) => {
   return (
     <AspectRatio ratio={16 / 9}>
       <Box className={classes.box} style={{ backgroundColor }}>
+        {/* TODO */}
+        <LoadingOverlay visible={isLoading} />
         <Stack align="center" spacing={32}>
           {hasTextElements && (
             <Stack>

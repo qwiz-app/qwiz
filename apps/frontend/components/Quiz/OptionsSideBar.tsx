@@ -1,10 +1,10 @@
 import {
+  ActionIcon,
   Aside,
   createStyles,
   Group,
   Navbar,
-  Tooltip,
-  UnstyledButton
+  Tooltip
 } from '@mantine/core';
 import { CircleWavyQuestion, ListPlus, Palette } from 'phosphor-react';
 
@@ -24,12 +24,14 @@ const NavbarLink = ({
   const { classes, cx } = useStyles();
   return (
     <Tooltip label={label} position="right" withArrow transitionDuration={0}>
-      <UnstyledButton
+      <ActionIcon
         onClick={onClick}
-        className={cx(classes.link, { [classes.active]: active })}
+        className={cx(classes.link)}
+        variant={active ? 'light' : 'transparent'}
+        color={active ? 'primary' : 'gray'}
       >
         <Icon weight="duotone" size={24} />
-      </UnstyledButton>
+      </ActionIcon>
     </Tooltip>
   );
 };
@@ -93,18 +95,7 @@ const useStyles = createStyles((theme) => ({
       backgroundColor:
         theme.colorScheme === 'dark'
           ? theme.colors.dark[5]
-          : theme.colors.gray[0],
-    },
-  },
-
-  active: {
-    '&, &:hover': {
-      backgroundColor:
-        theme.colorScheme === 'dark'
-          ? theme.fn.rgba(theme.colors[theme.primaryColor][9], 0.25)
-          : theme.colors[theme.primaryColor][0],
-      color:
-        theme.colors[theme.primaryColor][theme.colorScheme === 'dark' ? 4 : 7],
+          : theme.colors.gray[2],
     },
   },
 }));
