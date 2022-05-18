@@ -10,10 +10,9 @@ export const useQuizzes = () =>
     placeholderData,
   });
 
-// TODO: do we need a placholder when we are just showing skeletons?
 const placeholderData: QuizWithOrganization[] = generateArrayForRange(4).map(
   (_, idx) => ({
-    id: `${idx}`,
+    id: `quiz-${idx}`,
     name: '',
     description: '',
     thumbnail: null,
@@ -21,22 +20,7 @@ const placeholderData: QuizWithOrganization[] = generateArrayForRange(4).map(
     ownerId: '',
     createdAt: new Date(),
     updatedAt: new Date(),
-    slides: [
-      {
-        id: `${idx}`,
-        quizId: `${idx}`,
-        backgroundColor: '#ffffff',
-        ordinal: 1,
-        elements: [],
-        question: {
-          id: `${idx}`,
-          quizId: `${idx}`,
-          questionId: `${idx}`,
-          quizSlideId: `${idx}`,
-          scoringModeId: idx,
-        },
-      },
-    ],
+    slides: [],
     owner: {
       id: '',
       name: '',
@@ -46,7 +30,7 @@ const placeholderData: QuizWithOrganization[] = generateArrayForRange(4).map(
         name: '',
         email: '',
         emailVerified: null,
-        image: '',
+        image: null,
         role: 'ORGANIZATION',
       },
     },
