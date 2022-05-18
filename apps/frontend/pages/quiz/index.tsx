@@ -4,16 +4,26 @@ import { QuizCardSmall } from 'components/Cards/quiz/QuizCardSmall';
 import { FramerAnimatedListItem } from 'components/Framer/FramerAnimatedListItem';
 import PageGrid from 'components/Grids/PageGrid';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
-import { CreateQuizModal } from 'components/Modals/Quiz/CreateQuizModal';
 import { HomepageLayout } from 'components/PageLayouts/HomepageLayout';
 import { PageSection } from 'components/PageLayouts/PageSection';
-import { useQuizzes } from 'hooks/api/quiz';
-import { useState } from 'react';
+import { useQuizCreate, useQuizzes } from 'hooks/api/quiz';
+import { useRouter } from 'next/router';
 
 const QuizPage = () => {
-  const [showCreateQuizModal, setShowCreateQuizModal] = useState(false);
+  const router = useRouter();
+
   const { data: quizzes, isLoading, isPlaceholderData } = useQuizzes();
+  const { mutate } = useQuizCreate();
   const hasQuizzes = quizzes?.length > 0;
+
+  const handleCreateQuiz = () => {
+    mutate(
+      {},
+      {
+        onSuccess: (quiz) => router.push(`/quiz/${quiz.id}/edit`),
+      }
+    );
+  };
 
   return (
     <HomepageLayout>
@@ -22,7 +32,7 @@ const QuizPage = () => {
         description="Turn any Qwiz temsplate into a new quiz"
       >
         <PageGrid type="tiniest">
-          <QuizCardSmall.New onClick={() => setShowCreateQuizModal(true)} />
+          <QuizCardSmall.New onClick={handleCreateQuiz} />
           {templates.map((template, idx) => (
             <QuizCardSmall.Template key={idx} {...template} />
           ))}
@@ -39,11 +49,6 @@ const QuizPage = () => {
         </PageGrid>
         {!hasQuizzes && <NoQuizzesAlert />}
       </PageSection>
-
-      <CreateQuizModal
-        opened={showCreateQuizModal}
-        onClose={() => setShowCreateQuizModal(false)}
-      />
     </HomepageLayout>
   );
 };
