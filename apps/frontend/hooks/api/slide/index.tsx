@@ -6,7 +6,7 @@ import {
   deleteContent,
   deleteSlide,
   fetchSlide,
-  fetchSlidesForQuiz
+  fetchSlidesForQuiz,
 } from 'services/api/slide';
 
 export const useSlides = (quizId: string, isEdit = false) =>
@@ -36,7 +36,14 @@ export const useSlideCreate = () => {
 };
 
 export const useSlideDelete = (id: string) => {
-  return useMutation(() => deleteSlide(id), {});
+  const queryClient = useQueryClient();
+
+  return useMutation(() => deleteSlide(id), {
+    onSuccess: () => {
+      queryClient.invalidateQueries('slides');
+      queryClient.invalidateQueries(['slide']);
+    },
+  });
 };
 
 export const useQuestionContentCreate = (slideId: string) => {

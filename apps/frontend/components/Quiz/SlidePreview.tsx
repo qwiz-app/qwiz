@@ -68,6 +68,9 @@ export const SlidePreview = ({
 
   const slideDeleteHandler = (e: SyntheticEvent) => {
     e.stopPropagation();
+    if (isSelected) {
+      onDeleteCurrentSlide?.();
+    }
     deleteSlide();
   };
 
@@ -75,7 +78,6 @@ export const SlidePreview = ({
     <ActionIcon
       className={cn(classes.trigger, isSelected && classes.itemSelected)}
       variant="hover"
-      onClick={slideDeleteHandler}
     >
       <DotsThreeVertical size={24} />
     </ActionIcon>

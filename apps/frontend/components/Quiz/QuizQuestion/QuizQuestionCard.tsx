@@ -8,7 +8,7 @@ import {
   Stack,
   Text,
   Tooltip,
-  UnstyledButton,
+  UnstyledButton
 } from '@mantine/core';
 import { QuestionElementType } from '@prisma/client';
 import { formatDate, relativeTimeTo } from 'lib/utils';
@@ -95,14 +95,13 @@ export const QuizQuestionCard = ({
               </Group>
             )}
             {isSelected ? (
-              <Tooltip withArrow label="Question selected" ml="auto">
+              <Tooltip label="Question selected" ml="auto">
                 <ActionIcon size="lg" variant="transparent" color="green">
                   <CheckCircle size={24} weight="duotone" />
                 </ActionIcon>
               </Tooltip>
             ) : (
               <Tooltip
-                withArrow
                 label="Use question"
                 onClick={questionUseHandler}
                 ml="auto"

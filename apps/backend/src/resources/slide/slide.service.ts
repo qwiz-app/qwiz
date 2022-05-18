@@ -13,9 +13,9 @@ export class SlideService {
     return this.prisma.quizSlide.findMany({
       where,
       include,
-      orderBy: {
-        ordinal: 'asc',
-      },
+      // orderBy: {
+      //   ordinal: 'asc',
+      // },
     });
   }
 

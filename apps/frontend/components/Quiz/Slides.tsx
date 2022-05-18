@@ -8,12 +8,11 @@ import {
   Stack,
 } from '@mantine/core';
 import { ThinScrollArea } from 'components/UI/ThinScrollArea';
-import { useQuiz } from 'hooks/api/quiz';
 import { useSlideCreate, useSlides } from 'hooks/api/slide';
 import { useRouter } from 'next/router';
 import { Plus } from 'phosphor-react';
-import { useEffect, useState } from 'react';
-import { SlideWithQuestionAndElements } from 'types/slide';
+import { useEffect } from 'react';
+// import { SlideWithQuestionAndElements } from 'types/slide';
 import { SlidePreview } from './SlidePreview';
 
 export const Slides = () => {
@@ -21,7 +20,6 @@ export const Slides = () => {
   const router = useRouter();
   const { quizId, slideId } = router.query;
 
-  const { data: quiz, isSuccess } = useQuiz(quizId as string);
   const { mutate: createSlide, isLoading: isCreateLoading } = useSlideCreate();
 
   const { data: rqSlides } = useSlides(quizId as string, quizId === 'edit');
@@ -30,13 +28,13 @@ export const Slides = () => {
     console.log('RQ Slides', rqSlides);
   }, [rqSlides]);
 
-  const [slides, setSlides] = useState<SlideWithQuestionAndElements[]>(null);
+  // const [slides, setSlides] = useState<SlideWithQuestionAndElements[]>(null);
 
-  useEffect(() => {
-    if (isSuccess) {
-      setSlides(quiz.slides);
-    }
-  }, [isSuccess]);
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     setSlides(quiz.slides);
+  //   }
+  // }, [isSuccess]);
 
   const handleSlideClick = (selectedSlideId: string) => {
     router.push(`/quiz/${quizId}/${selectedSlideId}`, undefined, {
@@ -48,18 +46,30 @@ export const Slides = () => {
     createSlide(
       {
         quizId: quizId as string,
-        // TODO: will break
-        ordinal: 1,
+        // TODO
+        // ordinal: 1,
       },
       {
         onSuccess: (slide) => {
-          setSlides([...slides, slide]);
+          // setSlides([...slides, slide]);
           router.push(`/quiz/${quizId}/${slide.id}`, undefined, {
             shallow: true,
           });
         },
       }
     );
+  };
+
+  const redirecToGeneralHandler = () => {
+    let whereTo = 'edit';
+
+    if (rqSlides?.length) {
+      const [last] = rqSlides.slice(-1);
+      // TODO: doesnt work when we are deleting our last one because its not deleted yet
+      whereTo = last.id;
+    }
+
+    router.push(`/quiz/${quizId}/${whereTo}`);
   };
 
   return (
@@ -104,6 +114,7 @@ export const Slides = () => {
               order={i + 1}
               selectedSlideId={slideId as string}
               onSlideClick={handleSlideClick}
+              onDeleteCurrentSlide={redirecToGeneralHandler}
             />
           ))}
         </Box>
