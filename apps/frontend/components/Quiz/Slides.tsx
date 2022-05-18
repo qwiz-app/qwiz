@@ -66,7 +66,7 @@ export const Slides = () => {
               onReorder={setSlides}
               style={{ padding: 0 }}
             >
-              {slides.map((slide) => (
+              {slides.map((slide, i) => (
                 <Reorder.Item
                   key={slide.id}
                   value={slide}
@@ -74,6 +74,7 @@ export const Slides = () => {
                 >
                   <SlidePreview
                     slide={slide}
+                    order={i + 1}
                     selectedSlideId={slideId as string}
                     onSlideClick={handleSlideClick}
                   />

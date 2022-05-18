@@ -28,6 +28,7 @@ import { SlideWithQuestionAndElements } from 'types/slide';
 interface Props {
   slide: SlideWithQuestionAndElements;
   selectedSlideId: string;
+  order: number;
   onSlideClick: (slideId: string) => void;
 }
 
@@ -46,6 +47,7 @@ const iconNumberMap = {
 
 export const SlidePreview = ({
   slide,
+  order,
   selectedSlideId,
   onSlideClick,
 }: Props) => {
@@ -54,7 +56,7 @@ export const SlidePreview = ({
     slide.id
   );
 
-  const numArray = String(slide.ordinal).split('');
+  const numArray = String(order).split('');
   const icons = numArray.map((num) => {
     const Icon: any = iconNumberMap[num];
     return <Icon key={num} size={24} weight="duotone" />;
