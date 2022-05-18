@@ -7,5 +7,5 @@ export const useCurrentSlide = () => {
 
   const { data: slide, isLoading } = useSlide(slideId as string);
 
-  return { slide, isLoading };
+  return { slide, isLoading, id: slideId as string };
 };

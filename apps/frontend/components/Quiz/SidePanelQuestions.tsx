@@ -80,11 +80,11 @@ export const SidePanelQuestions = () => {
     });
   };
 
-  const { slide } = useCurrentSlide();
+  const { slide, id } = useCurrentSlide();
   const { mutate: updateQuizQuestion, isLoading: updateLoading } =
     useQuizQuestionUpdate(slide?.quizQuestion?.id);
   const { mutate: createQuizQuestion, isLoading: createLoading } =
-    useQuizQuestionCreate();
+    useQuizQuestionCreate(id);
 
   const questionUseSelectedHandler = (questionId: string) => {
     if (slide.quizQuestion) {
@@ -92,7 +92,6 @@ export const SidePanelQuestions = () => {
         questionId,
       });
     } else {
-      // TODO: isnt updated live, gotta switch slides first - fix this
       createQuizQuestion({
         quizId: slide.quizId,
         quizSlideId: slide.id,
