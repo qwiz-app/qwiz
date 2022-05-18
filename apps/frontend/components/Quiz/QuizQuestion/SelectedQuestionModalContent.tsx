@@ -115,7 +115,7 @@ export const SelectedQuestionModalContent = ({ question }: Props) => {
             {question.categories.map((elem) => (
               <Badge
                 variant="light"
-                color="indigo"
+                color={elem.color}
                 size="sm"
                 key={elem.id}
                 radius="xl"

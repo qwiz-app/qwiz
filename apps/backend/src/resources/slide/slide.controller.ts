@@ -15,12 +15,23 @@ import { SlideService } from './slide.service';
 export class SlideController {
   constructor(private readonly slideService: SlideService) {}
 
+  includeAll: Prisma.QuizSlideInclude = {
+    elements: true,
+    quiz: true,
+    quizQuestion: {
+      include: {
+        question: {
+          include: {
+            contents: true,
+          },
+        },
+      },
+    },
+  };
+
   @Get('quiz/:quizId')
   findAllForQuiz(@Param('quizId') quizId: string) {
-    const include: Prisma.QuizSlideInclude = {
-      elements: true,
-      quiz: true,
-    };
+    const include = this.includeAll;
     const where = { quizId };
 
     return this.slideService.findAllForQuiz(where, include);
@@ -28,17 +39,9 @@ export class SlideController {
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    const quiz = await this.slideService.findOne(
-      { id },
-      {
-        elements: {
-          include: {
-            point: true,
-            questionContent: true,
-          },
-        },
-      }
-    );
+    const include = this.includeAll;
+
+    const quiz = await this.slideService.findOne({ id }, include);
     if (!quiz) {
       throw new NotFoundException('Quiz not found.');
     }

@@ -1,12 +1,5 @@
 import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  NotFoundException,
+  Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { QuizQuestionService } from './quiz-question.service';

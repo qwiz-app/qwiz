@@ -213,7 +213,7 @@ model QuestionContent {
   id         String              @id @default(cuid())
   questionId String
   type       QuestionElementType
-  content    String
+  content    String              @db.Text
 
   // relations
   question         Question           @relation(fields: [questionId], references: [id], onDelete: Cascade)

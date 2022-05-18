@@ -80,14 +80,14 @@ export const QuizQuestionCard = ({ question, onSelect }: Props) => {
             {question.categories?.length > 0 && (
               <Group spacing={4}>
                 {question.categories.map((category) => (
-                  <Badge size="xs" color="indigo" key={category.id}>
+                  <Badge size="xs" color={category.color} key={category.id}>
                     {category.name}
                   </Badge>
                 ))}
               </Group>
             )}
             {isSelected ? (
-              <Tooltip withArrow label="Question selected">
+              <Tooltip withArrow label="Question selected" ml="auto">
                 <ActionIcon size="lg" variant="transparent" color="green">
                   <CheckCircle size={24} weight="duotone" />
                 </ActionIcon>
@@ -97,6 +97,7 @@ export const QuizQuestionCard = ({ question, onSelect }: Props) => {
                 withArrow
                 label="Use question"
                 onClick={questionUseHandler}
+                ml="auto"
               >
                 <ActionIcon size="lg" variant="transparent" color="indigo">
                   <PlusCircle size={24} weight="duotone" />

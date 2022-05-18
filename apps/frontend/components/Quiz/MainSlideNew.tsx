@@ -1,4 +1,13 @@
-import { AspectRatio, Box, createStyles, Title } from '@mantine/core';
+import {
+  AspectRatio,
+  Box,
+  createStyles,
+  Group,
+  Image,
+  Stack,
+  Title,
+} from '@mantine/core';
+import { QuestionElementType } from '@prisma/client';
 import { useSlide } from 'hooks/api/slide';
 import { useBackgroundColor } from 'hooks/use-background-color';
 import { useRouter } from 'next/router';
@@ -14,6 +23,18 @@ export const MainSlideNew = ({ question }: Props) => {
   const { slideId } = router.query;
 
   const { data: slide } = useSlide(slideId as string);
+  // const slide = slideDummy;
+  const contents = slide?.quizQuestion?.question?.contents;
+
+  const textElements = contents?.filter(
+    ({ type }) => type === QuestionElementType.TEXT
+  );
+  const imageElements = contents?.filter(
+    ({ type }) => type === QuestionElementType.IMAGE
+  );
+
+  const hasTextElements = textElements?.length > 0;
+  const hasImageElements = imageElements?.length > 0;
 
   useEffect(() => {
     console.log(slide);
@@ -25,11 +46,30 @@ export const MainSlideNew = ({ question }: Props) => {
   return (
     <AspectRatio ratio={16 / 9}>
       <Box className={classes.box} style={{ backgroundColor }}>
-        {question && (
-          <Box>
-            <Title order={2}>Question text?</Title>
-          </Box>
-        )}
+        <Stack align="center" spacing={32}>
+          {hasTextElements && (
+            <Stack>
+              {textElements?.map((elem) => (
+                <Title key={elem.id} order={2}>
+                  {elem.content}
+                </Title>
+              ))}
+            </Stack>
+          )}
+          {hasImageElements && (
+            <Group>
+              {imageElements.map((elem) => (
+                <Image
+                  key={elem.id}
+                  height={300}
+                  src={elem.content}
+                  radius="sm"
+                  alt="question image"
+                />
+              ))}
+            </Group>
+          )}
+        </Stack>
       </Box>
     </AspectRatio>
   );
