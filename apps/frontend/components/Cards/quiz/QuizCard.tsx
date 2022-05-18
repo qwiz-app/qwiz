@@ -11,7 +11,7 @@ import {
   Menu,
   Skeleton,
   Text,
-  ThemeIcon
+  ThemeIcon,
 } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { useNotifications } from '@mantine/notifications';
@@ -26,7 +26,7 @@ import {
   LinkSimple,
   Lock,
   PencilSimpleLine,
-  TrashSimple
+  TrashSimple,
 } from 'phosphor-react';
 import React, { SyntheticEvent } from 'react';
 import { QuizWithOrganization } from 'types/quiz';
@@ -89,7 +89,11 @@ export const QuizCard = ({
 
   const onClickHandler = (e: SyntheticEvent) => {
     if (!isEditMode) {
-      router.push(`/quiz/${quiz.id}`);
+      if (quiz?.slides.length) {
+        router.push(`/quiz/${quiz.id}/${quiz.slides[0].id}`);
+      } else {
+        router.push(`/quiz/${quiz.id}/edit`);
+      }
     }
   };
 
