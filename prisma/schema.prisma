@@ -221,8 +221,9 @@ model QuestionContent {
 }
 
 model QuestionCategory {
-  id   String @id @default(cuid())
-  name String @unique
+  id    String @id @default(cuid())
+  name  String @unique
+  color String
 
   // opposite relations
   questions Question[]
@@ -265,8 +266,8 @@ model QuizQuestion {
   scoringModeId Int    @default(1)
 
   // relations
-  quiz        Quiz                 @relation(fields: [quizId], references: [id], onUpdate: NoAction, onDelete: Restrict)
-  question    Question             @relation(fields: [questionId], references: [id], onUpdate: NoAction, onDelete: Restrict)
+  quiz        Quiz                 @relation(fields: [quizId], references: [id], onUpdate: NoAction, onDelete: Cascade)
+  question    Question             @relation(fields: [questionId], references: [id], onUpdate: NoAction, onDelete: Cascade)
   quizSlide   QuizSlide            @relation(fields: [quizSlideId], references: [id])
   scoringMode QuestionScoringMode? @relation(fields: [scoringModeId], references: [id], onDelete: Restrict)
 

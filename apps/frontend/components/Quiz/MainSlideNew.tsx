@@ -1,5 +1,8 @@
 import { AspectRatio, Box, createStyles, Title } from '@mantine/core';
+import { useSlide } from 'hooks/api/slide';
 import { useBackgroundColor } from 'hooks/use-background-color';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { QuestionWithContentAndOwnerAndCategoriesAndMode } from 'types/question';
 
 interface Props {
@@ -7,10 +10,14 @@ interface Props {
 }
 
 export const MainSlideNew = ({ question }: Props) => {
-//   const router = useRouter();
-//   const { slideId } = router.query;
+  const router = useRouter();
+  const { slideId } = router.query;
 
-//   const { data: slide } = useSlide(slideId as string);
+  const { data: slide } = useSlide(slideId as string);
+
+  useEffect(() => {
+    console.log(slide);
+  }, [slide]);
 
   const { classes } = useStyles();
   const { backgroundColor } = useBackgroundColor();
