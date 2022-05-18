@@ -25,7 +25,7 @@ export const Slides = () => {
     }
   }, [isSuccess]);
 
-  const handleClick = (selectedSlideId: string) => {
+  const handleSlideClick = (selectedSlideId: string) => {
     router.push(`/quiz/${quizId}/${selectedSlideId}`, undefined, {
       shallow: true,
     });
@@ -74,8 +74,8 @@ export const Slides = () => {
                 >
                   <SlidePreview
                     slide={slide}
-                    slideId={slideId as string}
-                    onSlideClick={handleClick}
+                    selectedSlideId={slideId as string}
+                    onSlideClick={handleSlideClick}
                   />
                 </Reorder.Item>
               ))}

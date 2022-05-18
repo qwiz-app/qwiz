@@ -1,6 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { onError } from 'lib/axios';
-import { createContent, createSlide, deleteContent, fetchSlide } from 'services/api/slide';
+import {
+  createContent,
+  createSlide,
+  deleteContent,
+  deleteSlide,
+  fetchSlide,
+} from 'services/api/slide';
 
 export const useSlide = (id: string) =>
   useQuery(['slide', id], ({ queryKey }) => fetchSlide(queryKey[1]), {
@@ -14,6 +20,17 @@ export const useSlideCreate = () => {
   return useMutation(createSlide, {
     onSuccess: () => {
       queryClient.invalidateQueries('slides');
+    },
+  });
+};
+
+export const useSlideDelete = (id: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation(() => deleteSlide(id), {
+    onSuccess: () => {
+      queryClient.invalidateQueries('slides');
+      queryClient.invalidateQueries(['slide']);
     },
   });
 };

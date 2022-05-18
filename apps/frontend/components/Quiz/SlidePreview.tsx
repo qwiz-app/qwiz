@@ -1,29 +1,33 @@
 import {
-    ActionIcon,
-    Box,
-    createStyles, Menu,
-    Text
+  ActionIcon,
+  Box,
+  createStyles,
+  LoadingOverlay,
+  Menu,
+  Text,
 } from '@mantine/core';
 import cn from 'classnames';
+import { useSlideDelete } from 'hooks/api/slide';
 import {
-    DotsThreeVertical,
-    NumberCircleEight,
-    NumberCircleFive,
-    NumberCircleFour,
-    NumberCircleNine,
-    NumberCircleOne,
-    NumberCircleSeven,
-    NumberCircleSix,
-    NumberCircleThree,
-    NumberCircleTwo,
-    NumberCircleZero, TrashSimple
+  DotsThreeVertical,
+  NumberCircleEight,
+  NumberCircleFive,
+  NumberCircleFour,
+  NumberCircleNine,
+  NumberCircleOne,
+  NumberCircleSeven,
+  NumberCircleSix,
+  NumberCircleThree,
+  NumberCircleTwo,
+  NumberCircleZero,
+  TrashSimple,
 } from 'phosphor-react';
 import { SyntheticEvent } from 'react';
 import { SlideWithQuestionAndElements } from 'types/slide';
 
 interface Props {
   slide: SlideWithQuestionAndElements;
-  slideId: string;
+  selectedSlideId: string;
   onSlideClick: (slideId: string) => void;
 }
 
@@ -40,8 +44,15 @@ const iconNumberMap = {
   0: NumberCircleZero,
 };
 
-export const SlidePreview = ({ slide, slideId, onSlideClick }: Props) => {
+export const SlidePreview = ({
+  slide,
+  selectedSlideId,
+  onSlideClick,
+}: Props) => {
   const { classes } = useStyles();
+  const { mutate: deleteSlide, isLoading: isDeleting } = useSlideDelete(
+    slide.id
+  );
 
   const numArray = String(slide.ordinal).split('');
   const icons = numArray.map((num) => {
@@ -49,11 +60,11 @@ export const SlidePreview = ({ slide, slideId, onSlideClick }: Props) => {
     return <Icon key={num} size={24} weight="duotone" />;
   });
 
-  const isSelected = slideId === slide.id;
+  const isSelected = selectedSlideId === slide.id;
 
   const slideDeleteHandler = (e: SyntheticEvent) => {
     e.stopPropagation();
-    console.log('delete slide');
+    deleteSlide();
   };
 
   const MenuTrigger = (
@@ -71,6 +82,7 @@ export const SlidePreview = ({ slide, slideId, onSlideClick }: Props) => {
       className={cn(classes.box, isSelected && classes.selected)}
       onClick={() => onSlideClick(slide.id)}
     >
+      <LoadingOverlay visible={isDeleting} />
       <Text
         color="dimmed"
         size="sm"
