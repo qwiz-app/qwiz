@@ -7,13 +7,15 @@ import {
   Collapse,
   Group,
   Stack,
-  Tooltip,
+  Tooltip
 } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { FramerAnimatedListItem } from 'components/Framer/FramerAnimatedListItem';
 import { ThinScrollArea } from 'components/UI/ThinScrollArea';
 import { useCurrentOrganizationInfo } from 'hooks/api/organizations';
 import { useAvailableQuestions } from 'hooks/api/question';
+import { useQuizQuestionCreate } from 'hooks/api/quiz-question/use-quiz-question-create';
+import { useQuizQuestionUpdate } from 'hooks/api/quiz-question/use-quiz-question-update';
 import { Sliders } from 'phosphor-react';
 import { useMemo, useState } from 'react';
 import { QuestionWithContentAndOwnerAndCategoriesAndMode } from 'types/question';
@@ -21,11 +23,12 @@ import { QuizQuestionCard } from './QuizQuestion/QuizQuestionCard';
 import { SelectedQuestionModalContent } from './QuizQuestion/SelectedQuestionModalContent';
 import { useSelectedQuestion } from './QuizQuestion/use-selected-question';
 import { SidePanelWrapper } from './SidePanelWrapper';
+import { useCurrentSlide } from './use-current-slide';
 
 export const SidePanelQuestions = () => {
   const { data: me } = useCurrentOrganizationInfo();
   const { data: questions } = useAvailableQuestions();
-  const { selectedQuestion, setSelectedQuestion } = useSelectedQuestion();
+  const { selectedQuestion } = useSelectedQuestion();
   const modals = useModals();
 
   const [filtersOpened, setFiltersOpened] = useState(false);
@@ -48,7 +51,7 @@ export const SidePanelQuestions = () => {
     question: QuestionWithContentAndOwnerAndCategoriesAndMode,
     id: string
   ) => {
-    setSelectedQuestion(question);
+    questionUseSelectedHandler(question.id);
     modals.closeModal(id);
   };
 
@@ -73,6 +76,26 @@ export const SidePanelQuestions = () => {
         </Stack>
       ),
     });
+  };
+
+  const { slide } = useCurrentSlide();
+  const { mutate: updateQuizQuestion, isLoading: updateLoading } =
+    useQuizQuestionUpdate(slide?.quizQuestion?.id);
+  const { mutate: createQuizQuestion, isLoading: createLoading } =
+    useQuizQuestionCreate();
+
+  const questionUseSelectedHandler = (questionId: string) => {
+    if (slide.quizQuestion) {
+      updateQuizQuestion({
+        questionId,
+      });
+    } else {
+      createQuizQuestion({
+        quizId: slide.quizId,
+        quizSlideId: slide.id,
+        questionId,
+      });
+    }
   };
 
   return (
@@ -113,6 +136,8 @@ export const SidePanelQuestions = () => {
               <QuizQuestionCard
                 question={question}
                 onSelect={openQuestionModal}
+                onUseQuestion={questionUseSelectedHandler}
+                loading={updateLoading || createLoading}
               />
             </FramerAnimatedListItem>
           ))}

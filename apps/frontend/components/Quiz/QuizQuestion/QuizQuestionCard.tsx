@@ -8,23 +8,40 @@ import {
   Stack,
   Text,
   Tooltip,
-  UnstyledButton,
+  UnstyledButton
 } from '@mantine/core';
 import { QuestionElementType } from '@prisma/client';
 import { formatDate, relativeTimeTo } from 'lib/utils';
 import { CheckCircle, PlusCircle } from 'phosphor-react';
 import { SyntheticEvent } from 'react';
 import { QuestionWithContentAndOwnerAndCategoriesAndMode } from 'types/question';
-import { useSelectedQuestion } from './use-selected-question';
+import { useCurrentSlide } from '../use-current-slide';
 
 interface Props {
   question: QuestionWithContentAndOwnerAndCategoriesAndMode;
-  onSelect?: (id: QuestionWithContentAndOwnerAndCategoriesAndMode) => void;
+  onSelect?: (
+    question: QuestionWithContentAndOwnerAndCategoriesAndMode
+  ) => void;
+  onUseQuestion?: (id: string) => void;
+  loading?: boolean;
 }
 
-export const QuizQuestionCard = ({ question, onSelect }: Props) => {
+export const QuizQuestionCard = ({
+  question,
+  onSelect,
+  onUseQuestion,
+  loading,
+}: Props) => {
   const { classes } = useStyles();
-  const { selectedQuestion, setSelectedQuestion } = useSelectedQuestion();
+
+  const { slide } = useCurrentSlide();
+
+  const questionUseHandler = (e: SyntheticEvent) => {
+    e.stopPropagation();
+    onUseQuestion(question.id);
+  };
+
+  const isSelected = question.id === slide?.quizQuestion?.questionId;
 
   const getTextContent = () => {
     const textElements = question.contents.filter(
@@ -32,13 +49,6 @@ export const QuizQuestionCard = ({ question, onSelect }: Props) => {
     );
     return textElements[0]?.content;
   };
-
-  const questionUseHandler = (e: SyntheticEvent) => {
-    e.stopPropagation();
-    setSelectedQuestion(question);
-  };
-
-  const isSelected = selectedQuestion?.id === question.id;
 
   return (
     <UnstyledButton

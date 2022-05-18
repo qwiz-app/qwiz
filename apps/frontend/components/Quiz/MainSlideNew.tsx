@@ -8,22 +8,17 @@ import {
   Title,
 } from '@mantine/core';
 import { QuestionElementType } from '@prisma/client';
-import { useSlide } from 'hooks/api/slide';
 import { useBackgroundColor } from 'hooks/use-background-color';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import { QuestionWithContentAndOwnerAndCategoriesAndMode } from 'types/question';
+import { useCurrentSlide } from './use-current-slide';
 
 interface Props {
   question: QuestionWithContentAndOwnerAndCategoriesAndMode;
 }
 
 export const MainSlideNew = ({ question }: Props) => {
-  const router = useRouter();
-  const { slideId } = router.query;
+  const { slide } = useCurrentSlide();
 
-  const { data: slide } = useSlide(slideId as string);
-  // const slide = slideDummy;
   const contents = slide?.quizQuestion?.question?.contents;
 
   const textElements = contents?.filter(
@@ -35,10 +30,6 @@ export const MainSlideNew = ({ question }: Props) => {
 
   const hasTextElements = textElements?.length > 0;
   const hasImageElements = imageElements?.length > 0;
-
-  useEffect(() => {
-    console.log(slide);
-  }, [slide]);
 
   const { classes } = useStyles();
   const { backgroundColor } = useBackgroundColor();
