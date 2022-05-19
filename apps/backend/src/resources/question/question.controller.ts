@@ -53,7 +53,7 @@ export class QuestionController {
         create: contents,
       },
       categories: {
-        connect: categories.map((id) => ({ id })),
+        connect: categories?.map((id) => ({ id })),
       },
     };
     const include = this.includeContentAndOwnerAndCategoriesAndMode;

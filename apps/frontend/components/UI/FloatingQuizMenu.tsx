@@ -1,25 +1,16 @@
 import { Button, createStyles, Group, Paper } from '@mantine/core';
 import { QuestionElementType } from '@prisma/client';
-import { useQuestionContentCreate } from 'hooks/api/slide';
-import { useRouter } from 'next/router';
-import { TextT, Image as ImageIcon } from 'phosphor-react';
+import { QuestionCreateModal } from 'components/Quiz/QuizQuestion/QuizQuestionCreateModal';
+import { TextT } from 'phosphor-react';
+import { useState } from 'react';
 
 export const FloatingQuizMenu = () => {
-  const router = useRouter();
-
-  const { slideId } = router.query;
-  const { mutate } = useQuestionContentCreate(slideId as string);
+  const [showQuestionModal, setShowQuestionModal] = useState(false);
 
   const { classes } = useStyles();
 
-  const handleTextClick = () => {
-    mutate(
-      generateMutateData({
-        type: QuestionElementType.TEXT,
-        content: 'Edit me',
-        slideId,
-      })
-    );
+  const handleQuestionClick = () => {
+    setShowQuestionModal(true);
   };
 
   return (
@@ -28,19 +19,16 @@ export const FloatingQuizMenu = () => {
         <Button
           leftIcon={<TextT size={18} weight="duotone" />}
           variant="filled"
-          onClick={handleTextClick}
+          onClick={handleQuestionClick}
           color="indigo"
         >
-          Add text
-        </Button>
-        <Button
-          leftIcon={<ImageIcon size={18} weight="duotone" />}
-          variant="light"
-          color="indigo"
-        >
-          Add image
+          Add question
         </Button>
       </Group>
+      <QuestionCreateModal
+        opened={showQuestionModal}
+        setOpened={setShowQuestionModal}
+      />
     </Paper>
   );
 };
@@ -63,7 +51,7 @@ interface GenerateMutateDataProps {
   slideId: string | string[];
 }
 
-const generateMutateData = ({
+export const generateMutateData = ({
   type,
   content,
   slideId,
