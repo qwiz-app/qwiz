@@ -3,7 +3,14 @@
 App for building pub quizzes
 
 ### 👀️
-<img src="https://user-images.githubusercontent.com/46557266/169267686-4be6ac71-97f6-47fd-b162-457bbfaa9626.png" />
+<img src="https://user-images.githubusercontent.com/100085640/169413159-66c35682-aef3-4a91-b6f7-d0bd64115aac.png" />|
+
+---
+
+### API Documentation
+https://documenter.getpostman.com/view/15639222/UyrDCvUG
+
+---
 
 ## Installation and running locally
 
