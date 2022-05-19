@@ -7,8 +7,9 @@ import {
   Paper,
   Skeleton,
   Stack,
-  Title,
+  Title
 } from '@mantine/core';
+import { useBreakpoints } from 'hooks/breakpoints';
 import { OrganizationWithUser } from 'types/organization';
 
 interface Props {
@@ -18,9 +19,10 @@ interface Props {
 
 export const OrganizationHeader = ({ organization, loading }: Props) => {
   const { classes } = useStyles();
+  const { matches } = useBreakpoints();
 
   return (
-    <Skeleton visible={loading} radius="md">
+    <Skeleton visible={loading} radius="md" height={340}>
       {organization && !loading && (
         <Paper
           radius="md"
@@ -32,7 +34,8 @@ export const OrganizationHeader = ({ organization, loading }: Props) => {
           <Group
             py={16}
             pr={32}
-            pl={64}
+            pl={matches.max.lg ? 32 : 64}
+            direction={matches.max.lg ? 'column' : 'row'}
             spacing={72}
             sx={() => ({
               top: 0,
@@ -52,7 +55,11 @@ export const OrganizationHeader = ({ organization, loading }: Props) => {
                 width: '100%',
               })}
             >
-              <Title order={2} className={classes.orgName}>
+              <Title
+                order={2}
+                className={classes.orgName}
+                align={matches.max.lg ? 'center' : 'left'}
+              >
                 {organization.name}
               </Title>
             </Stack>

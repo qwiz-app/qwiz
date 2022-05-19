@@ -1,5 +1,4 @@
-import { Paper } from '@mantine/core';
-import React from 'react';
+import { Box, Paper } from '@mantine/core';
 import { EventWithOrganization } from 'types/event';
 
 import GoogleMapReact from 'google-map-react';
@@ -10,15 +9,24 @@ interface Props {
   loading: boolean;
 }
 
-const AnyReactComponent = ({ text, lat, lng }) => <div>{text}</div>;
+const AnyReactComponent = ({ lat, lng }) => (
+  <Box
+    sx={() => ({
+      width: 14,
+      height: 14,
+      color: 'white',
+      borderRadius: 10000,
+    })}
+  />
+);
 
 const EventMap = ({ event, loading }: Props) => {
   const defaultProps = {
     center: {
-      lat: 59.955413,
-      lng: 59.955413,
+      lat: 45.815399,
+      lng: 15.966568,
     },
-    zoom: 11,
+    zoom: 12,
   };
 
   return (
@@ -28,12 +36,12 @@ const EventMap = ({ event, loading }: Props) => {
       sx={() => ({ height: 348, width: '100%', overflow: 'hidden' })}
     >
       <GoogleMapReact
-        bootstrapURLKeys={{ key:config.google.mapsKey }}
+        bootstrapURLKeys={{ key: config.google.mapsKey }}
         defaultCenter={defaultProps.center}
         defaultZoom={defaultProps.zoom}
         yesIWantToUseGoogleMapApiInternals
       >
-        <AnyReactComponent lat={59.955413} lng={59.955413} text="My Marker" />
+        <AnyReactComponent lat={45.815399} lng={15.966568} />
       </GoogleMapReact>
     </Paper>
   );
