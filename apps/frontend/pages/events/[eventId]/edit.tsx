@@ -12,7 +12,7 @@ import { paths } from 'paths';
 import { EventFormValues } from 'types/forms/EventFormValues';
 
 const EventsPage = () => {
-  const { initialValues, handleSubmit, fileUpload } = useEventPage();
+  const { initialValues, handleSubmit, fileUpload, imgUrl } = useEventPage();
 
   return (
     <HomepageLayout>
@@ -23,7 +23,7 @@ const EventsPage = () => {
           onSubmit={handleSubmit}
           validationSchema={eventSchema}
         >
-          <EventForm fileUpload={fileUpload} action="edit" />
+          <EventForm fileUpload={fileUpload} action="edit" imgUrl={imgUrl} />
         </Formik>
       </Container>
     </HomepageLayout>
@@ -51,7 +51,7 @@ const useEventPage = () => {
     quizId: event.quizId ?? undefined,
   };
 
-  console.log('event.banner :>> ', event.banner);
+  const imgUrl = event.banner ?? fileUpload.url;
 
   const handleSubmit = async (values: EventFormValues) => {
     const { startDate: date, startTime: time, ...rest } = values;
@@ -59,10 +59,9 @@ const useEventPage = () => {
     const startDate = date.toString().slice(0, 11) + time.toString().slice(11);
 
     await updateEvent(
-      { ...rest, startDate: new Date(startDate), banner: fileUpload.url },
+      { ...rest, startDate: new Date(startDate), banner: imgUrl },
       {
         onSuccess: (data) => {
-          console.log(data);
           push(paths.eventPage(event.id));
         },
       }
@@ -74,7 +73,7 @@ const useEventPage = () => {
     handleSubmit,
     fileUpload,
     // TODO: does not show in edit mode
-    url: event.banner ?? fileUpload.url,
+    imgUrl,
   };
 };
 

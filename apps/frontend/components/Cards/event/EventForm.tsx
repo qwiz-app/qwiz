@@ -6,7 +6,7 @@ import {
   MantineColor,
   SelectItemProps,
   SimpleGrid,
-  Text
+  Text,
 } from '@mantine/core';
 import { Quiz } from '@prisma/client';
 import { FormikAutocomplete } from 'components/formik/FormikAutocomplete';
@@ -33,7 +33,7 @@ import {
   PlusCircle,
   Queue,
   Star,
-  UsersThree
+  UsersThree,
 } from 'phosphor-react';
 import { forwardRef, memo } from 'react';
 import { EventFormValues } from 'types/forms/EventFormValues';
@@ -41,11 +41,12 @@ import { EventFormValues } from 'types/forms/EventFormValues';
 interface Props {
   fileUpload: FileUploadProps;
   action: 'edit' | 'create';
+  imgUrl?: string;
 }
 
 export const EventForm = memo(function EventForm(props: Props) {
   const { quizOptions, isSubmitting } = useEventForm(props);
-  const { fileUpload, action } = props;
+  const { fileUpload, action, imgUrl } = props;
   const router = useRouter();
 
   const title = action === 'edit' ? 'Edit Event' : 'Create Event';
@@ -125,7 +126,7 @@ export const EventForm = memo(function EventForm(props: Props) {
             />
           </SimpleGrid>
           <FormikRichText name="description" label="Description" />
-          <FileUpload {...fileUpload} />
+          <FileUpload {...fileUpload} url={imgUrl || fileUpload.url} />
           <Group position="right">
             <Button
               type="button"

@@ -9,10 +9,10 @@ interface Props {
   loading: boolean;
 }
 
-const EventProfile = ({ event, loading }: Props) => {
+const EventProfile = ({ event, loading,  }: Props) => {
   return (
     <Stack align="stretch">
-      <EventHeader event={event} loading={loading} />
+      <EventHeader  event={event} loading={loading} />
       <EventStats event={event} loading={loading} />
       <EventAdditionalInfo event={event} loading={loading} />
     </Stack>

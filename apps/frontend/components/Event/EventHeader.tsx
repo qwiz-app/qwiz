@@ -13,7 +13,7 @@ import {
   Skeleton,
   Stack,
   Title,
-  Tooltip
+  Tooltip,
 } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { useEventDelete } from 'hooks/api/events/use-event-delete';
@@ -28,7 +28,7 @@ import {
   CircleWavyCheck,
   NotePencil,
   ShareNetwork,
-  Trash
+  Trash,
 } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 import { EventWithOrganization } from 'types/event';
@@ -43,7 +43,7 @@ export const EventHeader = ({ event, loading }: Props) => {
   const { classes } = useStyles();
   const { isOrganization } = useCurrentSession();
 
-  // TODO: placeolder
+  // TODO: placeholder
   const [isReserved] = useState(false);
 
   const router = useRouter();
