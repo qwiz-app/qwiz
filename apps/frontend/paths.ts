@@ -5,6 +5,7 @@ export const paths = {
   explore: () => '/explore',
   events: () => '/events',
   eventsCreate: () => '/events/create',
+  eventPage: (id: string) => `/events/${id}`,
   quiz: () => '/quiz',
   questionPacks: () => '/question-packs',
   teams: () => '/teams',

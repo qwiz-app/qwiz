@@ -48,9 +48,15 @@ const useEventPage = () => {
 
     const startDate = date.toString().slice(0, 11) + time.toString().slice(11);
 
-    await createEvent({ ...rest, startDate: new Date(startDate) });
-
-    await push(paths.events());
+    await createEvent(
+      { ...rest, startDate: new Date(startDate) },
+      {
+        onSuccess: (data) => {
+          console.log(data);
+          push(paths.eventPage(data.id));
+        },
+      }
+    );
   };
 
   return { initialValues, handleSubmit };
