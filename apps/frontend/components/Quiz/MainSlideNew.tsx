@@ -44,7 +44,7 @@ export const MainSlideNew = ({ question }: Props) => {
           {hasTextElements && (
             <Stack>
               {textElements?.map((elem) => (
-                <Title key={elem.id} order={2}>
+                <Title key={elem.id} order={2} align="center">
                   {elem.content}
                 </Title>
               ))}
