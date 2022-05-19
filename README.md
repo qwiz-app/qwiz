@@ -27,6 +27,15 @@ Start the backend server
   npm run backend
 ```
 
+## Tech Stack
+
+**Client:** Next.js, Typescript, Mantine, React Query, Zustand, Formik, Next Auth, Framer Motion
+
+**Server:** Nest.js, PlanetScale (MySQL)
+
+**API and Tools:** AWS SES, S3 and Lambda, Plausible Analytics, NX, Sentry, Uptime Kuma
+
+
 ## Environment Variables
 
 To run this project, add the following environment variables to your .env.local file in apps/frontend dir
