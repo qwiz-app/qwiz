@@ -13,6 +13,7 @@ const config = {
   google: {
     clientId: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    mapsKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY,
   },
   discord: {
     clientId: process.env.DISCORD_CLIENT_ID,

@@ -3,6 +3,7 @@ import React from 'react';
 import { EventWithOrganization } from 'types/event';
 
 import GoogleMapReact from 'google-map-react';
+import config from 'lib/config';
 
 interface Props {
   event: EventWithOrganization;
@@ -27,7 +28,7 @@ const EventMap = ({ event, loading }: Props) => {
       sx={() => ({ height: 348, width: '100%', overflow: 'hidden' })}
     >
       <GoogleMapReact
-        bootstrapURLKeys={{ key: '' }}
+        bootstrapURLKeys={{ key:config.google.mapsKey }}
         defaultCenter={defaultProps.center}
         defaultZoom={defaultProps.zoom}
         yesIWantToUseGoogleMapApiInternals
