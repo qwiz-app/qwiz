@@ -22,7 +22,7 @@ import {
   NumberCircleZero,
   TrashSimple,
 } from 'phosphor-react';
-import { SyntheticEvent, SyntheticEvent } from 'react';
+import { SyntheticEvent } from 'react';
 import { SlideWithQuestionAndElements } from 'types/slide';
 
 interface Props {
