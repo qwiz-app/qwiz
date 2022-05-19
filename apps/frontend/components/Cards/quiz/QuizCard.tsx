@@ -11,7 +11,8 @@ import {
   Menu,
   Skeleton,
   Text,
-  ThemeIcon
+  ThemeIcon,
+  Tooltip
 } from '@mantine/core';
 import { useNotifications } from '@mantine/notifications';
 import { useQuizDelete, useQuizNameEdit } from 'hooks/api/quiz';
@@ -89,8 +90,21 @@ export const QuizCard = ({
     }
   };
 
+  // eslint-disable-next-line no-underscore-dangle
+  const isPublished = quiz?._count?.event > 0 ?? false;
+
+  const DeleteMenuButton = (
+    <Menu.Item
+      color="red"
+      icon={<TrashSimple weight="bold" />}
+      onClick={openDeleteConfirmModal}
+      disabled={isPublished}
+    >
+      Delete
+    </Menu.Item>
+  );
+
   return (
-    // TODO: myb remove link from the component itself to be able to reuse the card in event creation
     <Card
       p={0}
       radius="md"
@@ -126,13 +140,15 @@ export const QuizCard = ({
         </Skeleton>
 
         {/* TODO: tooltip */}
-        <ThemeIcon variant="filled" className={classes.accessBadge} size="md">
-          {quiz.published ? (
-            <Globe weight="duotone" />
-          ) : (
-            <Lock weight="duotone" />
-          )}
-        </ThemeIcon>
+        <Box className={classes.accessBadge}>
+          <ThemeIcon variant="filled" size="md">
+            {isPublished ? (
+              <Globe weight="duotone" />
+            ) : (
+              <Lock weight="duotone" />
+            )}
+          </ThemeIcon>
+        </Box>
       </Card.Section>
 
       <Card.Section py={12} px={18}>
@@ -224,13 +240,17 @@ export const QuizCard = ({
               <Menu.Item icon={<LinkSimple weight="bold" />}>
                 Copy Link
               </Menu.Item>
-              <Menu.Item
-                color="red"
-                icon={<TrashSimple weight="bold" />}
-                onClick={openDeleteConfirmModal}
-              >
-                Delete
-              </Menu.Item>
+
+              {!isPublished ? (
+                DeleteMenuButton
+              ) : (
+                <Tooltip
+                  position="bottom"
+                  label="Quiz is already being used in an event"
+                >
+                  {DeleteMenuButton}
+                </Tooltip>
+              )}
             </Menu>
           )}
         </Group>
