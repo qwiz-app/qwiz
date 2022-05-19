@@ -12,6 +12,11 @@ export const useQuizzes = () =>
 
 const placeholderData: QuizWithOrganization[] = generateArrayForRange(4).map(
   (_, idx) => ({
+    _count: {
+      questions: 1,
+      event: 1,
+      slides: 1,
+    },
     id: `quiz-${idx}`,
     name: '',
     description: '',
