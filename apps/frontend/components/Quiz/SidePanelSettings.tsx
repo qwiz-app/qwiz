@@ -1,4 +1,4 @@
-import { Box, Button, Stack, Title } from '@mantine/core';
+import { Button, Stack, Title, Tooltip } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { FileUpload } from 'components/UI/FileUpload';
 import { useQuizDelete, useQuizUpdate } from 'hooks/api/quiz';
@@ -49,6 +49,23 @@ export const SidePanelSettings = (props) => {
     }
   }, [isDeleteSuccess]);
 
+  // eslint-disable-next-line no-underscore-dangle
+  const isPublished = quiz?._count?.event > 0 ?? false;
+
+  const DeleteButton = (
+    <Button
+      rightIcon={<TrashSimple size={24} weight="duotone" />}
+      color="red"
+      size="md"
+      fullWidth
+      onClick={openDeleteConfirmModal}
+      loading={isDeleteLoading}
+      disabled={isPublished}
+    >
+      Delete quiz
+    </Button>
+  );
+
   return (
     <SidePanelWrapper title="Settings">
       <Stack>
@@ -60,18 +77,16 @@ export const SidePanelSettings = (props) => {
             url={url ?? quiz?.thumbnail}
           />
         </Stack>
-        <Box>
-          <Button
-            rightIcon={<TrashSimple size={24} weight="duotone" />}
-            color="red"
-            size="md"
-            fullWidth
-            onClick={openDeleteConfirmModal}
-            loading={isDeleteLoading}
+        {!isPublished ? (
+          DeleteButton
+        ) : (
+          <Tooltip
+            position="bottom"
+            label="Quiz is already being used in an event"
           >
-            Delete quiz
-          </Button>
-        </Box>
+            {DeleteButton}
+          </Tooltip>
+        )}
       </Stack>
     </SidePanelWrapper>
   );
