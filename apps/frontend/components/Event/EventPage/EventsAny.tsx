@@ -18,7 +18,7 @@ export const EventsAny = () => {
   return (
     <>
       {(hasEvents || isLoadingOrPlaceholder) && (
-        <PageSection title="Highlighted event">
+        <PageSection title="Highlighted events">
           <PageGrid type="big">
             {isLoadingOrPlaceholder
               ? highlightedPlaceholderSkeletons

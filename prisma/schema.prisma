@@ -166,7 +166,6 @@ model Quiz {
   name        String   @default("Untitled")
   description String?
   thumbnail   String?
-  published   Boolean? @default(false)
   ownerId     String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
