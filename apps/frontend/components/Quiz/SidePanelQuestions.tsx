@@ -1,18 +1,15 @@
 import {
-  ActionIcon,
-  Box,
-  Button,
+  ActionIcon, Button,
   Chip,
   Chips,
   Collapse,
   Group,
   LoadingOverlay,
   Stack,
-  Tooltip,
+  Tooltip
 } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { FramerAnimatedListItem } from 'components/Framer/FramerAnimatedListItem';
-import { ThinScrollArea } from 'components/UI/ThinScrollArea';
 import { useCurrentOrganizationInfo } from 'hooks/api/organizations';
 import { useAvailableQuestions } from 'hooks/api/question';
 import { useQuizQuestionCreate } from 'hooks/api/quiz-question/use-quiz-question-create';
@@ -131,20 +128,18 @@ export const SidePanelQuestions = () => {
       </Collapse>
 
       {/* TODO: height, scroll and overflow troubles */}
-      <Box component={ThinScrollArea} style={{ height: '100%' }}>
-        <Stack spacing={8}>
-          <LoadingOverlay visible={updateLoading || createLoading} />
-          {shownQuestions?.map((question) => (
-            <FramerAnimatedListItem key={question.id} id={question.id}>
-              <QuizQuestionCard
-                question={question}
-                onSelect={openQuestionModal}
-                onUseQuestion={questionUseSelectedHandler}
-              />
-            </FramerAnimatedListItem>
-          ))}
-        </Stack>
-      </Box>
+      <Stack spacing={8}>
+        <LoadingOverlay visible={updateLoading || createLoading} />
+        {shownQuestions?.map((question) => (
+          <FramerAnimatedListItem key={question.id} id={question.id}>
+            <QuizQuestionCard
+              question={question}
+              onSelect={openQuestionModal}
+              onUseQuestion={questionUseSelectedHandler}
+            />
+          </FramerAnimatedListItem>
+        ))}
+      </Stack>
     </SidePanelWrapper>
   );
 };

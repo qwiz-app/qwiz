@@ -6,7 +6,7 @@ import {
   Navbar,
   Tooltip
 } from '@mantine/core';
-import { CircleWavyQuestion, ListPlus, Palette } from 'phosphor-react';
+import { CircleWavyQuestion, Gear, ListPlus } from 'phosphor-react';
 
 interface NavbarLinkProps {
   icon: any;
@@ -39,7 +39,7 @@ const NavbarLink = ({
 const mockdata = [
   { icon: ListPlus, label: 'Questions' },
   { icon: CircleWavyQuestion, label: 'Answers' },
-  { icon: Palette, label: 'Styles' },
+  { icon: Gear, label: 'Settings' },
 ];
 
 interface Props {

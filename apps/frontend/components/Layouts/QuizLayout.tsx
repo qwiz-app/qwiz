@@ -8,7 +8,7 @@ import {
   Header,
   Navbar,
   Skeleton,
-  Title,
+  Title
 } from '@mantine/core';
 import QuizNameEditInput from 'components/Cards/quiz/QuizNameEditInput';
 import { Slides } from 'components/Quiz/Slides';
@@ -105,16 +105,19 @@ const QuizLayout = ({ children }: Props) => {
                   justifyContent: 'right',
                 }}
               >
-                <Skeleton
-                  visible={isLoading}
-                  circle
-                  height={30}
-                  sx={() => ({ flexShrink: 0 })}
-                >
-                  {!isLoading && (
-                    <Avatar src={user?.image} size={30} radius="xl" />
-                  )}
-                </Skeleton>
+                <Group position="right">
+                 
+                  <Skeleton
+                    visible={isLoading}
+                    circle
+                    height={30}
+                    sx={() => ({ flexShrink: 0 })}
+                  >
+                    {!isLoading && (
+                      <Avatar src={user?.image} size={30} radius="xl" />
+                    )}
+                  </Skeleton>
+                </Group>
               </Grid.Col>
             </Grid>
           </Group>

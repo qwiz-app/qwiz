@@ -1,4 +1,5 @@
 import { Box, createStyles, Group, Paper, Title } from '@mantine/core';
+import { ThinScrollArea } from 'components/UI/ThinScrollArea';
 import { ReactNode } from 'react';
 
 interface Props {
@@ -13,11 +14,11 @@ export const SidePanelWrapper = ({ children, slot, title }: Props) => {
   return (
     <Paper
       className={classes.wrapper}
+      component={ThinScrollArea}
       shadow="xs"
       radius="md"
       p="md"
       sx={() => ({
-        // added for scroll area temp fix
         height: 'calc(100vh - 95px)',
       })}
     >
@@ -25,13 +26,7 @@ export const SidePanelWrapper = ({ children, slot, title }: Props) => {
         <Title order={5}>{title}</Title>
         {slot}
       </Group>
-      <Box
-        sx={() => ({
-          height: '100%',
-        })}
-        // added for scroll area temp fix
-        pb={50}
-      >
+      <Box>
         <Box mt={12}>{children}</Box>
       </Box>
     </Paper>
