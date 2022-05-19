@@ -1,15 +1,15 @@
+import { Container } from '@mantine/core';
+import { EventForm } from 'components/Cards/event/EventForm';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
 import { HomepageLayout } from 'components/PageLayouts/HomepageLayout';
-import React from 'react';
-import { Formik } from 'formik';
-import { EventForm } from 'components/Cards/event/EventForm';
-import { EventFormValues } from 'types/forms/EventFormValues';
 import { eventSchema } from 'domain/util/validation';
-import { useEventCreate } from 'hooks/api/events/use-event-create';
+import { Formik } from 'formik';
+import { useEvent } from 'hooks/api/events/use-event';
+import { useEventUpdate } from 'hooks/api/events/use-event-update';
+import { useFileUpload } from 'hooks/use-flle-upload';
 import { useRouter } from 'next/router';
 import { paths } from 'paths';
-import { Container } from '@mantine/core';
-import { useFileUpload } from 'hooks/use-flle-upload';
+import { EventFormValues } from 'types/forms/EventFormValues';
 
 const EventsPage = () => {
   const { initialValues, handleSubmit, fileUpload } = useEventPage();
@@ -18,11 +18,12 @@ const EventsPage = () => {
     <HomepageLayout>
       <Container size="sm">
         <Formik
+          enableReinitialize
           initialValues={initialValues}
           onSubmit={handleSubmit}
           validationSchema={eventSchema}
         >
-          <EventForm fileUpload={fileUpload} action="create" />
+          <EventForm fileUpload={fileUpload} action="edit" />
         </Formik>
       </Container>
     </HomepageLayout>
@@ -30,39 +31,51 @@ const EventsPage = () => {
 };
 
 const useEventPage = () => {
-  const { mutateAsync: createEvent } = useEventCreate();
+  const router = useRouter();
+  const eventId = router.query.eventId as string;
   const { push } = useRouter();
+
+  const { data: event } = useEvent(eventId);
+  const { mutateAsync: updateEvent } = useEventUpdate(eventId);
 
   const fileUpload = useFileUpload();
 
   const initialValues: EventFormValues = {
-    name: '',
-    location: '',
-    description: '',
-    price: undefined,
-    teamCount: undefined,
-    startDate: undefined,
-    startTime: undefined,
-    quizId: undefined,
+    name: event.name ?? '',
+    location: event.location ?? '',
+    description: event.description ?? '',
+    price: event.price ?? undefined,
+    teamCount: event.teamCount ?? undefined,
+    startDate: new Date(event.startDate) ?? undefined,
+    startTime: new Date(event.startDate) ?? undefined,
+    quizId: event.quizId ?? undefined,
   };
+
+  console.log('event.banner :>> ', event.banner);
 
   const handleSubmit = async (values: EventFormValues) => {
     const { startDate: date, startTime: time, ...rest } = values;
 
     const startDate = date.toString().slice(0, 11) + time.toString().slice(11);
 
-    await createEvent(
+    await updateEvent(
       { ...rest, startDate: new Date(startDate), banner: fileUpload.url },
       {
         onSuccess: (data) => {
           console.log(data);
-          push(paths.eventPage(data.id));
+          push(paths.eventPage(event.id));
         },
       }
     );
   };
 
-  return { initialValues, handleSubmit, fileUpload };
+  return {
+    initialValues,
+    handleSubmit,
+    fileUpload,
+    // TODO: does not show in edit mode
+    url: event.banner ?? fileUpload.url,
+  };
 };
 
 export default EventsPage;

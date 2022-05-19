@@ -13,7 +13,10 @@ export const FormikRichText = memo(function FormikRichText({
   label: labelProp,
 }: Props) {
   const { value, label, errorMessage, handleChange, handleBlur } =
-    useFormikRichText({ name, label: labelProp });
+    useFormikRichText({
+      name,
+      label: labelProp,
+    });
 
   return (
     <Box>

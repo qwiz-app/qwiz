@@ -9,6 +9,7 @@ interface Props {
 }
 
 const EventDescription = ({ event, loading }: Props) => {
+  /* TODO: component isnt reactive after description update */
   const [value, onChange] = useState(event.description);
 
   return (

@@ -6,7 +6,7 @@ import {
   MantineColor,
   SelectItemProps,
   SimpleGrid,
-  Text,
+  Text
 } from '@mantine/core';
 import { Quiz } from '@prisma/client';
 import { FormikAutocomplete } from 'components/formik/FormikAutocomplete';
@@ -29,26 +29,30 @@ import {
   CurrencyDollar,
   IdentificationCard,
   MapPin,
+  PencilCircle,
   PlusCircle,
   Queue,
   Star,
-  UsersThree,
+  UsersThree
 } from 'phosphor-react';
 import { forwardRef, memo } from 'react';
 import { EventFormValues } from 'types/forms/EventFormValues';
 
 interface Props {
   fileUpload: FileUploadProps;
+  action: 'edit' | 'create';
 }
 
 export const EventForm = memo(function EventForm(props: Props) {
   const { quizOptions, isSubmitting } = useEventForm(props);
-  const { fileUpload } = props;
+  const { fileUpload, action } = props;
   const router = useRouter();
+
+  const title = action === 'edit' ? 'Edit Event' : 'Create Event';
 
   return (
     <Form>
-      <PageSection title="New event">
+      <PageSection title={title}>
         <PageGrid type="big">
           <FormikTextInput
             required
@@ -132,15 +136,28 @@ export const EventForm = memo(function EventForm(props: Props) {
             >
               Back
             </Button>
-            <Button
-              type="submit"
-              size="md"
-              loading={isSubmitting}
-              disabled={isSubmitting}
-              rightIcon={<PlusCircle size={20} weight="duotone" />}
-            >
-              Create event
-            </Button>
+            {action === 'create' && (
+              <Button
+                type="submit"
+                size="md"
+                loading={isSubmitting}
+                disabled={isSubmitting}
+                rightIcon={<PlusCircle size={20} weight="duotone" />}
+              >
+                Create event
+              </Button>
+            )}
+            {action === 'edit' && (
+              <Button
+                type="submit"
+                size="md"
+                loading={isSubmitting}
+                disabled={isSubmitting}
+                rightIcon={<PencilCircle size={20} weight="duotone" />}
+              >
+                Edit event
+              </Button>
+            )}
           </Group>
         </PageGrid>
       </PageSection>
