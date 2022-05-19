@@ -10,7 +10,7 @@ App for building pub quizzes
 Clone the repo
 
 ```bash
-  git clone https://github.com/mislavjc/qwiz.git qwiz
+  git clone https://github.com/qwiz-app/qwiz.git qwiz
   cd qwiz
 ```
 Install compatable Node version and deps
