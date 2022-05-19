@@ -8,22 +8,29 @@ import {
   createStyles,
   Group,
   Image,
+  LoadingOverlay,
   Paper,
   Skeleton,
   Stack,
   Title,
-  Tooltip,
+  Tooltip
 } from '@mantine/core';
+import { showNotification } from '@mantine/notifications';
+import { useEventDelete } from 'hooks/api/events/use-event-delete';
 import { useCurrentSession } from 'hooks/api/session';
 import { useAppColorscheme } from 'hooks/colorscheme';
+import { useDeleteConfirmModal } from 'hooks/use-delete-confirm-modal';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { paths } from 'paths';
 import {
   CalendarCheck,
   CircleWavyCheck,
   NotePencil,
   ShareNetwork,
+  Trash
 } from 'phosphor-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { EventWithOrganization } from 'types/event';
 
 interface Props {
@@ -36,19 +43,42 @@ export const EventHeader = ({ event, loading }: Props) => {
   const { classes } = useStyles();
   const { isOrganization } = useCurrentSession();
 
+  // TODO: placeolder
   const [isReserved] = useState(false);
 
-  const organizationPage = `/organization/${event.ownerId}`;
+  const router = useRouter();
+
+  const {
+    mutate: deleteEvent,
+    isSuccess: isDeleteSuccess,
+    isLoading: isDeleteLoading,
+  } = useEventDelete(event.id);
+
+  const openDeleteConfirmModal = useDeleteConfirmModal({
+    onConfirm: () => deleteEvent(),
+    deletedEntity: 'event',
+  });
+
+  useEffect(() => {
+    if (isDeleteSuccess) {
+      router.push(paths.events());
+      showNotification({
+        title: 'Event deleted',
+        message: 'Event has successfully been deleted',
+        color: 'green',
+      });
+    }
+  }, [isDeleteSuccess]);
 
   return (
     <Skeleton visible={loading} radius="md">
       <Paper
         radius="md"
-        // TODO: create small custom shadows to reuse througout the app on elements like this
         sx={(t) => ({
           overflow: 'hidden',
         })}
       >
+        <LoadingOverlay visible={isDeleteLoading} />
         <Paper withBorder={!event.banner} radius={0}>
           <Image
             src={event.banner}
@@ -69,9 +99,8 @@ export const EventHeader = ({ event, loading }: Props) => {
           align="start"
           noWrap
         >
-          <Link href={organizationPage}>
+          <Link href={paths.organizationPage(event.ownerId)}>
             <Avatar
-              // TODO: placeholder
               src={event.owner.user.image}
               size={164}
               className={classes.avatar}
@@ -89,20 +118,33 @@ export const EventHeader = ({ event, loading }: Props) => {
                 minHeight: 42,
               })}
             >
-              <Link href={organizationPage} passHref>
+              <Link href={paths.organizationPage(event.ownerId)} passHref>
                 <Title order={5} className={classes.orgName}>
                   {event?.owner.name}
                 </Title>
               </Link>
               <Group spacing={8}>
                 {isOrganization ? (
-                  <Button
-                    variant={isDark ? 'filled' : 'outline'}
-                    color={isDark ? 'gray' : 'dark'}
-                    rightIcon={<NotePencil size={16} weight="bold" />}
-                  >
-                    Edit
-                  </Button>
+                  <>
+                    <Button
+                      variant={isDark ? 'filled' : 'outline'}
+                      color={isDark ? 'gray' : 'dark'}
+                      rightIcon={<NotePencil size={16} weight="bold" />}
+                      onClick={() => router.push(paths.eventEdit(event.id))}
+                    >
+                      Edit
+                    </Button>
+                    <Tooltip label="Delete event" withArrow position="bottom">
+                      <ActionIcon
+                        size={36}
+                        variant="filled"
+                        color="red"
+                        onClick={openDeleteConfirmModal}
+                      >
+                        <Trash size={20} />
+                      </ActionIcon>
+                    </Tooltip>
+                  </>
                 ) : // TODO: special button design
                 isReserved ? (
                   <Badge

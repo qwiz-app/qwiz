@@ -13,10 +13,10 @@ import {
   Text,
   ThemeIcon
 } from '@mantine/core';
-import { useModals } from '@mantine/modals';
 import { useNotifications } from '@mantine/notifications';
 import { useQuizDelete, useQuizNameEdit } from 'hooks/api/quiz';
 import { useAppColorscheme } from 'hooks/colorscheme';
+import { useDeleteConfirmModal } from 'hooks/use-delete-confirm-modal';
 import { relativeTimeTo } from 'lib/utils';
 import { useRouter } from 'next/router';
 import {
@@ -51,7 +51,7 @@ export const QuizCard = ({
   const { owner } = quiz;
 
   const router = useRouter();
-  const modals = useModals();
+
   const { showNotification } = useNotifications();
   const { mutate: deleteQuiz, isLoading: isDeleteLoading } = useQuizDelete(
     quiz.id
@@ -67,25 +67,17 @@ export const QuizCard = ({
     nameRef,
   } = useQuizNameEdit(quiz);
 
-  const quizDeleteHandler = () => {
-    openDeleteConfirmModal();
-  };
-
-  const openDeleteConfirmModal = () =>
-    modals.openConfirmModal({
-      title: 'Please confirm your action',
-      children: <Text size="sm">Do you really want to delete this quiz?</Text>,
-      labels: { confirm: 'Delete', cancel: 'Cancel' },
-      onConfirm: () => {
-        deleteQuiz();
-        showNotification({
-          title: 'Quiz deleted',
-          message: 'Quiz has successfully been deleted',
-          color: 'green',
-        });
-      },
-      confirmProps: { color: 'red' },
-    });
+  const openDeleteConfirmModal = useDeleteConfirmModal({
+    onConfirm: () => {
+      deleteQuiz();
+      showNotification({
+        title: 'Quiz deleted',
+        message: 'Quiz has successfully been deleted',
+        color: 'green',
+      });
+    },
+    deletedEntity: 'quiz',
+  });
 
   const onClickHandler = (e: SyntheticEvent) => {
     if (!isEditMode) {
@@ -235,7 +227,7 @@ export const QuizCard = ({
               <Menu.Item
                 color="red"
                 icon={<TrashSimple weight="bold" />}
-                onClick={quizDeleteHandler}
+                onClick={openDeleteConfirmModal}
               >
                 Delete
               </Menu.Item>

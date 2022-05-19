@@ -44,6 +44,7 @@ const QuizLayout = ({ children }: Props) => {
     nameRef,
   } = useQuizNameEdit(quiz);
 
+
   return (
     <AppShell
       padding="md"
