@@ -2,16 +2,18 @@ import {
   ActionIcon,
   AppShell,
   Avatar,
+  FloatingTooltip,
   Grid,
   Group,
   Header,
   Navbar,
   Skeleton,
-  Title
+  Title,
 } from '@mantine/core';
+import QuizNameEditInput from 'components/Cards/quiz/QuizNameEditInput';
 import { Slides } from 'components/Quiz/Slides';
 import { FloatingQuizMenu } from 'components/UI/FloatingQuizMenu';
-import { useQuiz } from 'hooks/api/quiz';
+import { useQuiz, useQuizNameEdit } from 'hooks/api/quiz';
 import { useCurrentSession } from 'hooks/api/session';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useRouter } from 'next/router';
@@ -27,7 +29,20 @@ const QuizLayout = ({ children }: Props) => {
   const router = useRouter();
   const { user, isLoading } = useCurrentSession();
 
-  const { data: quiz } = useQuiz(router.query.quizId as string);
+  const { data: quiz, isLoading: isQuizLoading } = useQuiz(
+    router.query.quizId as string
+  );
+
+  const {
+    editedName,
+    setEditedName,
+    isEditMode,
+    isLoading: isEditLoading,
+    onClickToEdit,
+    onKeyUp,
+    onBlurHandler,
+    nameRef,
+  } = useQuizNameEdit(quiz);
 
   return (
     <AppShell
@@ -59,9 +74,29 @@ const QuizLayout = ({ children }: Props) => {
                   justifyContent: 'center',
                 }}
               >
-                <Title order={5} m={0}>
-                  {quiz?.name}
-                </Title>
+                <FloatingTooltip label="Click to edit">
+                  <Skeleton visible={isQuizLoading}>
+                    {!isQuizLoading && !isEditMode ? (
+                      <Title
+                        id="quiz-name"
+                        order={5}
+                        m={0}
+                        onClick={onClickToEdit}
+                      >
+                        {quiz?.name}
+                      </Title>
+                    ) : (
+                      <QuizNameEditInput
+                        ref={nameRef}
+                        isLoading={isEditLoading}
+                        editedName={editedName}
+                        onKeyUp={onKeyUp}
+                        onBlurHandler={onBlurHandler}
+                        setEditedName={setEditedName}
+                      />
+                    )}
+                  </Skeleton>
+                </FloatingTooltip>
               </Grid.Col>
               <Grid.Col
                 span={3}

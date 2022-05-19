@@ -155,7 +155,7 @@ export const QuizCard = ({
                 >
                   {!loading && !isEditMode ? (
                     <Text
-                      id="quiz-card-name"
+                      id="quiz-name"
                       weight={500}
                       sx={() => ({ flex: 1 })}
                       className={classes.title}
@@ -257,6 +257,7 @@ const useStyles = createStyles((theme) => {
       width: '100%',
       overflow: 'hidden',
       borderBottom: '1px solid',
+      cursor: 'pointer',
       borderColor: isDark ? theme.colors.dark[6] : theme.colors.gray[2],
     },
 

@@ -7,10 +7,10 @@ export const useQuizNameEdit = (quiz: QuizWithOrganization) => {
   const nameRef = useRef<HTMLInputElement>();
 
   const [isEditMode, setIsEditMode] = useState(false);
-  const [editedName, setEditedName] = useState(quiz.name);
+  const [editedName, setEditedName] = useState(quiz?.name ?? 'Untitled');
   const [clickedFromMenu, setClickedFromMenu] = useState(false);
 
-  const { mutate, isLoading } = useQuizUpdate(quiz.id);
+  const { mutate, isLoading } = useQuizUpdate(quiz?.id);
 
   const peformNameUpdate = () => {
     if (editedName.trim() === quiz.name) {
@@ -36,7 +36,7 @@ export const useQuizNameEdit = (quiz: QuizWithOrganization) => {
     setEditedName(quiz.name);
     setIsEditMode(true);
 
-    if (e.currentTarget?.id === 'quiz-card-name') {
+    if (e.currentTarget?.id === 'quiz-name') {
       setClickedFromMenu(false);
     } else {
       setClickedFromMenu(true);
