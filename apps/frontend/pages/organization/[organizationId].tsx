@@ -1,21 +1,37 @@
-import { Container } from '@mantine/core';
+import { Container, Stack } from '@mantine/core';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
 import OrganizationEvents from 'components/Organization/OrganizationEvents';
 import { OrganizationHeader } from 'components/Organization/OrganizationHeader';
+import { useEventsByOrganization } from 'hooks/api/events';
 import { useOrganization } from 'hooks/api/organizations';
 import { useRouter } from 'next/router';
 
 const OrganizationPage = () => {
   const router = useRouter();
   const { organizationId } = router.query;
-  const { data: organization, isLoading } = useOrganization(
-    organizationId as string
-  );
+  const {
+    data: organization,
+    isLoading,
+    isPlaceholderData,
+  } = useOrganization(organizationId as string);
+  const {
+    data: events,
+    isLoading: isEventsLoading,
+    isPlaceholderData: isEventsPlaceholderData,
+  } = useEventsByOrganization(organizationId as string);
 
   return (
     <Container size="lg">
-      <OrganizationHeader organization={organization} loading={isLoading} />
-      <OrganizationEvents events={organization?.events} loading={isLoading} />
+      <Stack spacing={64}>
+        <OrganizationHeader
+          organization={organization}
+          loading={isLoading || isPlaceholderData}
+        />
+        <OrganizationEvents
+          events={events}
+          loading={isEventsLoading || isEventsPlaceholderData}
+        />
+      </Stack>
     </Container>
   );
 };

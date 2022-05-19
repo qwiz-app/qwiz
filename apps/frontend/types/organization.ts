@@ -1,5 +1,5 @@
 // TODO: create types for nested relations
-import { Event, Organization, Quiz, User } from '@prisma/client';
+import { Organization, Quiz, User } from '@prisma/client';
 
 // TODO: for count
 export type OrganizationWithUser = Organization & { user: User };
