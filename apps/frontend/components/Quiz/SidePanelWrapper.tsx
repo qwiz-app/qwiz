@@ -26,8 +26,14 @@ export const SidePanelWrapper = ({ children, slot, title }: Props) => {
         <Title order={5}>{title}</Title>
         {slot}
       </Group>
-      <Box>
-        <Box mt={12}>{children}</Box>
+
+      <Box
+        sx={() => ({
+          height: '100%',
+        })}
+        mt={12}
+      >
+        {children}
       </Box>
     </Paper>
   );

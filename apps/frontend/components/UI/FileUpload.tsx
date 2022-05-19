@@ -72,7 +72,8 @@ export const FileUpload = ({
         multiple={false}
         loading={loading}
         openRef={openRef}
-        className={cn([url && 'd-none'])}
+        // TODO: windi
+        className={cn([url && 'hidden'])}
       >
         {(status) => dropzoneChildren(status, theme)}
       </Dropzone>

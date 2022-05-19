@@ -34,9 +34,12 @@ export const useFileUpload = () => {
     setUploadedFile(config.aws.bucketUrl + hashedFile);
   };
 
+  const isUploading = uploadingStatus === 'UPLOADING';
+
   return {
     uploadFile,
     uploadingStatus,
+    isUploading,
     url: uploadedFile,
   };
 };
