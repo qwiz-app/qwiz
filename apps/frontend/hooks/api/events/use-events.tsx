@@ -1,7 +1,11 @@
 import { onError } from 'lib/axios';
 import { generateArrayForRange } from 'lib/utils';
 import { useQuery } from 'react-query';
-import { fetchAllEvents, fetchEvents } from 'services/api/events';
+import {
+  fetchAllEvents,
+  fetchEvents,
+  fetchEventsByOrganization,
+} from 'services/api/events';
 import { EventWithOrganization } from 'types/event';
 
 export const useAllEvents = () =>
@@ -13,6 +17,13 @@ export const useAllEvents = () =>
 export const useEvents = () =>
   useQuery('events', fetchEvents, {
     onError,
+    placeholderData: placeholderEvents,
+  });
+
+export const useEventsByOrganization = (id: string) =>
+  useQuery('events', () => fetchEventsByOrganization(id), {
+    onError,
+    enabled: !!id,
     placeholderData: placeholderEvents,
   });
 

@@ -1,13 +1,13 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-undef */
 import {
-  Avatar,
-  createStyles,
-  Group,
-  Paper,
-  Skeleton,
-  Stack,
-  Title,
+    Avatar,
+    createStyles,
+    Group,
+    Paper,
+    Skeleton,
+    Stack,
+    Title
 } from '@mantine/core';
 import { OrganizationWithUser } from 'types/organization';
 

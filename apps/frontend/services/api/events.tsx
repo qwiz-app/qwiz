@@ -6,6 +6,9 @@ import { EventWithOrganization } from 'types/event';
 export const fetchAllEvents = () =>
   http.get<EventWithOrganization[]>('/api/events').then(parseData);
 
+export const fetchEventsByOrganization = (id: string) =>
+  http.get<EventWithOrganization[]>(`/api/events/owner/${id}`).then(parseData);
+
 export const fetchEvents = () =>
   http.get<EventWithOrganization[]>('/api/events/owner/me').then(parseData);
 
