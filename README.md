@@ -3,7 +3,7 @@
 App for building pub quizzes
 
 ### 👀️
-<img src="https://user-images.githubusercontent.com/46557266/164997986-62e99ca8-4211-4ceb-8b01-a36541a7040a.png" />
+<img src="https://user-images.githubusercontent.com/46557266/169267686-4be6ac71-97f6-47fd-b162-457bbfaa9626.png" />
 
 ## Installation and running locally
 
