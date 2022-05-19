@@ -8,7 +8,7 @@ import {
   Header,
   Navbar,
   Skeleton,
-  Title
+  Title,
 } from '@mantine/core';
 import QuizNameEditInput from 'components/Cards/quiz/QuizNameEditInput';
 import { Slides } from 'components/Quiz/Slides';
@@ -43,7 +43,6 @@ const QuizLayout = ({ children }: Props) => {
     onBlurHandler,
     nameRef,
   } = useQuizNameEdit(quiz);
-
 
   return (
     <AppShell
@@ -107,7 +106,6 @@ const QuizLayout = ({ children }: Props) => {
                 }}
               >
                 <Group position="right">
-                 
                   <Skeleton
                     visible={isLoading}
                     circle
