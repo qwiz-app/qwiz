@@ -13,6 +13,7 @@ import cn from 'classnames';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { formatCurrency, formatDate, relativeTimeTo } from 'lib/utils';
 import Link from 'next/link';
+import { paths } from 'paths';
 import { Tag, UsersThree } from 'phosphor-react';
 import { EventWithOrganization } from 'types/event';
 import { useCardStyles } from '../use-card-styles';
@@ -28,7 +29,7 @@ export const ImageCard = ({ event, loading }: Props) => {
 
   return (
     <Skeleton className={classes.base} radius="md" visible={loading}>
-      <Link href={`/events/${event.id}`} passHref>
+      <Link href={paths.eventPage(event.id)} passHref>
         <Card
           p="lg"
           shadow="md"

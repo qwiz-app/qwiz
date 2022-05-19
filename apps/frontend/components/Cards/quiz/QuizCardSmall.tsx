@@ -26,7 +26,7 @@ export const Template = ({
   const { classes: classesCard } = useCardStyles();
 
   return (
-    <Link href="href">
+    <Link href="/quiz">
       <Stack spacing={8}>
         <Card
           radius="md"

@@ -22,4 +22,15 @@ export const exampleSchema = yup.object({
 export const createQuizSchema = yup.object({
   name: yup.string().required(),
   description: yup.string().required(),
-})
+});
+
+export const eventSchema = yup.object({
+  name: yup.string().required(),
+  location: yup.string().required(),
+  description: yup.string().required(),
+  price: yup.number().required(),
+  teamCount: yup.number().required(),
+  startDate: yup.date().required(),
+  startTime: yup.date().required(),
+  quizId: yup.string().required(),
+});

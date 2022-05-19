@@ -5,6 +5,7 @@ import { PageSection } from 'components/PageLayouts/PageSection';
 import { useEvents } from 'hooks/api/events';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useRouter } from 'next/router';
+import { paths } from 'paths';
 import { PlusCircle } from 'phosphor-react';
 import { useEventsPage } from './use-events-page';
 
@@ -37,7 +38,7 @@ export const EventsCurrentOrganization = () => {
                 variant={isDark ? 'light' : 'filled'}
                 rightIcon={<PlusCircle size={20} weight="duotone" />}
                 size="md"
-                onClick={() => router.push('/events/create')}
+                onClick={() => router.push(paths.eventsCreate())}
               >
                 Create an event
               </Button>
@@ -62,7 +63,7 @@ export const EventsCurrentOrganization = () => {
         </PageGrid>
         {!hasEvents && <NoEventsAlert />}
       </PageSection>
-      {hasEvents && (
+      {pastEvents?.length > 0 && (
         <PageSection
           title="Past events"
           description="All of your finished events"
