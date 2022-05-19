@@ -10,7 +10,6 @@ import {
   Binoculars,
   Confetti,
   DiscordLogo,
-  FileText,
   GithubLogo,
   GoogleLogo,
   IconProps,
@@ -21,7 +20,7 @@ import {
   SignIn,
   SignOut,
   SquaresFour,
-  Sun,
+  Sun
 } from 'phosphor-react';
 
 const useSpotlightActions = () => {
