@@ -1,5 +1,4 @@
 import { ImageCard } from 'components/Cards/event/EventCard';
-import { NoEventsAlert } from 'components/Cards/event/NoEventsAlert';
 import { FramerAnimatedListItem } from 'components/Framer/FramerAnimatedListItem';
 import PageGrid from 'components/Grids/PageGrid';
 import { PageSection } from 'components/PageLayouts/PageSection';
@@ -11,8 +10,6 @@ interface Props {
   loading: boolean;
 }
 const OrganizationEvents = ({ events, loading }: Props) => {
-  const hasEvents = events?.length > 0;
-
   const renderEvents = (arr: EventWithOrganization[]) =>
     arr?.map((event) => (
       <FramerAnimatedListItem id={event.id} key={event.id}>
@@ -35,7 +32,6 @@ const OrganizationEvents = ({ events, loading }: Props) => {
       <PageGrid type="small">
         {loading ? placeholderSkeletons : renderEvents(events)}
       </PageGrid>
-      {!hasEvents && <NoEventsAlert />}
     </PageSection>
   );
 };

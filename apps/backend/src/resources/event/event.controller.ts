@@ -10,7 +10,7 @@ import {
   Patch,
   Post,
   Query,
-  UnauthorizedException
+  UnauthorizedException,
 } from '@nestjs/common';
 import { Organization, Prisma } from '@prisma/client';
 import { IsAdmin } from 'common/decorators/admin.decorator';
@@ -59,11 +59,11 @@ export class EventController {
     return this.eventService.findAll({ ownerId: organization.id }, include);
   }
 
-  // @Get('/owner/:id')
-  // findAllByOrganization(@Param('id') id: string) {
-  //   const include = { ...this.includeWithUserAndCount };
-  //   return this.eventService.findAll({ ownerId: id }, include);
-  // }
+  @Get('/owner/:id')
+  findAllByOrganization(@Param('id') id: string) {
+    const include = { ...this.includeWithUserAndCount };
+    return this.eventService.findAll({ ownerId: id }, include);
+  }
 
   @Get(':id')
   async findOne(
