@@ -41,6 +41,8 @@ To run this project, add the following environment variables to your .env.local 
 
 `GOOGLE_CLIENT_SECRET`
 
+`NEXT_PUBLIC_GOOGLE_MAPS_KEY`
+
 `SECRET={openssl rand -base64 32}`
 
 `NEXTAUTH_SECRET={openssl rand -base64 32}`
