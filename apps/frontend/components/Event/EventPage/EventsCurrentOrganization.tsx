@@ -62,7 +62,7 @@ export const EventsCurrentOrganization = () => {
         </PageGrid>
         {!hasEvents && <NoEventsAlert />}
       </PageSection>
-      {hasEvents && (
+      {pastEvents?.length > 0 && (
         <PageSection
           title="Past events"
           description="All of your finished events"

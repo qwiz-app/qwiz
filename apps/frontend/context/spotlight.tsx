@@ -16,6 +16,7 @@ import {
   IconProps,
   MagnifyingGlass,
   Moon,
+  PlusCircle,
   Queue,
   SignIn,
   SignOut,
@@ -56,6 +57,13 @@ const useSpotlightActions = () => {
       description: 'Go to your events events',
       onTrigger: () => router.push(paths.events()),
       icon: <Confetti {...iconProps} />,
+    },
+    {
+      title: 'Create event',
+      group: 'Navigate',
+      description: 'Create a new event',
+      onTrigger: () => router.push(paths.eventsCreate()),
+      icon: <PlusCircle {...iconProps} />,
     },
     {
       title: 'Quizzes',
@@ -122,13 +130,13 @@ const useSpotlightActions = () => {
       icon: isDark ? <Sun {...iconProps} /> : <Moon {...iconProps} />,
       keywords: ['theme', 'mode', 'dark', 'light', 'toggle'],
     },
-    {
-      title: 'Documentation',
-      group: 'Resources',
-      description: 'Visit documentation to lean more about all features',
-      onTrigger: () => console.log('Documentation'),
-      icon: <FileText {...iconProps} />,
-    },
+    // {
+    //   title: 'Documentation',
+    //   group: 'Resources',
+    //   description: 'Visit documentation to learn more about all features',
+    //   onTrigger: () => console.log('Documentation'),
+    //   icon: <FileText {...iconProps} />,
+    // },
   ];
 
   const ACTIONS: SpotlightAction[] = [...generalActions];

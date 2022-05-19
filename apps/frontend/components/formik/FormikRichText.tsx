@@ -1,7 +1,7 @@
+import { Box, Text } from '@mantine/core';
 import RichText from 'components/Event/EventRichText';
-import { memo } from 'react';
-import { Box, Paper, Text } from '@mantine/core';
 import { useField } from 'formik';
+import { memo } from 'react';
 
 type Props = {
   name: string;
@@ -17,27 +17,21 @@ export const FormikRichText = memo(function FormikRichText({
 
   return (
     <Box>
-      <Text mb="4px" size="sm">
+      <Text weight={500} size="lg">
         {label}
       </Text>
-      <Paper
-        sx={() => ({
-          minHeight: 400,
-        })}
-        radius="md"
-        p="xl"
-      >
+
+      <Box mt={8}>
         <RichText
           sx={(t) => ({
-            backgroundColor: 'inherit',
-            border: 'none',
-            fontSize: 16,
+            fontSize: 18,
+            minHeight: 400,
           })}
           value={value}
           onChange={handleChange}
           onBlur={handleBlur}
         />
-      </Paper>
+      </Box>
       {errorMessage && (
         <Text mt="4px" size="sm">
           {errorMessage}

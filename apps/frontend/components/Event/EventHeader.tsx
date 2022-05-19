@@ -12,15 +12,16 @@ import {
   Skeleton,
   Stack,
   Title,
-  Tooltip
+  Tooltip,
 } from '@mantine/core';
+import { useCurrentSession } from 'hooks/api/session';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import Link from 'next/link';
 import {
   CalendarCheck,
   CircleWavyCheck,
   NotePencil,
-  ShareNetwork
+  ShareNetwork,
 } from 'phosphor-react';
 import { useState } from 'react';
 import { EventWithOrganization } from 'types/event';
@@ -33,8 +34,8 @@ interface Props {
 export const EventHeader = ({ event, loading }: Props) => {
   const { isDark } = useAppColorscheme();
   const { classes } = useStyles();
+  const { isOrganization } = useCurrentSession();
 
-  const [isOwner] = useState(false);
   const [isReserved] = useState(false);
 
   const organizationPage = `/organization/${event.ownerId}`;
@@ -48,7 +49,14 @@ export const EventHeader = ({ event, loading }: Props) => {
           overflow: 'hidden',
         })}
       >
-        <Image src={event.banner} alt="banner" height="40vh" />
+        <Paper withBorder={!event.banner} radius={0}>
+          <Image
+            src={event.banner}
+            alt="banner"
+            height="40vh"
+            withPlaceholder
+          />
+        </Paper>
         <Group
           py={16}
           pr={32}
@@ -87,7 +95,7 @@ export const EventHeader = ({ event, loading }: Props) => {
                 </Title>
               </Link>
               <Group spacing={8}>
-                {isOwner ? (
+                {isOrganization ? (
                   <Button
                     variant={isDark ? 'filled' : 'outline'}
                     color={isDark ? 'gray' : 'dark'}
@@ -124,13 +132,13 @@ export const EventHeader = ({ event, loading }: Props) => {
                   position="bottom"
                 >
                   <ActionIcon
-                    size={isOwner ? 36 : isReserved ? 32 : 42}
+                    size={isOrganization ? 36 : isReserved ? 32 : 42}
                     variant="filled"
-                    radius={isOwner ? 'sm' : isReserved ? 'xl' : 'sm'}
+                    radius={isOrganization ? 'sm' : isReserved ? 'xl' : 'sm'}
                     color={isDark ? 'gray' : 'dark'}
                   >
                     <ShareNetwork
-                      size={isOwner ? 24 : isReserved ? 20 : 24}
+                      size={isOrganization ? 24 : isReserved ? 20 : 24}
                       weight="duotone"
                     />
                   </ActionIcon>
