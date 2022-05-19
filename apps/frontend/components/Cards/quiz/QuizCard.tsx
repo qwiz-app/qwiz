@@ -19,7 +19,9 @@ import { useQuizDelete, useQuizNameEdit } from 'hooks/api/quiz';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useDeleteConfirmModal } from 'hooks/use-delete-confirm-modal';
 import { relativeTimeTo } from 'lib/utils';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { paths } from 'paths';
 import {
   DotsThreeVertical,
   Globe,
@@ -194,12 +196,17 @@ export const QuizCard = ({
                   sx={() => ({ flexShrink: 0 })}
                 >
                   {!loading && (
-                    <Avatar
-                      src={owner.user.image}
-                      size={20}
-                      radius="xl"
-                      mr="xs"
-                    />
+                    <Link
+                      href={paths.organizationPage(owner.id)}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <Avatar
+                        src={owner.user.image}
+                        size={20}
+                        radius="xl"
+                        mr="xs"
+                      />
+                    </Link>
                   )}
                 </Skeleton>
 
