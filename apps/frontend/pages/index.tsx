@@ -1,10 +1,7 @@
 import { Avatar, Badge, Box, Button, Group, Stack, Text } from '@mantine/core';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
-import { FileUpload } from 'components/UI/FileUpload';
 import { useCurrentSession } from 'hooks/api/session';
 import { useUser, useUsers } from 'hooks/api/users';
-import { useFileUpload } from 'hooks/use-flle-upload';
-import { useGenerateThumbnail } from 'hooks/use-generate-thumbnail';
 import { signIn, signOut } from 'next-auth/react';
 import { useState } from 'react';
 
@@ -24,27 +21,8 @@ const IndexPage = () => {
       callbackUrl: '/signin?signOut=true',
     });
 
-  const { uploadFile, uploadingStatus, url } = useFileUpload();
-
-  const { mutate } = useGenerateThumbnail();
-
   return (
     <Group direction="column">
-      <p>Please select a file to upload</p>
-      <Button
-        onClick={() =>
-          mutate({
-            url: 'https://qwiz.party',
-          })
-        }
-      >
-        Mutate
-      </Button>
-      <FileUpload
-        loading={uploadingStatus === 'UPLOADING'}
-        url={url}
-        uploadFile={uploadFile}
-      />
       <Group direction="column" align="center">
         <Text size="xl">All users</Text>
         {users?.map((user) => (
