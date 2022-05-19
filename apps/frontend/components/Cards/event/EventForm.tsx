@@ -6,7 +6,7 @@ import {
   MantineColor,
   SelectItemProps,
   SimpleGrid,
-  Text
+  Text,
 } from '@mantine/core';
 import { Quiz } from '@prisma/client';
 import { FormikAutocomplete } from 'components/formik/FormikAutocomplete';
@@ -16,7 +16,7 @@ import { FormikTextInput } from 'components/formik/FormikTextInput';
 import { FormikTimeInput } from 'components/formik/FormikTimeInput';
 import PageGrid from 'components/Grids/PageGrid';
 import { PageSection } from 'components/PageLayouts/PageSection';
-import { FileUpload } from 'components/UI/FileUpload';
+import { FileUpload, FileUploadProps } from 'components/UI/FileUpload';
 import dayjs from 'dayjs';
 import { Form, useFormikContext } from 'formik';
 import { useQuizzes } from 'hooks/api/quiz';
@@ -32,15 +32,18 @@ import {
   PlusCircle,
   Queue,
   Star,
-  UsersThree
+  UsersThree,
 } from 'phosphor-react';
 import { forwardRef, memo } from 'react';
 import { EventFormValues } from 'types/forms/EventFormValues';
 
-type Props = Record<string, never>;
+interface Props {
+  fileUpload: FileUploadProps;
+}
 
 export const EventForm = memo(function EventForm(props: Props) {
-  const { quizOptions, isSubmitting, handleFileUpload } = useEventForm(props);
+  const { quizOptions, isSubmitting } = useEventForm(props);
+  const { fileUpload } = props;
   const router = useRouter();
 
   return (
@@ -118,7 +121,7 @@ export const EventForm = memo(function EventForm(props: Props) {
             />
           </SimpleGrid>
           <FormikRichText name="description" label="Description" />
-          <FileUpload selectFile={handleFileUpload} />
+          <FileUpload {...fileUpload} />
           <Group position="right">
             <Button
               type="button"
@@ -146,16 +149,13 @@ export const EventForm = memo(function EventForm(props: Props) {
 });
 
 function useEventForm(props: Props) {
-  const { setFieldValue, isSubmitting } = useFormikContext<EventFormValues>();
+  const { isSubmitting } = useFormikContext<EventFormValues>();
   const { data: quizzes } = useQuizzes();
 
   const quizOptions =
     quizzes?.map((q) => ({ ...q, label: q.name, value: q.id })) || [];
 
-  const handleFileUpload = (selectedFile: File) =>
-    setFieldValue('banner', selectedFile);
-
-  return { quizOptions, isSubmitting, handleFileUpload };
+  return { quizOptions, isSubmitting };
 }
 
 interface ItemProps extends Quiz, SelectItemProps {

@@ -1,17 +1,11 @@
-import { Button, createStyles, Group, Paper, Modal } from '@mantine/core';
+import { Button, createStyles, Group, Paper } from '@mantine/core';
 import { QuestionElementType } from '@prisma/client';
-import { useModalProps } from 'context/mantine';
 import { useQuestionContentCreate } from 'hooks/api/slide';
-import { useFileUpload } from 'hooks/use-flle-upload';
 import { useRouter } from 'next/router';
 import { TextT, Image as ImageIcon } from 'phosphor-react';
-import { useEffect, useState } from 'react';
-import { FileUpload } from './FileUpload';
 
 export const FloatingQuizMenu = () => {
   const router = useRouter();
-
-  const [showUploadModal, setShowUploadModal] = useState(false);
 
   const { slideId } = router.query;
   const { mutate } = useQuestionContentCreate(slideId as string);
@@ -28,10 +22,6 @@ export const FloatingQuizMenu = () => {
     );
   };
 
-  const handleImageClick = () => {
-    setShowUploadModal(true);
-  };
-
   return (
     <Paper shadow="xs" p="md" className={classes.wrapper} radius="md">
       <Group spacing="xs">
@@ -46,17 +36,11 @@ export const FloatingQuizMenu = () => {
         <Button
           leftIcon={<ImageIcon size={18} weight="duotone" />}
           variant="light"
-          onClick={handleImageClick}
           color="indigo"
         >
           Add image
         </Button>
       </Group>
-      <UploadImageModal
-        opened={showUploadModal}
-        onClose={() => setShowUploadModal(false)}
-        slideId={slideId}
-      />
     </Paper>
   );
 };
@@ -106,37 +90,4 @@ const generateMutateData = ({
       ],
     },
   };
-};
-
-const UploadImageModal = ({ opened, onClose, slideId }) => {
-  const { selectFile, uploadFile, uploadingStatus, url, file } =
-    useFileUpload();
-  const { modalProps } = useModalProps();
-
-  const { mutate } = useQuestionContentCreate(slideId as string);
-
-  useEffect(() => {
-    if (uploadingStatus === 'UPLOADED' && opened) {
-      mutate(
-        generateMutateData({
-          type: QuestionElementType.IMAGE,
-          content: url,
-          slideId,
-        })
-      );
-      onClose();
-    }
-  }, [url]);
-
-  useEffect(() => {
-    if (file) {
-      uploadFile();
-    }
-  }, [file]);
-
-  return (
-    <Modal {...modalProps} opened={opened} onClose={onClose}>
-      <FileUpload selectFile={selectFile} />
-    </Modal>
-  );
 };

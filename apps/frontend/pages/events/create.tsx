@@ -9,9 +9,10 @@ import { useEventCreate } from 'hooks/api/events/use-event-create';
 import { useRouter } from 'next/router';
 import { paths } from 'paths';
 import { Container } from '@mantine/core';
+import { useFileUpload } from 'hooks/use-flle-upload';
 
 const EventsPage = () => {
-  const { initialValues, handleSubmit } = useEventPage();
+  const { initialValues, handleSubmit, fileUpload } = useEventPage();
 
   return (
     <HomepageLayout>
@@ -21,7 +22,7 @@ const EventsPage = () => {
           onSubmit={handleSubmit}
           validationSchema={eventSchema}
         >
-          <EventForm />
+          <EventForm fileUpload={fileUpload} />
         </Formik>
       </Container>
     </HomepageLayout>
@@ -31,6 +32,8 @@ const EventsPage = () => {
 const useEventPage = () => {
   const { mutateAsync: createEvent } = useEventCreate();
   const { push } = useRouter();
+
+  const fileUpload = useFileUpload();
 
   const initialValues: EventFormValues = {
     name: '',
@@ -49,7 +52,7 @@ const useEventPage = () => {
     const startDate = date.toString().slice(0, 11) + time.toString().slice(11);
 
     await createEvent(
-      { ...rest, startDate: new Date(startDate) },
+      { ...rest, startDate: new Date(startDate), banner: fileUpload.url },
       {
         onSuccess: (data) => {
           console.log(data);
@@ -59,7 +62,7 @@ const useEventPage = () => {
     );
   };
 
-  return { initialValues, handleSubmit };
+  return { initialValues, handleSubmit, fileUpload };
 };
 
 export default EventsPage;

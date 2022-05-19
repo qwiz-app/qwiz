@@ -10,17 +10,12 @@ export enum UploadStatusEnum {
 }
 
 export const useFileUpload = () => {
-  const [file, setFile] = useState<File>();
   const [uploadingStatus, setUploadingStatus] = useState<UploadStatusEnum>(
     UploadStatusEnum.NOT_STARTED
   );
   const [uploadedFile, setUploadedFile] = useState<string>(null);
 
-  const selectFile = (selectedFile: File) => {
-    setFile(selectedFile);
-  };
-
-  const uploadFile = async () => {
+  const uploadFile = async (file: File) => {
     setUploadingStatus(UploadStatusEnum.UPLOADING);
 
     const salt = new Date().getTime();
@@ -37,14 +32,11 @@ export const useFileUpload = () => {
     setUploadingStatus(UploadStatusEnum.UPLOADED);
 
     setUploadedFile(config.aws.bucketUrl + hashedFile);
-    setFile(null);
   };
 
   return {
-    selectFile,
     uploadFile,
     uploadingStatus,
     url: uploadedFile,
-    file,
   };
 };

@@ -24,8 +24,7 @@ const IndexPage = () => {
       callbackUrl: '/signin?signOut=true',
     });
 
-  const { selectFile, uploadFile, uploadingStatus, url, file } =
-    useFileUpload();
+  const { uploadFile, uploadingStatus, url } = useFileUpload();
 
   const { mutate } = useGenerateThumbnail();
 
@@ -42,23 +41,10 @@ const IndexPage = () => {
         Mutate
       </Button>
       <FileUpload
-        selectFile={selectFile}
         loading={uploadingStatus === 'UPLOADING'}
+        url={url}
+        uploadFile={uploadFile}
       />
-      {url && <img src={url} />}
-      {file && (
-        <>
-          <p>Selected file: {file.name}</p>
-          <Button
-            onClick={uploadFile}
-            // TODO: windicss
-            className="bg-purple-500 text-white p-2 rounded-sm shadow-md hover:bg-purple-700 transition-all"
-            loading={uploadingStatus === 'UPLOADING'}
-          >
-            Upload a File!
-          </Button>
-        </>
-      )}
       <Group direction="column" align="center">
         <Text size="xl">All users</Text>
         {users?.map((user) => (
