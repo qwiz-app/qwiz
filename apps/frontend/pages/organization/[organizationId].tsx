@@ -1,5 +1,6 @@
 import { Container } from '@mantine/core';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
+import OrganizationEvents from 'components/Organization/OrganizationEvents';
 import { OrganizationHeader } from 'components/Organization/OrganizationHeader';
 import { useOrganization } from 'hooks/api/organizations';
 import { useRouter } from 'next/router';
@@ -14,6 +15,7 @@ const OrganizationPage = () => {
   return (
     <Container size="lg">
       <OrganizationHeader organization={organization} loading={isLoading} />
+      <OrganizationEvents events={organization?.events} loading={isLoading} />
     </Container>
   );
 };

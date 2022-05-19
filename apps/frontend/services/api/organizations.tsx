@@ -1,7 +1,10 @@
 import { Organization, Prisma } from '@prisma/client';
 import { parseData } from 'lib/axios';
 import http from 'services/http';
-import { OrganizationWithUser } from 'types/organization';
+import {
+  OrganizationWithUser,
+  OrganizationWithUserAndEventsAndQuizzes
+} from 'types/organization';
 
 export const fetchOrganizations = () =>
   http.get<OrganizationWithUser[]>('/api/organizations').then(parseData);
@@ -10,7 +13,9 @@ export const fetchCurrentOrganization = () =>
   http.get<Organization>(`/api/organizations/me`).then(parseData);
 
 export const fetchOrganization = (id: string) =>
-  http.get<OrganizationWithUser>(`/api/organizations/${id}`).then(parseData);
+  http
+    .get<OrganizationWithUserAndEventsAndQuizzes>(`/api/organizations/${id}`)
+    .then(parseData);
 
 export const createOrganization = (data: Prisma.OrganizationCreateInput) =>
   http.post<Organization>(`/api/organizations`, data).then(parseData);
