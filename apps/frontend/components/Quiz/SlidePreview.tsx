@@ -4,7 +4,7 @@ import {
   createStyles,
   LoadingOverlay,
   Menu,
-  Text
+  Text,
 } from '@mantine/core';
 import cn from 'classnames';
 import { useSlideDelete } from 'hooks/api/slide';
@@ -20,9 +20,9 @@ import {
   NumberCircleThree,
   NumberCircleTwo,
   NumberCircleZero,
-  TrashSimple
+  TrashSimple,
 } from 'phosphor-react';
-import { SyntheticEvent } from 'react';
+import { SyntheticEvent, SyntheticEvent } from 'react';
 import { SlideWithQuestionAndElements } from 'types/slide';
 
 interface Props {
@@ -78,6 +78,7 @@ export const SlidePreview = ({
     <ActionIcon
       className={cn(classes.trigger, isSelected && classes.itemSelected)}
       variant="hover"
+      onClick={(e: SyntheticEvent) => e.stopPropagation()}
     >
       <DotsThreeVertical size={24} />
     </ActionIcon>
