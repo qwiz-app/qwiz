@@ -8,6 +8,7 @@ import {
   createStyles,
   Box,
   FloatingTooltip,
+  Stack,
 } from '@mantine/core';
 import {
   Upload,
@@ -49,6 +50,7 @@ export const FileUpload = ({
   maxSize = 8,
 }: FileUploadProps) => {
   const { theme } = useAppColorscheme();
+  const { classes } = useStyles();
   const openRef = useRef<() => void>();
 
   return (
@@ -73,7 +75,7 @@ export const FileUpload = ({
         loading={loading}
         openRef={openRef}
         // TODO: windi
-        className={cn([url && 'hidden'])}
+        className={cn([classes.dropzone, url && 'hidden'])}
       >
         {(status) => dropzoneChildren(status, theme)}
       </Dropzone>
@@ -93,14 +95,14 @@ const dropzoneChildren = (status: DropzoneStatus, theme: MantineTheme) => (
       size={80}
     />
 
-    <div>
+    <Stack>
       <Text size="xl" inline>
         Drag images here or click to select files
       </Text>
       <Text size="sm" color="dimmed" inline mt={7}>
         Attach as many files as you like, each file should not exceed 8mb
       </Text>
-    </div>
+    </Stack>
   </Group>
 );
 
@@ -145,6 +147,10 @@ const useStyles = createStyles((theme, _params, getRef) => {
       [`&:hover .${image}`]: {
         transform: 'scale(1.03)',
       },
+    },
+
+    dropzone: {
+      textAlign: 'center',
     },
 
     image: {
