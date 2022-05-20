@@ -4,10 +4,12 @@ import {
   Chip,
   Chips,
   Collapse,
+  FloatingTooltip,
   Group,
   LoadingOverlay,
+  Overlay,
   Stack,
-  Tooltip,
+  Tooltip
 } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { FramerAnimatedListItem } from 'components/Framer/FramerAnimatedListItem';
@@ -15,6 +17,7 @@ import { useCurrentOrganizationInfo } from 'hooks/api/organizations';
 import { useAvailableQuestions } from 'hooks/api/question';
 import { useQuizQuestionCreate } from 'hooks/api/quiz-question/use-quiz-question-create';
 import { useQuizQuestionUpdate } from 'hooks/api/quiz-question/use-quiz-question-update';
+import { useSlides } from 'hooks/api/slide';
 import { Sliders } from 'phosphor-react';
 import { useMemo, useState } from 'react';
 import { QuestionWithContentAndOwnerAndCategoriesAndMode } from 'types/question';
@@ -22,13 +25,18 @@ import { QuizQuestionCard } from './QuizQuestion/QuizQuestionCard';
 import { SelectedQuestionModalContent } from './QuizQuestion/SelectedQuestionModalContent';
 import { useSelectedQuestion } from './QuizQuestion/use-selected-question';
 import { SidePanelWrapper } from './SidePanelWrapper';
+import { useCurrentQuiz } from './use-current-quiz';
 import { useCurrentSlide } from './use-current-slide';
 
 export const SidePanelQuestions = () => {
   const { data: me } = useCurrentOrganizationInfo();
   const { data: questions } = useAvailableQuestions();
   const { selectedQuestion } = useSelectedQuestion();
+  const { quiz } = useCurrentQuiz();
+  const { data: slides } = useSlides(quiz.id);
   const modals = useModals();
+
+  const hasSlides = slides?.length > 0;
 
   const [filtersOpened, setFiltersOpened] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState('all');
@@ -127,19 +135,22 @@ export const SidePanelQuestions = () => {
         </Stack>
       </Collapse>
 
-      {/* TODO: height, scroll and overflow troubles */}
-      <Stack spacing={8}>
-        <LoadingOverlay visible={updateLoading || createLoading} />
-        {shownQuestions?.map((question) => (
-          <FramerAnimatedListItem key={question.id} id={question.id}>
-            <QuizQuestionCard
-              question={question}
-              onSelect={openQuestionModal}
-              onUseQuestion={questionUseSelectedHandler}
-            />
-          </FramerAnimatedListItem>
-        ))}
-      </Stack>
+      <FloatingTooltip label="Create a slide first" disabled={hasSlides}>
+        {/* TODO: height, scroll and overflow troubles */}
+        <Stack spacing={8}>
+          {!hasSlides && <Overlay opacity={0.5} />}
+          <LoadingOverlay visible={updateLoading || createLoading} />
+          {shownQuestions?.map((question) => (
+            <FramerAnimatedListItem key={question.id} id={question.id}>
+              <QuizQuestionCard
+                question={question}
+                onSelect={openQuestionModal}
+                onUseQuestion={questionUseSelectedHandler}
+              />
+            </FramerAnimatedListItem>
+          ))}
+        </Stack>
+      </FloatingTooltip>
     </SidePanelWrapper>
   );
 };

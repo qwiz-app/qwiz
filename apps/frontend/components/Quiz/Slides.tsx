@@ -5,7 +5,7 @@ import {
   Group,
   LoadingOverlay,
   Navbar,
-  Stack,
+  Stack
 } from '@mantine/core';
 import { ThinScrollArea } from 'components/UI/ThinScrollArea';
 import { useSlideCreate, useSlides } from 'hooks/api/slide';
@@ -21,7 +21,6 @@ export const Slides = () => {
   const { quizId, slideId } = router.query;
 
   const { mutate: createSlide, isLoading: isCreateLoading } = useSlideCreate();
-
   const { data: rqSlides } = useSlides(quizId as string, quizId === 'edit');
 
   useEffect(() => {

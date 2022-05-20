@@ -1,4 +1,13 @@
-import { Avatar, Badge, Box, Button, Group, Stack, Text } from '@mantine/core';
+import {
+  Avatar,
+  Badge,
+  Box,
+  Button,
+  Group,
+  Stack,
+  Text,
+  Title,
+} from '@mantine/core';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
 import { useCurrentSession } from 'hooks/api/session';
 import { useUser, useUsers } from 'hooks/api/users';
@@ -23,28 +32,19 @@ const IndexPage = () => {
 
   return (
     <Group direction="column">
-      <Group direction="column" align="center">
-        <Text size="xl">All users</Text>
+      <Stack align="center" spacing={24}>
+        <Title order={5}>All users</Title>
         {users?.map((user) => (
-          <div
-            key={user.id}
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
+          <Stack align="center" key={user.id} spacing={2}>
             <Avatar
               onClick={() => setId(user.id)}
               src={user.image}
               alt={user.name}
               radius="xl"
             />
-            <Stack spacing={2} align="center">
-              <Text>{user.name === currentUser?.name ? 'You' : user.name}</Text>
-              <Badge>{user.role ?? 'No role assigned'}</Badge>
-            </Stack>
-          </div>
+            <Text>{user.email === currentUser?.email ? 'You' : user.name}</Text>
+            <Badge>{user.role ?? 'No role assigned'}</Badge>
+          </Stack>
         ))}
         {error && <p>{error.response.data?.message}</p>}
         <Group spacing={8}>
@@ -58,7 +58,7 @@ const IndexPage = () => {
             </Button>
           )}
         </Group>
-      </Group>
+      </Stack>
       <Box mt={16}>
         <Text size="sm" color={isError ? 'red' : 'currentColor'}>
           {isSuccess
