@@ -14,11 +14,10 @@ export const useModalProps = () => {
 
   const modalProps: Partial<Omit<ModalProps, 'opened'>> = {
     centered: true,
-    radius: 'sm',
+    radius: 'md',
     shadow: 'sm',
     overlayOpacity: 0.9,
     overlayBlur: 5,
-    // theme.colors.dark[9], .gray[2]
     overlayColor: colorScheme === 'dark' ? '#101113' : '#E9ECEF',
   };
 

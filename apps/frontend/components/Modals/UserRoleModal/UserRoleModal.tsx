@@ -55,6 +55,7 @@ export const UserRoleModal = () => {
       withCloseButton={false}
       opened={modal.valueOf() !== ModalSteps.None}
       onClose={closeModalHandler}
+      title="Choose a role"
     >
       {modal === ModalSteps.Step1 && (
         <UserRoleModalStep1 onContinue={() => setModal(ModalSteps.Step2)} />

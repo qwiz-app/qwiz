@@ -77,7 +77,13 @@ export const HighlightedEventCard = ({ event, loading }: Props) => {
         <Title order={3} className={classes.title} color="white">
           {event?.name}
         </Title>
-        <Button ml="auto" variant="white" color="dark" onClick={gotoEvent}>
+        <Button
+          ml="auto"
+          variant="white"
+          color="dark"
+          radius="sm"
+          onClick={gotoEvent}
+        >
           Check it out
         </Button>
       </Group>

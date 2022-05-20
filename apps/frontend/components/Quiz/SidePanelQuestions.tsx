@@ -1,12 +1,13 @@
 import {
-  ActionIcon, Button,
+  ActionIcon,
+  Button,
   Chip,
   Chips,
   Collapse,
   Group,
   LoadingOverlay,
   Stack,
-  Tooltip
+  Tooltip,
 } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { FramerAnimatedListItem } from 'components/Framer/FramerAnimatedListItem';
@@ -60,8 +61,7 @@ export const SidePanelQuestions = () => {
     const isSelected = selectedQuestion?.id === question.id;
 
     const id = modals.openModal({
-      title: 'Question information',
-      radius: 'md',
+      title: 'Question details',
       children: (
         <Stack pt={4}>
           <SelectedQuestionModalContent question={question} />
