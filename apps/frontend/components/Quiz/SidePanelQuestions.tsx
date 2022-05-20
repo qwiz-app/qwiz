@@ -32,8 +32,8 @@ export const SidePanelQuestions = () => {
   const { data: me } = useCurrentOrganizationInfo();
   const { data: questions } = useAvailableQuestions();
   const { selectedQuestion } = useSelectedQuestion();
-  const { quiz } = useCurrentQuiz();
-  const { data: slides } = useSlides(quiz.id);
+  const { id: quizId } = useCurrentQuiz();
+  const { data: slides } = useSlides(quizId);
   const modals = useModals();
 
   const hasSlides = slides?.length > 0;
