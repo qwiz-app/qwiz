@@ -43,7 +43,7 @@ const mockdata: { icon: any; label: string }[] = [
 ];
 
 interface Props {
-  active;
+  active: number;
   onSelect: (index: number) => void;
 }
 
