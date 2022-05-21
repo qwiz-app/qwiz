@@ -6,12 +6,13 @@ import {
   Group,
   Stack,
   Text,
-  Title,
+  Title
 } from '@mantine/core';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
 import { useCurrentSession } from 'hooks/api/session';
 import { useUser, useUsers } from 'hooks/api/users';
-import { signIn, signOut } from 'next-auth/react';
+import { useSignOut } from 'hooks/use-sign-out';
+import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 
 const IndexPage = () => {
@@ -25,10 +26,7 @@ const IndexPage = () => {
     error: selectedUserError,
   } = useUser(id);
 
-  const signOutHandler = () =>
-    signOut({
-      callbackUrl: '/signin?signOut=true',
-    });
+  const { signOutUser } = useSignOut();
 
   return (
     <Group direction="column">
@@ -49,7 +47,7 @@ const IndexPage = () => {
         {error && <p>{error.response.data?.message}</p>}
         <Group spacing={8}>
           {isAuthenticated ? (
-            <Button onClick={signOutHandler} variant="filled">
+            <Button onClick={signOutUser} variant="filled">
               Sign out
             </Button>
           ) : (

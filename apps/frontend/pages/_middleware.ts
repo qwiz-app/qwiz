@@ -1,10 +1,9 @@
 import {
   getFromCookie,
-  isVercelEnv,
   isApiUrl,
-  isWhitelistedUrl,
   isSignInUrl,
-  isOrganizationUrl,
+  isVercelEnv,
+  isWhitelistedUrl,
 } from 'lib/routes';
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
@@ -23,7 +22,8 @@ export const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
       : 'next-auth.session-token'
   );
 
-  const role = getFromCookie(cookie, 'role');
+  // TODO: outdated role after role modal
+  // const role = getFromCookie(cookie, 'role');
 
   if (!isApiUrl(req.url) && isWhitelistedUrl(req.nextUrl.pathname))
     return NextResponse.next();
@@ -36,13 +36,15 @@ export const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
     return NextResponse.redirect(SIGN_IN);
   }
 
-  if (
-    !isApiUrl(req.url) &&
-    isOrganizationUrl(req.nextUrl.pathname) &&
-    (!role || role !== 'ORGANIZATION')
-  ) {
-    return NextResponse.redirect(new URL('/', req.nextUrl.origin));
-  }
+  // TODO: isnt working live after user role modal - doesnt recognize changed role
+  // do we force page reload after modal
+  // if (
+  //   !isApiUrl(req.url) &&
+  //   isOrganizationUrl(req.nextUrl.pathname) &&
+  //   (!role || role !== 'ORGANIZATION')
+  // ) {
+  //   return NextResponse.redirect(new URL('/', req.nextUrl.origin));
+  // }
 
   return NextResponse.next();
 };

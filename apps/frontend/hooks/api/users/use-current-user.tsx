@@ -1,3 +1,4 @@
+import { Role } from '@prisma/client';
 import { onError } from 'lib/axios';
 import { useQuery } from 'react-query';
 import { fetchCurrentUser } from 'services/api/users';
@@ -7,9 +8,7 @@ export const useCurrentUser = () => {
   const {
     isAuthenticated,
     isUnauthenticated,
-    isOrganization,
-    isAdmin,
-    isUser,
+    isLoading: isSessionLoading,
   } = useCurrentSession();
 
   const query = useQuery(['currentUser'], fetchCurrentUser, {
@@ -17,9 +16,16 @@ export const useCurrentUser = () => {
     onError,
   });
 
+  const user = query.data;
+
+  const isAdmin = isAuthenticated && user?.role === Role.ADMIN;
+  const isOrganization = isAuthenticated && user?.role === Role.ORGANIZATION;
+  const isUser = isAuthenticated && user?.role === Role.ATTENDEE;
+
   return {
     ...query,
-    user: query?.data,
+    isSessionLoading,
+    user,
     isAuthenticated,
     isUnauthenticated,
     isOrganization,

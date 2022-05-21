@@ -1,6 +1,7 @@
 export const paths = {
   home: () => '/',
   signIn: () => '/signin',
+  signOut: () => '/signin?signOut=true',
   register: () => '/register',
   explore: () => '/explore',
   profile: () => '/profile',

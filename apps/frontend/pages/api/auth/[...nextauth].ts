@@ -1,5 +1,5 @@
 import NextAuth from 'next-auth';
-import nodemailer from 'nodemailer'
+import nodemailer from 'nodemailer';
 import GoogleProvider from 'next-auth/providers/google';
 import GitHubProvider from 'next-auth/providers/github';
 import DiscordProvider from 'next-auth/providers/discord';
@@ -49,7 +49,7 @@ export default NextAuth({
   secret: config.secret,
   pages: {
     signIn: '/signin',
-    signOut: '/signin?signOut=true',
+    signOut: '/signin',
     error: '/signin',
     verifyRequest: '/verify-request',
   },

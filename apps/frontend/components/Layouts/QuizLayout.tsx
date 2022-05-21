@@ -8,13 +8,14 @@ import {
   Header,
   Navbar,
   Skeleton,
-  Title,
+  Title
 } from '@mantine/core';
 import QuizNameEditInput from 'components/Cards/quiz/QuizNameEditInput';
 import { Slides } from 'components/Quiz/Slides';
 import { FloatingQuizMenu } from 'components/UI/FloatingQuizMenu';
 import { useQuiz, useQuizNameEdit } from 'hooks/api/quiz';
 import { useCurrentSession } from 'hooks/api/session';
+import { useCurrentUser } from 'hooks/api/users';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useRouter } from 'next/router';
 import { CaretLeft } from 'phosphor-react';
@@ -27,7 +28,8 @@ interface Props {
 const QuizLayout = ({ children }: Props) => {
   const { isDark } = useAppColorscheme();
   const router = useRouter();
-  const { user, isLoading } = useCurrentSession();
+  const { isLoading } = useCurrentSession();
+  const { user } = useCurrentUser();
 
   const { data: quiz, isLoading: isQuizLoading } = useQuiz(
     router.query.quizId as string

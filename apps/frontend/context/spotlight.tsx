@@ -6,7 +6,7 @@ import { useCurrentUser } from 'hooks/api/users';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useProviders } from 'hooks/providers';
 import { useCreateEventCheck } from 'hooks/use-create-event-check';
-import { signOut } from 'next-auth/react';
+import { useSignOut } from 'hooks/use-sign-out';
 import { useRouter } from 'next/router';
 import { paths } from 'paths';
 import {
@@ -38,6 +38,7 @@ const useSpotlightActions = () => {
   const { data: user } = useCurrentUser();
   const { signInWithProvider } = useProviders();
   const { navigateToCreateEvent } = useCreateEventCheck();
+  const { signOutUser } = useSignOut();
   const clipboard = useClipboard();
 
   const isAuthenticated = !!user;
@@ -141,10 +142,7 @@ const useSpotlightActions = () => {
       title: 'Sign out',
       description: 'Sign out of your account',
       group: 'Actions',
-      onTrigger: () =>
-        signOut({
-          callbackUrl: '/signin?signOut=true',
-        }),
+      onTrigger: signOutUser,
       icon: <SignOut {...iconProps} />,
       keywords: ['logout', 'log out', 'signout'],
     },
@@ -185,7 +183,6 @@ const useSpotlightActions = () => {
     ACTIONS.push(...signinProviderActions);
   }
 
-  ACTIONS.push(...routeActions);
   ACTIONS.push(...items);
 
   return ACTIONS;

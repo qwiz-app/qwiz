@@ -18,7 +18,7 @@ import {
 import { useClipboard } from '@mantine/hooks';
 import { showNotification } from '@mantine/notifications';
 import { useEventDelete } from 'hooks/api/events/use-event-delete';
-import { useCurrentSession } from 'hooks/api/session';
+import { useCurrentUser } from 'hooks/api/users';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useDeleteConfirmModal } from 'hooks/use-delete-confirm-modal';
 import Link from 'next/link';
@@ -42,7 +42,7 @@ interface Props {
 export const EventHeader = ({ event, loading }: Props) => {
   const { isDark } = useAppColorscheme();
   const { classes } = useStyles();
-  const { isOrganization } = useCurrentSession();
+  const { isOrganization } = useCurrentUser();
 
   // TODO: placeholder
   const [isReserved] = useState(false);

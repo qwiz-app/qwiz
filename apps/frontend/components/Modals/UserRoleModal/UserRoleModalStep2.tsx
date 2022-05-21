@@ -1,5 +1,6 @@
 import { Button, Stack, TextInput } from '@mantine/core';
 import { Role } from '@prisma/client';
+import { useCurrentSession } from 'hooks/api/session';
 import { useCurrentUser } from 'hooks/api/users';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useAvatarGen } from 'hooks/use-avatar-gen';
@@ -14,7 +15,7 @@ interface Props {
 }
 
 export const UserRoleModalStep2 = ({ onBack, onContinue }: Props) => {
-  const { user } = useCurrentUser();
+  const { user } = useCurrentSession();
   const { isDark } = useAppColorscheme();
 
   const { selectedRole, orgName, setOrgName, avatar, isOrgNameValid } =
