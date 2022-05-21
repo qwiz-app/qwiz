@@ -1,6 +1,6 @@
 import { Button, Stack, TextInput } from '@mantine/core';
 import { Role } from '@prisma/client';
-import { useCurrentUser } from 'hooks/api/session';
+import { useCurrentUser } from 'hooks/api/users';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useAvatarGen } from 'hooks/use-avatar-gen';
 import { IdentificationBadge } from 'phosphor-react';
@@ -14,7 +14,7 @@ interface Props {
 }
 
 export const UserRoleModalStep2 = ({ onBack, onContinue }: Props) => {
-  const user = useCurrentUser();
+  const { user } = useCurrentUser();
   const { isDark } = useAppColorscheme();
 
   const { selectedRole, orgName, setOrgName, avatar, isOrgNameValid } =
@@ -84,7 +84,7 @@ export const UserRoleModalStep2 = ({ onBack, onContinue }: Props) => {
 const useUserRoleModalAvatar = () => {
   const { selectedRole, orgName, setOrgName, avatar, setAvatar } =
     useAssignRole();
-  const user = useCurrentUser();
+  const { user } = useCurrentUser();
 
   const [hasCustomAvatar, setHasCustomAvatar] = useState(
     selectedRole === Role.ORGANIZATION

@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import { fetchCurrentUser } from 'services/api/users';
 import { useCurrentSession } from '../session';
 
-export const useCurrentUserInfo = () => {
+export const useCurrentUser = () => {
   const {
     isAuthenticated,
     isUnauthenticated,
@@ -19,6 +19,7 @@ export const useCurrentUserInfo = () => {
 
   return {
     ...query,
+    user: query?.data,
     isAuthenticated,
     isUnauthenticated,
     isOrganization,

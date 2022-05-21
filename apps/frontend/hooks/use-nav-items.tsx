@@ -13,10 +13,10 @@ import {
 } from 'phosphor-react';
 import { useState } from 'react';
 import { NavItemModel } from 'types/elements/nav-item';
-import { useCurrentSession } from './api/session';
+import { useCurrentUser } from './api/users';
 
 export const useNavItems = () => {
-  const { user, isAuthenticated } = useCurrentSession();
+  const { user, isAuthenticated } = useCurrentUser();
 
   const iconProps: IconProps = {
     size: 20,

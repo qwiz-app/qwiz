@@ -1,5 +1,5 @@
+import { useCurrentUser } from 'hooks/api/users';
 import { useEffect, useState } from 'react';
-import { useCurrentUser } from 'hooks/api/session';
 
 export enum ModalSteps {
   None,
@@ -8,9 +8,9 @@ export enum ModalSteps {
 }
 
 export const useUserRoleModal = () => {
-  const [modal, setModal] = useState(ModalSteps.None);
+  const { user } = useCurrentUser();
 
-  const user = useCurrentUser();
+  const [modal, setModal] = useState(ModalSteps.None);
 
   useEffect(() => {
     if (user && !user.role) {

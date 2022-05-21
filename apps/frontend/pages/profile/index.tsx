@@ -1,23 +1,23 @@
 import DashboardLayout from 'components/Layouts/DashboardLayout';
-import { useCurrentUserInfo } from 'hooks/api/users';
+import { useCurrentUser } from 'hooks/api/users';
 import { useEffect } from 'react';
 
 const ProfilePage = () => {
-  const { data: me, isLoading } = useCurrentUserInfo();
+  const { user, isLoading } = useCurrentUser();
 
   useEffect(() => {
-    if (me) {
-      console.log('me', me);
+    if (user) {
+      console.log('user', user);
     }
   }, []);
   return (
     <div>
       <h1>My info</h1>
       {isLoading && <p>Loading...</p>}
-      {me && (
+      {user && (
         <div>
-          <h2>{me.name}</h2>
-          <p>{me.email}</p>
+          <h2>{user.name}</h2>
+          <p>{user.email}</p>
         </div>
       )}
       <div />

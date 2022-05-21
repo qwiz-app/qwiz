@@ -2,7 +2,7 @@ import { useClipboard } from '@mantine/hooks';
 import type { SpotlightAction } from '@mantine/spotlight';
 import { SpotlightProvider } from '@mantine/spotlight';
 import { Role } from '@prisma/client';
-import { useCurrentUserInfo } from 'hooks/api/users';
+import { useCurrentUser } from 'hooks/api/users';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useProviders } from 'hooks/providers';
 import { useCreateEventCheck } from 'hooks/use-create-event-check';
@@ -35,7 +35,7 @@ export type SpotlightItem = SpotlightAction & {
 const useSpotlightActions = () => {
   const router = useRouter();
   const { toggleColorScheme, isDark } = useAppColorscheme();
-  const { data: user, isLoading } = useCurrentUserInfo();
+  const { data: user } = useCurrentUser();
   const { signInWithProvider } = useProviders();
   const { navigateToCreateEvent } = useCreateEventCheck();
   const clipboard = useClipboard();
@@ -84,6 +84,7 @@ const useSpotlightActions = () => {
       description: 'Go to your profile',
       onTrigger: () => router.push(paths.profile()),
       icon: <User {...iconProps} />,
+      permissions: [Role.ADMIN, Role.ORGANIZATION, Role.ATTENDEE],
     },
     {
       title: 'Admin panel',
@@ -173,26 +174,19 @@ const useSpotlightActions = () => {
 
   const items = routeActions.filter((item) => {
     if (item.permissions) {
-      console.log(
-        item.title,
-        isAuthenticated && item.permissions.includes(user?.role)
-      );
       return isAuthenticated && item.permissions.includes(user?.role);
     }
     return true;
   });
 
-  if (isLoading) {
-    // TODO
-  } else if (isAuthenticated) {
-    // TODO: check route actions per role
-    ACTIONS.push(...items);
+  if (isAuthenticated) {
     ACTIONS.push(...authActions);
-    // TODO: add permissions as in list items, but both should be reactive
   } else {
-    ACTIONS.push(...routeActions);
     ACTIONS.push(...signinProviderActions);
   }
+
+  ACTIONS.push(...routeActions);
+  ACTIONS.push(...items);
 
   return ACTIONS;
 };
