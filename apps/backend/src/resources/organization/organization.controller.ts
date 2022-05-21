@@ -10,7 +10,7 @@ import {
   Patch,
   Post,
   Query,
-  UnauthorizedException
+  UnauthorizedException,
 } from '@nestjs/common';
 import { Organization, Prisma, User } from '@prisma/client';
 import { IsAdmin } from 'common/decorators/admin.decorator';
@@ -57,7 +57,7 @@ export class OrganizationController {
   @Get(':id')
   async findOne(
     @Param('id') id: string,
-    @Query('quizzes', new DefaultValuePipe(true), ParseBoolPipe)
+    @Query('quizzes', new DefaultValuePipe(false), ParseBoolPipe)
     quizzes: boolean,
     @Query('questions', new DefaultValuePipe(false), ParseBoolPipe)
     questions: boolean

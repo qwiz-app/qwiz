@@ -6,15 +6,15 @@ import {
   Image,
   LoadingOverlay,
   Stack,
-  Title
+  Title,
 } from '@mantine/core';
 import { QuestionElementType } from '@prisma/client';
 import { useBackgroundColor } from 'hooks/use-background-color';
-import { QuestionWithContentAndOwnerAndCategoriesAndMode } from 'types/question';
+import { QuestionWithContentAndCategoriesAndMode } from 'types/api/question';
 import { useCurrentSlide } from './use-current-slide';
 
 interface Props {
-  question: QuestionWithContentAndOwnerAndCategoriesAndMode;
+  question: QuestionWithContentAndCategoriesAndMode;
 }
 
 export const MainSlideNew = ({ question }: Props) => {

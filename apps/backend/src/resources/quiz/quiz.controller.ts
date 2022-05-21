@@ -72,6 +72,7 @@ export class QuizController {
     const quiz = await this.quizService.findOne(
       { id },
       {
+        // TODO: is it necesarry?
         slides: {
           include: {
             quizQuestion: true,

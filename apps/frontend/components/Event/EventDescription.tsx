@@ -1,10 +1,10 @@
 import { Paper } from '@mantine/core';
 import { useState } from 'react';
-import { EventWithOrganization } from 'types/event';
+import { EventWithOwner } from 'types/api/event';
 import RichText from './EventRichText';
 
 interface Props {
-  event: EventWithOrganization;
+  event: EventWithOwner;
   loading: boolean;
 }
 

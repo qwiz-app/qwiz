@@ -1,11 +1,11 @@
 import { Box, Skeleton } from '@mantine/core';
 import { useBreakpoints } from 'hooks/breakpoints';
-import { EventWithOrganization } from 'types/event';
+import { EventWithOwner } from 'types/api/event';
 import EventDescription from './EventDescription';
 import EventMap from './EventMap';
 
 interface Props {
-  event: EventWithOrganization;
+  event: EventWithOwner;
   loading: boolean;
 }
 

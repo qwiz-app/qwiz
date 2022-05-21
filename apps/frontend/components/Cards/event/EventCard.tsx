@@ -15,11 +15,11 @@ import { formatCurrency, formatDate, relativeTimeTo } from 'lib/utils';
 import Link from 'next/link';
 import { paths } from 'paths';
 import { Tag, UsersThree } from 'phosphor-react';
-import { EventWithOrganization } from 'types/event';
+import { EventWithOwner } from 'types/api/event';
 import { useCardStyles } from '../use-card-styles';
 
 interface Props {
-  event: EventWithOrganization;
+  event: EventWithOwner;
   loading: boolean;
 }
 

@@ -8,17 +8,18 @@ import { useRouter } from 'next/router';
 
 const OrganizationPage = () => {
   const router = useRouter();
-  const { organizationId } = router.query;
+  const organizationId = router.query.organizationId as string;
+
   const {
     data: organization,
     isLoading,
     isPlaceholderData,
-  } = useOrganization(organizationId as string);
+  } = useOrganization(organizationId);
   const {
     data: events,
     isLoading: isEventsLoading,
     isPlaceholderData: isEventsPlaceholderData,
-  } = useEventsByOrganization(organizationId as string);
+  } = useEventsByOrganization(organizationId);
 
   return (
     <Container size="lg">

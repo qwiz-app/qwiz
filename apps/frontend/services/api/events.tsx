@@ -1,19 +1,19 @@
 import { Prisma, Event } from '@prisma/client';
 import { parseData } from 'lib/axios';
 import http from 'services/http';
-import { EventWithOrganization } from 'types/event';
+import { EventWithOwner } from 'types/api/event';
 
 export const fetchAllEvents = () =>
-  http.get<EventWithOrganization[]>('/api/events').then(parseData);
+  http.get<EventWithOwner[]>('/api/events').then(parseData);
 
 export const fetchEventsByOrganization = (id: string) =>
-  http.get<EventWithOrganization[]>(`/api/events/owner/${id}`).then(parseData);
+  http.get<EventWithOwner[]>(`/api/events/owner/${id}`).then(parseData);
 
 export const fetchEvents = () =>
-  http.get<EventWithOrganization[]>('/api/events/owner/me').then(parseData);
+  http.get<EventWithOwner[]>('/api/events/owner/me').then(parseData);
 
 export const fetchEvent = (id: string) =>
-  http.get<EventWithOrganization>(`/api/events/${id}`).then(parseData);
+  http.get<EventWithOwner>(`/api/events/${id}`).then(parseData);
 
 export const createEvent = (
   data: Prisma.EventUncheckedCreateWithoutOwnerInput

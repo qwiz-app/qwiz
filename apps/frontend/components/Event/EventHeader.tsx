@@ -31,10 +31,10 @@ import {
   Trash,
 } from 'phosphor-react';
 import { useEffect, useState } from 'react';
-import { EventWithOrganization } from 'types/event';
+import { EventWithOwner } from 'types/api/event';
 
 interface Props {
-  event: EventWithOrganization;
+  event: EventWithOwner;
   loading: boolean;
 }
 

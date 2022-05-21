@@ -4,7 +4,7 @@ import {
   createStyles,
   LoadingOverlay,
   Menu,
-  Text,
+  Text
 } from '@mantine/core';
 import cn from 'classnames';
 import { useSlideDelete } from 'hooks/api/slide';
@@ -20,10 +20,10 @@ import {
   NumberCircleThree,
   NumberCircleTwo,
   NumberCircleZero,
-  TrashSimple,
+  TrashSimple
 } from 'phosphor-react';
 import { SyntheticEvent } from 'react';
-import { SlideWithQuestionAndElements } from 'types/slide';
+import { SlideWithQuestionAndElements } from 'types/api/slide';
 
 interface Props {
   slide: SlideWithQuestionAndElements;

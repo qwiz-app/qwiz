@@ -7,13 +7,13 @@ import {
   Paper,
   SimpleGrid,
   Stack,
-  Title
+  Title,
 } from '@mantine/core';
 import { QuestionElementType } from '@prisma/client';
-import { QuestionWithContentAndOwnerAndCategoriesAndMode } from 'types/question';
+import { QuestionWithContentAndCategoriesAndMode } from 'types/api/question';
 
 interface Props {
-  question: QuestionWithContentAndOwnerAndCategoriesAndMode;
+  question: QuestionWithContentAndCategoriesAndMode;
 }
 
 export const SelectedQuestionModalContent = ({ question }: Props) => {

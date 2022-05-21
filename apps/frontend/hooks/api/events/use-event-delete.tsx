@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { deleteEvent } from 'services/api/events';
-import { EventWithOrganization } from 'types/event';
+import { EventWithOwner } from 'types/api/event';
 
 export const useEventDelete = (id: string) => {
   const queryClient = useQueryClient();
@@ -11,7 +11,7 @@ export const useEventDelete = (id: string) => {
 
       const previousEvents = queryClient.getQueryData(
         'events'
-      ) as EventWithOrganization[];
+      ) as EventWithOwner[];
 
       queryClient.setQueryData(
         'events',
@@ -20,13 +20,9 @@ export const useEventDelete = (id: string) => {
 
       return { previousEvents };
     },
-    onError(
-      err,
-      variables,
-      context: { previousEvents: EventWithOrganization[] }
-    ) {
+    onError(err, variables, context: { previousEvents: EventWithOwner[] }) {
       if (context?.previousEvents) {
-        queryClient.setQueryData<EventWithOrganization[]>(
+        queryClient.setQueryData<EventWithOwner[]>(
           'events',
           context.previousEvents
         );

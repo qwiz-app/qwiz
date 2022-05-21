@@ -1,8 +1,8 @@
+import { Quiz } from '@prisma/client';
 import { SyntheticEvent, useRef, useState } from 'react';
-import { QuizWithOrganization } from 'types/quiz';
 import { useQuizUpdate } from './use-quiz-update';
 
-export const useQuizNameEdit = (quiz: QuizWithOrganization) => {
+export const useQuizNameEdit = (quiz: Quiz) => {
   const DEFAULT_QUIZ_NAME = 'Untitled';
   const nameRef = useRef<HTMLInputElement>();
 

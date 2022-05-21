@@ -11,8 +11,6 @@ import { ThinScrollArea } from 'components/UI/ThinScrollArea';
 import { useSlideCreate, useSlides } from 'hooks/api/slide';
 import { useRouter } from 'next/router';
 import { Plus } from 'phosphor-react';
-import { useEffect } from 'react';
-// import { SlideWithQuestionAndElements } from 'types/slide';
 import { SlidePreview } from './SlidePreview';
 
 export const Slides = () => {
@@ -21,19 +19,7 @@ export const Slides = () => {
   const { quizId, slideId } = router.query;
 
   const { mutate: createSlide, isLoading: isCreateLoading } = useSlideCreate();
-  const { data: rqSlides } = useSlides(quizId as string, quizId === 'edit');
-
-  useEffect(() => {
-    console.log('RQ Slides', rqSlides);
-  }, [rqSlides]);
-
-  // const [slides, setSlides] = useState<SlideWithQuestionAndElements[]>(null);
-
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     setSlides(quiz.slides);
-  //   }
-  // }, [isSuccess]);
+  const { data: slides } = useSlides(quizId as string, quizId === 'edit');
 
   const handleSlideClick = (selectedSlideId: string) => {
     router.push(`/quiz/${quizId}/${selectedSlideId}`, undefined, {
@@ -43,14 +29,9 @@ export const Slides = () => {
 
   const handleCreateSlide = () => {
     createSlide(
-      {
-        quizId: quizId as string,
-        // TODO
-        // ordinal: 1,
-      },
+      { quizId: quizId as string },
       {
         onSuccess: (slide) => {
-          // setSlides([...slides, slide]);
           router.push(`/quiz/${quizId}/${slide.id}`, undefined, {
             shallow: true,
           });
@@ -62,8 +43,8 @@ export const Slides = () => {
   const redirecToGeneralHandler = () => {
     let whereTo = 'edit';
 
-    if (rqSlides?.length) {
-      const [last] = rqSlides.slice(-1);
+    if (slides?.length) {
+      const [last] = slides.slice(-1);
       // TODO: doesnt work when we are deleting our last one because its not deleted yet
       whereTo = last.id;
     }
@@ -83,30 +64,7 @@ export const Slides = () => {
           component={ThinScrollArea}
         >
           <LoadingOverlay visible={isCreateLoading} />
-          {/* {rqSlides && (
-            <Reorder.Group
-              axis="y"
-              values={rqSlides}
-              onReorder={setSlides}
-              style={{ padding: 0 }}
-            >
-              {slides.map((slide, i) => (
-                <Reorder.Item
-                  key={slide.id}
-                  value={slide}
-                  style={{ listStyle: 'none' }}
-                >
-                  <SlidePreview
-                    slide={slide}
-                    order={i + 1}
-                    selectedSlideId={slideId as string}
-                    onSlideClick={handleSlideClick}
-                  />
-                </Reorder.Item>
-              ))}
-            </Reorder.Group>
-          )} */}
-          {rqSlides?.map((slide, i) => (
+          {slides?.map((slide, i) => (
             <SlidePreview
               key={slide.id}
               slide={slide}

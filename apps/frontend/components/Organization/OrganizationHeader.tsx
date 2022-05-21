@@ -10,7 +10,7 @@ import {
   Title
 } from '@mantine/core';
 import { useBreakpoints } from 'hooks/breakpoints';
-import { OrganizationWithUser } from 'types/organization';
+import { OrganizationWithUser } from 'types/api/organization';
 
 interface Props {
   organization: OrganizationWithUser;

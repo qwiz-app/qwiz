@@ -1,7 +1,7 @@
 import { onError } from 'lib/axios';
 import { useQuery } from 'react-query';
 import { fetchEvent } from 'services/api/events';
-import { EventWithOrganization } from 'types/event';
+import { EventWithOwner } from 'types/api/event';
 
 export const useEvent = (id: string) =>
   useQuery(['event', id], ({ queryKey }) => fetchEvent(queryKey[1]), {
@@ -10,7 +10,7 @@ export const useEvent = (id: string) =>
     placeholderData,
   });
 
-const placeholderData: EventWithOrganization = {
+const placeholderData: EventWithOwner = {
   id: '',
   name: 'Placholder',
   banner: null,

@@ -6,13 +6,13 @@ import dayjs from 'dayjs';
 import { useCurrentSession } from 'hooks/api/session';
 import { useMemo } from 'react';
 import { UseQueryResult } from 'react-query';
-import { EventWithOrganization } from 'types/event';
+import { EventWithOwner } from 'types/api/event';
 
 export const useEventsPage = ({
   data: events,
   isPlaceholderData,
   isLoading,
-}: UseQueryResult<EventWithOrganization[], AxiosError<any, any>>) => {
+}: UseQueryResult<EventWithOwner[], AxiosError<unknown, unknown>>) => {
   const { isOrganization, isLoading: sessionLoading } = useCurrentSession();
 
   const hasEvents = events?.length > 0;
@@ -66,7 +66,7 @@ export const useEventsPage = ({
     [events]
   );
 
-  const renderEvents = (arr: EventWithOrganization[], highlighted = false) =>
+  const renderEvents = (arr: EventWithOwner[], highlighted = false) =>
     arr?.map((event) => (
       <FramerAnimatedListItem
         id={`${highlighted && 'higlight.'}${isOrgOrLoading && 'org.'}${

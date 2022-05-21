@@ -8,20 +8,18 @@ import {
   Stack,
   Text,
   Tooltip,
-  UnstyledButton
+  UnstyledButton,
 } from '@mantine/core';
 import { QuestionElementType } from '@prisma/client';
 import { formatDate, relativeTimeTo } from 'lib/utils';
 import { CheckCircle, PlusCircle } from 'phosphor-react';
 import { SyntheticEvent } from 'react';
-import { QuestionWithContentAndOwnerAndCategoriesAndMode } from 'types/question';
+import { QuestionWithContentAndCategoriesAndMode } from 'types/api/question';
 import { useCurrentSlide } from '../use-current-slide';
 
 interface Props {
-  question: QuestionWithContentAndOwnerAndCategoriesAndMode;
-  onSelect?: (
-    question: QuestionWithContentAndOwnerAndCategoriesAndMode
-  ) => void;
+  question: QuestionWithContentAndCategoriesAndMode;
+  onSelect?: (question: QuestionWithContentAndCategoriesAndMode) => void;
   onUseQuestion?: (id: string) => void;
 }
 

@@ -32,12 +32,12 @@ import {
   TrashSimple
 } from 'phosphor-react';
 import React, { SyntheticEvent } from 'react';
-import { QuizWithOrganization } from 'types/quiz';
+import { QuizWithSlides } from 'types/api/quiz';
 import { useCardStyles } from '../use-card-styles';
 import QuizNameEditInput from './QuizNameEditInput';
 
 interface QuizCardProps {
-  quiz: QuizWithOrganization;
+  quiz: QuizWithSlides;
   loading: boolean;
 }
 
@@ -82,6 +82,7 @@ export const QuizCard = ({
     deletedEntity: 'quiz',
   });
 
+  // TODO
   const onClickHandler = (e: SyntheticEvent) => {
     if (!isEditMode) {
       if (quiz?.slides.length) {

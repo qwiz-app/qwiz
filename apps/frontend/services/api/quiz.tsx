@@ -1,13 +1,14 @@
 import { Prisma, Quiz } from '@prisma/client';
 import { parseData } from 'lib/axios';
 import http from 'services/http';
-import { QuizWithOrganization } from 'types/quiz';
+import { QuizWithOwner, QuizWithSlides } from 'types/api/quiz';
 
 export const fetchQuizzes = () =>
-  http.get<QuizWithOrganization[]>('/api/quiz/owner/me').then(parseData);
+  http.get<QuizWithSlides[]>('/api/quiz/owner/me').then(parseData);
 
+// TODO: check types
 export const fetchQuiz = (id: string) =>
-  http.get<QuizWithOrganization>(`/api/quiz/${id}`).then(parseData);
+  http.get<QuizWithSlides>(`/api/quiz/${id}`).then(parseData);
 
 export const createQuiz = (data: Prisma.QuizCreateWithoutOwnerInput) =>
   http.post<Quiz>(`/api/quiz`, data).then(parseData);
@@ -20,13 +21,11 @@ export const deleteQuiz = (id: string) =>
 
 //* ADMIN-ONLY
 export const fetchAnyQuizzes = () =>
-  http.get<QuizWithOrganization[]>('/api/quiz/all').then(parseData);
+  http.get<QuizWithOwner[]>('/api/quiz/all').then(parseData);
 
 //* ADMIN-ONLY
 export const fetchQuizzesByOwner = (ownerId: string) =>
-  http
-    .get<QuizWithOrganization[]>(`/api/quiz/owner/${ownerId}`)
-    .then(parseData);
+  http.get<QuizWithOwner[]>(`/api/quiz/owner/${ownerId}`).then(parseData);
 
 //* ADMIN-ONLY
 export const deleteAnyQuiz = (id: string) =>

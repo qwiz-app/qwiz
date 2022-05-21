@@ -1,11 +1,11 @@
 import { Box, Paper } from '@mantine/core';
-import { EventWithOrganization } from 'types/event';
+import { EventWithOwner } from 'types/api/event';
 
 import GoogleMapReact from 'google-map-react';
 import config from 'lib/config';
 
 interface Props {
-  event: EventWithOrganization;
+  event: EventWithOwner;
   loading: boolean;
 }
 

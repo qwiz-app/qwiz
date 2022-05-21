@@ -11,7 +11,7 @@ import {
   Trophy,
   UsersThree
 } from 'phosphor-react';
-import { NavItemModel } from 'types/nav-item';
+import { NavItemModel } from 'types/elements/nav-item';
 import { useCurrentSession } from './api/session';
 
 export const useNavItems = () => {

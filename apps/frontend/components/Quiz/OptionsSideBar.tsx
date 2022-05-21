@@ -36,7 +36,7 @@ const NavbarLink = ({
   );
 };
 
-const mockdata = [
+const mockdata: { icon: any; label: string }[] = [
   { icon: ListPlus, label: 'Questions' },
   { icon: CircleWavyQuestion, label: 'Answers' },
   { icon: Gear, label: 'Settings' },

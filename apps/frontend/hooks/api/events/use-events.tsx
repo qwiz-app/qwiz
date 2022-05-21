@@ -6,7 +6,7 @@ import {
   fetchEvents,
   fetchEventsByOrganization,
 } from 'services/api/events';
-import { EventWithOrganization } from 'types/event';
+import { EventWithOwner } from 'types/api/event';
 
 export const useAllEvents = () =>
   useQuery('allEvents', fetchAllEvents, {
@@ -28,7 +28,7 @@ export const useEventsByOrganization = (id: string) =>
   });
 
 //   TODO: using placholer data isnt reusable when adding changing backend
-const placeholderEvents: EventWithOrganization[] = generateArrayForRange(4).map(
+const placeholderEvents: EventWithOwner[] = generateArrayForRange(4).map(
   (_, idx) => ({
     id: `${idx}`,
     name: '',

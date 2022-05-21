@@ -5,7 +5,7 @@ import {
   Skeleton,
   Text,
   UnstyledButton,
-  UnstyledButtonProps
+  UnstyledButtonProps,
 } from '@mantine/core';
 import { AvatarRoleIndicator } from 'components/UI/AvatarRoleIndicator';
 import { useCurrentUserInfo } from 'hooks/api/users';

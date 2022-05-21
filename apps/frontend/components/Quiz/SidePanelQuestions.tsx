@@ -9,7 +9,7 @@ import {
   LoadingOverlay,
   Overlay,
   Stack,
-  Tooltip
+  Tooltip,
 } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { FramerAnimatedListItem } from 'components/Framer/FramerAnimatedListItem';
@@ -20,7 +20,7 @@ import { useQuizQuestionUpdate } from 'hooks/api/quiz-question/use-quiz-question
 import { useSlides } from 'hooks/api/slide';
 import { Sliders } from 'phosphor-react';
 import { useMemo, useState } from 'react';
-import { QuestionWithContentAndOwnerAndCategoriesAndMode } from 'types/question';
+import { QuestionWithContentAndCategoriesAndMode } from 'types/api/question';
 import { QuizQuestionCard } from './QuizQuestion/QuizQuestionCard';
 import { SelectedQuestionModalContent } from './QuizQuestion/SelectedQuestionModalContent';
 import { useSelectedQuestion } from './QuizQuestion/use-selected-question';
@@ -56,7 +56,7 @@ export const SidePanelQuestions = () => {
   }, [selectedFilter, questions]);
 
   const questionUseHandler = (
-    question: QuestionWithContentAndOwnerAndCategoriesAndMode,
+    question: QuestionWithContentAndCategoriesAndMode,
     id: string
   ) => {
     questionUseSelectedHandler(question.id);
@@ -64,7 +64,7 @@ export const SidePanelQuestions = () => {
   };
 
   const openQuestionModal = (
-    question: QuestionWithContentAndOwnerAndCategoriesAndMode
+    question: QuestionWithContentAndCategoriesAndMode
   ) => {
     const isSelected = selectedQuestion?.id === question.id;
 

@@ -8,7 +8,7 @@ import {
   Param,
   Patch,
   Post,
-  UnauthorizedException,
+  UnauthorizedException
 } from '@nestjs/common';
 import { Prisma, Role, User } from '@prisma/client';
 import { IsAdmin } from 'common/decorators/admin.decorator';

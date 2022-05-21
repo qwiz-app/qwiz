@@ -10,7 +10,7 @@ import { useAppColorscheme } from 'hooks/colorscheme';
 import { isActiveRoute } from 'lib/router';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { NavItemModel } from 'types/nav-item';
+import { NavItemModel } from 'types/elements/nav-item';
 
 const useStyles = createStyles((t, isActive: boolean) => {
   const { isDark } = useAppColorscheme();
