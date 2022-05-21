@@ -1,7 +1,8 @@
 import { useClipboard } from '@mantine/hooks';
 import type { SpotlightAction } from '@mantine/spotlight';
 import { SpotlightProvider } from '@mantine/spotlight';
-import { useCurrentSession } from 'hooks/api/session';
+import { Role } from '@prisma/client';
+import { useCurrentUserInfo } from 'hooks/api/users';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useProviders } from 'hooks/providers';
 import { useCreateEventCheck } from 'hooks/use-create-event-check';
@@ -17,29 +18,36 @@ import {
   Link,
   MagnifyingGlass,
   Moon,
+  Person,
   PlusCircle,
   Queue,
   SignIn,
   SignOut,
   SquaresFour,
   Sun,
-  User,
+  User
 } from 'phosphor-react';
+
+export type SpotlightItem = SpotlightAction & {
+  permissions?: Role[];
+};
 
 const useSpotlightActions = () => {
   const router = useRouter();
   const { toggleColorScheme, isDark } = useAppColorscheme();
-  const { isAuthenticated, isLoading } = useCurrentSession();
+  const { data: user, isLoading } = useCurrentUserInfo();
   const { signInWithProvider } = useProviders();
   const { navigateToCreateEvent } = useCreateEventCheck();
   const clipboard = useClipboard();
+
+  const isAuthenticated = !!user;
 
   const iconProps: IconProps = {
     size: 24,
     weight: 'duotone',
   };
 
-  const routeActions: SpotlightAction[] = [
+  const routeActions: SpotlightItem[] = [
     {
       title: 'Dashboard',
       group: 'Navigate',
@@ -68,6 +76,7 @@ const useSpotlightActions = () => {
       description: 'Go to your quizzes',
       onTrigger: () => router.push(paths.quiz()),
       icon: <Queue {...iconProps} />,
+      permissions: [Role.ORGANIZATION],
     },
     {
       title: 'Profile',
@@ -76,19 +85,25 @@ const useSpotlightActions = () => {
       onTrigger: () => router.push(paths.profile()),
       icon: <User {...iconProps} />,
     },
-  ];
-
-  const authRouteActions: SpotlightAction[] = [
+    {
+      title: 'Admin panel',
+      group: 'Navigate',
+      description: 'Go to your Admin panel',
+      onTrigger: () => router.push(paths.profile()),
+      icon: <Person {...iconProps} />,
+      permissions: [Role.ADMIN],
+    },
     {
       title: 'Create event',
       group: 'Navigate',
       description: 'Create a new event',
       onTrigger: navigateToCreateEvent,
       icon: <PlusCircle {...iconProps} />,
+      permissions: [Role.ORGANIZATION],
     },
   ];
 
-  const signinProviderActions: SpotlightAction[] = [
+  const signinProviderActions: SpotlightItem[] = [
     {
       title: 'Sign in',
       description: 'Sign in to your account',
@@ -120,7 +135,7 @@ const useSpotlightActions = () => {
     },
   ];
 
-  const authActions: SpotlightAction[] = [
+  const authActions: SpotlightItem[] = [
     {
       title: 'Sign out',
       description: 'Sign out of your account',
@@ -135,7 +150,7 @@ const useSpotlightActions = () => {
   ];
 
   // TODO: configure showing auth vs non-auth options
-  const generalActions: SpotlightAction[] = [
+  const generalActions: SpotlightItem[] = [
     {
       title: 'Switch theme',
       description: `Switch to ${isDark ? 'light' : 'dark'} mode`,
@@ -154,16 +169,26 @@ const useSpotlightActions = () => {
     },
   ];
 
-  const ACTIONS: SpotlightAction[] = [...generalActions];
+  const ACTIONS: SpotlightItem[] = [...generalActions];
+
+  const items = routeActions.filter((item) => {
+    if (item.permissions) {
+      console.log(
+        item.title,
+        isAuthenticated && item.permissions.includes(user?.role)
+      );
+      return isAuthenticated && item.permissions.includes(user?.role);
+    }
+    return true;
+  });
 
   if (isLoading) {
     // TODO
   } else if (isAuthenticated) {
     // TODO: check route actions per role
-    ACTIONS.push(...routeActions);
+    ACTIONS.push(...items);
     ACTIONS.push(...authActions);
     // TODO: add permissions as in list items, but both should be reactive
-    ACTIONS.push(...authRouteActions);
   } else {
     ACTIONS.push(...routeActions);
     ACTIONS.push(...signinProviderActions);

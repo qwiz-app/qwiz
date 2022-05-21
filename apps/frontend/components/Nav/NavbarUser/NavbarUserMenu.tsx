@@ -1,5 +1,7 @@
 import { Button, Divider, Menu } from '@mantine/core';
+import { useCurrentUserDelete } from 'hooks/api/users';
 import { useBreakpoints } from 'hooks/breakpoints';
+import { useDeleteConfirmModal } from 'hooks/use-delete-confirm-modal';
 import { signIn, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { paths } from 'paths';
@@ -11,9 +13,20 @@ const Account = () => {
     signOut({
       callbackUrl: '/signin?signOut=true',
     });
-
   const { matches } = useBreakpoints();
   const router = useRouter();
+  const { mutate: deleteUser } = useCurrentUserDelete();
+
+  const userDeleteHandler = useDeleteConfirmModal({
+    onConfirm: () => {
+      deleteUser();
+      router.replace(paths.signIn());
+    },
+    message: 'Are you sure you want to delete your account?',
+    confirmLabel: 'Delete my account',
+    cancelLabel: 'Cancel',
+    title: 'Delete your profile',
+  });
 
   return (
     <Menu
@@ -39,7 +52,11 @@ const Account = () => {
       >
         Sign out
       </Menu.Item>
-      <Menu.Item color="red" icon={<Trash weight="bold" />}>
+      <Menu.Item
+        color="red"
+        icon={<Trash weight="bold" />}
+        onClick={userDeleteHandler}
+      >
         Delete my account
       </Menu.Item>
     </Menu>

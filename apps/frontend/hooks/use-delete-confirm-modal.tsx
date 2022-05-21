@@ -1,23 +1,34 @@
 import { Text } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 
-interface Props {
+type Props = {
   onConfirm: () => void;
-  deletedEntity: string;
-}
+  deletedEntity?: string;
+  title?: string;
+  message?: string;
+  confirmLabel?: string;
+  cancelLabel?: string;
+};
 
-export const useDeleteConfirmModal = ({ onConfirm, deletedEntity }: Props) => {
+export const useDeleteConfirmModal = ({
+  onConfirm,
+  deletedEntity,
+  title,
+  message,
+  confirmLabel = 'Delete',
+  cancelLabel = 'Cancel',
+}: Props) => {
   const modals = useModals();
 
   return () =>
     modals.openConfirmModal({
-      title: 'Please confirm your action',
+      title: title || 'Please confirm your action',
       children: (
         <Text size="sm">
-          Do you really want to delete this {deletedEntity}?
+          {message || `Are you sure you want to delete this ${deletedEntity}?`}
         </Text>
       ),
-      labels: { confirm: 'Delete', cancel: 'Cancel' },
+      labels: { confirm: confirmLabel, cancel: cancelLabel },
       onConfirm,
       confirmProps: { color: 'red' },
     });

@@ -5,10 +5,11 @@ import { useQuery } from 'react-query';
 import { fetchQuizzes } from 'services/api/quiz';
 import { QuizWithSlides } from 'types/api/quiz';
 
-export const useQuizzes = () =>
+export const useQuizzes = (isOrg = false) =>
   useQuery('quizzes', fetchQuizzes, {
     onError,
     placeholderData,
+    enabled: isOrg,
   });
 
 const placeholderData: QuizWithSlides[] = generateArrayForRange(4).map(

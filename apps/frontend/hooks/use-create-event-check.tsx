@@ -2,11 +2,12 @@ import { showNotification } from '@mantine/notifications';
 import router from 'next/router';
 import { paths } from 'paths';
 import { useQuizzes } from './api/quiz';
+import { useCurrentSession } from './api/session';
 
 export const useCreateEventCheck = () => {
-  const { data: quizzes, isPlaceholderData } = useQuizzes();
+  const { isOrganization } = useCurrentSession();
+  const { data: quizzes, isPlaceholderData } = useQuizzes(isOrganization);
 
-  console.log('quizzes :>> ', quizzes);
   const hasQuizzes = quizzes?.length > 0 && !isPlaceholderData;
 
   const showNoQuizzesNotification = () => {
