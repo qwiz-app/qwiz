@@ -4,9 +4,9 @@ import {
   createStyles,
   Group,
   Image,
-  LoadingOverlay,
+  Overlay,
   Stack,
-  Title,
+  Title
 } from '@mantine/core';
 import { QuestionElementType } from '@prisma/client';
 import { useBackgroundColor } from 'hooks/use-background-color';
@@ -39,7 +39,7 @@ export const MainSlideNew = ({ question }: Props) => {
     <AspectRatio ratio={16 / 9}>
       <Box className={classes.box} style={{ backgroundColor }}>
         {/* TODO */}
-        <LoadingOverlay visible={isLoading} />
+        {isLoading && <Overlay />}
         <Stack align="center" spacing={50}>
           {hasTextElements && (
             <Stack>

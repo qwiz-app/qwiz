@@ -42,7 +42,7 @@ export class SlideController {
 
     const quiz = await this.slideService.findOne({ id }, include);
     if (!quiz) {
-      throw new NotFoundException('Quiz not found.');
+      throw new NotFoundException('Slide not found.');
     }
     return quiz;
   }

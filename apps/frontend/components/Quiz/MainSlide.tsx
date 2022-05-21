@@ -1,16 +1,12 @@
 import { AspectRatio, Box, createStyles } from '@mantine/core';
 import { motion } from 'framer-motion';
-import { useSlide } from 'hooks/api/slide';
 import { useBackgroundColor } from 'hooks/use-background-color';
-import { useRouter } from 'next/router';
 import { useRef } from 'react';
 import { DraggableElement } from './DraggableElement';
+import { useCurrentSlide } from './use-current-slide';
 
 export const MainSlide = () => {
-  const router = useRouter();
-  const { slideId } = router.query;
-
-  const { data: slide } = useSlide(slideId as string);
+  const { slide } = useCurrentSlide();
 
   const { classes } = useStyles();
   const { backgroundColor } = useBackgroundColor();
