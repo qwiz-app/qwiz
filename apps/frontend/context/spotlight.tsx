@@ -61,7 +61,7 @@ const useSpotlightActions = () => {
       title: 'Create event',
       group: 'Navigate',
       description: 'Create a new event',
-      onTrigger: () => router.push(paths.eventsCreate()),
+      onTrigger: () => router.push(paths.eventCreate()),
       icon: <PlusCircle {...iconProps} />,
     },
     {

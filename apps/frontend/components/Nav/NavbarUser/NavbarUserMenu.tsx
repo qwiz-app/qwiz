@@ -2,6 +2,7 @@ import { Button, Divider, Menu } from '@mantine/core';
 import { useBreakpoints } from 'hooks/breakpoints';
 import { signIn, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { paths } from 'paths';
 import { Gear, SignIn, SignOut, Trash, User } from 'phosphor-react';
 import NavbarUserButton from './NavbarUserButton';
 
@@ -24,7 +25,7 @@ const Account = () => {
       <Menu.Label>Application</Menu.Label>
       <Menu.Item
         icon={<User weight="bold" />}
-        onClick={() => router.push('/profile')}
+        onClick={() => router.push(paths.profile())}
       >
         Profile
       </Menu.Item>

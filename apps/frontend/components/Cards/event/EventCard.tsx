@@ -7,7 +7,7 @@ import {
   Group,
   Skeleton,
   Text,
-  Tooltip,
+  Tooltip
 } from '@mantine/core';
 import cn from 'classnames';
 import { useAppColorscheme } from 'hooks/colorscheme';
@@ -67,7 +67,7 @@ export const ImageCard = ({ event, loading }: Props) => {
               </Group>
 
               <Group position="apart" spacing="xs" noWrap>
-                <Link href={`/organization/${event.ownerId}`}>
+                <Link href={paths.organizationPage(event.ownerId)}>
                   <Group spacing={0} noWrap>
                     <Avatar
                       // TODO: placeholder

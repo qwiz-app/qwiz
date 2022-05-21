@@ -38,7 +38,7 @@ export const EventsCurrentOrganization = () => {
                 variant={isDark ? 'light' : 'filled'}
                 rightIcon={<PlusCircle size={20} weight="duotone" />}
                 size="md"
-                onClick={() => router.push(paths.eventsCreate())}
+                onClick={() => router.push(paths.eventCreate())}
               >
                 Create an event
               </Button>

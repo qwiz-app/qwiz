@@ -1,6 +1,7 @@
 import { Alert, Button, Stack } from '@mantine/core';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useRouter } from 'next/router';
+import { paths } from 'paths';
 
 export const NoEventsAlert = () => {
   const { isDark } = useAppColorscheme();
@@ -21,7 +22,7 @@ export const NoEventsAlert = () => {
           ml="auto"
           color="indigo"
           variant={isDark ? 'light' : 'filled'}
-          onClick={() => router.push('/events/create')}
+          onClick={() => router.push(paths.eventCreate())}
         >
           Create your first event
         </Button>

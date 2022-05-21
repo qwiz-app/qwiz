@@ -52,20 +52,6 @@ export const SidePanelSettings = (props) => {
   // eslint-disable-next-line no-underscore-dangle
   const isPublished = quiz?._count?.event > 0 ?? false;
 
-  const DeleteButton = (
-    <Button
-      rightIcon={<TrashSimple size={24} weight="duotone" />}
-      color="red"
-      size="md"
-      fullWidth
-      onClick={openDeleteConfirmModal}
-      loading={isDeleteLoading}
-      disabled={isPublished}
-    >
-      Delete quiz
-    </Button>
-  );
-
   return (
     <SidePanelWrapper title="Settings">
       <Stack>
@@ -77,16 +63,24 @@ export const SidePanelSettings = (props) => {
             url={url ?? quiz?.thumbnail}
           />
         </Stack>
-        {!isPublished ? (
-          DeleteButton
-        ) : (
-          <Tooltip
-            position="bottom"
-            label="Quiz is already being used in an event"
+
+        <Tooltip
+          position="bottom"
+          label="Quiz is already being used in an event"
+          disabled={!isPublished}
+        >
+          <Button
+            rightIcon={<TrashSimple size={24} weight="duotone" />}
+            color="red"
+            size="md"
+            fullWidth
+            onClick={openDeleteConfirmModal}
+            loading={isDeleteLoading}
+            disabled={isPublished}
           >
-            {DeleteButton}
-          </Tooltip>
-        )}
+            Delete quiz
+          </Button>
+        </Tooltip>
       </Stack>
     </SidePanelWrapper>
   );

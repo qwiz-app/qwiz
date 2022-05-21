@@ -10,13 +10,14 @@ import {
   Stack,
   Text,
   Title,
-  Tooltip,
+  Tooltip
 } from '@mantine/core';
 import cn from 'classnames';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { formatDate, relativeTimeTo } from 'lib/utils';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { paths } from 'paths';
 import { EventWithOwner } from 'types/api/event';
 import { useCardStyles } from '../use-card-styles';
 
@@ -31,7 +32,7 @@ export const HighlightedEventCard = ({ event, loading }: Props) => {
 
   const router = useRouter();
 
-  const gotoEvent = () => router.push(`/events/${event.id}`);
+  const gotoEvent = () => router.push(paths.eventPage(event.id));
 
   return loading ? (
     <Skeleton visible radius="md" className={classes.base} />
