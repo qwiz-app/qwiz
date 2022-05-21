@@ -18,6 +18,7 @@ import { useAvailableQuestions } from 'hooks/api/question';
 import { useQuizQuestionCreate } from 'hooks/api/quiz-question/use-quiz-question-create';
 import { useQuizQuestionUpdate } from 'hooks/api/quiz-question/use-quiz-question-update';
 import { useSlides } from 'hooks/api/slide';
+import { useAppColorscheme } from 'hooks/colorscheme';
 import { Sliders } from 'phosphor-react';
 import { useMemo, useState } from 'react';
 import { QuestionWithContentAndCategoriesAndMode } from 'types/api/question';
@@ -30,10 +31,12 @@ import { useCurrentSlide } from './use-current-slide';
 
 export const SidePanelQuestions = () => {
   const { data: me } = useCurrentOrganizationInfo();
+  // TODO: loading skeletons
   const { data: questions } = useAvailableQuestions();
   const { selectedQuestion } = useSelectedQuestion();
   const { id: quizId } = useCurrentQuiz();
   const { data: slides } = useSlides(quizId);
+  const { theme, isDark } = useAppColorscheme();
   const modals = useModals();
 
   const hasSlides = slides?.length > 0;
@@ -46,10 +49,9 @@ export const SidePanelQuestions = () => {
       return questions;
     }
     if (selectedFilter === 'global') {
-      return questions.filter((question) => question.owner === null);
+      return questions.filter((question) => question.ownerId === null);
     }
     if (selectedFilter === 'personal') {
-      console.log(me);
       return questions.filter((question) => question.ownerId === me.id);
     }
     return [];
@@ -88,8 +90,7 @@ export const SidePanelQuestions = () => {
   const { slide, id } = useCurrentSlide();
   const { mutate: updateQuizQuestion, isLoading: updateLoading } =
     useQuizQuestionUpdate(slide?.quizQuestion?.id);
-  const { mutate: createQuizQuestion, isLoading: createLoading } =
-    useQuizQuestionCreate(id);
+  const { mutate: createQuizQuestion } = useQuizQuestionCreate(id);
 
   const questionUseSelectedHandler = (questionId: string) => {
     if (slide.quizQuestion) {
@@ -106,40 +107,50 @@ export const SidePanelQuestions = () => {
   };
 
   return (
-    <SidePanelWrapper
-      title="Available questions"
-      slot={
-        <Tooltip label="Filters" withArrow>
-          <ActionIcon
-            variant="hover"
-            size="md"
-            onClick={() => setFiltersOpened((prev) => !prev)}
-          >
-            <Sliders weight="duotone" size={24} />
-          </ActionIcon>
-        </Tooltip>
-      }
+    <FloatingTooltip
+      label="Create a slide first"
+      disabled={hasSlides}
+      sx={() => ({ width: '100%' })}
     >
-      <Collapse in={filtersOpened} mb={12}>
-        <Stack>
-          <Chips
-            multiple={false}
-            value={selectedFilter}
-            onChange={setSelectedFilter}
-            size="sm"
-          >
-            <Chip value="all">All</Chip>
-            <Chip value="global">Global</Chip>
-            <Chip value="personal">Personal</Chip>
-          </Chips>
-        </Stack>
-      </Collapse>
+      <SidePanelWrapper
+        title="Available questions"
+        slot={
+          <Tooltip label="Filters" withArrow>
+            <ActionIcon
+              variant="hover"
+              size="md"
+              onClick={() => setFiltersOpened((prev) => !prev)}
+            >
+              <Sliders weight="duotone" size={24} />
+            </ActionIcon>
+          </Tooltip>
+        }
+      >
+        {!hasSlides && (
+          <Overlay
+            opacity={0.6}
+            color={isDark ? theme.colors.dark[5] : theme.colors.gray[0]}
+            radius="md"
+          />
+        )}
+        <Collapse in={filtersOpened} mb={12}>
+          <Stack>
+            <Chips
+              multiple={false}
+              value={selectedFilter}
+              onChange={setSelectedFilter}
+              size="sm"
+            >
+              <Chip value="all">All</Chip>
+              <Chip value="global">Global</Chip>
+              <Chip value="personal">Personal</Chip>
+            </Chips>
+          </Stack>
+        </Collapse>
 
-      <FloatingTooltip label="Create a slide first" disabled={hasSlides}>
         {/* TODO: height, scroll and overflow troubles */}
         <Stack spacing={8}>
-          {!hasSlides && <Overlay opacity={0.5} />}
-          <LoadingOverlay visible={updateLoading || createLoading} />
+          <LoadingOverlay visible={updateLoading} />
           {shownQuestions?.map((question) => (
             <FramerAnimatedListItem key={question.id} id={question.id}>
               <QuizQuestionCard
@@ -150,7 +161,7 @@ export const SidePanelQuestions = () => {
             </FramerAnimatedListItem>
           ))}
         </Stack>
-      </FloatingTooltip>
-    </SidePanelWrapper>
+      </SidePanelWrapper>
+    </FloatingTooltip>
   );
 };

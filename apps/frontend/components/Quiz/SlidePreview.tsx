@@ -8,6 +8,8 @@ import {
 } from '@mantine/core';
 import cn from 'classnames';
 import { useSlideDelete } from 'hooks/api/slide';
+import { useRouter } from 'next/router';
+import { paths } from 'paths';
 import {
   DotsThreeVertical,
   NumberCircleEight,
@@ -24,6 +26,7 @@ import {
 } from 'phosphor-react';
 import { SyntheticEvent } from 'react';
 import { SlideWithQuestionAndElements } from 'types/api/slide';
+import { useCurrentQuiz } from './use-current-quiz';
 
 interface Props {
   slide: SlideWithQuestionAndElements;
@@ -54,9 +57,11 @@ export const SlidePreview = ({
   onDeleteCurrentSlide,
 }: Props) => {
   const { classes } = useStyles();
-  const { mutate: deleteSlide, isLoading: isDeleting } = useSlideDelete(
+  const { mutateAsync: deleteSlide, isLoading: isDeleting } = useSlideDelete(
     slide.id
   );
+  const { id: quizId, quiz } = useCurrentQuiz();
+  const router = useRouter();
 
   const numArray = String(order).split('');
   const icons = numArray.map((num) => {
@@ -66,12 +71,18 @@ export const SlidePreview = ({
 
   const isSelected = selectedSlideId === slide.id;
 
-  const slideDeleteHandler = (e: SyntheticEvent) => {
+  // TODO: raspasoj, zmisli nekaj skroz novo, jos uvijek RQ baca pokusava fetchat uz errore
+  const slideDeleteHandler = async (e: SyntheticEvent) => {
     e.stopPropagation();
     if (isSelected) {
       onDeleteCurrentSlide?.();
     }
-    deleteSlide();
+    await deleteSlide();
+    const url =
+      quiz?.slides?.length > 1
+        ? paths.quizEditSlide(quiz.id, quiz.slides[0].id)
+        : paths.quizEdit(quizId);
+    router.push(url);
   };
 
   const MenuTrigger = (
@@ -128,6 +139,7 @@ const useStyles = createStyles((theme) => ({
     borderWidth: 2,
     aspectRatio: '17/11',
     position: 'relative',
+    overflow: 'hidden',
 
     display: 'flex',
     alignItems: 'center',

@@ -3,12 +3,11 @@ import {
   Badge,
   Box,
   createStyles,
-  Group,
-  Paper,
+  Group, Paper,
   Stack,
   Text,
   Tooltip,
-  UnstyledButton,
+  UnstyledButton
 } from '@mantine/core';
 import { QuestionElementType } from '@prisma/client';
 import { formatDate, relativeTimeTo } from 'lib/utils';

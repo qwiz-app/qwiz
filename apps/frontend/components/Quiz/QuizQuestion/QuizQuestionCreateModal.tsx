@@ -6,7 +6,7 @@ import {
   LoadingOverlay,
   Modal,
   Stack,
-  TextInput,
+  TextInput
 } from '@mantine/core';
 import { QuestionElementType } from '@prisma/client';
 import { FileUpload } from 'components/UI/FileUpload';
@@ -21,9 +21,11 @@ export const QuestionCreateModal = ({ opened, setOpened }) => {
   const modalProps = useModalProps();
   const { isDark } = useAppColorscheme();
 
+  // TODO: in need of complete refactor, this is a mess
+  // content stays on next modal open
   const [textual, setTextual] = useState({
     0: {
-      content: null,
+      content: '',
       type: QuestionElementType.TEXT,
     },
   });
@@ -41,6 +43,12 @@ export const QuestionCreateModal = ({ opened, setOpened }) => {
 
     // TODO: allow deleting inputs and images when creating question
     createQuestion({ contents });
+    setTextual({
+      0: {
+        content: '',
+        type: QuestionElementType.TEXT,
+      },
+    });
   };
 
   useEffect(() => {
