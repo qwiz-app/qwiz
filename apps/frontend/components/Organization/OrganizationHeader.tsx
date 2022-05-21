@@ -7,7 +7,7 @@ import {
   Paper,
   Skeleton,
   Stack,
-  Title
+  Title,
 } from '@mantine/core';
 import { useBreakpoints } from 'hooks/breakpoints';
 import { OrganizationWithUser } from 'types/api/organization';
@@ -26,6 +26,7 @@ export const OrganizationHeader = ({ organization, loading }: Props) => {
       {organization && !loading && (
         <Paper
           radius="md"
+          shadow="xl"
           py={72}
           sx={(t) => ({
             overflow: 'hidden',

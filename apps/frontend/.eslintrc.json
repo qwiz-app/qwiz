@@ -12,7 +12,8 @@
       "rules": {
         "@next/next/no-html-link-for-pages": ["error", "apps/frontend/pages"],
         "react-hooks/exhaustive-deps": "off",
-        "prefer-arrow-callback": "off"
+        "prefer-arrow-callback": "off",
+        "react/display-name": "off"
       }
     },
     {

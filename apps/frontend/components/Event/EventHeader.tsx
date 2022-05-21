@@ -15,6 +15,7 @@ import {
   Title,
   Tooltip,
 } from '@mantine/core';
+import { useClipboard } from '@mantine/hooks';
 import { showNotification } from '@mantine/notifications';
 import { useEventDelete } from 'hooks/api/events/use-event-delete';
 import { useCurrentSession } from 'hooks/api/session';
@@ -47,6 +48,7 @@ export const EventHeader = ({ event, loading }: Props) => {
   const [isReserved] = useState(false);
 
   const router = useRouter();
+  const clipboard = useClipboard();
 
   const {
     mutate: deleteEvent,
@@ -168,16 +170,20 @@ export const EventHeader = ({ event, loading }: Props) => {
                   </Button>
                 )}
                 <Tooltip
-                  withArrow
-                  label="Share with your friends"
-                  color={isDark ? 'gray' : 'dark'}
+                  label="Link copied!"
+                  gutter={5}
+                  placement="center"
                   position="bottom"
+                  transition="slide-down"
+                  transitionDuration={200}
+                  opened={clipboard.copied}
                 >
                   <ActionIcon
                     size={isOrganization ? 36 : isReserved ? 32 : 42}
                     variant="filled"
                     radius={isOrganization ? 'sm' : isReserved ? 'xl' : 'sm'}
                     color={isDark ? 'gray' : 'dark'}
+                    onClick={() => clipboard.copy(window?.location.href)}
                   >
                     <ShareNetwork
                       size={isOrganization ? 24 : isReserved ? 20 : 24}

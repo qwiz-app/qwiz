@@ -1,3 +1,4 @@
+import { useClipboard } from '@mantine/hooks';
 import type { SpotlightAction } from '@mantine/spotlight';
 import { SpotlightProvider } from '@mantine/spotlight';
 import { useCurrentSession } from 'hooks/api/session';
@@ -13,6 +14,7 @@ import {
   GithubLogo,
   GoogleLogo,
   IconProps,
+  Link,
   MagnifyingGlass,
   Moon,
   PlusCircle,
@@ -20,7 +22,8 @@ import {
   SignIn,
   SignOut,
   SquaresFour,
-  Sun
+  Sun,
+  User
 } from 'phosphor-react';
 
 const useSpotlightActions = () => {
@@ -28,6 +31,8 @@ const useSpotlightActions = () => {
   const { toggleColorScheme, isDark } = useAppColorscheme();
   const { isAuthenticated, isLoading } = useCurrentSession();
   const { signInWithProvider } = useProviders();
+
+  const clipboard = useClipboard();
 
   const iconProps: IconProps = {
     size: 24,
@@ -70,6 +75,13 @@ const useSpotlightActions = () => {
       description: 'Go to your quizzes',
       onTrigger: () => router.push(paths.quiz()),
       icon: <Queue {...iconProps} />,
+    },
+    {
+      title: 'Profile',
+      group: 'Navigate',
+      description: 'Go to your profile',
+      onTrigger: () => router.push(paths.profile()),
+      icon: <User {...iconProps} />,
     },
   ];
 
@@ -128,6 +140,14 @@ const useSpotlightActions = () => {
       onTrigger: () => toggleColorScheme(),
       icon: isDark ? <Sun {...iconProps} /> : <Moon {...iconProps} />,
       keywords: ['theme', 'mode', 'dark', 'light', 'toggle'],
+    },
+    {
+      title: 'Share link',
+      description: `Copy link to current page`,
+      group: 'Actions',
+      onTrigger: () => clipboard.copy(window?.location.href),
+      icon: <Link {...iconProps} />,
+      keywords: ['link', 'clipboard', 'share'],
     },
     // {
     //   title: 'Documentation',
