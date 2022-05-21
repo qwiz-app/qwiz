@@ -14,12 +14,12 @@ const QuizPage = () => {
   const router = useRouter();
 
   const { data: quizzes, isLoading, isPlaceholderData } = useQuizzes();
-  const { mutate } = useQuizCreate();
+  const { mutate:createQuiz, isLoading: isCreateLoading } = useQuizCreate();
 
   const hasQuizzes = quizzes?.length > 0;
 
   const handleCreateQuiz = () => {
-    mutate(
+    createQuiz(
       {},
       {
         // TODO: create new slide by default
@@ -35,7 +35,7 @@ const QuizPage = () => {
         description="Turn any Qwiz temsplate into a new quiz"
       >
         <PageGrid type="tiniest">
-          <QuizCardSmall.New onClick={handleCreateQuiz} />
+          <QuizCardSmall.New onClick={handleCreateQuiz} loading={isCreateLoading}/>
           {templates.map((template, idx) => (
             <QuizCardSmall.Template key={idx} {...template} />
           ))}

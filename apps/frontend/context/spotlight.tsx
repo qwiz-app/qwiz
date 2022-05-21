@@ -25,7 +25,7 @@ import {
   SignOut,
   SquaresFour,
   Sun,
-  User
+  User,
 } from 'phosphor-react';
 
 export type SpotlightItem = SpotlightAction & {

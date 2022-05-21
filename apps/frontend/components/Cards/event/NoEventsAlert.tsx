@@ -11,7 +11,7 @@ export const NoEventsAlert = () => {
       title="No events found"
       color={isDark ? 'gray' : 'dark'}
       sx={(t) => ({
-        maxWidth: '500px',
+        maxWidth: 500,
         backgroundColor: !isDark && t.colors.gray[2],
       })}
     >

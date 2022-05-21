@@ -1,4 +1,12 @@
-import { Card, Center, createStyles, Stack, Text } from '@mantine/core';
+import {
+  Box,
+  Card,
+  Center,
+  createStyles,
+  LoadingOverlay,
+  Stack,
+  Text,
+} from '@mantine/core';
 import cn from 'classnames';
 import Link from 'next/link';
 import { Plus } from 'phosphor-react';
@@ -9,14 +17,17 @@ interface TemplateProps {
   href: string;
   image: string;
   label: string;
+  loading?: boolean;
 }
 
 interface NewProps {
   onClick: () => void;
+  loading?: boolean;
 }
 
 export const Template = ({
   onClick,
+  loading,
   image,
   label,
   ...rest
@@ -35,7 +46,8 @@ export const Template = ({
           onClick={onClick}
           {...rest}
         >
-          <div
+          <LoadingOverlay visible={loading} />
+          <Box
             className={classes.image}
             style={{
               backgroundImage: `url(${image})`,
@@ -54,6 +66,7 @@ export const Template = ({
 
 export const New = ({
   onClick,
+  loading,
   ...rest
 }: NewProps & Omit<React.ComponentPropsWithoutRef<'div'>, keyof NewProps>) => {
   const { classes } = useStyles();
@@ -68,6 +81,7 @@ export const New = ({
         onClick={onClick}
         {...rest}
       >
+        <LoadingOverlay visible={loading} />
         <Center sx={() => ({ height: '100%' })}>
           <Plus size={40} weight="duotone" />
         </Center>
