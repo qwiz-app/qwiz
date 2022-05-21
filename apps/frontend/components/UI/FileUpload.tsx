@@ -1,25 +1,16 @@
 /* eslint-disable no-nested-ternary */
-import { ComponentProps, useRef } from 'react';
 import {
-  Group,
-  Text,
-  MantineTheme,
-  Card,
-  createStyles,
-  Box,
-  FloatingTooltip,
-  Stack,
+  Box, Card,
+  createStyles, FloatingTooltip, Group, MantineTheme, Stack, Text
 } from '@mantine/core';
-import {
-  Upload,
-  Image as ImageIcon,
-  X,
-  Icon as PhosporIcon,
-} from 'phosphor-react';
 import { Dropzone, DropzoneStatus } from '@mantine/dropzone';
-import { useAppColorscheme } from 'hooks/colorscheme';
 import { showNotification } from '@mantine/notifications';
 import cn from 'classnames';
+import { useAppColorscheme } from 'hooks/colorscheme';
+import {
+  Icon as PhosporIcon, Image as ImageIcon, Upload, X
+} from 'phosphor-react';
+import { ComponentProps, useRef } from 'react';
 
 export interface FileUploadProps {
   type?: 'image' | 'audio' | 'video';
@@ -45,7 +36,7 @@ export const FileUpload = ({
   type = 'image',
   url,
   uploadFile,
-  loading = false,
+  loading,
   //! in megabytes
   maxSize = 8,
 }: FileUploadProps) => {
@@ -74,8 +65,7 @@ export const FileUpload = ({
         multiple={false}
         loading={loading}
         openRef={openRef}
-        // TODO: windi
-        className={cn([classes.dropzone, url && 'hidden'])}
+        className={cn([classes.dropzone, url && classes.hidden])}
       >
         {(status) => dropzoneChildren(status, theme)}
       </Dropzone>
@@ -93,14 +83,15 @@ const dropzoneChildren = (status: DropzoneStatus, theme: MantineTheme) => (
       status={status}
       style={{ color: getIconColor(status, theme) }}
       size={80}
+      weight="duotone"
     />
 
     <Stack>
       <Text size="xl" inline>
-        Drag images here or click to select files
+        Drag an image here or click to select file
       </Text>
       <Text size="sm" color="dimmed" inline mt={7}>
-        Attach as many files as you like, each file should not exceed 8mb
+        File should not exceed 8MB
       </Text>
     </Stack>
   </Group>
@@ -112,8 +103,8 @@ const getIconColor = (status: DropzoneStatus, theme: MantineTheme) => {
     : status.rejected
     ? theme.colors.red[theme.colorScheme === 'dark' ? 4 : 6]
     : theme.colorScheme === 'dark'
-    ? theme.colors.dark[0]
-    : theme.colors.gray[7];
+    ? theme.colors.dark[2]
+    : theme.colors.gray[6];
 };
 
 const ImageUploadIcon = ({
@@ -135,6 +126,10 @@ const useStyles = createStyles((theme, _params, getRef) => {
   const image = getRef('image');
 
   return {
+    hidden: {
+      display: 'none',
+    },
+
     card: {
       position: 'relative',
       height: 280,

@@ -10,7 +10,7 @@ import {
   Stack,
   Text,
   Title,
-  Tooltip
+  Tooltip,
 } from '@mantine/core';
 import cn from 'classnames';
 import { useAppColorscheme } from 'hooks/colorscheme';
@@ -115,12 +115,10 @@ const useStyles = createStyles((t) => {
 
     overlay: {
       position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
+      inset: 0,
+      bottom: -200,
       backgroundImage:
-        'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .85) 90%)',
+        'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .85) 70%)',
     },
 
     owner: {

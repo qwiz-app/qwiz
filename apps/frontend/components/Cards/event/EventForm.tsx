@@ -6,6 +6,7 @@ import {
   MantineColor,
   SelectItemProps,
   SimpleGrid,
+  Stack,
   Text,
 } from '@mantine/core';
 import { Quiz } from '@prisma/client';
@@ -126,7 +127,12 @@ export const EventForm = memo(function EventForm(props: Props) {
             />
           </SimpleGrid>
           <FormikRichText name="description" label="Description" />
-          <FileUpload {...fileUpload} url={imgUrl || fileUpload.url} />
+          <Stack spacing="xs">
+            <Text weight={500} size="lg">
+              Banner
+            </Text>
+            <FileUpload {...fileUpload} url={imgUrl || fileUpload.url} />
+          </Stack>
           <Group position="right">
             <Button
               type="button"

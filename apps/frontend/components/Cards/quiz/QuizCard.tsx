@@ -11,7 +11,7 @@ import {
   Text,
   ThemeIcon
 } from '@mantine/core';
-import { useNotifications } from '@mantine/notifications';
+import { showNotification } from '@mantine/notifications';
 import { useQuizDelete, useQuizNameEdit } from 'hooks/api/quiz';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useDeleteConfirmModal } from 'hooks/use-delete-confirm-modal';
@@ -46,7 +46,6 @@ export const QuizCard = ({
 
   const router = useRouter();
 
-  const { showNotification } = useNotifications();
   const { mutate: deleteQuiz, isLoading: isDeleteLoading } = useQuizDelete(
     quiz.id
   );

@@ -4,11 +4,11 @@ import { SpotlightProvider } from '@mantine/spotlight';
 import { useCurrentSession } from 'hooks/api/session';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useProviders } from 'hooks/providers';
+import { useCreateEventCheck } from 'hooks/use-create-event-check';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { paths } from 'paths';
 import {
-  Binoculars,
   Confetti,
   DiscordLogo,
   GithubLogo,
@@ -23,7 +23,7 @@ import {
   SignOut,
   SquaresFour,
   Sun,
-  User
+  User,
 } from 'phosphor-react';
 
 const useSpotlightActions = () => {
@@ -31,7 +31,7 @@ const useSpotlightActions = () => {
   const { toggleColorScheme, isDark } = useAppColorscheme();
   const { isAuthenticated, isLoading } = useCurrentSession();
   const { signInWithProvider } = useProviders();
-
+  const { navigateToCreateEvent } = useCreateEventCheck();
   const clipboard = useClipboard();
 
   const iconProps: IconProps = {
@@ -48,26 +48,19 @@ const useSpotlightActions = () => {
       icon: <SquaresFour {...iconProps} />,
       keywords: ['home'],
     },
-    {
-      title: 'Explore',
-      group: 'Navigate',
-      description: 'Go to your explore page',
-      onTrigger: () => router.push(paths.explore()),
-      icon: <Binoculars {...iconProps} />,
-    },
+    // {
+    //   title: 'Explore',
+    //   group: 'Navigate',
+    //   description: 'Go to your explore page',
+    //   onTrigger: () => router.push(paths.explore()),
+    //   icon: <Binoculars {...iconProps} />,
+    // },
     {
       title: 'Events',
       group: 'Navigate',
       description: 'Go to your events events',
       onTrigger: () => router.push(paths.events()),
       icon: <Confetti {...iconProps} />,
-    },
-    {
-      title: 'Create event',
-      group: 'Navigate',
-      description: 'Create a new event',
-      onTrigger: () => router.push(paths.eventCreate()),
-      icon: <PlusCircle {...iconProps} />,
     },
     {
       title: 'Quizzes',
@@ -82,6 +75,16 @@ const useSpotlightActions = () => {
       description: 'Go to your profile',
       onTrigger: () => router.push(paths.profile()),
       icon: <User {...iconProps} />,
+    },
+  ];
+
+  const authRouteActions: SpotlightAction[] = [
+    {
+      title: 'Create event',
+      group: 'Navigate',
+      description: 'Create a new event',
+      onTrigger: navigateToCreateEvent,
+      icon: <PlusCircle {...iconProps} />,
     },
   ];
 
@@ -149,13 +152,6 @@ const useSpotlightActions = () => {
       icon: <Link {...iconProps} />,
       keywords: ['link', 'clipboard', 'share'],
     },
-    // {
-    //   title: 'Documentation',
-    //   group: 'Resources',
-    //   description: 'Visit documentation to learn more about all features',
-    //   onTrigger: () => console.log('Documentation'),
-    //   icon: <FileText {...iconProps} />,
-    // },
   ];
 
   const ACTIONS: SpotlightAction[] = [...generalActions];
@@ -166,6 +162,8 @@ const useSpotlightActions = () => {
     // TODO: check route actions per role
     ACTIONS.push(...routeActions);
     ACTIONS.push(...authActions);
+    // TODO: add permissions as in list items, but both should be reactive
+    ACTIONS.push(...authRouteActions);
   } else {
     ACTIONS.push(...routeActions);
     ACTIONS.push(...signinProviderActions);
