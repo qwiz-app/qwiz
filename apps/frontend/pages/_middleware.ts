@@ -7,10 +7,6 @@ import {
 } from 'lib/routes';
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
-export const whitelistedUrls = ['/', '/verify-request'];
-
-export const organizationUrls = ['/quiz'];
-
 export const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
   const cookie = req.headers.get('cookie');
   const SIGN_IN = new URL('/signin', req.nextUrl.origin);
@@ -25,9 +21,12 @@ export const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
   // TODO: outdated role after role modal
   // const role = getFromCookie(cookie, 'role');
 
+  console.log('req :>> ', req.nextUrl.pathname);
+
   if (!isApiUrl(req.url) && isWhitelistedUrl(req.nextUrl.pathname))
     return NextResponse.next();
 
+  // if signed in, redirect to homepage when navigating to /signin
   if (sessionToken && isSignInUrl(req.url)) {
     return NextResponse.redirect(new URL('/', req.nextUrl.origin));
   }
