@@ -5,7 +5,7 @@ import {
   Group,
   LoadingOverlay,
   Navbar,
-  Stack
+  Stack,
 } from '@mantine/core';
 import { ThinScrollArea } from 'components/UI/ThinScrollArea';
 import { useSlideCreate, useSlides } from 'hooks/api/slide';
@@ -19,7 +19,7 @@ export const Slides = () => {
   const { quizId, slideId } = router.query;
 
   const { mutate: createSlide, isLoading: isCreateLoading } = useSlideCreate();
-  const { data: slides } = useSlides(quizId as string, quizId === 'edit');
+  const { data: slides } = useSlides(quizId as string);
 
   const handleSlideClick = (selectedSlideId: string) => {
     router.push(`/quiz/${quizId}/${selectedSlideId}`, undefined, {

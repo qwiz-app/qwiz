@@ -172,7 +172,7 @@ const useSpotlightActions = () => {
 
   const items = routeActions.filter((item) => {
     if (item.permissions) {
-      return isAuthenticated && item.permissions.includes(user?.role);
+      return item.permissions.includes(user?.role);
     }
     return true;
   });
@@ -182,7 +182,6 @@ const useSpotlightActions = () => {
   } else {
     ACTIONS.push(...signinProviderActions);
   }
-
   ACTIONS.push(...items);
 
   return ACTIONS;
