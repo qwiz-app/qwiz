@@ -15,6 +15,7 @@ const OrganizationPage = () => {
     isLoading,
     isPlaceholderData,
   } = useOrganization(organizationId);
+  
   const {
     data: events,
     isLoading: isEventsLoading,
