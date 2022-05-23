@@ -43,15 +43,12 @@ export class AttendeeController {
     adminOfTeams: boolean,
     @Query('captainOfTeams', new DefaultValuePipe(false), ParseBoolPipe)
     captainOfTeams: boolean,
-    @Query('teams', new DefaultValuePipe(false), ParseBoolPipe) teams: boolean,
-    @Query('count', new DefaultValuePipe(true), ParseBoolPipe) _count: boolean
+    @Query('teams', new DefaultValuePipe(false), ParseBoolPipe) teams: boolean
   ) {
     const include = {
-      user: true,
       adminOfTeams,
       captainOfTeams,
       teams,
-      _count,
     };
     return this.attendeeService.findAll(include);
   }
@@ -90,7 +87,7 @@ export class AttendeeController {
     return attendee;
   }
 
-  @Patch(':id')
+  @Patch('me')
   updateCurrent(
     @Body() updateAttendeeDto: Prisma.AttendeeUpdateInput,
     @AttendeeEntity() attendee: Attendee,
@@ -102,7 +99,7 @@ export class AttendeeController {
     );
   }
 
-  @Delete(':id')
+  @Delete('me')
   async removeCurrent(@AttendeeEntity() attendee: Attendee) {
     const deletedAttendee = await this.attendeeService.remove({
       id: attendee.id,

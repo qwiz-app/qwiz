@@ -1,15 +1,12 @@
 import {
   Body,
   Controller,
-  DefaultValuePipe,
   Delete,
   Get,
   NotFoundException,
   Param,
-  ParseBoolPipe,
   Patch,
   Post,
-  Query,
   UnauthorizedException,
 } from '@nestjs/common';
 import { Organization, Prisma, User } from '@prisma/client';
@@ -55,18 +52,10 @@ export class OrganizationController {
   }
 
   @Get(':id')
-  async findOne(
-    @Param('id') id: string,
-    @Query('quizzes', new DefaultValuePipe(false), ParseBoolPipe)
-    quizzes: boolean,
-    @Query('questions', new DefaultValuePipe(false), ParseBoolPipe)
-    questions: boolean
-  ) {
+  async findOne(@Param('id') id: string) {
     const include: Prisma.OrganizationInclude = {
       user: true,
       events: true,
-      quizzes,
-      questions,
       _count: true,
     };
 

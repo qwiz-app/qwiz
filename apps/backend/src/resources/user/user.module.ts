@@ -1,4 +1,9 @@
-import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { AuthMiddleware } from 'common/middleware/user.middleware';
 import { PrismaService } from 'prisma.service';
 import { UserController } from './user.controller';
@@ -16,6 +21,14 @@ export class UserModule implements NestModule {
         path: '/users',
         method: RequestMethod.GET,
       })
-      .forRoutes(UserController);
+      .forRoutes(
+        { path: 'users', method: RequestMethod.POST },
+        { path: 'users/me', method: RequestMethod.GET },
+        { path: 'users/me', method: RequestMethod.PATCH },
+        { path: 'users/me', method: RequestMethod.DELETE },
+        { path: 'users/:id', method: RequestMethod.PATCH },
+        { path: 'users/:id', method: RequestMethod.DELETE },
+        { path: 'users/assign-role', method: RequestMethod.POST }
+      );
   }
 }

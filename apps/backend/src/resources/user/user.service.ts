@@ -14,8 +14,8 @@ export class UserService {
     return this.prisma.user.findMany();
   }
 
-  findOne(where: Prisma.UserWhereUniqueInput) {
-    return this.prisma.user.findUnique({ where });
+  findOne(where: Prisma.UserWhereUniqueInput, include: Prisma.UserInclude) {
+    return this.prisma.user.findUnique({ where, include });
   }
 
   update(where: Prisma.UserWhereUniqueInput, data: Prisma.UserUpdateInput) {
