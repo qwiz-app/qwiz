@@ -19,7 +19,7 @@ export const NoEventsAlert = () => {
         You haven&rsquo;t created any events yet.
         <Button
           ml="auto"
-          color="indigo"
+          color="orange"
           variant={isDark ? 'light' : 'filled'}
           onClick={navigateToCreateEvent}
         >

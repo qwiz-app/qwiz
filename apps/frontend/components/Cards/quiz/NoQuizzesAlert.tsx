@@ -31,7 +31,7 @@ export const NoQuizzesAlert = () => {
       <Stack align="start">
         Choose any of the templates above or start blank 👩‍🎨️
         <Button
-          color="indigo"
+          color="orange"
           variant={isDark ? 'light' : 'filled'}
           onClick={handleCreateQuiz}
           loading={isCreateLoading}

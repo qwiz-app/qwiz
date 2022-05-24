@@ -20,7 +20,7 @@ export const FloatingQuizMenu = () => {
           leftIcon={<TextT size={18} weight="duotone" />}
           variant="filled"
           onClick={handleQuestionClick}
-          color="indigo"
+          color="orange"
         >
           Add question
         </Button>

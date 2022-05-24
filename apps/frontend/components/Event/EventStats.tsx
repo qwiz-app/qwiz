@@ -30,7 +30,7 @@ const EventStats = ({ event, loading }: Props) => {
     {
       label: 'Date',
       value: formatDate(event.startDate, DateTimeFormat.DATE_NO_YEAR),
-      icon: <Calendar {...iconProps} color={theme.colors.indigo[4]} />,
+      icon: <Calendar {...iconProps} color={theme.colors.orange[4]} />,
     },
     {
       label: 'Time',

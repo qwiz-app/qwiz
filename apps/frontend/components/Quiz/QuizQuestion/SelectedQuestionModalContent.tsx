@@ -108,7 +108,7 @@ export const SelectedQuestionModalContent = ({ question }: Props) => {
               </Badge>
             )}
             {!question.isGlobal && (
-              <Badge color="indigo" variant="dot" size="sm">
+              <Badge color="orange" variant="dot" size="sm">
                 Personal
               </Badge>
             )}

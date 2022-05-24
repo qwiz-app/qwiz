@@ -12,7 +12,7 @@ export const useInputLabelStyles = createStyles((theme) => ({
 
     '&:focus, &:focus-within': {
       borderColor:
-        theme.colorScheme === 'dark' && `${theme.colors.indigo[4]} !important`,
+        theme.colorScheme === 'dark' && `${theme.colors.orange[4]} !important`,
     },
   },
 

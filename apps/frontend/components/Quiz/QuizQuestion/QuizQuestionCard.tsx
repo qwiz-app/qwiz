@@ -3,11 +3,12 @@ import {
   Badge,
   Box,
   createStyles,
-  Group, Paper,
+  Group,
+  Paper,
   Stack,
   Text,
   Tooltip,
-  UnstyledButton
+  UnstyledButton,
 } from '@mantine/core';
 import { QuestionElementType } from '@prisma/client';
 import { formatDate, relativeTimeTo } from 'lib/utils';
@@ -60,7 +61,7 @@ export const QuizQuestionCard = ({
                 </Badge>
               )}
               {!question.isGlobal && (
-                <Badge color="indigo" variant="dot" size="sm">
+                <Badge color="orange" variant="dot" size="sm">
                   Personal
                 </Badge>
               )}
@@ -103,7 +104,7 @@ export const QuizQuestionCard = ({
                 onClick={questionUseHandler}
                 ml="auto"
               >
-                <ActionIcon size="lg" variant="transparent" color="indigo">
+                <ActionIcon size="lg" variant="transparent" color="orange">
                   <PlusCircle size={24} weight="duotone" />
                 </ActionIcon>
               </Tooltip>

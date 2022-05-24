@@ -4,7 +4,7 @@ import {
   createStyles,
   LoadingOverlay,
   Menu,
-  Text
+  Text,
 } from '@mantine/core';
 import cn from 'classnames';
 import { useSlideDelete } from 'hooks/api/slide';
@@ -22,7 +22,7 @@ import {
   NumberCircleThree,
   NumberCircleTwo,
   NumberCircleZero,
-  TrashSimple
+  TrashSimple,
 } from 'phosphor-react';
 import { SyntheticEvent } from 'react';
 import { SlideWithQuestionAndElements } from 'types/api/slide';
@@ -156,13 +156,13 @@ const useStyles = createStyles((theme) => ({
   selected: {
     borderColor:
       theme.colorScheme === 'dark'
-        ? theme.colors.indigo[5]
-        : theme.colors.indigo[2],
-    background: theme.fn.rgba(theme.colors.indigo[6], 0.15),
+        ? theme.colors.orange[5]
+        : theme.colors.orange[2],
+    background: theme.fn.rgba(theme.colors.orange[6], 0.15),
     borderWidth: 2,
 
     '&:hover': {
-      background: theme.fn.rgba(theme.colors.indigo[6], 0.2),
+      background: theme.fn.rgba(theme.colors.orange[6], 0.2),
     },
   },
 
@@ -187,6 +187,6 @@ const useStyles = createStyles((theme) => ({
   },
 
   itemSelected: {
-    color: theme.colors.indigo[5],
+    color: theme.colors.orange[5],
   },
 }));

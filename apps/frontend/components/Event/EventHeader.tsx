@@ -162,7 +162,7 @@ export const EventHeader = ({ event, loading }: Props) => {
                 ) : (
                   <Button
                     size="md"
-                    color="indigo"
+                    color="orange"
                     variant="filled"
                     rightIcon={<CalendarCheck size={22} weight="duotone" />}
                   >

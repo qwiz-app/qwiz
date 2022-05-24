@@ -49,14 +49,14 @@ const VerifyRequest = () => {
         <Stack mt={32} align="center">
           <Text
             sx={(t) => ({
-              color: t.colors.indigo[isDark ? 4 : 6],
+              color: t.colors.orange[isDark ? 4 : 6],
               transform: 'translateX(-2px)',
             })}
           >
             <Group position="center" spacing={4}>
               <SmileySad
                 size={22}
-                color={theme.colors.indigo[isDark ? 4 : 6]}
+                color={theme.colors.orange[isDark ? 4 : 6]}
                 weight="duotone"
               />
               Don&apos;t see our email yet?

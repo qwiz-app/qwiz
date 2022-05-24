@@ -222,7 +222,7 @@ model QuestionContent {
 model QuestionCategory {
   id    String  @id @default(cuid())
   name  String  @unique
-  color String? @default("indigo")
+  color String? @default("orange")
 
   // opposite relations
   questions Question[]

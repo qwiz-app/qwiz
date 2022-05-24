@@ -14,7 +14,7 @@ export const useCreateEventCheck = () => {
     showNotification({
       title: 'No quizzes yet',
       message: 'Create a quiz first to get started with events',
-      color: 'indigo',
+      color: 'orange',
     });
   };
 

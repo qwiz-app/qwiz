@@ -32,7 +32,7 @@ export const EventsCurrentOrganization = () => {
             !isLoadingOrPlaceholder && (
               <Button
                 ml="auto"
-                color="indigo"
+                color="orange"
                 variant={isDark ? 'light' : 'filled'}
                 rightIcon={<PlusCircle size={20} weight="duotone" />}
                 size="md"
