@@ -13,7 +13,7 @@ import { ChangeEvent, RefObject, useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 import { updateContent } from 'services/api/slide';
 import { TrashSimple } from 'phosphor-react';
-import { useQuestionContentDelete } from 'hooks/api/slide';
+import { useQuestionContentDelete } from 'hooks/api/question';
 import { useRouter } from 'next/router';
 
 interface Props {

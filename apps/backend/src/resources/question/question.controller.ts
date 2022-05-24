@@ -62,12 +62,18 @@ export class QuestionController {
 
   // Active questions which are either our own or global
   @Get('')
-  findAvailable(@OrganizationEntity() organization: Organization) {
+  findAvailable(
+    @OrganizationEntity() organization: Organization,
+    @Query('owner', new DefaultValuePipe(false), ParseBoolPipe) owner: boolean
+  ) {
     const where = {
       isActive: true,
       OR: [{ isGlobal: true }, { ownerId: organization.id }],
     };
-    const include = this.includeContentAndOwnerAndCategoriesAndMode;
+    const include = {
+      ...this.includeContentAndOwnerAndCategoriesAndMode,
+      owner,
+    };
 
     return this.questionService.findAvailable(where, include);
   }

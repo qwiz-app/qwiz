@@ -1,15 +1,14 @@
+import { Container } from '@mantine/core';
+import { EventForm } from 'components/Cards/event/EventForm';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
 import { HomepageLayout } from 'components/PageLayouts/HomepageLayout';
-import React from 'react';
-import { Formik } from 'formik';
-import { EventForm } from 'components/Cards/event/EventForm';
-import { EventFormValues } from 'types/forms/EventFormValues';
 import { eventSchema } from 'domain/util/validation';
+import { Formik } from 'formik';
 import { useEventCreate } from 'hooks/api/events/use-event-create';
+import { useFileUpload } from 'hooks/use-flle-upload';
 import { useRouter } from 'next/router';
 import { paths } from 'paths';
-import { Container } from '@mantine/core';
-import { useFileUpload } from 'hooks/use-flle-upload';
+import { EventFormValues } from 'types/forms/EventFormValues';
 
 const EventsPage = () => {
   const { initialValues, handleSubmit, fileUpload } = useEventPage();
@@ -55,7 +54,6 @@ const useEventPage = () => {
       { ...rest, startDate: new Date(startDate), banner: fileUpload.url },
       {
         onSuccess: (data) => {
-          console.log(data);
           push(paths.eventPage(data.id));
         },
       }

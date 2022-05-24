@@ -6,6 +6,7 @@ import {
 } from '@prisma/client';
 import { QuizQuestionWithContents } from './question';
 
+// TODO: always empty
 export type SlideElementWithQuestionContentAndPoint = QuizSlideElement & {
   point: Point;
   questionContent: QuestionContent;

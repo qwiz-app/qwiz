@@ -1,7 +1,7 @@
 import { Prisma, QuizSlide } from '@prisma/client';
 import { parseData } from 'lib/axios';
 import http from 'services/http';
-import { SlideWithQuestionAndElements } from 'types/slide';
+import { SlideWithQuestionAndElements } from 'types/api/slide';
 
 export const fetchSlidesForQuiz = (id: string) =>
   http
@@ -12,7 +12,7 @@ export const fetchSlide = (id: string) =>
   http.get<SlideWithQuestionAndElements>(`/api/slide/${id}`).then(parseData);
 
 export const createSlide = (data: Prisma.QuizSlideUncheckedCreateInput) =>
-  http.post<SlideWithQuestionAndElements>('/api/slide', data).then(parseData);
+  http.post<QuizSlide>('/api/slide', data).then(parseData);
 
 export const deleteSlide = (id: string) =>
   http.delete<QuizSlide>(`/api/slide/${id}`).then(parseData);

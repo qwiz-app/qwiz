@@ -3,14 +3,14 @@ import { FramerAnimatedListItem } from 'components/Framer/FramerAnimatedListItem
 import PageGrid from 'components/Grids/PageGrid';
 import { PageSection } from 'components/PageLayouts/PageSection';
 import { useMemo } from 'react';
-import { EventWithOrganization } from 'types/event';
+import { EventWithOwner } from 'types/api/event';
 
 interface Props {
-  events: EventWithOrganization[];
+  events: EventWithOwner[];
   loading: boolean;
 }
 const OrganizationEvents = ({ events, loading }: Props) => {
-  const renderEvents = (arr: EventWithOrganization[]) =>
+  const renderEvents = (arr: EventWithOwner[]) =>
     arr?.map((event) => (
       <FramerAnimatedListItem id={event.id} key={event.id}>
         <ImageCard event={event} loading={loading} />

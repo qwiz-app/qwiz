@@ -8,30 +8,48 @@ export const useQuizUpdate = (quizId: string) => {
   return useMutation(
     (data: Prisma.QuizUpdateInput) => updateQuiz(quizId, data),
     {
-      // TODO: OPTIMISTIC UPDATE NAME - could be done better, by id?
       onMutate: async (newQuiz) => {
-        // await queryClient.cancelQueries(['quiz', quizId]);
-        await queryClient.cancelQueries(['quizzes']);
-        await queryClient.cancelQueries(['quiz']);
+        await queryClient.cancelQueries(['quiz', quizId]);
+        await queryClient.cancelQueries('quizzes');
 
         const previousQuizzes = queryClient.getQueryData('quizzes') as Quiz[];
+        const previousQuizCache = queryClient.getQueryData([
+          'quiz',
+          quizId,
+        ]) as Quiz;
 
+        // Update single
+        const previousQuiz =
+          previousQuizCache ?? previousQuizzes?.find((q) => q.id === quizId);
+        const updatedQuiz = { ...previousQuiz, ...newQuiz };
+
+        // Update list
         const updatedQuizzes = previousQuizzes?.map((quiz) =>
           quiz.id !== quizId ? quiz : { ...quiz, ...newQuiz }
         );
 
-        // TODO: optimistic update for single quiz update
+        queryClient.setQueryData(['quiz', quizId], updatedQuiz);
         queryClient.setQueryData('quizzes', updatedQuizzes);
 
-        return { previousQuizzes };
+        return { previousQuiz, previousQuizzes };
       },
-      onError(err, variables, context: { previousQuizzes: Quiz[] }) {
+      onError(
+        err,
+        variables,
+        context: { previousQuiz: Quiz; previousQuizzes: Quiz[] }
+      ) {
+        if (context?.previousQuiz) {
+          queryClient.setQueryData<Quiz>(
+            ['quiz', quizId],
+            context.previousQuiz
+          );
+        }
         if (context?.previousQuizzes) {
           queryClient.setQueryData<Quiz[]>('quizzes', context.previousQuizzes);
         }
       },
       onSettled: (newQuiz) => {
-        queryClient.invalidateQueries(['quiz']);
+        queryClient.invalidateQueries(['quiz', quizId]);
         queryClient.invalidateQueries('quizzes');
       },
     }

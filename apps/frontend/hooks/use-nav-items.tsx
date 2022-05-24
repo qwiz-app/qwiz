@@ -9,22 +9,21 @@ import {
   Queue,
   SquaresFour,
   Trophy,
-  UsersThree
+  UsersThree,
 } from 'phosphor-react';
-import { NavItemModel } from 'types/nav-item';
-import { useCurrentSession } from './api/session';
+import { useState } from 'react';
+import { NavItemModel } from 'types/elements/nav-item';
+import { useCurrentUser } from './api/users';
 
 export const useNavItems = () => {
-  const { user, isAuthenticated } = useCurrentSession();
+  const { user, isAuthenticated } = useCurrentUser();
 
   const iconProps: IconProps = {
     size: 20,
     weight: 'duotone',
   };
 
-
-
-  const ALL_ITEMS: NavItemModel[] = [
+  const [ALL_ITEMS] = useState<NavItemModel[]>([
     {
       label: 'Dashboard',
       href: paths.home(),
@@ -66,7 +65,7 @@ export const useNavItems = () => {
       href: paths.leaderboard(),
       icon: <Trophy {...iconProps} />,
     },
-  ];
+  ]);
 
   const items = ALL_ITEMS.filter((item) => {
     if (item.permissions) {

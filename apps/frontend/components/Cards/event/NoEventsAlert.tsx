@@ -1,17 +1,17 @@
 import { Alert, Button, Stack } from '@mantine/core';
 import { useAppColorscheme } from 'hooks/colorscheme';
-import { useRouter } from 'next/router';
+import { useCreateEventCheck } from 'hooks/use-create-event-check';
 
 export const NoEventsAlert = () => {
   const { isDark } = useAppColorscheme();
-  const router = useRouter();
+  const { navigateToCreateEvent } = useCreateEventCheck();
 
   return (
     <Alert
       title="No events found"
       color={isDark ? 'gray' : 'dark'}
       sx={(t) => ({
-        maxWidth: '500px',
+        maxWidth: 500,
         backgroundColor: !isDark && t.colors.gray[2],
       })}
     >
@@ -21,7 +21,7 @@ export const NoEventsAlert = () => {
           ml="auto"
           color="indigo"
           variant={isDark ? 'light' : 'filled'}
-          onClick={() => router.push('/events/create')}
+          onClick={navigateToCreateEvent}
         >
           Create your first event
         </Button>

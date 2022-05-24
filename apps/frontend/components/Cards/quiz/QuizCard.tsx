@@ -1,5 +1,4 @@
 import {
-  ActionIcon,
   Avatar,
   Box,
   Card,
@@ -8,13 +7,11 @@ import {
   Group,
   Image,
   LoadingOverlay,
-  Menu,
   Skeleton,
   Text,
-  ThemeIcon,
-  Tooltip
+  ThemeIcon
 } from '@mantine/core';
-import { useNotifications } from '@mantine/notifications';
+import { showNotification } from '@mantine/notifications';
 import { useQuizDelete, useQuizNameEdit } from 'hooks/api/quiz';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useDeleteConfirmModal } from 'hooks/use-delete-confirm-modal';
@@ -22,22 +19,16 @@ import { relativeTimeTo } from 'lib/utils';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { paths } from 'paths';
-import {
-  DotsThreeVertical,
-  Globe,
-  ImageSquare,
-  LinkSimple,
-  Lock,
-  PencilSimpleLine,
-  TrashSimple
-} from 'phosphor-react';
+import { Globe, ImageSquare, Lock } from 'phosphor-react';
 import React, { SyntheticEvent } from 'react';
-import { QuizWithOrganization } from 'types/quiz';
+import { QuizWithSlides } from 'types/api/quiz';
 import { useCardStyles } from '../use-card-styles';
+import { QuizCardMenu } from './QuizCardMenu';
 import QuizNameEditInput from './QuizNameEditInput';
+import { useQuizSlideRoute } from './use-quiz-slide-route';
 
 interface QuizCardProps {
-  quiz: QuizWithOrganization;
+  quiz: QuizWithSlides;
   loading: boolean;
 }
 
@@ -55,7 +46,6 @@ export const QuizCard = ({
 
   const router = useRouter();
 
-  const { showNotification } = useNotifications();
   const { mutate: deleteQuiz, isLoading: isDeleteLoading } = useQuizDelete(
     quiz.id
   );
@@ -69,6 +59,7 @@ export const QuizCard = ({
     onBlurHandler,
     nameRef,
   } = useQuizNameEdit(quiz);
+  const { url, fullUrl } = useQuizSlideRoute(quiz);
 
   const openDeleteConfirmModal = useDeleteConfirmModal({
     onConfirm: () => {
@@ -84,27 +75,12 @@ export const QuizCard = ({
 
   const onClickHandler = (e: SyntheticEvent) => {
     if (!isEditMode) {
-      if (quiz?.slides.length) {
-        router.push(`/quiz/${quiz.id}/${quiz.slides[0].id}`);
-      } else {
-        router.push(`/quiz/${quiz.id}/edit`);
-      }
+      router.push(url);
     }
   };
 
   // eslint-disable-next-line no-underscore-dangle
   const isPublished = quiz?._count?.event > 0 ?? false;
-
-  const DeleteMenuButton = (
-    <Menu.Item
-      color="red"
-      icon={<TrashSimple weight="bold" />}
-      onClick={openDeleteConfirmModal}
-      disabled={isPublished}
-    >
-      Delete
-    </Menu.Item>
-  );
 
   return (
     <Card
@@ -127,7 +103,6 @@ export const QuizCard = ({
               onClick={onClickHandler}
               src={quiz.thumbnail}
               withPlaceholder
-              // TODO: image into custom component
               placeholder={<ImageSquare size={52} weight="duotone" />}
               alt="thumbnail"
               height="100%"
@@ -156,7 +131,10 @@ export const QuizCard = ({
       <Card.Section py={12} px={18}>
         <Group spacing={0} position="apart" align="center" noWrap>
           <Box>
-            <FloatingTooltip label="Click to edit">
+            <FloatingTooltip
+              label="Click to edit"
+              disabled={isEditMode || isEditLoading}
+            >
               <Skeleton visible={loading}>
                 <Group
                   position="apart"
@@ -228,37 +206,14 @@ export const QuizCard = ({
             </Group>
           </Box>
           {!loading && (
-            <Menu
-              closeOnItemClick
-              trigger="click"
-              position="top"
-              control={
-                <ActionIcon variant="hover">
-                  <DotsThreeVertical size={24} weight="bold" />
-                </ActionIcon>
-              }
-            >
-              <Menu.Item
-                icon={<PencilSimpleLine weight="bold" />}
-                onClick={onClickToEdit}
-              >
-                Rename
-              </Menu.Item>
-              <Menu.Item icon={<LinkSimple weight="bold" />}>
-                Copy Link
-              </Menu.Item>
-
-              {!isPublished ? (
-                DeleteMenuButton
-              ) : (
-                <Tooltip
-                  position="bottom"
-                  label="Quiz is already being used in an event"
-                >
-                  {DeleteMenuButton}
-                </Tooltip>
-              )}
-            </Menu>
+            <QuizCardMenu
+              url={url}
+              fullUrl={fullUrl}
+              published={isPublished}
+              openDeleteConfirmModal={openDeleteConfirmModal}
+              onClickToEdit={onClickToEdit}
+              onGotoQuiz={onClickHandler}
+            />
           )}
         </Group>
       </Card.Section>

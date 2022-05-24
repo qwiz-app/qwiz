@@ -1,16 +1,25 @@
 import { onError } from 'lib/axios';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { fetchEvent } from 'services/api/events';
-import { EventWithOrganization } from 'types/event';
+import { EventWithOwner } from 'types/api/event';
 
-export const useEvent = (id: string) =>
-  useQuery(['event', id], ({ queryKey }) => fetchEvent(queryKey[1]), {
+export const useEvent = (id: string) => {
+  const queryClient = useQueryClient();
+
+  return useQuery(['event', id], ({ queryKey }) => fetchEvent(queryKey[1]), {
     onError,
     enabled: !!id,
     placeholderData,
+    initialData: () => {
+      const cachedEvents = queryClient.getQueryData(
+        'events'
+      ) as EventWithOwner[];
+      return cachedEvents?.find((event) => event.id === id);
+    },
   });
+};
 
-const placeholderData: EventWithOrganization = {
+const placeholderData: EventWithOwner = {
   id: '',
   name: 'Placholder',
   banner: null,

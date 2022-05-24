@@ -7,6 +7,7 @@ import { AuthThemeToggle } from 'components/Auth/AuthThemeToggle';
 import { AuthTitle } from 'components/Auth/AuthTitle';
 import AuthLayout from 'components/Layouts/AuthLayout';
 import { useBreakpoints } from 'hooks/breakpoints';
+import { useSignOut } from 'hooks/use-sign-out';
 import config from 'lib/config';
 import { errors } from 'lib/next-auth';
 import { GetServerSideProps } from 'next';
@@ -15,7 +16,7 @@ import {
   ClientSafeProvider,
   getCsrfToken,
   getProviders,
-  LiteralUnion,
+  LiteralUnion
 } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { paths } from 'paths';
@@ -44,8 +45,9 @@ const SignInPage = (props: SignInProps) => {
   const { query } = router;
 
   const { showNotification } = useNotifications();
+  const { showSignedOutNotification } = useSignOut();
   const { matches } = useBreakpoints();
-  const { classes } = useSignInStyles();
+  const { classes } = useStyles();
 
   const showErrorNotification = (err?: string) => {
     setTimeout(() => {
@@ -53,17 +55,6 @@ const SignInPage = (props: SignInProps) => {
         title: 'Whoops!',
         message: errors[err] || errors.default,
         color: 'red',
-        autoClose: 6000,
-      });
-    }, 400);
-  };
-
-  const showSignedOutNotification = () => {
-    setTimeout(() => {
-      showNotification({
-        title: 'Signed out',
-        message: 'You have been signed out.',
-        color: 'green',
         autoClose: 6000,
       });
     }, 400);
@@ -109,7 +100,7 @@ SignInPage.getLayout = function getLayout(page) {
   return <AuthLayout>{page}</AuthLayout>;
 };
 
-const useSignInStyles = createStyles((theme) => {
+const useStyles = createStyles((theme) => {
   const { matches } = useBreakpoints();
 
   return {

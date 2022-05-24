@@ -1,34 +1,48 @@
 import { onError } from 'lib/axios';
 import { generateArrayForRange } from 'lib/utils';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import {
   fetchAllEvents,
   fetchEvents,
   fetchEventsByOrganization,
 } from 'services/api/events';
-import { EventWithOrganization } from 'types/event';
+import { EventWithOwner } from 'types/api/event';
+import { useCurrentSession } from '../session';
 
 export const useAllEvents = () =>
-  useQuery('allEvents', fetchAllEvents, {
+  useQuery('events', fetchAllEvents, {
     onError,
-    placeholderData: placeholderEvents,
+    placeholderData,
   });
 
-export const useEvents = () =>
-  useQuery('events', fetchEvents, {
+export const useEvents = () => {
+  return useQuery(['events', 'me'], fetchEvents, {
     onError,
-    placeholderData: placeholderEvents,
+    placeholderData,
   });
+};
 
-export const useEventsByOrganization = (id: string) =>
-  useQuery('events', () => fetchEventsByOrganization(id), {
+export const useEventsByOrganization = (orgId: string) => {
+  const queryClient = useQueryClient();
+  const { isOrganization } = useCurrentSession();
+
+  // TODO: think about this some more, is this part of events or by itself?
+  return useQuery(['events', orgId], () => fetchEventsByOrganization(orgId), {
     onError,
-    enabled: !!id,
-    placeholderData: placeholderEvents,
+    enabled: !!orgId,
+    placeholderData,
+    initialData: () => {
+      const cachedEvents = queryClient.getQueryData(
+        isOrganization ? ['events', 'me'] : 'events'
+      ) as EventWithOwner[];
+
+      return cachedEvents?.filter((event) => event.ownerId === orgId);
+    },
   });
+};
 
 //   TODO: using placholer data isnt reusable when adding changing backend
-const placeholderEvents: EventWithOrganization[] = generateArrayForRange(4).map(
+const placeholderData: EventWithOwner[] = generateArrayForRange(4).map(
   (_, idx) => ({
     id: `${idx}`,
     name: '',

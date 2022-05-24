@@ -13,6 +13,7 @@ import { OrganizationModule } from './resources/organization/organization.module
 import { QuestionModule } from './resources/question/question.module';
 import { QuizModule } from './resources/quiz/quiz.module';
 import { UserModule } from './resources/user/user.module';
+import { CategoryModule } from './resources/category/category.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { UserModule } from './resources/user/user.module';
         AWS_BUCKET_URL: Joi.string().required(),
       }),
     }),
+    CategoryModule,
   ],
   providers: [PrismaService],
   controllers: [AppController],

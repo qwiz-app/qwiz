@@ -15,9 +15,10 @@ import {
   Title,
   Tooltip,
 } from '@mantine/core';
+import { useClipboard } from '@mantine/hooks';
 import { showNotification } from '@mantine/notifications';
 import { useEventDelete } from 'hooks/api/events/use-event-delete';
-import { useCurrentSession } from 'hooks/api/session';
+import { useCurrentUser } from 'hooks/api/users';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useDeleteConfirmModal } from 'hooks/use-delete-confirm-modal';
 import Link from 'next/link';
@@ -31,22 +32,23 @@ import {
   Trash,
 } from 'phosphor-react';
 import { useEffect, useState } from 'react';
-import { EventWithOrganization } from 'types/event';
+import { EventWithOwner } from 'types/api/event';
 
 interface Props {
-  event: EventWithOrganization;
+  event: EventWithOwner;
   loading: boolean;
 }
 
 export const EventHeader = ({ event, loading }: Props) => {
   const { isDark } = useAppColorscheme();
   const { classes } = useStyles();
-  const { isOrganization } = useCurrentSession();
+  const { isOrganization } = useCurrentUser();
 
   // TODO: placeholder
   const [isReserved] = useState(false);
 
   const router = useRouter();
+  const clipboard = useClipboard();
 
   const {
     mutate: deleteEvent,
@@ -168,16 +170,20 @@ export const EventHeader = ({ event, loading }: Props) => {
                   </Button>
                 )}
                 <Tooltip
-                  withArrow
-                  label="Share with your friends"
-                  color={isDark ? 'gray' : 'dark'}
+                  label="Link copied!"
+                  gutter={5}
+                  placement="center"
                   position="bottom"
+                  transition="slide-down"
+                  transitionDuration={200}
+                  opened={clipboard.copied}
                 >
                   <ActionIcon
                     size={isOrganization ? 36 : isReserved ? 32 : 42}
                     variant="filled"
                     radius={isOrganization ? 'sm' : isReserved ? 'xl' : 'sm'}
                     color={isDark ? 'gray' : 'dark'}
+                    onClick={() => clipboard.copy(window?.location.href)}
                   >
                     <ShareNetwork
                       size={isOrganization ? 24 : isReserved ? 20 : 24}

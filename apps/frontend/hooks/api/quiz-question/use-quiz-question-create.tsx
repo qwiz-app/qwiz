@@ -7,6 +7,7 @@ export const useQuizQuestionCreate = (slideId: string) => {
   return useMutation(createQuizQuestion, {
     onSuccess: () => {
       queryClient.invalidateQueries(['slide', slideId]);
+      queryClient.invalidateQueries('questions');
     },
   });
 };

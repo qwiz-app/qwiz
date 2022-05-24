@@ -1,17 +1,16 @@
+import { QuestionWithContentAndCategoriesAndMode } from 'types/api/question';
 import create from 'zustand';
 
-import { QuestionWithContentAndOwnerAndCategoriesAndMode } from 'types/question';
-
 type SelectedQuestion = {
-  selectedQuestion: QuestionWithContentAndOwnerAndCategoriesAndMode | null;
+  selectedQuestion: QuestionWithContentAndCategoriesAndMode | null;
   setSelectedQuestion: (
-    role: QuestionWithContentAndOwnerAndCategoriesAndMode | null
+    role: QuestionWithContentAndCategoriesAndMode | null
   ) => void;
 };
 
 export const useSelectedQuestion = create<SelectedQuestion>((set) => ({
   selectedQuestion: null,
   setSelectedQuestion: (
-    selectedQuestion: QuestionWithContentAndOwnerAndCategoriesAndMode
+    selectedQuestion: QuestionWithContentAndCategoriesAndMode
   ) => set((state) => ({ ...state, selectedQuestion })),
 }));

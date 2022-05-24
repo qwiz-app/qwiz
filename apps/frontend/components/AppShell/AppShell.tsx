@@ -4,13 +4,13 @@ import {
   Container,
   Group,
   Header as MantineHeader,
-  Navbar as MantineNavbar
+  Navbar as MantineNavbar,
 } from '@mantine/core';
 import LogoDark from 'assets/logo/qwiz-dark.svg';
 import LogoWhite from 'assets/logo/qwiz-white.svg';
 import { NavbarDivider } from 'components/Nav/NavbarDivider';
-import { NavbarHeader } from 'components/Nav/NavbarHeader/NavbarHeader';
-import { NavbarList } from 'components/Nav/NavbarList/NavbarList';
+import { NavbarHeader } from 'components/Nav/NavbarHeader';
+import { NavbarList } from 'components/Nav/NavbarList';
 import { NavbarUserMenu } from 'components/Nav/NavbarUser/NavbarUserMenu';
 import NavSearchItem from 'components/Nav/NavSearchItem';
 import { ThemeToggle } from 'components/UI/ThemeToggle';
@@ -24,7 +24,7 @@ import { MagnifyingGlass } from 'phosphor-react';
 import { useState } from 'react';
 
 export const AppShell = ({ children }) => {
-  const { isAuthenticated } = useCurrentSession();
+  const { isAuthenticated, isLoading } = useCurrentSession();
   const { isDark } = useAppColorscheme();
   const { matches } = useBreakpoints();
   const { items, iconProps } = useNavItems();
@@ -67,7 +67,7 @@ export const AppShell = ({ children }) => {
       <>
         <NavbarDivider />
         <MantineNavbar.Section mt={12}>
-          {isAuthenticated ? (
+          {isAuthenticated || isLoading ? (
             <NavbarUserMenu.Account />
           ) : (
             <NavbarUserMenu.Guest />

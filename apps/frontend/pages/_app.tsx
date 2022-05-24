@@ -14,16 +14,17 @@ import { SessionProvider } from 'next-auth/react';
 import Script from 'next/script';
 import { QueryCache, QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { showNotification } from '@mantine/notifications';
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
     onError: (err: any) => {
-      // showNotification({
-      //   title: 'Something went wrong',
-      //   message: err?.message || 'Try again later',
-      //   color: 'red',
-      //   autoClose: 6000,
-      // });
+      showNotification({
+        title: 'Something went wrong',
+        message: err?.message || 'Try again later',
+        color: 'red',
+        autoClose: 6000,
+      });
     },
   }),
 });

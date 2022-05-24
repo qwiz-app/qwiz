@@ -2,49 +2,42 @@ import { Prisma } from '@prisma/client';
 import { parseData } from 'lib/axios';
 import http from 'services/http';
 import {
-  QuestionCreateWithContentInput, QuestionWithContentAndOwnerAndCategoriesAndMode
-} from 'types/question';
+  QuestionCreateWithContentInput,
+  QuestionWithContentAndCategoriesAndMode,
+} from 'types/api/question';
 
 export const fetchAvailableQuestions = () =>
   http
-    .get<QuestionWithContentAndOwnerAndCategoriesAndMode[]>('/api/questions')
+    .get<QuestionWithContentAndCategoriesAndMode[]>('/api/questions')
     .then(parseData);
 
 export const fetchQuestion = (id: string) =>
   http
-    .get<QuestionWithContentAndOwnerAndCategoriesAndMode>(
-      `/api/questions/${id}`
-    )
+    .get<QuestionWithContentAndCategoriesAndMode>(`/api/questions/${id}`)
     .then(parseData);
 
 export const createQuestion = (data: QuestionCreateWithContentInput) =>
   http
-    .post<QuestionWithContentAndOwnerAndCategoriesAndMode>(
-      `/api/questions`,
-      data
-    )
+    .post<QuestionWithContentAndCategoriesAndMode>(`/api/questions`, data)
     .then(parseData);
 
 // TODO: use mutation
-export const updateQuestion = (id: string, data: Prisma.QuestionUpdateInput) =>
-  http.patch<{ count: number }>(`/api/questions/${id}`, data).then(parseData);
+// export const updateQuestion = (id: string, data: Prisma.QuestionUpdateInput) =>
+//   http.patch<{ count: number }>(`/api/questions/${id}`, data).then(parseData);
 
-export const deleteQuestion = (id: string) =>
-  http.delete<{ count: number }>(`/api/questions/${id}`).then(parseData);
+// TODO: use mutation
+// export const deleteQuestion = (id: string) =>
+//   http.delete<{ count: number }>(`/api/questions/${id}`).then(parseData);
 
 export const fetchAnyQuestion = (id: string) =>
   http
-    .get<QuestionWithContentAndOwnerAndCategoriesAndMode>(
-      `/api/questions/${id}/any`
-    )
+    .get<QuestionWithContentAndCategoriesAndMode>(`/api/questions/${id}/any`)
     .then(parseData);
 
 //* ADMIN-ONLY
 export const fetchAllQuestions = () =>
   http
-    .get<QuestionWithContentAndOwnerAndCategoriesAndMode[]>(
-      '/api/questions/all'
-    )
+    .get<QuestionWithContentAndCategoriesAndMode[]>('/api/questions/all')
     .then(parseData);
 
 //* ADMIN-ONLY

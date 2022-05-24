@@ -8,19 +8,22 @@ import { HomepageLayout } from 'components/PageLayouts/HomepageLayout';
 import { PageSection } from 'components/PageLayouts/PageSection';
 import { useQuizCreate, useQuizzes } from 'hooks/api/quiz';
 import { useRouter } from 'next/router';
+import { paths } from 'paths';
 
 const QuizPage = () => {
   const router = useRouter();
 
   const { data: quizzes, isLoading, isPlaceholderData } = useQuizzes();
-  const { mutate } = useQuizCreate();
+  const { mutate:createQuiz, isLoading: isCreateLoading } = useQuizCreate();
+
   const hasQuizzes = quizzes?.length > 0;
 
   const handleCreateQuiz = () => {
-    mutate(
+    createQuiz(
       {},
       {
-        onSuccess: (quiz) => router.push(`/quiz/${quiz.id}/edit`),
+        // TODO: create new slide by default
+        onSuccess: (quiz) => router.push(paths.quizEdit(quiz.id)),
       }
     );
   };
@@ -32,7 +35,7 @@ const QuizPage = () => {
         description="Turn any Qwiz temsplate into a new quiz"
       >
         <PageGrid type="tiniest">
-          <QuizCardSmall.New onClick={handleCreateQuiz} />
+          <QuizCardSmall.New onClick={handleCreateQuiz} loading={isCreateLoading}/>
           {templates.map((template, idx) => (
             <QuizCardSmall.Template key={idx} {...template} />
           ))}

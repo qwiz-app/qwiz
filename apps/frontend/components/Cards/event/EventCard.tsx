@@ -7,7 +7,7 @@ import {
   Group,
   Skeleton,
   Text,
-  Tooltip,
+  Tooltip
 } from '@mantine/core';
 import cn from 'classnames';
 import { useAppColorscheme } from 'hooks/colorscheme';
@@ -15,11 +15,11 @@ import { formatCurrency, formatDate, relativeTimeTo } from 'lib/utils';
 import Link from 'next/link';
 import { paths } from 'paths';
 import { Tag, UsersThree } from 'phosphor-react';
-import { EventWithOrganization } from 'types/event';
+import { EventWithOwner } from 'types/api/event';
 import { useCardStyles } from '../use-card-styles';
 
 interface Props {
-  event: EventWithOrganization;
+  event: EventWithOwner;
   loading: boolean;
 }
 
@@ -67,7 +67,7 @@ export const ImageCard = ({ event, loading }: Props) => {
               </Group>
 
               <Group position="apart" spacing="xs" noWrap>
-                <Link href={`/organization/${event.ownerId}`}>
+                <Link href={paths.organizationPage(event.ownerId)}>
                   <Group spacing={0} noWrap>
                     <Avatar
                       // TODO: placeholder

@@ -3,14 +3,10 @@ import { parseData } from 'lib/axios';
 import http from 'services/http';
 
 export const fetchAttendees = () =>
-  http
-    .get<(Attendee & Prisma.AttendeeInclude)[]>('/api/attendees')
-    .then(parseData);
+  http.get<Attendee[]>('/api/attendees').then(parseData);
 
 export const fetchAttendee = (id: string) =>
-  http
-    .get<Attendee & Prisma.AttendeeInclude>(`/api/attendees/${id}`)
-    .then(parseData);
+  http.get<Attendee>(`/api/attendees/${id}`).then(parseData);
 
 export const fetchCurrentAttendee = () =>
   http.get<Attendee>(`/api/attendees/me`).then(parseData);

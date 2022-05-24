@@ -3,8 +3,8 @@ import { parseData } from 'lib/axios';
 import http from 'services/http';
 import {
   OrganizationWithUser,
-  OrganizationWithUserAndEventsAndQuizzes
-} from 'types/organization';
+  OrganizationWithUserAndEventsAndQuizzes,
+} from 'types/api/organization';
 
 export const fetchOrganizations = () =>
   http.get<OrganizationWithUser[]>('/api/organizations').then(parseData);

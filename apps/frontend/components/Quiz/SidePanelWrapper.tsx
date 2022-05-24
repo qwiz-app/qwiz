@@ -19,7 +19,7 @@ export const SidePanelWrapper = ({ children, slot, title }: Props) => {
       radius="md"
       p="md"
       sx={() => ({
-        height: 'calc(100vh - 95px)',
+        height: 'calc(100vh - 100px)',
       })}
     >
       <Group position="apart" spacing={4}>

@@ -1,6 +1,6 @@
 import { Group, Stack } from '@mantine/core';
-import { NavItemModel } from 'types/nav-item';
-import { NavbarItem } from '../NavbarItem/NavbarItem';
+import { NavItemModel } from 'types/elements/nav-item';
+import { NavbarItem } from './NavbarItem';
 
 type Props = {
   items: NavItemModel[];

@@ -1,16 +1,18 @@
+import { QuizSlide } from '@prisma/client';
 import { onError } from 'lib/axios';
 import { generateArrayForRange } from 'lib/utils';
 import { useQuery } from 'react-query';
 import { fetchQuizzes } from 'services/api/quiz';
-import { QuizWithOrganization } from 'types/quiz';
+import { QuizWithSlides } from 'types/api/quiz';
 
-export const useQuizzes = () =>
+export const useQuizzes = (isOrg = false) =>
   useQuery('quizzes', fetchQuizzes, {
     onError,
     placeholderData,
+    enabled: isOrg,
   });
 
-const placeholderData: QuizWithOrganization[] = generateArrayForRange(4).map(
+const placeholderData: QuizWithSlides[] = generateArrayForRange(4).map(
   (_, idx) => ({
     _count: {
       questions: 1,
@@ -25,7 +27,7 @@ const placeholderData: QuizWithOrganization[] = generateArrayForRange(4).map(
     ownerId: '',
     createdAt: new Date(),
     updatedAt: new Date(),
-    slides: [],
+    slides: [] as QuizSlide[],
     owner: {
       id: '',
       name: '',

@@ -4,12 +4,12 @@ import PageGrid from 'components/Grids/PageGrid';
 import { PageSection } from 'components/PageLayouts/PageSection';
 import { useEvents } from 'hooks/api/events';
 import { useAppColorscheme } from 'hooks/colorscheme';
-import { useRouter } from 'next/router';
-import { paths } from 'paths';
+import { useCreateEventCheck } from 'hooks/use-create-event-check';
 import { PlusCircle } from 'phosphor-react';
 import { useEventsPage } from './use-events-page';
 
 export const EventsCurrentOrganization = () => {
+  const { isDark } = useAppColorscheme();
   const {
     hasEvents,
     isLoadingOrPlaceholder,
@@ -20,9 +20,7 @@ export const EventsCurrentOrganization = () => {
     highlightedPlaceholderSkeletons,
     renderEvents,
   } = useEventsPage(useEvents());
-
-  const { isDark } = useAppColorscheme();
-  const router = useRouter();
+  const { navigateToCreateEvent } = useCreateEventCheck();
 
   return (
     <>
@@ -38,7 +36,7 @@ export const EventsCurrentOrganization = () => {
                 variant={isDark ? 'light' : 'filled'}
                 rightIcon={<PlusCircle size={20} weight="duotone" />}
                 size="md"
-                onClick={() => router.push(paths.eventsCreate())}
+                onClick={navigateToCreateEvent}
               >
                 Create an event
               </Button>

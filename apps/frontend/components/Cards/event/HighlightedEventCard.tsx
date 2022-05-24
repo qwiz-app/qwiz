@@ -17,11 +17,12 @@ import { useAppColorscheme } from 'hooks/colorscheme';
 import { formatDate, relativeTimeTo } from 'lib/utils';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { EventWithOrganization } from 'types/event';
+import { paths } from 'paths';
+import { EventWithOwner } from 'types/api/event';
 import { useCardStyles } from '../use-card-styles';
 
 interface Props {
-  event: EventWithOrganization;
+  event: EventWithOwner;
   loading?: boolean;
 }
 
@@ -31,7 +32,7 @@ export const HighlightedEventCard = ({ event, loading }: Props) => {
 
   const router = useRouter();
 
-  const gotoEvent = () => router.push(`/events/${event.id}`);
+  const gotoEvent = () => router.push(paths.eventPage(event.id));
 
   return loading ? (
     <Skeleton visible radius="md" className={classes.base} />
@@ -77,7 +78,13 @@ export const HighlightedEventCard = ({ event, loading }: Props) => {
         <Title order={3} className={classes.title} color="white">
           {event?.name}
         </Title>
-        <Button ml="auto" variant="white" color="dark" onClick={gotoEvent}>
+        <Button
+          ml="auto"
+          variant="white"
+          color="dark"
+          radius="sm"
+          onClick={gotoEvent}
+        >
           Check it out
         </Button>
       </Group>
@@ -108,12 +115,10 @@ const useStyles = createStyles((t) => {
 
     overlay: {
       position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
+      inset: 0,
+      bottom: -200,
       backgroundImage:
-        'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .85) 90%)',
+        'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .85) 70%)',
     },
 
     owner: {

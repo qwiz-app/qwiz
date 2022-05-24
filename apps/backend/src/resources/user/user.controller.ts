@@ -70,7 +70,11 @@ export class UserController {
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    const user = await this.userService.findOne({ id });
+    const include: Prisma.UserInclude = {
+      organization: true,
+      attendee: true,
+    };
+    const user = await this.userService.findOne({ id }, include);
     if (!user) {
       throw new NotFoundException('User not found.');
     }

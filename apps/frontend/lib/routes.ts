@@ -1,23 +1,26 @@
-import { whitelistedUrls, organizationUrls } from 'pages/_middleware';
 import config from './config';
 
-export const isWhitelistedUrl = (url: string) => whitelistedUrls.includes(url);
+// TODO: how to check for ids
+export const whitelistedUrls = [
+  '/',
+  '/verify-request',
+  '/events',
+  '/organizations',
+];
+
+export const organizationUrls = ['/quiz'];
+
+export const isOrganizationUrl = (url: string) =>
+  organizationUrls.some((route) => url.startsWith(route));
+
+export const isWhitelistedUrl = (url: string) =>
+  whitelistedUrls.some((route) => url.startsWith(route));
 
 export const isVercelEnv = () => config.vercel === '1';
 
-export const isApiUrl = (url: string) => {
-  const splitUrl = url.split('/');
+export const isApiUrl = (url: string) => url.startsWith('/api');
 
-  return splitUrl.includes('api');
-};
-
-export const isSignInUrl = (url: string) => url.includes('signin');
-
-export const isOrganizationUrl = (url: string) =>
-  organizationUrls.includes(url);
-
-// TODO: allow only organizations: how to check for user role
-// const isQuizzesUrl = (url: string) => url.includes('quiz');
+export const isSignInUrl = (url: string) => url.startsWith('/signin');
 
 export const cookieToObject = (cookie: string) =>
   cookie

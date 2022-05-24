@@ -36,14 +36,14 @@ const NavbarLink = ({
   );
 };
 
-const mockdata = [
+const mockdata: { icon: any; label: string }[] = [
   { icon: ListPlus, label: 'Questions' },
   { icon: CircleWavyQuestion, label: 'Answers' },
   { icon: Gear, label: 'Settings' },
 ];
 
 interface Props {
-  active;
+  active: number;
   onSelect: (index: number) => void;
 }
 

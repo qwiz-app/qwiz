@@ -10,7 +10,7 @@ import { useModalProps } from 'context/mantine';
 import { useRoleAssignAndAccountCreate } from 'hooks/api/role';
 import { useEffect } from 'react';
 import { useAssignRole } from 'store/use-assign-role';
-import { UserRoleReq } from 'types/role';
+import { UserRoleReq } from 'types/api/role';
 
 export const UserRoleModal = () => {
   const { modal, setModal } = useUserRoleModal();
@@ -55,6 +55,7 @@ export const UserRoleModal = () => {
       withCloseButton={false}
       opened={modal.valueOf() !== ModalSteps.None}
       onClose={closeModalHandler}
+      title="Choose a role"
     >
       {modal === ModalSteps.Step1 && (
         <UserRoleModalStep1 onContinue={() => setModal(ModalSteps.Step2)} />

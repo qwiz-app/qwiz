@@ -8,7 +8,7 @@ import {
   UnstyledButtonProps
 } from '@mantine/core';
 import { AvatarRoleIndicator } from 'components/UI/AvatarRoleIndicator';
-import { useCurrentUserInfo } from 'hooks/api/users';
+import { useCurrentUser } from 'hooks/api/users';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { CaretRight } from 'phosphor-react';
 import { forwardRef } from 'react';
@@ -18,10 +18,12 @@ type Props = UnstyledButtonProps<any>;
 // eslint-disable-next-line react/display-name
 const NavbarUserButton = forwardRef<HTMLButtonElement, Props>(
   (props: Props, ref) => {
-    const { data: user, isLoading, isError } = useCurrentUserInfo();
+    const { user, isSessionLoading, isLoading } = useCurrentUser();
     const { isDark } = useAppColorscheme();
 
-    if (isLoading || isError) {
+    const loading = isSessionLoading || isLoading;
+
+    if (loading) {
       return (
         <Group position="apart" sx={() => ({ height: 56 })}>
           <Group sx={() => ({ flex: '1' })}>
