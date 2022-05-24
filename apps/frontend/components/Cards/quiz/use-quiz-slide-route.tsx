@@ -6,7 +6,7 @@ export const useQuizSlideRoute = (quiz: QuizWithSlides) => {
     ? paths.quizEditSlide(quiz.id, quiz.slides[0].id)
     : paths.quizEdit(quiz.id);
 
-  const fullUrl = `${window?.location.href}/${url}`;
+  const fullUrl = `${window?.location.href ?? 'https://app.qwiz.party'}/${url}`;
 
   return {
     url,
