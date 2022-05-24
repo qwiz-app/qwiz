@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import { DatePicker, DatePickerProps } from '@mantine/dates';
 import { useField } from 'formik';
+import { useInputAccentStyles } from 'components/UI/use-input-styles';
 
 type Props = DatePickerProps & {
   name: string;
@@ -10,8 +11,11 @@ export const FormikDatePicker = memo(function FormikDatePicker(props: Props) {
   const { field, errorMessage, datePickerProps, handleChange } =
     useFormikDatePicker(props);
 
+  const { classes } = useInputAccentStyles();
+
   return (
     <DatePicker
+      classNames={classes}
       {...field}
       {...datePickerProps}
       error={errorMessage}

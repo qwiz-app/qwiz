@@ -28,3 +28,19 @@ export const useInputLabelStyles = createStyles((theme) => ({
     opacity: 0.95,
   },
 }));
+
+export const useInputAccentStyles = createStyles((theme) => ({
+  input: {
+    height: 'auto',
+    fontWeight: 500,
+    caretColor: theme.colors.orange[4],
+    borderWidth: 1,
+
+    '&:focus, &:focus-within': {
+      borderColor:
+        theme.colorScheme !== 'dark'
+          ? 'currentcolor'
+          : `${theme.colors.orange[4]} !important`,
+    },
+  },
+}));

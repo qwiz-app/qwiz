@@ -40,7 +40,7 @@ interface Props {
 }
 
 export const EventHeader = ({ event, loading }: Props) => {
-  const { isDark } = useAppColorscheme();
+  const { isDark, theme } = useAppColorscheme();
   const { classes } = useStyles();
   const { isOrganization } = useCurrentUser();
 
@@ -85,7 +85,7 @@ export const EventHeader = ({ event, loading }: Props) => {
           <Image
             src={event.banner}
             alt="banner"
-            height="40vh"
+            height="25vh"
             withPlaceholder
           />
         </Paper>
@@ -122,7 +122,14 @@ export const EventHeader = ({ event, loading }: Props) => {
             >
               <Link href={paths.organizationPage(event.ownerId)} passHref>
                 <Title order={5} className={classes.orgName}>
-                  {event?.owner.name}
+                  <Group spacing="sm">
+                    {event?.owner.name}
+                    <CircleWavyCheck
+                      size={32}
+                      color={theme.colors.orange[4]}
+                      weight="duotone"
+                    />
+                  </Group>
                 </Title>
               </Link>
               <Group spacing={8}>
@@ -163,7 +170,7 @@ export const EventHeader = ({ event, loading }: Props) => {
                   <Button
                     size="md"
                     color="orange"
-                    variant="filled"
+                    variant={isDark ? 'light' : 'filled'}
                     rightIcon={<CalendarCheck size={22} weight="duotone" />}
                   >
                     Reserve your spot
@@ -180,9 +187,9 @@ export const EventHeader = ({ event, loading }: Props) => {
                 >
                   <ActionIcon
                     size={isOrganization ? 36 : isReserved ? 32 : 42}
-                    variant="filled"
                     radius={isOrganization ? 'sm' : isReserved ? 'xl' : 'sm'}
                     color={isDark ? 'gray' : 'dark'}
+                    variant="filled"
                     onClick={() => clipboard.copy(window?.location.href)}
                   >
                     <ShareNetwork

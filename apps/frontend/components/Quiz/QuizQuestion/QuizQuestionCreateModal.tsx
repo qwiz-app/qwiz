@@ -6,10 +6,11 @@ import {
   LoadingOverlay,
   Modal,
   Stack,
-  TextInput
+  TextInput,
 } from '@mantine/core';
 import { QuestionElementType } from '@prisma/client';
 import { FileUpload } from 'components/UI/FileUpload';
+import { useInputAccentStyles } from 'components/UI/use-input-styles';
 import { useModalProps } from 'context/mantine';
 import { useQuestionCreate } from 'hooks/api/question';
 import { useAppColorscheme } from 'hooks/colorscheme';
@@ -57,6 +58,8 @@ export const QuestionCreateModal = ({ opened, setOpened }) => {
     }
   }, [isSuccess]);
 
+  const { classes } = useInputAccentStyles();
+
   return (
     <Modal
       opened={opened}
@@ -66,7 +69,7 @@ export const QuestionCreateModal = ({ opened, setOpened }) => {
       // TODO: remove duplicte props when we find out why modal props arent applying
       overlayBlur={0.5}
       shadow="sm"
-      radius="sm"
+      radius="md"
       overlayOpacity={0.9}
       overlayColor={isDark ? '#101113' : '#E9ECEF'}
       centered
@@ -76,6 +79,7 @@ export const QuestionCreateModal = ({ opened, setOpened }) => {
         <Stack>
           {Object.keys(textual).map((key, index) => (
             <TextInput
+              classNames={classes}
               key={index}
               value={textual[key].content}
               onChange={(e) =>

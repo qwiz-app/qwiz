@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import { useField } from 'formik';
 import { Select, SelectProps } from '@mantine/core';
+import { useInputAccentStyles } from 'components/UI/use-input-styles';
 
 export type SelectOption = {
   value: string;
@@ -16,8 +17,11 @@ export const FormikSelect = memo(function FormikSelect(props: Props) {
   const { options, value, setValue, errorMessage, selectProps, handleBlur } =
     useFormikSelect(props);
 
+  const { classes } = useInputAccentStyles();
+
   return (
     <Select
+      classNames={classes}
       data={options}
       value={value}
       error={errorMessage}

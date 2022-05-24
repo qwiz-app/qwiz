@@ -1,4 +1,5 @@
 import { Code, Loader, TextInput } from '@mantine/core';
+import { useInputAccentStyles } from 'components/UI/use-input-styles';
 import { forwardRef, SyntheticEvent } from 'react';
 
 interface Props {
@@ -14,6 +15,8 @@ const QuizNameEditInput = forwardRef<HTMLInputElement, Props>(
     { editedName, isLoading, onKeyUp, onBlurHandler, setEditedName }: Props,
     ref
   ) {
+    const { classes } = useInputAccentStyles();
+
     return (
       <TextInput
         ref={ref}
@@ -32,6 +35,7 @@ const QuizNameEditInput = forwardRef<HTMLInputElement, Props>(
         onClick={(e: SyntheticEvent) => e.stopPropagation()}
         onKeyUp={onKeyUp}
         onBlur={onBlurHandler}
+        classNames={classes}
         disabled={isLoading}
       />
     );

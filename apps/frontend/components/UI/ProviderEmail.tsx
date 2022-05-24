@@ -13,7 +13,7 @@ import { useRouter } from 'next/router';
 import { FormEvent } from 'react';
 import http from 'services/http';
 import { useResendEmail } from 'store/use-resend-email';
-import { useInputLabelStyles } from './use-input-label-styles';
+import { useInputLabelStyles } from './use-input-styles';
 
 interface Props {
   csrfToken: string;
@@ -40,10 +40,7 @@ export const ProviderEmail = ({ csrfToken }: Props) => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      style={{ width: '100%' }}
-    >
+    <form onSubmit={handleSubmit} style={{ width: '100%' }}>
       <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
       <Divider my="xs" mb="md" label="or" labelPosition="center" />
       <Stack spacing={8}>

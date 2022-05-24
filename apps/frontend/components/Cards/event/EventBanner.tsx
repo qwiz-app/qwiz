@@ -1,14 +1,8 @@
-import React from 'react';
-import {
-  createStyles,
-  Text,
-  Title,
-  TextInput,
-  Button,
-} from '@mantine/core';
+import { Button, createStyles, Text, TextInput, Title } from '@mantine/core';
 
 export const EventBanner = () => {
   const { classes } = useStyles();
+
   return (
     <div className={classes.wrapper}>
       <div className={classes.body}>

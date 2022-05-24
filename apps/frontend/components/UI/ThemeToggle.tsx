@@ -22,7 +22,7 @@ export const ThemeToggle = ({ mono, tooltip, tooltipPosition }: Props) => {
 
   const colorschemeIcon = isDark ? (
     <Sun
-      color={mono ? 'currentColor' : theme.colors.yellow[4]}
+      color={mono ? 'currentColor' : theme.colors.orange[4]}
       size={size}
       weight={weight}
     />

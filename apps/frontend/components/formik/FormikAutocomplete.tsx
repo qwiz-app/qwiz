@@ -1,6 +1,7 @@
 import { memo, forwardRef, useState } from 'react';
 import { Autocomplete, AutocompleteProps } from '@mantine/core';
 import { useField } from 'formik';
+import { useInputAccentStyles } from 'components/UI/use-input-styles';
 
 export type AutocompleteOption = {
   value: string;
@@ -25,6 +26,8 @@ export const FormikAutocomplete = memo(function FormikAutocomplete(
     handleBlur,
   } = useFormikAutocomplete(props);
 
+  const { classes } = useInputAccentStyles();
+
   const AutocompleteOptionItem = forwardRef<HTMLDivElement, AutocompleteOption>(
     function AutocompleteOptionItem({ label, ...rest }, ref) {
       return (
@@ -37,6 +40,7 @@ export const FormikAutocomplete = memo(function FormikAutocomplete(
 
   return (
     <Autocomplete
+      classNames={classes}
       value={displayedValue}
       onChange={handleChange}
       onBlur={handleBlur}

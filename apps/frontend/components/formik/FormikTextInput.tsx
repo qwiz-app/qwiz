@@ -1,6 +1,7 @@
 import { FC, memo } from 'react';
 import { TextInput, TextInputProps } from '@mantine/core';
 import { useField } from 'formik';
+import { useInputAccentStyles } from 'components/UI/use-input-styles';
 
 type Props = TextInputProps & {
   name: string;
@@ -13,8 +14,11 @@ export const FormikTextInput: FC<Props> = memo(function FormikTextInput(props) {
     textInputProps,
   } = useFormikTextInput(props);
 
+  const { classes } = useInputAccentStyles();
+
   return (
     <TextInput
+      classNames={classes}
       {...rest}
       {...textInputProps}
       value={value ?? ''}

@@ -1,12 +1,14 @@
 import { Button, createStyles, Group, Paper } from '@mantine/core';
 import { QuestionElementType } from '@prisma/client';
 import { QuestionCreateModal } from 'components/Quiz/QuizQuestion/QuizQuestionCreateModal';
+import { useAppColorscheme } from 'hooks/colorscheme';
 import { TextT } from 'phosphor-react';
 import { useState } from 'react';
 
 export const FloatingQuizMenu = () => {
   const [showQuestionModal, setShowQuestionModal] = useState(false);
 
+  const { isDark } = useAppColorscheme();
   const { classes } = useStyles();
 
   const handleQuestionClick = () => {
@@ -18,11 +20,11 @@ export const FloatingQuizMenu = () => {
       <Group spacing="xs">
         <Button
           leftIcon={<TextT size={18} weight="duotone" />}
-          variant="filled"
+          variant={isDark ? 'light' : 'filled'}
           onClick={handleQuestionClick}
           color="orange"
         >
-          Add question
+          Create question
         </Button>
       </Group>
       <QuestionCreateModal

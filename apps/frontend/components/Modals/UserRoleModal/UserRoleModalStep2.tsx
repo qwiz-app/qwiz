@@ -1,5 +1,6 @@
 import { Button, Stack, TextInput } from '@mantine/core';
 import { Role } from '@prisma/client';
+import { useInputAccentStyles } from 'components/UI/use-input-styles';
 import { useCurrentSession } from 'hooks/api/session';
 import { useCurrentUser } from 'hooks/api/users';
 import { useAppColorscheme } from 'hooks/colorscheme';
@@ -27,6 +28,8 @@ export const UserRoleModalStep2 = ({ onBack, onContinue }: Props) => {
     resetUserImageHandler,
   } = useUserRoleModalAvatar();
 
+  const { classes } = useInputAccentStyles();
+
   const buttons = (
     <div className="flex justify-end">
       <Button onClick={onBack} variant={isDark ? 'light' : 'outline'}>
@@ -42,6 +45,7 @@ export const UserRoleModalStep2 = ({ onBack, onContinue }: Props) => {
     return (
       <Stack spacing={16}>
         <TextInput
+          classNames={classes}
           placeholder="The Irish Pub"
           label="Organization name"
           description="Your account name will remain unchanged"
