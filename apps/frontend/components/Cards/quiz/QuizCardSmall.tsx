@@ -15,7 +15,7 @@ import { useCardStyles } from '../use-card-styles';
 
 interface TemplateProps {
   href: string;
-  image: string;
+  image: any;
   label: string;
   loading?: boolean;
 }
@@ -50,7 +50,7 @@ export const Template = ({
           <Box
             className={classes.image}
             style={{
-              backgroundImage: `url(${image})`,
+              backgroundImage: `url(${image.src})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
             }}

@@ -9,12 +9,15 @@ import { PageSection } from 'components/PageLayouts/PageSection';
 import { useQuizCreate, useQuizzes } from 'hooks/api/quiz';
 import { useRouter } from 'next/router';
 import { paths } from 'paths';
+import PeepT1 from 'assets/peeps/templates/peep-template1.svg';
+import PeepT2 from 'assets/peeps/templates/peep-template2.svg';
+import PeepT3 from 'assets/peeps/templates/peep-template3.svg';
 
 const QuizPage = () => {
   const router = useRouter();
 
   const { data: quizzes, isLoading, isPlaceholderData } = useQuizzes();
-  const { mutate:createQuiz, isLoading: isCreateLoading } = useQuizCreate();
+  const { mutate: createQuiz, isLoading: isCreateLoading } = useQuizCreate();
 
   const hasQuizzes = quizzes?.length > 0;
 
@@ -35,7 +38,10 @@ const QuizPage = () => {
         description="Turn any Qwiz temsplate into a new quiz"
       >
         <PageGrid type="tiniest">
-          <QuizCardSmall.New onClick={handleCreateQuiz} loading={isCreateLoading}/>
+          <QuizCardSmall.New
+            onClick={handleCreateQuiz}
+            loading={isCreateLoading}
+          />
           {templates.map((template, idx) => (
             <QuizCardSmall.Template key={idx} {...template} />
           ))}
@@ -66,19 +72,16 @@ const templates = [
   {
     href: '/',
     label: 'Multiple choice',
-    image:
-      'https://products.asiwallsolutions.com/img/patterns/PTN-M101-IMG1.jpg',
+    image: PeepT1,
   },
   {
     href: '/',
     label: 'Visual',
-    image:
-      'https://www.zilliondesigns.com/blog/wp-content/uploads/Pattern-Logos.jpg',
+    image: PeepT2,
   },
   {
     href: '/',
     label: 'Audio',
-    image:
-      'https://media.iapp.org/2020/11/23160339/dark_patterns_pawel-czerwinski-jJi1bjfBWYo-unsplash.jpg',
+    image: PeepT3,
   },
 ];
