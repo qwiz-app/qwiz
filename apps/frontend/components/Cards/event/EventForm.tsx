@@ -7,7 +7,7 @@ import {
   SelectItemProps,
   SimpleGrid,
   Stack,
-  Text,
+  Text
 } from '@mantine/core';
 import { Quiz } from '@prisma/client';
 import { FormikAutocomplete } from 'components/formik/FormikAutocomplete';
@@ -26,15 +26,17 @@ import { useRouter } from 'next/router';
 import { paths } from 'paths';
 import {
   Calendar,
+  CalendarX,
   Clock,
   CurrencyDollar,
   IdentificationCard,
   MapPin,
+  NotePencil,
   PencilCircle,
   PlusCircle,
   Queue,
   Star,
-  UsersThree,
+  UsersThree
 } from 'phosphor-react';
 import { forwardRef, memo } from 'react';
 import { EventFormValues } from 'types/forms/EventFormValues';
@@ -50,7 +52,18 @@ export const EventForm = memo(function EventForm(props: Props) {
   const { fileUpload, action, imgUrl } = props;
   const router = useRouter();
 
-  const title = action === 'edit' ? 'Edit Event' : 'Create Event';
+  const title =
+    action === 'edit' ? (
+      <Group spacing={12}>
+        <NotePencil size={40} weight="duotone" />
+        Edit your event
+      </Group>
+    ) : (
+      <Group spacing={12}>
+        <CalendarX size={40} weight="duotone" />
+        Create a new event
+      </Group>
+    );
 
   return (
     <Form>
@@ -73,12 +86,18 @@ export const EventForm = memo(function EventForm(props: Props) {
           <SimpleGrid cols={2}>
             {/* TODO: throws an error [something about undefined type] */}
             {/* <FormikNumberInput
+              required
+              size="lg"
               name="teamCount"
               label="Team count"
+              icon={<UsersThree size={24} weight="duotone" />}
             />
             <FormikNumberInput
+              required
+              size="lg"
               name="price"
               label="Price per team"
+              icon={<CurrencyDollar size={24} weight="duotone" />}
             /> */}
             <FormikTextInput
               required
@@ -127,7 +146,7 @@ export const EventForm = memo(function EventForm(props: Props) {
             />
           </SimpleGrid>
           <FormikRichText name="description" label="Description" />
-          <Stack spacing="xs">
+          <Stack spacing={4}>
             <Text weight={500} size="lg">
               Banner
             </Text>
@@ -209,7 +228,7 @@ const AutoCompleteItem = forwardRef<HTMLDivElement, ItemProps>(
             </Text>
           </Group>
           <Text size="xs" color="dimmed">
-            {description}
+            {description || 'No description provided'}
           </Text>
         </Box>
       </Group>

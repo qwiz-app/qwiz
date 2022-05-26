@@ -23,8 +23,9 @@ export const FormikNumberInput: FC<Props> = memo(function FormikNumberInput(
       classNames={classes}
       {...rest}
       {...numberInputProps}
-      value={value ?? null}
+      value={value ?? ''}
       error={errorMessage}
+      onChange={(n) => console.log(n)}
     />
   );
 });

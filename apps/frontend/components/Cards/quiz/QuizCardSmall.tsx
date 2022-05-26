@@ -5,7 +5,7 @@ import {
   createStyles,
   LoadingOverlay,
   Stack,
-  Text,
+  Text
 } from '@mantine/core';
 import cn from 'classnames';
 import Link from 'next/link';
@@ -17,6 +17,7 @@ interface TemplateProps {
   href: string;
   image: any;
   label: string;
+  color: string;
   loading?: boolean;
 }
 
@@ -30,6 +31,7 @@ export const Template = ({
   loading,
   image,
   label,
+  color,
   ...rest
 }: TemplateProps &
   Omit<React.ComponentPropsWithoutRef<'div'>, keyof TemplateProps>) => {
@@ -41,7 +43,6 @@ export const Template = ({
       <Stack spacing={8}>
         <Card
           radius="md"
-          withBorder
           className={cn(classesCard.card, classes.card)}
           onClick={onClick}
           {...rest}
@@ -49,11 +50,13 @@ export const Template = ({
           <LoadingOverlay visible={loading} />
           <Box
             className={classes.image}
-            style={{
+            sx={() => ({
               backgroundImage: `url(${image.src})`,
-              backgroundSize: 'cover',
+              backgroundSize: '60%',
+              backgroundRepeat: 'no-repeat',
+              backgroundColor: color,
               backgroundPosition: 'center',
-            }}
+            })}
           />
         </Card>
         <Text weight={600} ml={4}>

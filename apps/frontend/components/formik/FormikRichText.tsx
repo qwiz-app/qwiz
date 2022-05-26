@@ -24,7 +24,7 @@ export const FormikRichText = memo(function FormikRichText({
         {label}
       </Text>
 
-      <Box mt={8}>
+      <Box mt={4}>
         <RichText
           sx={(t) => ({
             fontSize: 18,

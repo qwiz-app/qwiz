@@ -5,7 +5,7 @@ import {
   Skeleton,
   Text,
   UnstyledButton,
-  UnstyledButtonProps
+  UnstyledButtonProps,
 } from '@mantine/core';
 import { AvatarRoleIndicator } from 'components/UI/AvatarRoleIndicator';
 import { useCurrentUser } from 'hooks/api/users';
@@ -27,9 +27,9 @@ const NavbarUserButton = forwardRef<HTMLButtonElement, Props>(
       return (
         <Group position="apart" sx={() => ({ height: 56 })}>
           <Group sx={() => ({ flex: '1' })}>
-            <Skeleton visible height={40} circle />
+            <Skeleton visible height={42} circle />
             <Box sx={() => ({ flex: '1', height: '100%' })}>
-              <Skeleton height={40} />
+              <Skeleton height={42} />
             </Box>
           </Group>
         </Group>

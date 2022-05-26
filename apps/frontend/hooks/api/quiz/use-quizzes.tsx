@@ -23,7 +23,6 @@ const placeholderData: QuizWithSlides[] = generateArrayForRange(4).map(
     name: '',
     description: '',
     thumbnail: null,
-    published: false,
     ownerId: '',
     createdAt: new Date(),
     updatedAt: new Date(),

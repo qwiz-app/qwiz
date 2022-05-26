@@ -72,7 +72,6 @@ const useEventPage = () => {
     initialValues,
     handleSubmit,
     fileUpload,
-    // TODO: does not show in edit mode
     imgUrl,
   };
 };

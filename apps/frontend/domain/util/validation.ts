@@ -25,12 +25,12 @@ export const createQuizSchema = yup.object({
 });
 
 export const eventSchema = yup.object({
-  name: yup.string().required(),
-  location: yup.string().required(),
+  name: yup.string().required('Name is required.'),
+  location: yup.string().required('Location is required.'),
   description: yup.string().required(),
-  price: yup.number().required(),
-  teamCount: yup.number().required(),
-  startDate: yup.date().required(),
-  startTime: yup.date().required(),
-  quizId: yup.string().required(),
+  price: yup.number().required('Price is required.'),
+  teamCount: yup.number().required('Team count is required.'),
+  startDate: yup.date().required('Start date is required.'),
+  startTime: yup.date().required('Start time is required.'),
+  quizId: yup.string().required('Quiz is required.'),
 });

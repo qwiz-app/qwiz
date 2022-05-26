@@ -35,7 +35,7 @@ const QuizPage = () => {
     <HomepageLayout>
       <PageSection
         title="Create quiz"
-        description="Turn any Qwiz temsplate into a new quiz"
+        description="Turn any Qwiz template into a new quiz"
       >
         <PageGrid type="tiniest">
           <QuizCardSmall.New
@@ -73,15 +73,18 @@ const templates = [
     href: '/',
     label: 'Multiple choice',
     image: PeepT1,
+    color: '#f2bc94',
   },
   {
     href: '/',
     label: 'Visual',
     image: PeepT2,
+    color: '#f5abf5',
   },
   {
     href: '/',
     label: 'Audio',
     image: PeepT3,
+    color: '#abf5c4',
   },
 ];
