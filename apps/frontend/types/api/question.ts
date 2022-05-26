@@ -5,13 +5,13 @@ import {
   QuestionContent,
   QuestionMode,
   QuizQuestion,
-  User,
 } from '@prisma/client';
+import { OrganizationWithUser } from './organization';
 
 export type QuestionWithContent = Question & { contents: QuestionContent[] };
 
 export type QuestionWithContentAndCategoriesAndMode = QuestionWithContent & {
-  owner?: User;
+  owner?: OrganizationWithUser;
   categories?: QuestionCategory[];
   questionMode?: QuestionMode;
 };

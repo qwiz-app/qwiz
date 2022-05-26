@@ -2,6 +2,7 @@ import { Role } from '@prisma/client';
 import { paths } from 'paths';
 import {
   Binoculars,
+  CircleWavyQuestion,
   Confetti,
   Cube,
   IconProps,
@@ -33,6 +34,7 @@ export const useNavItems = () => {
       label: 'Explore',
       href: paths.explore(),
       icon: <Binoculars {...iconProps} />,
+      permissions: [Role.ATTENDEE],
     },
     {
       label: 'Events',
@@ -46,14 +48,22 @@ export const useNavItems = () => {
       permissions: [Role.ORGANIZATION],
     },
     {
+      label: 'Questions',
+      href: paths.questions(),
+      icon: <CircleWavyQuestion {...iconProps} />,
+      permissions: [Role.ORGANIZATION],
+    },
+    {
       label: 'Question packs',
       href: paths.questionPacks(),
       icon: <Cube {...iconProps} />,
+      permissions: [Role.ORGANIZATION],
     },
     {
       label: 'Teams',
       href: paths.teams(),
       icon: <UsersThree {...iconProps} />,
+      permissions: [Role.ATTENDEE],
     },
     {
       label: 'Stats',

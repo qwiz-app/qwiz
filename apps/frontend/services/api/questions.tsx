@@ -11,6 +11,11 @@ export const fetchAvailableQuestions = () =>
     .get<QuestionWithContentAndCategoriesAndMode[]>('/api/questions')
     .then(parseData);
 
+export const fetchQuestionsByMe = () =>
+  http
+    .get<QuestionWithContentAndCategoriesAndMode[]>('/api/questions/me')
+    .then(parseData);
+
 export const fetchQuestion = (id: string) =>
   http
     .get<QuestionWithContentAndCategoriesAndMode>(`/api/questions/${id}`)

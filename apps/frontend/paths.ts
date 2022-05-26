@@ -13,6 +13,7 @@ export const paths = {
   quiz: () => '/quiz',
   quizEdit: (id: string) => `/quiz/${id}/edit`,
   quizEditSlide: (id: string, slideId: string) => `/quiz/${id}/${slideId}`,
+  questions: () => '/questions',
   questionPacks: () => '/question-packs',
   teams: () => '/teams',
   stats: () => '/stats',

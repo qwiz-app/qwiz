@@ -10,7 +10,7 @@ import {
   Patch,
   Post,
   Query,
-  UnauthorizedException
+  UnauthorizedException,
 } from '@nestjs/common';
 import { Organization, Prisma } from '@prisma/client';
 import { IsAdmin } from 'common/decorators/admin.decorator';
@@ -23,7 +23,15 @@ export class QuestionController {
 
   includeContentAndOwnerAndCategoriesAndMode: Prisma.QuestionInclude = {
     contents: true,
-    owner: true,
+    owner: {
+      include: {
+        user: {
+          select: {
+            image: true,
+          },
+        },
+      },
+    },
     questionMode: true,
     categories: true,
   };
@@ -62,17 +70,25 @@ export class QuestionController {
 
   // Active questions which are either our own or global
   @Get('')
-  findAvailable(
-    @OrganizationEntity() organization: Organization,
-    @Query('owner', new DefaultValuePipe(false), ParseBoolPipe) owner: boolean
-  ) {
+  findAvailable(@OrganizationEntity() organization: Organization) {
     const where = {
       isActive: true,
       OR: [{ isGlobal: true }, { ownerId: organization.id }],
     };
     const include = {
       ...this.includeContentAndOwnerAndCategoriesAndMode,
-      owner,
+    };
+
+    return this.questionService.findAvailable(where, include);
+  }
+
+  @Get('/me')
+  findAllByMe(@OrganizationEntity() organization: Organization) {
+    const where = {
+      ownerId: organization.id,
+    };
+    const include = {
+      ...this.includeContentAndOwnerAndCategoriesAndMode,
     };
 
     return this.questionService.findAvailable(where, include);

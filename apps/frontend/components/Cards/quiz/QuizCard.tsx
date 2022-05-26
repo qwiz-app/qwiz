@@ -9,7 +9,7 @@ import {
   LoadingOverlay,
   Skeleton,
   Text,
-  ThemeIcon
+  ThemeIcon,
 } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { useQuizDelete, useQuizNameEdit } from 'hooks/api/quiz';
@@ -197,8 +197,13 @@ export const QuizCard = ({
                   })}
                 />
 
-                <Skeleton visible={loading}>
-                  <Text inline size="xs" color="dimmed" sx={() => ({})}>
+                <Skeleton
+                  visible={loading}
+                  sx={() => ({
+                    overflow: loading ? 'hidden' : 'visible',
+                  })}
+                >
+                  <Text inline size="xs" color="dimmed">
                     Updated {relativeTimeTo(quiz.updatedAt)}
                   </Text>
                 </Skeleton>
@@ -229,7 +234,6 @@ const useStyles = createStyles((theme) => {
       position: 'relative',
       aspectRatio: '16/9',
       width: '100%',
-      overflow: 'hidden',
       borderBottom: '1px solid',
       cursor: 'pointer',
       borderColor: isDark ? theme.colors.dark[6] : theme.colors.gray[2],
