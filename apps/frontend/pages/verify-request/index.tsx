@@ -1,5 +1,5 @@
 import { Box, Button, Group, Paper, Stack, Text, Title } from '@mantine/core';
-import peep from 'assets/peeps/peep-verify.svg';
+import Peep from 'assets/peeps/signin/peep-verify.svg';
 import AuthLayout from 'components/Layouts/AuthLayout';
 import { useBreakpoints } from 'hooks/breakpoints';
 import { useAppColorscheme } from 'hooks/colorscheme';
@@ -31,7 +31,7 @@ const VerifyRequest = () => {
       <Stack align="center" justify="space-between">
         <Box>
           <Image
-            src={peep}
+            src={Peep}
             objectFit="contain"
             width={500}
             height={500}

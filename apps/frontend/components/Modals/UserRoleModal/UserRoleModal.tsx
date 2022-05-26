@@ -2,7 +2,7 @@ import { LoadingOverlay, Modal } from '@mantine/core';
 import { Prisma, Role } from '@prisma/client';
 import {
   ModalSteps,
-  useUserRoleModal
+  useUserRoleModal,
 } from 'components/Modals/UserRoleModal/use-user-role-modal';
 import { UserRoleModalStep1 } from 'components/Modals/UserRoleModal/UserRoleModalStep1';
 import { UserRoleModalStep2 } from 'components/Modals/UserRoleModal/UserRoleModalStep2';
@@ -66,7 +66,7 @@ export const UserRoleModal = () => {
           onContinue={submitHandler}
         />
       )}
-      <LoadingOverlay visible={isLoading} />
+      <LoadingOverlay visible={isLoading} radius="md" />
     </Modal>
   );
 };

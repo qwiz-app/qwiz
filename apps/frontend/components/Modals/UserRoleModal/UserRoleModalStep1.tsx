@@ -3,6 +3,8 @@ import { Role } from '@prisma/client';
 import { AnimatedWrapper } from 'components/Animation/AnimatedWrapper';
 import { useBreakpoints } from 'hooks/breakpoints';
 import { useAssignRole } from 'store/use-assign-role';
+import PeepOrganization from 'assets/peeps/role/peep-org.svg';
+import PeepAttendee from 'assets/peeps/role/peep-att.svg';
 import { UserRoleCard } from './UserRoleCard';
 
 interface Props {
@@ -16,14 +18,13 @@ export const UserRoleModalStep1 = ({ onContinue }: Props) => {
 
   const roles = [
     {
-      image:
-        'https://media.istockphoto.com/photos/empty-restaurant-interior-picture-id1224771205?k=20&m=1224771205&s=612x612&w=0&h=KOqgtFbNtE6WP4ACwkFtIq0KCEq0MljBs5PC5xsyryg=',
+      image: PeepOrganization,
+
       title: 'Organization',
       role: Role.ORGANIZATION,
     },
     {
-      image:
-        'https://www.watfordobserver.co.uk/resources/images/6782556.jpg?display=1&htype=0&type=responsive-gallery',
+      image: PeepAttendee,
       title: 'Attendee',
       role: Role.ATTENDEE,
     },
@@ -64,8 +65,8 @@ const useStyles = createStyles((theme) => {
       borderColor:
         // TODO: correct color aligned with mantine theme
         selectedRole === Role.ORGANIZATION
-          ? theme.colors.orange[5]
-          : theme.colors.yellow[4],
+          ? theme.colors.violet[6]
+          : theme.colors.yellow[6],
       position: 'absolute',
       inset: 0,
     },

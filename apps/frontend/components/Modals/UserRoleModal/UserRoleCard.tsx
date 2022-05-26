@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { ReactElement } from 'react';
 
 type Props = {
-  image: string;
+  image: any;
   title: string;
   role: Role;
   selected: boolean;
@@ -27,14 +27,14 @@ export const UserRoleCard = ({
       <Paper
         shadow="md"
         p="sm"
-        sx={{ backgroundImage: `url(${image})` }}
+        sx={{ backgroundImage: `url(${image?.src})` }}
         className={cn([classes.card, selected && classes.selectedCard])}
       >
         <Badge
           className={classes.title}
           size="md"
-          variant="filled"
-          color={selected && (role === Role.ORGANIZATION ? 'orange' : 'yellow')}
+          variant={selected ? 'filled' : 'light'}
+          color={selected && (role === Role.ORGANIZATION ? 'violet' : 'yellow')}
         >
           {title}
         </Badge>
@@ -62,7 +62,7 @@ const useStyles = createStyles((theme) => ({
     alignItems: 'flex-start',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    filter: 'grayscale(60%)',
+    // filter: 'grayscale(60%)',
     transition: 'filter 0.3s ease-in-out',
 
     '&:hover': {
