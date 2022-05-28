@@ -28,6 +28,7 @@ const DashboardLayout = ({ children }) => {
         px={sidePadding()}
         sx={() => ({
           maxWidth: 3000,
+          overflowX: 'hidden',
         })}
       >
         {children}

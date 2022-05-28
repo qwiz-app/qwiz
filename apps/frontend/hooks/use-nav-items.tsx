@@ -37,6 +37,12 @@ export const useNavItems = () => {
       permissions: [Role.ATTENDEE],
     },
     {
+      label: 'Explore',
+      href: paths.explore(),
+      icon: <Binoculars {...iconProps} />,
+      permissions: [Role.ORGANIZATION],
+    },
+    {
       label: 'Events',
       href: paths.events(),
       icon: <Confetti {...iconProps} />,

@@ -10,6 +10,7 @@ import { useSignOut } from 'hooks/use-sign-out';
 import { useRouter } from 'next/router';
 import { paths } from 'paths';
 import {
+  Binoculars,
   Confetti,
   DiscordLogo,
   GithubLogo,
@@ -57,13 +58,15 @@ const useSpotlightActions = () => {
       icon: <SquaresFour {...iconProps} />,
       keywords: ['home'],
     },
-    // {
-    //   title: 'Explore',
-    //   group: 'Navigate',
-    //   description: 'Go to your explore page',
-    //   onTrigger: () => router.push(paths.explore()),
-    //   icon: <Binoculars {...iconProps} />,
-    // },
+    {
+      title: 'Explore',
+      group: 'Navigate',
+      description: 'Explore all events happening right now',
+      onTrigger: () => router.push(paths.explore()),
+      icon: <Binoculars {...iconProps} />,
+      keywords: ['events', 'all events'],
+      permissions: [Role.ORGANIZATION],
+    },
     {
       title: 'Events',
       group: 'Navigate',

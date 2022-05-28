@@ -26,7 +26,7 @@ export const EventsCurrentOrganization = () => {
     <>
       {(hasEvents || isLoadingOrPlaceholder) && (
         <PageSection
-          title="Highlighted event"
+          title="Your highlighted events"
           rightSlot={
             hasEvents &&
             !isLoadingOrPlaceholder && (
