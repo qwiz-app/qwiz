@@ -96,8 +96,8 @@ export const UserModalInfoCard = ({
           {name}
         </Text>
 
-        <Group noWrap spacing={8} mt={3}>
-          <At size={16} className={classes.icon} />
+        <Group noWrap spacing="sm" mt={3}>
+          <At size={16} weight="duotone" className={classes.icon} />
           <Text size="sm" color="dimmed">
             {email}
           </Text>

@@ -125,7 +125,7 @@ export const EventHeader = ({ event, loading }: Props) => {
                   <Group spacing="sm">
                     {event?.owner.name}
                     <CircleWavyCheck
-                      size={32}
+                      size={20}
                       color={theme.colors.orange[4]}
                       weight="duotone"
                     />

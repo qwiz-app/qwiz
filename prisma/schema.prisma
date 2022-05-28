@@ -73,10 +73,11 @@ enum Role {
 }
 
 model Organization {
-  id     String @id @default(cuid())
-  name   String @unique
+  id        String   @id @default(cuid())
+  name      String   @unique
   // TODO: should multiple users be allowed to login to same organization account?
-  userId String @unique
+  userId    String   @unique
+  createdAt DateTime @default(now())
 
   // relations
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -88,8 +89,9 @@ model Organization {
 }
 
 model Attendee {
-  id     String @id @default(cuid())
-  userId String @unique
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  createdAt DateTime @default(now())
 
   // relations
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
