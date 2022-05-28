@@ -28,6 +28,7 @@ const placeholderData: QuizWithSlides[] = generateArrayForRange(4).map(
     updatedAt: new Date(),
     slides: [] as QuizSlide[],
     owner: {
+      createdAt: new Date(),
       id: '',
       name: '',
       userId: '',

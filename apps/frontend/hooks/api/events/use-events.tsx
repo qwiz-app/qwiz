@@ -56,6 +56,7 @@ const placeholderData: EventWithOwner[] = generateArrayForRange(4).map(
     teamCount: 22,
     createdAt: new Date(),
     owner: {
+      createdAt: new Date(),
       id: '',
       name: '',
       userId: '',

@@ -37,6 +37,7 @@ const placeholderData: EventWithOwner = {
   currency: 'USD',
   createdAt: new Date(),
   owner: {
+    createdAt: new Date(),
     id: '',
     name: '',
     userId: '',
