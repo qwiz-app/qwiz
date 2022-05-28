@@ -29,7 +29,7 @@ export const useEventDelete = (id: string) => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries('events');
+      queryClient.invalidateQueries(['events']);
     },
   });
 };

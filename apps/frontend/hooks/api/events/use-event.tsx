@@ -11,10 +11,14 @@ export const useEvent = (id: string) => {
     enabled: !!id,
     placeholderData,
     initialData: () => {
-      const cachedEvents = queryClient.getQueryData(
-        'events'
-      ) as EventWithOwner[];
-      return cachedEvents?.find((event) => event.id === id);
+      const cachedEvents =
+        (queryClient.getQueryData('events') as EventWithOwner[]) ?? [];
+
+      const cachedEventsByMe =
+        (queryClient.getQueryData(['events', 'me']) as EventWithOwner[]) ?? [];
+
+      const allEvents = [...cachedEvents, ...cachedEventsByMe];
+      return allEvents?.find((event) => event.id === id);
     },
   });
 };

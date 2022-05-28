@@ -7,7 +7,7 @@ import { useCurrentUser } from 'hooks/api/users';
 const EventsPage = () => {
   const { isOrganization, isLoading } = useCurrentUser();
 
-  // TODO: isnt working live, shows all after inital organization account creation
+  // TODO: shows all after inital organization account creation
   return (
     <HomepageLayout>
       {isOrganization || isLoading ? (
