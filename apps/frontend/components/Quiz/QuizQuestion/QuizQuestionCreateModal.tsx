@@ -6,21 +6,19 @@ import {
   LoadingOverlay,
   Modal,
   Stack,
-  TextInput,
+  TextInput
 } from '@mantine/core';
 import { QuestionElementType } from '@prisma/client';
 import { FileUpload } from 'components/UI/FileUpload';
 import { useInputAccentStyles } from 'components/UI/use-input-styles';
 import { useModalProps } from 'context/mantine';
 import { useQuestionCreate } from 'hooks/api/question';
-import { useAppColorscheme } from 'hooks/colorscheme';
 import { useFileUpload } from 'hooks/use-flle-upload';
 import { useEffect, useState } from 'react';
 
 export const QuestionCreateModal = ({ opened, setOpened }) => {
   const { mutate: createQuestion, isSuccess, isLoading } = useQuestionCreate();
-  const modalProps = useModalProps();
-  const { isDark } = useAppColorscheme();
+  const { modalProps } = useModalProps();
 
   // TODO: in need of complete refactor, this is a mess
   // content stays on next modal open
@@ -66,13 +64,6 @@ export const QuestionCreateModal = ({ opened, setOpened }) => {
       onClose={() => setOpened(false)}
       title="Create a new question"
       {...modalProps}
-      // TODO: remove duplicte props when we find out why modal props arent applying
-      overlayBlur={0.5}
-      shadow="sm"
-      radius="md"
-      overlayOpacity={0.9}
-      overlayColor={isDark ? '#101113' : '#E9ECEF'}
-      centered
     >
       <LoadingOverlay visible={isLoading} />
       <Stack>

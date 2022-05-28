@@ -29,7 +29,6 @@ export const QuizQuestionCard = ({
   onUseQuestion,
 }: Props) => {
   const { classes } = useStyles();
-
   const { slide } = useCurrentSlide();
 
   const questionUseHandler = (e: SyntheticEvent) => {
