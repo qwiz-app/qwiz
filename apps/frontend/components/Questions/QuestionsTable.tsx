@@ -6,7 +6,7 @@ import {
   ScrollArea,
   Stack,
   Table,
-  TextInput
+  TextInput,
 } from '@mantine/core';
 import { useInputAccentStyles } from 'components/UI/use-input-styles';
 import { useAppColorscheme } from 'hooks/colorscheme';
@@ -23,13 +23,18 @@ type RowData = QuestionWithContentAndCategoriesAndMode;
 
 function filterData(data: RowData[], search: string) {
   const query = search.toLowerCase().trim();
-
-  return data?.filter((item) => {
-    const textualContent = item.contents
-      .filter((c) => c.type === 'TEXT')
-      .map((c) => c.content.toLowerCase());
-    return textualContent.some((c) => c.includes(query));
-  });
+  const keys = Object.keys(data[0]);
+  return data?.filter((item) =>
+    keys.some((key) => {
+      const textualContent =
+        item.contents
+          ?.filter((c) => c.type === 'TEXT')
+          .map((c) => c.content.toLowerCase()) ?? [];
+      const categories =
+        item.categories?.map((c) => c.name.toLowerCase()) ?? [];
+      return [...textualContent, ...categories].some((c) => c.includes(query));
+    })
+  );
 }
 
 export const QuestionsTable = ({ questions }: Props) => {
@@ -81,7 +86,7 @@ export const QuestionsTable = ({ questions }: Props) => {
         <Group mx={8} my={8} mb={16} position="apart">
           <TextInput
             sx={() => ({ flex: 1 })}
-            placeholder="Search by content"
+            placeholder="Search by content or categories"
             size="md"
             value={search}
             onChange={handleSearchChange}

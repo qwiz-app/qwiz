@@ -7,7 +7,6 @@ import {
   Text,
   Tooltip,
 } from '@mantine/core';
-import { useAppColorscheme } from 'hooks/colorscheme';
 import { DateTimeFormat, formatDate, relativeTimeTo } from 'lib/utils';
 import { QuestionWithContentAndCategoriesAndMode } from 'types/api/question';
 
@@ -16,8 +15,6 @@ interface Props {
 }
 
 export const QuestionTableRow = ({ question }: Props) => {
-  const { isDark } = useAppColorscheme();
-
   const textualContent = question.contents.filter((c) => c.type === 'TEXT');
   const imageContent = question.contents.filter((c) => c.type === 'IMAGE');
   const { categories } = question;
