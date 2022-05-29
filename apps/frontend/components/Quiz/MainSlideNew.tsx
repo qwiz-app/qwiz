@@ -6,7 +6,7 @@ import {
   Image,
   Overlay,
   Stack,
-  Title
+  Title,
 } from '@mantine/core';
 import { QuestionElementType } from '@prisma/client';
 import { useBackgroundColor } from 'hooks/use-background-color';
@@ -57,7 +57,7 @@ export const MainSlideNew = ({ question }: Props) => {
                   key={elem.id}
                   height={300}
                   src={elem.content}
-                  radius="sm"
+                  radius="md"
                   alt="question image"
                 />
               ))}

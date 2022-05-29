@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 import { paths } from 'paths';
 import {
   Binoculars,
+  CircleWavyQuestion,
   Confetti,
   DiscordLogo,
   GithubLogo,
@@ -26,7 +27,7 @@ import {
   SignOut,
   SquaresFour,
   Sun,
-  User,
+  User
 } from 'phosphor-react';
 
 export type SpotlightItem = SpotlightAction & {
@@ -80,6 +81,14 @@ const useSpotlightActions = () => {
       description: 'Go to your quizzes',
       onTrigger: () => router.push(paths.quiz()),
       icon: <Queue {...iconProps} />,
+      permissions: [Role.ORGANIZATION],
+    },
+    {
+      title: 'Questions',
+      group: 'Navigate',
+      description: 'Go to your questions',
+      onTrigger: () => router.push(paths.questions()),
+      icon: <CircleWavyQuestion {...iconProps} />,
       permissions: [Role.ORGANIZATION],
     },
     {
@@ -197,7 +206,7 @@ export const CustomSpotlightProvider = ({ children }) => {
     // TODO: only allow providers on spotlight for /signin page
     <SpotlightProvider
       actions={actions}
-      searchIcon={<MagnifyingGlass size={24} />}
+      searchIcon={<MagnifyingGlass size={24} weight="duotone" />}
       searchPlaceholder="Search..."
       shortcut={['mod + P', 'mod + K', '/']}
       nothingFoundMessage="Nothing found..."

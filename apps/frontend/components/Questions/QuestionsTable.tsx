@@ -1,179 +1,154 @@
 import {
-  Avatar,
-  AvatarsGroup,
-  Badge,
+  Button,
+  createStyles,
   Group,
+  Paper,
   ScrollArea,
   Stack,
   Table,
-  Text,
-  TextInput,
-  Tooltip
+  TextInput
 } from '@mantine/core';
+import { useInputAccentStyles } from 'components/UI/use-input-styles';
 import { useAppColorscheme } from 'hooks/colorscheme';
-import { formatDate, relativeTimeTo } from 'lib/utils';
-import { MagnifyingGlass } from 'phosphor-react';
-import { useEffect } from 'react';
+import { MagnifyingGlass, TextT } from 'phosphor-react';
+import { ChangeEvent, useMemo, useState } from 'react';
 import { QuestionWithContentAndCategoriesAndMode } from 'types/api/question';
+import { QuestionTableRow } from './QuestionTableRow';
 
 interface Props {
   questions: QuestionWithContentAndCategoriesAndMode[];
 }
 
+type RowData = QuestionWithContentAndCategoriesAndMode;
+
+function filterData(data: RowData[], search: string) {
+  const query = search.toLowerCase().trim();
+
+  return data?.filter((item) => {
+    const textualContent = item.contents
+      .filter((c) => c.type === 'TEXT')
+      .map((c) => c.content.toLowerCase());
+    return textualContent.some((c) => c.includes(query));
+  });
+}
+
 export const QuestionsTable = ({ questions }: Props) => {
+  const { classes, cx } = useStyles();
+  const { classes: inputClasses } = useInputAccentStyles();
   const { isDark } = useAppColorscheme();
+  const [scrolled, setScrolled] = useState(false);
+
+  const headings = [
+    'Textual',
+    'Visual',
+    'Scope',
+    // 'Owner',
+    'Categories',
+    'Edited',
+    'Created',
+    'Availability',
+  ];
+
+  const [search, setSearch] = useState('');
+
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.currentTarget;
+    setSearch(value);
+  };
+
+  const sortedData = useMemo(
+    () => filterData(questions, search),
+    [questions, search]
+  );
 
   const ths = (
     <tr>
-      <th>Textual</th>
-      <th>Visual</th>
-      <th>Scope</th>
-      {/* <th>Owner</th> */}
-      <th>Categories</th>
-      <th>Last edited</th>
-      <th>Availability</th>
+      {headings.map((heading, i) => (
+        <th className={classes.th} key={i}>
+          {heading}
+        </th>
+      ))}
     </tr>
   );
 
-  useEffect(() => {
-    console.log('QuestionsTable: useEffect', questions);
-  }, [questions]);
-
-  const rows = questions?.map((element) => {
-    const textualContent = element.contents.filter((c) => c.type === 'TEXT');
-    const imageContent = element.contents.filter((c) => c.type === 'IMAGE');
-    const { categories } = element;
-    const hasCategories = categories?.length > 0;
-    // const hasImageContent = imageContent?.length > 0;
-
-    const categoryLimit = 2;
-
-    return (
-      <tr key={element.id}>
-        <td>
-          <Group spacing="sm">
-            {textualContent
-              .filter((c) => c.type === 'TEXT')
-              .slice(0, 1)
-              .map((c) => (
-                <Text key={c.id} lineClamp={1}>
-                  {c.content}
-                </Text>
-              ))}
-            {textualContent?.length > 1 && (
-              <Text weight={500} size="xs" color="dimmed">
-                + {textualContent.length - 1} more
-              </Text>
-            )}
-          </Group>
-        </td>
-        <td>
-          <AvatarsGroup
-            limit={3}
-            sx={() => ({
-              height: 40,
-            })}
-            radius="md"
-          >
-            {imageContent?.map((c) => (
-              <Avatar src={c.content} key={c.id} />
-            ))}
-          </AvatarsGroup>
-        </td>
-        <td>
-          <Stack align="start">
-            {element.isGlobal ? (
-              <Badge color="green" variant="dot" size="sm">
-                Global
-              </Badge>
-            ) : (
-              <Badge color="orange" variant="dot" size="sm">
-                Personal
-              </Badge>
-            )}
-          </Stack>
-        </td>
-        {/* <td>
-          {element.owner ? (
-            <Group>
-              <Avatar radius="xl" size={32} src={element.owner?.user.image} />
-              <Text size="sm">{element.owner?.name}</Text>
-            </Group>
-          ) : (
-            <Group>
-              <Avatar radius="xl" size={32} color="blue">
-                <GlobeSimple size={24} weight="duotone" />
-              </Avatar>
-            </Group>
-          )}
-        </td> */}
-        <td>
-          {hasCategories ? (
-            <Group spacing={2}>
-              {categories?.slice(0, categoryLimit).map((elem) => (
-                <Badge
-                  variant={isDark ? 'light' : 'outline'}
-                  color={elem.color}
-                  size="sm"
-                  key={elem.id}
-                  radius="xl"
-                >
-                  {elem.name}
-                </Badge>
-              ))}
-              {categories?.length > categoryLimit && (
-                <Text ml={4} weight={500} size="xs" color="dimmed">
-                  + {categories.length - 1}
-                </Text>
-              )}
-            </Group>
-          ) : null}
-        </td>
-        <td>
-          <Tooltip
-            label={formatDate(element.updatedAt)}
-            position="right"
-            withArrow
-            gutter={8}
-          >
-            <Text size="xs" color="dimmed">
-              {relativeTimeTo(element.updatedAt)}
-            </Text>
-          </Tooltip>
-        </td>
-        <td>
-          <Stack align="start">
-            {element.isActive ? (
-              <Badge color="green" variant="outline" size="sm">
-                Active
-              </Badge>
-            ) : (
-              <Badge color="red" variant="outline" size="sm">
-                Inactive
-              </Badge>
-            )}
-          </Stack>
-        </td>
-      </tr>
-    );
-  });
+  const rows = sortedData?.map((element) => (
+    <QuestionTableRow question={element} key={element.id} />
+  ));
 
   return (
-    <ScrollArea
-      sx={() => ({
-        width: '100%',
-      })}
-    >
-      <TextInput
-        placeholder="Search by any field"
-        mb="md"
-        size="md"
-        icon={<MagnifyingGlass size={14} />}
-      />
-      <Table fontSize="md" highlightOnHover>
-        <thead>{ths}</thead>
-        <tbody>{rows}</tbody>
-      </Table>
-    </ScrollArea>
+    <Stack spacing="sm" mt="xs">
+      <Paper withBorder radius="sm" pt={2}>
+        <Group mx={8} my={8} mb={16} position="apart">
+          <TextInput
+            sx={() => ({ flex: 1 })}
+            placeholder="Search by content"
+            size="md"
+            value={search}
+            onChange={handleSearchChange}
+            icon={<MagnifyingGlass size={18} weight="duotone" />}
+            classNames={inputClasses}
+          />
+          <Button
+            leftIcon={<TextT size={18} weight="duotone" />}
+            variant={isDark ? 'light' : 'filled'}
+            color={isDark ? 'orange' : 'dark'}
+            size="md"
+          >
+            Create question
+          </Button>
+        </Group>
+
+        <ScrollArea
+          sx={() => ({
+            width: '100%',
+            height: 'calc(100vh - 290px)',
+          })}
+          onScrollPositionChange={({ y }) => setScrolled(y !== 0)}
+        >
+          <Table fontSize="sm" highlightOnHover>
+            <thead
+              className={cx(classes.header, { [classes.scrolled]: scrolled })}
+            >
+              {ths}
+            </thead>
+            <tbody>{rows}</tbody>
+          </Table>
+        </ScrollArea>
+      </Paper>
+    </Stack>
   );
 };
+
+const useStyles = createStyles((theme) => ({
+  th: {
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    fontSize: '12px !important',
+  },
+
+  header: {
+    position: 'sticky',
+    zIndex: 20,
+    top: 0,
+    backgroundColor:
+      theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
+    transition: 'box-shadow 150ms ease',
+
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      bottom: 0,
+      borderBottom: `1px solid ${
+        theme.colorScheme === 'dark'
+          ? theme.colors.dark[3]
+          : theme.colors.gray[2]
+      }`,
+    },
+  },
+
+  scrolled: {
+    boxShadow: theme.shadows.sm,
+  },
+}));

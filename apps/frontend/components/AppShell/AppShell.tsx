@@ -4,7 +4,7 @@ import {
   Container,
   Group,
   Header as MantineHeader,
-  Navbar as MantineNavbar,
+  Navbar as MantineNavbar
 } from '@mantine/core';
 import LogoDark from 'assets/logo/qwiz-dark.svg';
 import LogoWhite from 'assets/logo/qwiz-white.svg';
@@ -41,7 +41,7 @@ export const AppShell = ({ children }) => {
       hiddenBreakpoint="sm"
       hidden={!opened}
       p="md"
-      width={{ base: '100%', sm: 260, md: 320 }}
+      width={{ base: '100%', sm: 260, md: 300, xl: 320 }}
       fixed
     >
       {!matches.max.sm && (

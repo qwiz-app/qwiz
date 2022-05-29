@@ -7,7 +7,7 @@ import {
   Paper,
   SimpleGrid,
   Stack,
-  Title,
+  Title
 } from '@mantine/core';
 import { QuestionElementType } from '@prisma/client';
 import { QuestionWithContentAndCategoriesAndMode } from 'types/api/question';
@@ -46,7 +46,7 @@ export const SelectedQuestionModalContent = ({ question }: Props) => {
             </Badge>
             <Stack align="start" spacing={4}>
               {textElements.map((elem) => (
-                <Paper key={elem.id} radius="sm">
+                <Paper key={elem.id} radius="md">
                   <Title order={6}>{elem.content}</Title>
                 </Paper>
               ))}
@@ -70,7 +70,7 @@ export const SelectedQuestionModalContent = ({ question }: Props) => {
                 {imageElements.map((elem) => (
                   <Paper
                     key={elem.id}
-                    radius="sm"
+                    radius="md"
                     sx={() => ({ overflow: 'hidden' })}
                   >
                     <Image src={elem.content} alt="question image" />
@@ -93,7 +93,7 @@ export const SelectedQuestionModalContent = ({ question }: Props) => {
           </Badge>
           <Group align="start" spacing={8}>
             {['answer1', 'answer2'].map((elem) => (
-              <Badge variant="light" key={elem} radius="sm" size="md">
+              <Badge variant="light" key={elem} radius="md" size="md">
                 {elem}
               </Badge>
             ))}

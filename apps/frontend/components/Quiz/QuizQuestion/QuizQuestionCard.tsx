@@ -8,7 +8,7 @@ import {
   Stack,
   Text,
   Tooltip,
-  UnstyledButton,
+  UnstyledButton
 } from '@mantine/core';
 import { QuestionElementType } from '@prisma/client';
 import { formatDate, relativeTimeTo } from 'lib/utils';

@@ -1,6 +1,5 @@
 import { Container } from '@mantine/core';
 import { useBreakpoints } from 'hooks/breakpoints';
-import React from 'react';
 import { AppShell } from '../AppShell/AppShell';
 
 const DashboardLayout = ({ children }) => {
@@ -16,7 +15,7 @@ const DashboardLayout = ({ children }) => {
     if (matches.max.lg) {
       return 16;
     }
-    return 32;
+    return 24;
   };
 
   return (
@@ -25,6 +24,7 @@ const DashboardLayout = ({ children }) => {
         fluid
         pt={16}
         py={32}
+        pb={16}
         px={sidePadding()}
         sx={() => ({
           maxWidth: 3000,

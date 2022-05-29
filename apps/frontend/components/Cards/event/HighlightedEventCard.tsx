@@ -82,7 +82,7 @@ export const HighlightedEventCard = ({ event, loading }: Props) => {
           ml="auto"
           variant="white"
           color="dark"
-          radius="sm"
+          radius="md"
           onClick={gotoEvent}
         >
           Check it out
