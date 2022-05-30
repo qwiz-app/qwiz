@@ -8,8 +8,10 @@ import { useAppColorscheme } from 'hooks/colorscheme';
 import { Globe, UserCircle } from 'phosphor-react';
 
 const QuestionsPage = (props) => {
-  const { data: myQuestions } = useMyQuestions();
-  const { data: availableQuestions } = useAvailableQuestions();
+  const { data: myQuestions, isLoading: isMyQuestionsLoading } =
+    useMyQuestions();
+  const { data: availableQuestions, isLoading: isQuestionsLoading } =
+    useAvailableQuestions();
   const { isDark } = useAppColorscheme();
 
   return (
@@ -23,13 +25,19 @@ const QuestionsPage = (props) => {
             icon={<UserCircle size={20} weight="duotone" />}
             label="Personal"
           >
-            <QuestionsTable questions={myQuestions} />
+            <QuestionsTable
+              questions={myQuestions}
+              loading={isMyQuestionsLoading}
+            />
           </Tabs.Tab>
           <Tabs.Tab
             icon={<Globe size={20} weight="duotone" />}
             label="All available"
           >
-            <QuestionsTable questions={availableQuestions} />
+            <QuestionsTable
+              questions={availableQuestions}
+              loading={isQuestionsLoading}
+            />
           </Tabs.Tab>
         </Tabs>
       </PageSection>

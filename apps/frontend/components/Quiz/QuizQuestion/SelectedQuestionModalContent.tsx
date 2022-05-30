@@ -9,7 +9,7 @@ import {
   Stack,
   Text,
   Title,
-  Tooltip
+  Tooltip,
 } from '@mantine/core';
 import { useQuestionContents } from 'hooks/use-question-contents';
 import { formatDate, relativeTimeTo } from 'lib/utils';
@@ -31,19 +31,19 @@ export const SelectedQuestionModalContent = ({ question }: Props) => {
 
   return (
     <Box>
+      <Group position="right" mb={16}>
+        <Tooltip
+          label={formatDate(question.updatedAt)}
+          position="top"
+          withArrow
+          gutter={8}
+        >
+          <Text size="xs" color="dimmed">
+            Updated {relativeTimeTo(question.updatedAt)}
+          </Text>
+        </Tooltip>
+      </Group>
       <Stack classNames={classes.sectionsWrapper} spacing="lg">
-        <Group position="right">
-          <Tooltip
-            label={formatDate(question.updatedAt)}
-            position="right"
-            withArrow
-            gutter={8}
-          >
-            <Text size="xs" color="dimmed">
-              Updated {relativeTimeTo(question.updatedAt)}
-            </Text>
-          </Tooltip>
-        </Group>
         {hasTextualContent && (
           <Paper
             withBorder
@@ -58,7 +58,9 @@ export const SelectedQuestionModalContent = ({ question }: Props) => {
             <Stack align="start" spacing={4}>
               {textualContent.map((elem) => (
                 <Paper key={elem.id} radius="md">
-                  <Title order={6}>{elem.content}</Title>
+                  <Title order={6} sx={() => ({ lineHeight: 1.25 })}>
+                    {elem.content}
+                  </Title>
                 </Paper>
               ))}
             </Stack>
@@ -81,10 +83,22 @@ export const SelectedQuestionModalContent = ({ question }: Props) => {
                 {imageContent.map((elem) => (
                   <Paper
                     key={elem.id}
-                    radius="md"
-                    sx={() => ({ overflow: 'hidden' })}
+                    radius="sm"
+                    className={classes.thumbnailWrapper}
                   >
-                    <Image src={elem.content} alt="question image" />
+                    <Image
+                      className={classes.thumbnail}
+                      height="100%"
+                      fit="cover"
+                      styles={{
+                        root: { height: '100%' },
+                        imageWrapper: { height: '100%' },
+                        figure: { height: '100%' },
+                      }}
+                      src={elem.content}
+                      alt="question image"
+                      onClick={() => window.open(elem.content)}
+                    />
                   </Paper>
                 ))}
               </SimpleGrid>
@@ -140,7 +154,7 @@ export const SelectedQuestionModalContent = ({ question }: Props) => {
   );
 };
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles(() => ({
   sectionsWrapper: {
     width: '100%',
   },
@@ -154,5 +168,14 @@ const useStyles = createStyles((theme) => ({
     top: -9,
     left: 16,
     zIndex: 10,
+  },
+
+  thumbnailWrapper: {
+    overflow: 'hidden',
+  },
+
+  thumbnail: {
+    cursor: 'pointer',
+    aspectRatio: '1',
   },
 }));

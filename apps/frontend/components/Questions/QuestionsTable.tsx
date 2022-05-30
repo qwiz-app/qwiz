@@ -2,11 +2,12 @@ import {
   Button,
   createStyles,
   Group,
+  LoadingOverlay,
   Paper,
   ScrollArea,
   Stack,
   Table,
-  TextInput
+  TextInput,
 } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { SelectedQuestionModalContent } from 'components/Quiz/QuizQuestion/SelectedQuestionModalContent';
@@ -19,6 +20,7 @@ import { QuestionTableRow } from './QuestionTableRow';
 
 interface Props {
   questions: QuestionWithContentAndCategoriesAndMode[];
+  loading?: boolean;
 }
 
 type RowData = QuestionWithContentAndCategoriesAndMode;
@@ -39,7 +41,7 @@ function filterData(data: RowData[], search: string) {
   );
 }
 
-export const QuestionsTable = ({ questions }: Props) => {
+export const QuestionsTable = ({ questions, loading }: Props) => {
   const { classes, cx } = useStyles();
   const { classes: inputClasses } = useInputAccentStyles();
   const { isDark } = useAppColorscheme();
@@ -86,7 +88,8 @@ export const QuestionsTable = ({ questions }: Props) => {
   ) => {
     const { isGlobal } = question;
 
-    const id = modals.openModal({
+    modals.openModal({
+      size: 'lg',
       title: 'Question details',
       children: (
         <Stack pt={4}>
@@ -145,6 +148,7 @@ export const QuestionsTable = ({ questions }: Props) => {
           onScrollPositionChange={({ y }) => setScrolled(y !== 0)}
         >
           <Table fontSize="sm" highlightOnHover>
+            <LoadingOverlay visible={loading} />
             <thead
               className={cx(classes.header, { [classes.scrolled]: scrolled })}
             >

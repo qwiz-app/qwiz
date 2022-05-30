@@ -9,7 +9,7 @@ import {
   LoadingOverlay,
   Overlay,
   Stack,
-  Tooltip
+  Tooltip,
 } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { FramerAnimatedListItem } from 'components/Framer/FramerAnimatedListItem';
@@ -69,6 +69,7 @@ export const SidePanelQuestions = () => {
     const isSelected = question.id === slide?.quizQuestion?.questionId;
 
     const id = modals.openModal({
+      size: 'lg',
       title: 'Question details',
       children: (
         <Stack pt={4}>
