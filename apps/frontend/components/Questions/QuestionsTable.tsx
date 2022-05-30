@@ -6,7 +6,7 @@ import {
   ScrollArea,
   Stack,
   Table,
-  TextInput,
+  TextInput
 } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { SelectedQuestionModalContent } from 'components/Quiz/QuizQuestion/SelectedQuestionModalContent';

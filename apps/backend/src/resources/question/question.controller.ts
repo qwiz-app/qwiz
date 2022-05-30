@@ -32,8 +32,9 @@ export class QuestionController {
         },
       },
     },
-    questionMode: true,
+    // questionMode: true,
     categories: true,
+    _count: true,
   };
 
   @Post()

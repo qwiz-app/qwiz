@@ -7,9 +7,12 @@ import {
   Paper,
   SimpleGrid,
   Stack,
-  Title
+  Text,
+  Title,
+  Tooltip
 } from '@mantine/core';
-import { QuestionElementType } from '@prisma/client';
+import { useQuestionContents } from 'hooks/use-question-contents';
+import { formatDate, relativeTimeTo } from 'lib/utils';
 import { QuestionWithContentAndCategoriesAndMode } from 'types/api/question';
 
 interface Props {
@@ -17,23 +20,31 @@ interface Props {
 }
 
 export const SelectedQuestionModalContent = ({ question }: Props) => {
-  const textElements = question.contents.filter(
-    ({ type }) => type === QuestionElementType.TEXT
-  );
-  const imageElements = question.contents.filter(
-    ({ type }) => type === QuestionElementType.IMAGE
-  );
-
-  const hasTextElements = textElements?.length > 0;
-  const hasImageElements = imageElements?.length > 0;
-  const hasCategories = question.categories?.length > 0;
-
   const { classes } = useStyles();
+  const {
+    textualContent,
+    imageContent,
+    hasTextualContent,
+    hasImageContent,
+    hasCategories,
+  } = useQuestionContents(question);
 
   return (
     <Box>
       <Stack classNames={classes.sectionsWrapper} spacing="lg">
-        {hasTextElements && (
+        <Group position="right">
+          <Tooltip
+            label={formatDate(question.updatedAt)}
+            position="right"
+            withArrow
+            gutter={8}
+          >
+            <Text size="xs" color="dimmed">
+              Updated {relativeTimeTo(question.updatedAt)}
+            </Text>
+          </Tooltip>
+        </Group>
+        {hasTextualContent && (
           <Paper
             withBorder
             p="md"
@@ -45,7 +56,7 @@ export const SelectedQuestionModalContent = ({ question }: Props) => {
               Textual
             </Badge>
             <Stack align="start" spacing={4}>
-              {textElements.map((elem) => (
+              {textualContent.map((elem) => (
                 <Paper key={elem.id} radius="md">
                   <Title order={6}>{elem.content}</Title>
                 </Paper>
@@ -54,7 +65,7 @@ export const SelectedQuestionModalContent = ({ question }: Props) => {
           </Paper>
         )}
 
-        {hasImageElements && (
+        {hasImageContent && (
           <Paper
             withBorder
             p="md"
@@ -67,7 +78,7 @@ export const SelectedQuestionModalContent = ({ question }: Props) => {
             </Badge>
             <Stack align="start" spacing={8}>
               <SimpleGrid cols={2}>
-                {imageElements.map((elem) => (
+                {imageContent.map((elem) => (
                   <Paper
                     key={elem.id}
                     radius="md"

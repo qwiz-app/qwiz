@@ -10,7 +10,9 @@ import {
   Tooltip,
   UnstyledButton
 } from '@mantine/core';
-import { QuestionElementType } from '@prisma/client';
+import {
+  useQuestionContents
+} from 'hooks/use-question-contents';
 import { formatDate, relativeTimeTo } from 'lib/utils';
 import { CheckCircle, PlusCircle } from 'phosphor-react';
 import { SyntheticEvent } from 'react';
@@ -30,6 +32,7 @@ export const QuizQuestionCard = ({
 }: Props) => {
   const { classes } = useStyles();
   const { slide } = useCurrentSlide();
+  const { primaryTextualContent } = useQuestionContents(question);
 
   const questionUseHandler = (e: SyntheticEvent) => {
     e.stopPropagation();
@@ -37,13 +40,6 @@ export const QuizQuestionCard = ({
   };
 
   const isSelected = question.id === slide?.quizQuestion?.questionId;
-
-  const getTextContent = () => {
-    const textElements = question.contents.filter(
-      ({ type }) => type === QuestionElementType.TEXT
-    );
-    return textElements[0]?.content;
-  };
 
   return (
     <UnstyledButton
@@ -77,7 +73,7 @@ export const QuizQuestionCard = ({
             </Group>
           </Group>
           <Text size="md" weight="600" color="gray">
-            {getTextContent()}
+            {primaryTextualContent}
           </Text>
         </Stack>
         <Stack mt={2}>

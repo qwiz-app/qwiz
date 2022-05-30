@@ -6,8 +6,9 @@ import {
   Group,
   Stack,
   Text,
-  Tooltip,
+  Tooltip
 } from '@mantine/core';
+import { useQuestionContents } from 'hooks/use-question-contents';
 import { DateTimeFormat, formatDate, relativeTimeTo } from 'lib/utils';
 import { QuestionWithContentAndCategoriesAndMode } from 'types/api/question';
 
@@ -17,10 +18,8 @@ interface Props {
 }
 
 export const QuestionTableRow = ({ question, onRowClick }: Props) => {
-  const textualContent = question.contents.filter((c) => c.type === 'TEXT');
-  const imageContent = question.contents.filter((c) => c.type === 'IMAGE');
-  const { categories } = question;
-  const hasCategories = categories?.length > 0;
+  const { classes } = useStyles();
+  const { textualContent, imageContent, categories, hasCategories } = useQuestionContents(question);
 
   const categoryLimit = 2;
 
@@ -28,7 +27,6 @@ export const QuestionTableRow = ({ question, onRowClick }: Props) => {
     onRowClick(question);
   };
 
-  const { classes } = useStyles();
 
   return (
     <tr key={question.id} onClick={rowClickHandler} className={classes.row}>
