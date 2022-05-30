@@ -9,7 +9,7 @@ import {
   LoadingOverlay,
   Overlay,
   Stack,
-  Tooltip,
+  Tooltip
 } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { FramerAnimatedListItem } from 'components/Framer/FramerAnimatedListItem';
@@ -24,7 +24,6 @@ import { useMemo, useState } from 'react';
 import { QuestionWithContentAndCategoriesAndMode } from 'types/api/question';
 import { QuizQuestionCard } from './QuizQuestion/QuizQuestionCard';
 import { SelectedQuestionModalContent } from './QuizQuestion/SelectedQuestionModalContent';
-import { useSelectedQuestion } from './QuizQuestion/use-selected-question';
 import { SidePanelWrapper } from './SidePanelWrapper';
 import { useCurrentQuiz } from './use-current-quiz';
 import { useCurrentSlide } from './use-current-slide';
@@ -33,7 +32,6 @@ export const SidePanelQuestions = () => {
   const { data: me } = useCurrentOrganizationInfo();
   // TODO: loading skeletons
   const { data: questions } = useAvailableQuestions();
-  const { selectedQuestion } = useSelectedQuestion();
   const { id: quizId } = useCurrentQuiz();
   const { data: slides } = useSlides(quizId);
   const { theme, isDark } = useAppColorscheme();
@@ -68,7 +66,7 @@ export const SidePanelQuestions = () => {
   const openQuestionModal = (
     question: QuestionWithContentAndCategoriesAndMode
   ) => {
-    const isSelected = selectedQuestion?.id === question.id;
+    const isSelected = question.id === slide?.quizQuestion?.questionId;
 
     const id = modals.openModal({
       title: 'Question details',

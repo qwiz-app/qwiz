@@ -2,6 +2,7 @@ import {
   Avatar,
   AvatarsGroup,
   Badge,
+  createStyles,
   Group,
   Stack,
   Text,
@@ -12,9 +13,10 @@ import { QuestionWithContentAndCategoriesAndMode } from 'types/api/question';
 
 interface Props {
   question: QuestionWithContentAndCategoriesAndMode;
+  onRowClick: (question: QuestionWithContentAndCategoriesAndMode) => void;
 }
 
-export const QuestionTableRow = ({ question }: Props) => {
+export const QuestionTableRow = ({ question, onRowClick }: Props) => {
   const textualContent = question.contents.filter((c) => c.type === 'TEXT');
   const imageContent = question.contents.filter((c) => c.type === 'IMAGE');
   const { categories } = question;
@@ -22,8 +24,14 @@ export const QuestionTableRow = ({ question }: Props) => {
 
   const categoryLimit = 2;
 
+  const rowClickHandler = (e) => {
+    onRowClick(question);
+  };
+
+  const { classes } = useStyles();
+
   return (
-    <tr key={question.id}>
+    <tr key={question.id} onClick={rowClickHandler} className={classes.row}>
       <td>
         <Group spacing="sm" align="baseline">
           {textualContent
@@ -143,3 +151,9 @@ export const QuestionTableRow = ({ question }: Props) => {
     </tr>
   );
 };
+
+const useStyles = createStyles((theme) => ({
+  row: {
+    cursor: 'pointer',
+  },
+}));

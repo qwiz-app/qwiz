@@ -93,26 +93,26 @@ export const SelectedQuestionModalContent = ({ question }: Props) => {
           </Badge>
           <Group align="start" spacing={8}>
             {['answer1', 'answer2'].map((elem) => (
-              <Badge variant="light" key={elem} radius="md" size="md">
+              <Badge variant="light" key={elem} radius="sm" size="md">
                 {elem}
               </Badge>
             ))}
           </Group>
         </Paper>
 
-        {hasCategories && (
-          <Group align="start" spacing={8}>
-            {question.isGlobal && (
-              <Badge color="green" variant="dot" size="sm">
-                Global
-              </Badge>
-            )}
-            {!question.isGlobal && (
-              <Badge color="orange" variant="dot" size="sm">
-                Personal
-              </Badge>
-            )}
-            {question.categories.map((elem) => (
+        <Group align="start" spacing={8}>
+          {question.isGlobal && (
+            <Badge color="green" variant="dot" size="sm">
+              Global
+            </Badge>
+          )}
+          {!question.isGlobal && (
+            <Badge color="orange" variant="dot" size="sm">
+              Personal
+            </Badge>
+          )}
+          {hasCategories &&
+            question.categories.map((elem) => (
               <Badge
                 variant="light"
                 color={elem.color}
@@ -123,8 +123,7 @@ export const SelectedQuestionModalContent = ({ question }: Props) => {
                 {elem.name}
               </Badge>
             ))}
-          </Group>
-        )}
+        </Group>
       </Stack>
     </Box>
   );

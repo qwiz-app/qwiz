@@ -8,9 +8,11 @@ import {
   Table,
   TextInput,
 } from '@mantine/core';
+import { useModals } from '@mantine/modals';
+import { SelectedQuestionModalContent } from 'components/Quiz/QuizQuestion/SelectedQuestionModalContent';
 import { useInputAccentStyles } from 'components/UI/use-input-styles';
 import { useAppColorscheme } from 'hooks/colorscheme';
-import { MagnifyingGlass, TextT } from 'phosphor-react';
+import { MagnifyingGlass, TextT, TrashSimple } from 'phosphor-react';
 import { ChangeEvent, useMemo, useState } from 'react';
 import { QuestionWithContentAndCategoriesAndMode } from 'types/api/question';
 import { QuestionTableRow } from './QuestionTableRow';
@@ -23,7 +25,7 @@ type RowData = QuestionWithContentAndCategoriesAndMode;
 
 function filterData(data: RowData[], search: string) {
   const query = search.toLowerCase().trim();
-  const keys = Object.keys(data[0]);
+  const keys = data ? Object.keys(data?.[0]) ?? [] : [];
   return data?.filter((item) =>
     keys.some((key) => {
       const textualContent =
@@ -43,6 +45,9 @@ export const QuestionsTable = ({ questions }: Props) => {
   const { isDark } = useAppColorscheme();
   const [scrolled, setScrolled] = useState(false);
 
+  // Filters
+  const [search, setSearch] = useState('');
+
   const headings = [
     'Textual',
     'Visual',
@@ -53,8 +58,6 @@ export const QuestionsTable = ({ questions }: Props) => {
     'Created',
     'Availability',
   ];
-
-  const [search, setSearch] = useState('');
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;
@@ -76,8 +79,39 @@ export const QuestionsTable = ({ questions }: Props) => {
     </tr>
   );
 
+  const modals = useModals();
+
+  const openQuestionModal = (
+    question: QuestionWithContentAndCategoriesAndMode
+  ) => {
+    const { isGlobal } = question;
+
+    const id = modals.openModal({
+      title: 'Question details',
+      children: (
+        <Stack pt={4}>
+          <SelectedQuestionModalContent question={question} />
+          <Group position="right">
+            {!isGlobal && (
+              <Button
+                color="red"
+                rightIcon={<TrashSimple size={20} weight="duotone" />}
+              >
+                Delete
+              </Button>
+            )}
+          </Group>
+        </Stack>
+      ),
+    });
+  };
+
   const rows = sortedData?.map((element) => (
-    <QuestionTableRow question={element} key={element.id} />
+    <QuestionTableRow
+      question={element}
+      key={element.id}
+      onRowClick={openQuestionModal}
+    />
   ));
 
   return (
