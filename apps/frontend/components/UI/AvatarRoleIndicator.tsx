@@ -20,7 +20,7 @@ export const AvatarRoleIndicator = ({
       case Role.ADMIN:
         return 'red';
       case Role.ORGANIZATION:
-        return 'orange';
+        return 'indigo';
       case Role.ATTENDEE:
         return 'yellow';
       default:
