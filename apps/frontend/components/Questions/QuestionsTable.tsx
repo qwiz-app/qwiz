@@ -26,7 +26,7 @@ type RowData = QuestionWithContentAndCategoriesAndMode;
 
 function filterData(data: RowData[], search: string) {
   const query = search.toLowerCase().trim();
-  const keys = data ? Object.keys(data?.[0]) ?? [] : [];
+  const keys = data?.[0] ? Object.keys(data[0]) : [];
   return data?.filter((item) =>
     keys.some((key) => {
       const textualContent =
