@@ -7,6 +7,7 @@ export const useQuestionCreate = () => {
   return useMutation(createQuestion, {
     onSuccess: () => {
       queryClient.invalidateQueries('questions');
+      queryClient.invalidateQueries('questionsByMe');
     },
   });
 };

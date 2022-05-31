@@ -2,31 +2,79 @@ import {
   Avatar,
   AvatarsGroup,
   Badge,
+  Button,
   createStyles,
   Group,
   Stack,
   Text,
   Tooltip
 } from '@mantine/core';
+import { useModals } from '@mantine/modals';
+import { showNotification } from '@mantine/notifications';
+import { SelectedQuestionModalContent } from 'components/Quiz/QuizQuestion/SelectedQuestionModalContent';
+import { useQuestionDelete } from 'hooks/api/question';
+import { useDeleteConfirmModal } from 'hooks/use-delete-confirm-modal';
 import { useQuestionContents } from 'hooks/use-question-contents';
 import { DateTimeFormat, formatDate, relativeTimeTo } from 'lib/utils';
+import { TrashSimple } from 'phosphor-react';
 import { QuestionWithContentAndCategoriesAndMode } from 'types/api/question';
 
 interface Props {
   question: QuestionWithContentAndCategoriesAndMode;
-  onRowClick: (question: QuestionWithContentAndCategoriesAndMode) => void;
+  onRowClick?: (question: QuestionWithContentAndCategoriesAndMode) => void;
 }
 
 export const QuestionTableRow = ({ question, onRowClick }: Props) => {
   const { classes } = useStyles();
-  const { textualContent, imageContent, categories, hasCategories } = useQuestionContents(question);
-
+  const { textualContent, imageContent, categories, hasCategories } =
+    useQuestionContents(question);
   const categoryLimit = 2;
+  const modals = useModals();
 
   const rowClickHandler = (e) => {
-    onRowClick(question);
+    openQuestionDetailsModal();
+    onRowClick?.(question);
   };
 
+  const { mutate: deleteQuestion } = useQuestionDelete(question.id);
+
+  const openDeleteConfirmModal = useDeleteConfirmModal({
+    onConfirm: () => {
+      deleteQuestion();
+      modals.closeAll();
+      showNotification({
+        title: 'Question deleted',
+        message: 'Question has successfully been deleted',
+        color: 'green',
+      });
+    },
+    deletedEntity: 'question',
+  });
+
+  const openQuestionDetailsModal = () => {
+    const { isGlobal } = question;
+
+    modals.openModal({
+      size: 'lg',
+      title: 'Question details',
+      children: (
+        <Stack pt={4}>
+          <SelectedQuestionModalContent question={question} />
+          <Group position="right">
+            {!isGlobal && (
+              <Button
+                color="red"
+                rightIcon={<TrashSimple size={20} weight="duotone" />}
+                onClick={openDeleteConfirmModal}
+              >
+                Delete
+              </Button>
+            )}
+          </Group>
+        </Stack>
+      ),
+    });
+  };
 
   return (
     <tr key={question.id} onClick={rowClickHandler} className={classes.row}>

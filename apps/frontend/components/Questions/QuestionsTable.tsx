@@ -7,13 +7,12 @@ import {
   ScrollArea,
   Stack,
   Table,
-  TextInput,
+  TextInput
 } from '@mantine/core';
-import { useModals } from '@mantine/modals';
-import { SelectedQuestionModalContent } from 'components/Quiz/QuizQuestion/SelectedQuestionModalContent';
+import { QuestionCreateModal } from 'components/Quiz/QuizQuestion/QuizQuestionCreateModal';
 import { useInputAccentStyles } from 'components/UI/use-input-styles';
 import { useAppColorscheme } from 'hooks/colorscheme';
-import { MagnifyingGlass, TextT, TrashSimple } from 'phosphor-react';
+import { MagnifyingGlass, TextT } from 'phosphor-react';
 import { ChangeEvent, useMemo, useState } from 'react';
 import { QuestionWithContentAndCategoriesAndMode } from 'types/api/question';
 import { QuestionTableRow } from './QuestionTableRow';
@@ -81,44 +80,19 @@ export const QuestionsTable = ({ questions, loading }: Props) => {
     </tr>
   );
 
-  const modals = useModals();
-
-  const openQuestionModal = (
-    question: QuestionWithContentAndCategoriesAndMode
-  ) => {
-    const { isGlobal } = question;
-
-    modals.openModal({
-      size: 'lg',
-      title: 'Question details',
-      children: (
-        <Stack pt={4}>
-          <SelectedQuestionModalContent question={question} />
-          <Group position="right">
-            {!isGlobal && (
-              <Button
-                color="red"
-                rightIcon={<TrashSimple size={20} weight="duotone" />}
-              >
-                Delete
-              </Button>
-            )}
-          </Group>
-        </Stack>
-      ),
-    });
-  };
-
   const rows = sortedData?.map((element) => (
-    <QuestionTableRow
-      question={element}
-      key={element.id}
-      onRowClick={openQuestionModal}
-    />
+    <QuestionTableRow question={element} key={element.id} />
   ));
+  
+
+  const [showQuestionModal, setShowQuestionModal] = useState(false);
 
   return (
     <Stack spacing="sm" mt="xs">
+      <QuestionCreateModal
+        opened={showQuestionModal}
+        setOpened={setShowQuestionModal}
+      />
       <Paper withBorder radius="sm" pt={2}>
         <Group mx={8} my={8} mb={16} position="apart">
           <TextInput
@@ -135,6 +109,7 @@ export const QuestionsTable = ({ questions, loading }: Props) => {
             variant={isDark ? 'light' : 'filled'}
             color={isDark ? 'orange' : 'dark'}
             size="md"
+            onClick={() => setShowQuestionModal(true)}
           >
             Create question
           </Button>

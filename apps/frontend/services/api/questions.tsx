@@ -31,8 +31,8 @@ export const createQuestion = (data: QuestionCreateWithContentInput) =>
 //   http.patch<{ count: number }>(`/api/questions/${id}`, data).then(parseData);
 
 // TODO: use mutation
-// export const deleteQuestion = (id: string) =>
-//   http.delete<{ count: number }>(`/api/questions/${id}`).then(parseData);
+export const deleteQuestion = (id: string) =>
+  http.delete<{ count: number }>(`/api/questions/${id}`).then(parseData);
 
 export const fetchAnyQuestion = (id: string) =>
   http

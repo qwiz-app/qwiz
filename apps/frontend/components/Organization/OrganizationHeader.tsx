@@ -7,7 +7,7 @@ import {
   Stack,
   Text,
   Title,
-  Tooltip
+  Tooltip,
 } from '@mantine/core';
 import PeepDark from 'assets/peeps/org-page/peep-org-page-dark.svg';
 import Peep from 'assets/peeps/org-page/peep-org-page.svg';

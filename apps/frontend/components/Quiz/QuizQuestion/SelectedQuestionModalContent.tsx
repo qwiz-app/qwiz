@@ -9,7 +9,7 @@ import {
   Stack,
   Text,
   Title,
-  Tooltip,
+  Tooltip
 } from '@mantine/core';
 import { useQuestionContents } from 'hooks/use-question-contents';
 import { formatDate, relativeTimeTo } from 'lib/utils';
@@ -172,6 +172,8 @@ const useStyles = createStyles(() => ({
 
   thumbnailWrapper: {
     overflow: 'hidden',
+    aspectRatio: '1',
+    minHeight: 265,
   },
 
   thumbnail: {
