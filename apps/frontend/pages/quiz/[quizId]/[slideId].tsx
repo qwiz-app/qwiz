@@ -1,6 +1,6 @@
 import { createStyles, Grid } from '@mantine/core';
 import QuizLayout from 'components/Layouts/QuizLayout';
-import { MainSlideNew } from 'components/Quiz/MainSlideNew';
+import { MainSlide } from 'components/Quiz/MainSlide';
 import { useSelectedQuestion } from 'components/Quiz/QuizQuestion/use-selected-question';
 import { QuizRightSide } from 'components/Quiz/QuizRightSide';
 
@@ -11,10 +11,9 @@ const QuizPage = () => {
   return (
     <Grid className={classes.wrapper}>
       <Grid.Col span={9}>
-        {/* <MainSlide /> */}
-        <MainSlideNew question={selectedQuestion} />
+        <MainSlide question={selectedQuestion} />
       </Grid.Col>
-      <Grid.Col span={3}>
+      <Grid.Col span={3} sx={() => ({ marginLeft: 'auto' })}>
         <QuizRightSide />
       </Grid.Col>
     </Grid>

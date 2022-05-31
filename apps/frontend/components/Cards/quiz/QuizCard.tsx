@@ -204,7 +204,7 @@ export const QuizCard = ({
                   })}
                 >
                   <Text inline size="xs" color="dimmed">
-                    Updated {relativeTimeTo(quiz.updatedAt)}
+                    Edited {relativeTimeTo(quiz.updatedAt)}
                   </Text>
                 </Skeleton>
               </Group>

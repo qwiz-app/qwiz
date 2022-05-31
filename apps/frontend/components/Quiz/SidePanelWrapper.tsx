@@ -1,4 +1,9 @@
-import { Box, createStyles, Group, Paper, Title } from '@mantine/core';
+import {
+  Box,
+  createStyles,
+  Group,
+  Paper, Title
+} from '@mantine/core';
 import { ThinScrollArea } from 'components/UI/ThinScrollArea';
 import { ReactNode } from 'react';
 
@@ -15,11 +20,13 @@ export const SidePanelWrapper = ({ children, slot, title }: Props) => {
     <Paper
       className={classes.wrapper}
       component={ThinScrollArea}
-      shadow="xs"
       radius="md"
       p="md"
+      withBorder
       sx={() => ({
         height: 'calc(100vh - 100px)',
+        maxWidth: 400,
+        marginLeft: 'auto',
       })}
     >
       <Group position="apart" spacing={4}>

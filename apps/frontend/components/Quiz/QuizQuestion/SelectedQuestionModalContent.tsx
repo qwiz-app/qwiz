@@ -9,7 +9,7 @@ import {
   Stack,
   Text,
   Title,
-  Tooltip
+  Tooltip,
 } from '@mantine/core';
 import { useQuestionContents } from 'hooks/use-question-contents';
 import { formatDate, relativeTimeTo } from 'lib/utils';
@@ -39,7 +39,7 @@ export const SelectedQuestionModalContent = ({ question }: Props) => {
           gutter={8}
         >
           <Text size="xs" color="dimmed">
-            Updated {relativeTimeTo(question.updatedAt)}
+            Edited {relativeTimeTo(question.updatedAt)}
           </Text>
         </Tooltip>
       </Group>

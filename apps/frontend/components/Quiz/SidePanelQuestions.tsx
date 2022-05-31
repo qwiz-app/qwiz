@@ -89,7 +89,8 @@ export const SidePanelQuestions = () => {
   const { slide, id } = useCurrentSlide();
   const { mutate: updateQuizQuestion, isLoading: updateLoading } =
     useQuizQuestionUpdate(slide?.quizQuestion?.id);
-  const { mutate: createQuizQuestion } = useQuizQuestionCreate(id);
+  const { mutate: createQuizQuestion, isLoading: isCreateLoading } =
+    useQuizQuestionCreate(id);
 
   const questionUseSelectedHandler = (questionId: string) => {
     if (slide.quizQuestion) {
@@ -147,9 +148,8 @@ export const SidePanelQuestions = () => {
           </Stack>
         </Collapse>
 
-        {/* TODO: height, scroll and overflow troubles */}
         <Stack spacing={8}>
-          <LoadingOverlay visible={updateLoading} />
+          <LoadingOverlay visible={updateLoading || isCreateLoading} />
           {shownQuestions?.map((question) => (
             <FramerAnimatedListItem key={question.id} id={question.id}>
               <QuizQuestionCard
