@@ -1,4 +1,5 @@
 import {
+  ActionIcon,
   Box,
   Button,
   Divider,
@@ -6,7 +7,8 @@ import {
   LoadingOverlay,
   Modal,
   Stack,
-  TextInput
+  TextInput,
+  Tooltip,
 } from '@mantine/core';
 import { QuestionElementType } from '@prisma/client';
 import { FileUpload } from 'components/UI/FileUpload';
@@ -14,7 +16,16 @@ import { useInputAccentStyles } from 'components/UI/use-input-styles';
 import { useModalProps } from 'context/mantine';
 import { useQuestionCreate } from 'hooks/api/question';
 import { useFileUpload } from 'hooks/use-flle-upload';
+import { Trash } from 'phosphor-react';
 import { useEffect, useState } from 'react';
+
+const RightSection = ({ handleDelete }) => (
+  <Tooltip label="Delete question" position="top" placement="end">
+    <ActionIcon onClick={handleDelete}>
+      <Trash size={16} />
+    </ActionIcon>
+  </Tooltip>
+);
 
 export const QuestionCreateModal = ({ opened, setOpened }) => {
   const { mutate: createQuestion, isSuccess, isLoading } = useQuestionCreate();
@@ -58,6 +69,19 @@ export const QuestionCreateModal = ({ opened, setOpened }) => {
 
   const { classes } = useInputAccentStyles();
 
+  const handleDelete = ({ key, index }) => {
+    const newTextual = { ...textual };
+    if (index === 0) {
+      newTextual[key] = {
+        content: '',
+        type: QuestionElementType.TEXT,
+      };
+    } else {
+      delete newTextual[key];
+    }
+    setTextual(newTextual);
+  };
+
   return (
     <Modal
       opened={opened}
@@ -84,6 +108,11 @@ export const QuestionCreateModal = ({ opened, setOpened }) => {
               }
               size="md"
               placeholder="Enter question content"
+              rightSection={
+                <RightSection
+                  handleDelete={() => handleDelete({ key, index })}
+                />
+              }
             />
           ))}
           <Box>
