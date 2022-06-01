@@ -5,7 +5,6 @@ import {
   StatRing,
   StatsRing
 } from 'components/Stats/StatsRing';
-import { DashboardHero } from './DashboardHero';
 
 export const OrganizationDashboard = (props) => {
   // const { classes } = useStyles();
@@ -57,9 +56,6 @@ export const OrganizationDashboard = (props) => {
 
   return (
     <>
-      <PageSection title="Dashboard">
-        <DashboardHero />
-      </PageSection>
       <PageSection>
         <StatsGroup data={data} />
       </PageSection>

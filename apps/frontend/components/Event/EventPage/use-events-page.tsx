@@ -15,7 +15,6 @@ export const useEventsPage = ({
 }: UseQueryResult<EventWithOwner[], AxiosError<unknown, unknown>>) => {
   const { isOrganization, isLoading: sessionLoading } = useCurrentSession();
 
-  const hasEvents = events?.length > 0;
   const isLoadingOrPlaceholder = isLoading || isPlaceholderData;
   const now = dayjs();
 
@@ -31,6 +30,10 @@ export const useEventsPage = ({
       events?.filter((event) => dayjs(event.startDate).add(4, 'hour') < now),
     [events]
   );
+
+  const hasEvents = events?.length > 0;
+  const hasActiveEvents = activeEvents?.length > 0;
+  const hasPastEvents = pastEvents?.length > 0;
 
   const highlightedEvents = useMemo(
     () => activeEvents?.reverse().slice(0, 2),
@@ -89,6 +92,8 @@ export const useEventsPage = ({
 
   return {
     hasEvents,
+    hasActiveEvents,
+    hasPastEvents,
     isLoadingOrPlaceholder,
     activeEvents,
     pastEvents,

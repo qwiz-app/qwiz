@@ -1,17 +1,28 @@
-import { createStyles, Group, Paper, Title, Stack } from '@mantine/core';
+import {
+  Anchor, createStyles, Group,
+  Paper,
+  Skeleton,
+  Stack,
+  Title
+} from '@mantine/core';
 import { AuthLogo } from 'components/Auth/AuthLogo';
+import { CustomDivider } from 'components/UI/CustomDivider';
 import { useCurrentUser } from 'hooks/api/users';
 import { useAppColorscheme } from 'hooks/colorscheme';
+import Link from 'next/link';
+import { paths } from 'paths';
 import { HeroIllustration } from './HeroIllustration';
 
 export const DashboardHero = (props) => {
   const { classes } = useStyles();
-
-  const { data: user } = useCurrentUser();
+  const { user, isOrganization, isAuthenticated, isLoading } = useCurrentUser();
 
   return (
     <Group align="stretch" className={classes.heroBox}>
-      <HeroIllustration className={classes.illuWrapper} />
+      <HeroIllustration
+        isOrganization={isOrganization ?? false}
+        className={classes.illuWrapper}
+      />
       <Paper className={classes.paper}>
         <Stack
           p={64}
@@ -19,14 +30,39 @@ export const DashboardHero = (props) => {
           justify="center"
           className={classes.heroContent}
         >
-          <Title order={2}>
-            <Stack spacing="xs">
-              Welcome back
-              <p>
-                <span className={classes.highlight}>{user?.name}</span>!
-              </p>
-            </Stack>
-          </Title>
+          {isAuthenticated && (
+            <Title order={2}>
+              <Stack spacing={2}>
+                Welcome back
+                <Skeleton visible={isLoading}>
+                  <p>
+                    <span className={classes.highlight}>{user?.name}</span>!
+                  </p>
+                </Skeleton>
+              </Stack>
+            </Title>
+          )}
+          {!isAuthenticated && (
+            <Title order={1}>
+              <Group>
+                Welcome to
+                <span className={classes.highlight}>Qwiz</span>!
+              </Group>
+            </Title>
+          )}
+          <Group mt={16}>
+            <Link href={isOrganization ? paths.explore() : paths.events()}>
+              <Anchor>Check out latest events 👀</Anchor>
+            </Link>
+            {isOrganization && (
+              <>
+                <CustomDivider />
+                <Link href={paths.quiz()}>
+                  <Anchor>Create your fist quiz ❓</Anchor>
+                </Link>
+              </>
+            )}
+          </Group>
           <AuthLogo className={classes.logo} />
         </Stack>
       </Paper>
@@ -48,7 +84,7 @@ const useStyles = createStyles((theme, _params, getRef) => {
 
     heroContent: {
       height: '100%',
-      marginTop: -16,
+      marginTop: -8,
     },
 
     logo: {
@@ -80,7 +116,7 @@ const useStyles = createStyles((theme, _params, getRef) => {
     },
 
     paper: {
-      height: 400,
+      minHeight: 400,
       backgroundColor: isDark
         ? theme.fn.rgba(theme.colors[theme.primaryColor][8], 0.55)
         : theme.colors.gray[2],

@@ -12,6 +12,8 @@ export const EventsCurrentOrganization = () => {
   const { isDark } = useAppColorscheme();
   const {
     hasEvents,
+    hasActiveEvents,
+    hasPastEvents,
     isLoadingOrPlaceholder,
     activeEvents,
     pastEvents,
@@ -59,9 +61,9 @@ export const EventsCurrentOrganization = () => {
             ? placeholderSkeletons
             : renderEvents(activeEvents)}
         </PageGrid>
-        {!hasEvents && <NoEventsAlert />}
+        {!hasActiveEvents && <NoEventsAlert />}
       </PageSection>
-      {pastEvents?.length > 0 && (
+      {hasPastEvents && (
         <PageSection
           title="Past events"
           description="All of your finished events"
@@ -71,7 +73,6 @@ export const EventsCurrentOrganization = () => {
               ? placeholderSkeletons
               : renderEvents(pastEvents)}
           </PageGrid>
-          {!hasEvents && <NoEventsAlert />}
         </PageSection>
       )}
     </>

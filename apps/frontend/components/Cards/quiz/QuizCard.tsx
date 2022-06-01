@@ -9,9 +9,10 @@ import {
   LoadingOverlay,
   Skeleton,
   Text,
-  ThemeIcon,
+  ThemeIcon
 } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
+import { CustomDivider } from 'components/UI/CustomDivider';
 import { useQuizDelete, useQuizNameEdit } from 'hooks/api/quiz';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useDeleteConfirmModal } from 'hooks/use-delete-confirm-modal';
@@ -41,7 +42,6 @@ export const QuizCard = ({
   Omit<React.ComponentPropsWithoutRef<'div'>, keyof QuizCardProps>) => {
   const { classes, cx } = useStyles();
   const { classes: classesCard } = useCardStyles();
-  const { isDark } = useAppColorscheme();
   const { owner } = quiz;
 
   const router = useRouter();
@@ -188,14 +188,7 @@ export const QuizCard = ({
                   )}
                 </Skeleton>
 
-                {/* TODO: divider not working */}
-                <Box
-                  sx={(t) => ({
-                    width: '2px',
-                    height: '18px',
-                    background: isDark ? t.colors.dark[5] : t.colors.gray[4],
-                  })}
-                />
+                <CustomDivider />
 
                 <Skeleton
                   visible={loading}

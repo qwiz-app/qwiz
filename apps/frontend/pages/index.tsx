@@ -1,7 +1,9 @@
-import { Container, Paper } from '@mantine/core';
+import { Container } from '@mantine/core';
+import { DashboardHero } from 'components/Dashboard/DashboardHero';
 import { OrganizationDashboard } from 'components/Dashboard/OrganizationDashboard';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
 import { HomepageLayout } from 'components/PageLayouts/HomepageLayout';
+import { PageSection } from 'components/PageLayouts/PageSection';
 import { useCurrentUser } from 'hooks/api/users';
 
 const IndexPage = () => {
@@ -10,8 +12,10 @@ const IndexPage = () => {
   return (
     <Container size="xl">
       <HomepageLayout>
+        <PageSection title="Dashboard">
+          <DashboardHero />
+        </PageSection>
         {isOrganization && <OrganizationDashboard />}
-        {!isOrganization && <Paper>In progress...</Paper>}
       </HomepageLayout>
     </Container>
   );

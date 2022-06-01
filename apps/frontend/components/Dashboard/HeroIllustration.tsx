@@ -1,14 +1,16 @@
 import { Center, Paper } from '@mantine/core';
+import PeepUser from 'assets/peeps/hero/peep-hero-user.svg';
 import Peep from 'assets/peeps/hero/peep-hero.svg';
-import { useAppColorscheme } from 'hooks/colorscheme';
 import Image from 'next/image';
 
-export const HeroIllustration = (props) => {
-  const { isDark } = useAppColorscheme();
-  const illustration = isDark ? Peep : Peep;
+type Props = Record<string, unknown> & {
+  isOrganization: boolean;
+};
+export const HeroIllustration = ({ isOrganization, ...rest }: Props) => {
+  const illustration = isOrganization ? Peep : PeepUser;
 
   return (
-    <Paper radius="md" {...props}>
+    <Paper radius="md" {...rest}>
       <Center>
         <Image
           src={illustration}
