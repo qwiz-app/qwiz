@@ -1,3 +1,6 @@
+import PeepT1 from 'assets/peeps/templates/peep-template1.svg';
+import PeepT2 from 'assets/peeps/templates/peep-template2.svg';
+import PeepT3 from 'assets/peeps/templates/peep-template3.svg';
 import { NoQuizzesAlert } from 'components/Cards/quiz/NoQuizzesAlert';
 import { QuizCard } from 'components/Cards/quiz/QuizCard';
 import { QuizCardSmall } from 'components/Cards/quiz/QuizCardSmall';
@@ -6,30 +9,14 @@ import PageGrid from 'components/Grids/PageGrid';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
 import { HomepageLayout } from 'components/PageLayouts/HomepageLayout';
 import { PageSection } from 'components/PageLayouts/PageSection';
-import { useQuizCreate, useQuizzes } from 'hooks/api/quiz';
-import { useRouter } from 'next/router';
-import { paths } from 'paths';
-import PeepT1 from 'assets/peeps/templates/peep-template1.svg';
-import PeepT2 from 'assets/peeps/templates/peep-template2.svg';
-import PeepT3 from 'assets/peeps/templates/peep-template3.svg';
+import { useQuizzes } from 'hooks/api/quiz';
+import { useHandleCreateQuiz } from 'hooks/use-handle-create-quiz';
 
 const QuizPage = () => {
-  const router = useRouter();
-
   const { data: quizzes, isLoading, isPlaceholderData } = useQuizzes();
-  const { mutate: createQuiz, isLoading: isCreateLoading } = useQuizCreate();
+  const { createQuiz, isLoading: isCreateLoading } = useHandleCreateQuiz();
 
   const hasQuizzes = quizzes?.length > 0;
-
-  const handleCreateQuiz = () => {
-    createQuiz(
-      {},
-      {
-        // TODO: create new slide by default
-        onSuccess: (quiz) => router.push(paths.quizEdit(quiz.id)),
-      }
-    );
-  };
 
   return (
     <HomepageLayout>
@@ -38,10 +25,7 @@ const QuizPage = () => {
         description="Turn any Qwiz template into a new quiz"
       >
         <PageGrid type="tiniest">
-          <QuizCardSmall.New
-            onClick={handleCreateQuiz}
-            loading={isCreateLoading}
-          />
+          <QuizCardSmall.New onClick={createQuiz} loading={isCreateLoading} />
           {templates.map((template, idx) => (
             <QuizCardSmall.Template key={idx} {...template} />
           ))}

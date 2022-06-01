@@ -6,8 +6,8 @@ import { PrismaService } from 'prisma.service';
 export class QuizService {
   constructor(private prisma: PrismaService) {}
 
-  create(data: Prisma.QuizUncheckedCreateInput) {
-    return this.prisma.quiz.create({ data });
+  create(data: Prisma.QuizUncheckedCreateInput, include: Prisma.QuizInclude) {
+    return this.prisma.quiz.create({ data, include });
   }
 
   findAll(where: Prisma.QuizWhereInput, include: Prisma.QuizInclude) {

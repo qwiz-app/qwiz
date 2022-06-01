@@ -1,4 +1,4 @@
-import { Prisma, Quiz } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { parseData } from 'lib/axios';
 import http from 'services/http';
 import { QuizWithOwner, QuizWithSlides } from 'types/api/quiz';
@@ -6,12 +6,11 @@ import { QuizWithOwner, QuizWithSlides } from 'types/api/quiz';
 export const fetchQuizzes = () =>
   http.get<QuizWithSlides[]>('/api/quiz/owner/me').then(parseData);
 
-// TODO: check types
 export const fetchQuiz = (id: string) =>
   http.get<QuizWithSlides>(`/api/quiz/${id}`).then(parseData);
 
 export const createQuiz = (data: Prisma.QuizCreateWithoutOwnerInput) =>
-  http.post<Quiz>(`/api/quiz`, data).then(parseData);
+  http.post<QuizWithSlides>(`/api/quiz`, data).then(parseData);
 
 export const updateQuiz = (id: string, data: Prisma.QuizUpdateInput) =>
   http.patch<{ count: number }>(`/api/quiz/${id}`, data).then(parseData);

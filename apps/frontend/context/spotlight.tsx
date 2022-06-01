@@ -6,6 +6,7 @@ import { useCurrentUser } from 'hooks/api/users';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useProviders } from 'hooks/providers';
 import { useCreateEventCheck } from 'hooks/use-create-event-check';
+import { useHandleCreateQuiz } from 'hooks/use-handle-create-quiz';
 import { useSignOut } from 'hooks/use-sign-out';
 import { useRouter } from 'next/router';
 import { paths } from 'paths';
@@ -20,8 +21,7 @@ import {
   Link,
   MagnifyingGlass,
   Moon,
-  Person,
-  PlusCircle,
+  Person, PlusCircle,
   Queue,
   SignIn,
   SignOut,
@@ -40,6 +40,7 @@ const useSpotlightActions = () => {
   const { data: user } = useCurrentUser();
   const { signInWithProvider } = useProviders();
   const { navigateToCreateEvent } = useCreateEventCheck();
+  const { createQuiz } = useHandleCreateQuiz();
   const { signOutUser } = useSignOut();
   const clipboard = useClipboard();
 
@@ -112,6 +113,14 @@ const useSpotlightActions = () => {
       group: 'Navigate',
       description: 'Create a new event',
       onTrigger: navigateToCreateEvent,
+      icon: <PlusCircle {...iconProps} />,
+      permissions: [Role.ORGANIZATION],
+    },
+    {
+      title: 'Create quiz',
+      group: 'Navigate',
+      description: 'Create a new quiz',
+      onTrigger: createQuiz,
       icon: <PlusCircle {...iconProps} />,
       permissions: [Role.ORGANIZATION],
     },

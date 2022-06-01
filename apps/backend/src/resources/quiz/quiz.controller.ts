@@ -32,10 +32,19 @@ export class QuizController {
     @Body() createQuizDto: Prisma.QuizCreateWithoutOwnerInput,
     @OrganizationEntity() organization: Organization
   ) {
-    return this.quizService.create({
-      ...createQuizDto,
-      ownerId: organization.id,
-    });
+    const include: Prisma.QuizInclude = {
+      slides: true,
+    };
+    return this.quizService.create(
+      {
+        ...createQuizDto,
+        slides: {
+          create: {},
+        },
+        ownerId: organization.id,
+      },
+      include
+    );
   }
 
   //* ADMIN-ONLY
