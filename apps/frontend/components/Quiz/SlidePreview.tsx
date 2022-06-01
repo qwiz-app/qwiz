@@ -82,15 +82,17 @@ export const SlidePreview = ({
     }
     deleteSlide(null, {
       onSuccess: () => {
-        const newSlides = slides.filter((s) => s.id !== currentSlideId);
-        const lastSlide = newSlides?.length
-          ? newSlides[newSlides.length - 1]
-          : null;
+        if (isSelected) {
+          const newSlides = slides.filter((s) => s.id !== currentSlideId);
+          const lastSlide = newSlides?.length
+            ? newSlides[newSlides.length - 1]
+            : null;
 
-        const url = lastSlide
-          ? paths.quizEditSlide(quizId, lastSlide.id)
-          : paths.quizEdit(quizId);
-        router.push(url);
+          const url = lastSlide
+            ? paths.quizEditSlide(quizId, lastSlide.id)
+            : paths.quizEdit(quizId);
+          router.push(url);
+        }
       },
     });
   };
