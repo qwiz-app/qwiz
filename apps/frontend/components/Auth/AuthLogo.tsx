@@ -1,7 +1,7 @@
-import { Box } from '@mantine/core';
-import { useAppColorscheme } from 'hooks/colorscheme';
-import LogoWhite from 'assets/logo/qwiz-white.svg';
+import { Box, Center } from '@mantine/core';
 import LogoDark from 'assets/logo/qwiz-dark.svg';
+import LogoWhite from 'assets/logo/qwiz-white.svg';
+import { useAppColorscheme } from 'hooks/colorscheme';
 import Image from 'next/image';
 
 export const AuthLogo = (props) => {
@@ -10,14 +10,16 @@ export const AuthLogo = (props) => {
 
   return (
     <Box {...props}>
-      <Image
-        src={logo}
-        alt="logo"
-        objectFit="contain"
-        className="auth-logo"
-        width={52}
-        height={52}
-      />
+      <Center>
+        <Image
+          src={logo}
+          alt="logo"
+          objectFit="contain"
+          className="auth-logo"
+          width={52}
+          height={52}
+        />
+      </Center>
     </Box>
   );
 };
