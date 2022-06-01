@@ -1,21 +1,22 @@
 import {
-    Center,
-    Group,
-    Paper,
-    RingProgress,
-    SimpleGrid,
-    Text
+  Center,
+  Group,
+  Paper,
+  RingProgress,
+  SimpleGrid,
+  Text,
 } from '@mantine/core';
 import { ArrowDownRight, ArrowUpRight } from 'phosphor-react';
 
+export interface StatRing {
+  label: string;
+  stats: string;
+  progress: number;
+  color: string;
+  icon: 'up' | 'down';
+}
 interface StatsRingProps {
-  data: {
-    label: string;
-    stats: string;
-    progress: number;
-    color: string;
-    icon: 'up' | 'down';
-  }[];
+  data: StatRing[];
 }
 
 const icons = {
