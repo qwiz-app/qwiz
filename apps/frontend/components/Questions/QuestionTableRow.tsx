@@ -7,10 +7,11 @@ import {
   Group,
   Stack,
   Text,
-  Tooltip
+  Tooltip,
 } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { showNotification } from '@mantine/notifications';
+import { QuestionElementType } from '@prisma/client';
 import { SelectedQuestionModalContent } from 'components/Quiz/QuizQuestion/SelectedQuestionModalContent';
 import { useQuestionDelete } from 'hooks/api/question';
 import { useDeleteConfirmModal } from 'hooks/use-delete-confirm-modal';
@@ -81,7 +82,7 @@ export const QuestionTableRow = ({ question, onRowClick }: Props) => {
       <td>
         <Group spacing="sm" align="baseline">
           {textualContent
-            .filter((c) => c.type === 'TEXT')
+            .filter((c) => c.type === QuestionElementType.TEXT)
             .slice(0, 1)
             .map((c) => (
               <Text key={c.id} size="sm" lineClamp={1}>

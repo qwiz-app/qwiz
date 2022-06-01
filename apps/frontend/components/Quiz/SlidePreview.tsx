@@ -4,10 +4,10 @@ import {
   createStyles,
   LoadingOverlay,
   Menu,
-  Text,
+  Text
 } from '@mantine/core';
 import cn from 'classnames';
-import { useSlideDelete } from 'hooks/api/slide';
+import { useSlideDelete, useSlides } from 'hooks/api/slide';
 import { useRouter } from 'next/router';
 import { paths } from 'paths';
 import {
@@ -22,11 +22,12 @@ import {
   NumberCircleThree,
   NumberCircleTwo,
   NumberCircleZero,
-  TrashSimple,
+  TrashSimple
 } from 'phosphor-react';
 import { SyntheticEvent } from 'react';
 import { SlideWithQuestionAndElements } from 'types/api/slide';
 import { useCurrentQuiz } from './use-current-quiz';
+import { useCurrentSlide } from './use-current-slide';
 
 interface Props {
   slide: SlideWithQuestionAndElements;
@@ -56,12 +57,14 @@ export const SlidePreview = ({
   onSlideClick,
   onDeleteCurrentSlide,
 }: Props) => {
+  const router = useRouter();
   const { classes } = useStyles();
-  const { mutateAsync: deleteSlide, isLoading: isDeleting } = useSlideDelete(
+  const { mutate: deleteSlide, isLoading: isDeleting } = useSlideDelete(
     slide.id
   );
-  const { id: quizId, quiz } = useCurrentQuiz();
-  const router = useRouter();
+  const { id: quizId } = useCurrentQuiz();
+  const { data: slides } = useSlides(quizId);
+  const { id: currentSlideId } = useCurrentSlide();
 
   const numArray = String(order).split('');
   const icons = numArray.map((num) => {
@@ -71,18 +74,25 @@ export const SlidePreview = ({
 
   const isSelected = selectedSlideId === slide.id;
 
-  // TODO: raspasoj, zmisli nekaj skroz novo, jos uvijek RQ baca pokusava fetchat uz errore
+  // TODO: could be much more robust
   const slideDeleteHandler = async (e: SyntheticEvent) => {
     e.stopPropagation();
     if (isSelected) {
       onDeleteCurrentSlide?.();
     }
-    await deleteSlide();
-    const url =
-      quiz?.slides?.length > 1
-        ? paths.quizEditSlide(quiz.id, quiz.slides[0].id)
-        : paths.quizEdit(quizId);
-    router.push(url);
+    deleteSlide(null, {
+      onSuccess: () => {
+        const newSlides = slides.filter((s) => s.id !== currentSlideId);
+        const lastSlide = newSlides?.length
+          ? newSlides[newSlides.length - 1]
+          : null;
+
+        const url = lastSlide
+          ? paths.quizEditSlide(quizId, lastSlide.id)
+          : paths.quizEdit(quizId);
+        router.push(url);
+      },
+    });
   };
 
   const MenuTrigger = (

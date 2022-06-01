@@ -1,5 +1,6 @@
 import {
   Alert,
+  Anchor,
   AspectRatio,
   Box,
   createStyles,
@@ -10,13 +11,17 @@ import {
   Stack,
   Text
 } from '@mantine/core';
-import { QuestionElementType } from '@prisma/client';
 import PeepDark from 'assets/peeps/slide/peep-slide-dark.svg';
 import Peep from 'assets/peeps/slide/peep-slide.svg';
+import { useSlideCreate, useSlides } from 'hooks/api/slide';
 import { useAppColorscheme } from 'hooks/colorscheme';
+import { useQuestionContents } from 'hooks/use-question-contents';
 import NextImage from 'next/image';
+import { useRouter } from 'next/router';
+import { paths } from 'paths';
 import { WarningCircle } from 'phosphor-react';
 import { QuestionWithContentAndCategoriesAndMode } from 'types/api/question';
+import { useCurrentQuiz } from './use-current-quiz';
 import { useCurrentSlide } from './use-current-slide';
 
 interface Props {
@@ -24,24 +29,33 @@ interface Props {
 }
 
 export const MainSlide = ({ question }: Props) => {
-  const { slide, isLoading } = useCurrentSlide();
-
-  const contents = slide?.quizQuestion?.question?.contents;
-
-  const textElements = contents?.filter(
-    ({ type }) => type === QuestionElementType.TEXT
-  );
-  const imageElements = contents?.filter(
-    ({ type }) => type === QuestionElementType.IMAGE
-  );
-
-  const hasTextElements = textElements?.length > 0;
-  const hasImageElements = imageElements?.length > 0;
-
   const { classes } = useStyles();
   const { isDark } = useAppColorscheme();
+  const router = useRouter();
+
+  const { id: quizId } = useCurrentQuiz();
+  const { data: slides, isLoading: isSlidesLoading } = useSlides(quizId);
+  const { slide, isLoading } = useCurrentSlide();
+  const { mutate: createSlide } = useSlideCreate();
+  const hasSlides = !isSlidesLoading && !!slides?.length;
+
+  const { textualContent, imageContent, hasImageContent, hasTextualContent } =
+    useQuestionContents(slide?.quizQuestion?.question);
 
   const hasNoQuestion = !slide?.quizQuestion?.id && !isLoading;
+
+  const handleCreateSlide = () => {
+    createSlide(
+      { quizId },
+      {
+        onSuccess: (newSlide) => {
+          router.push(paths.quizEditSlide(quizId, newSlide.id), undefined, {
+            shallow: true,
+          });
+        },
+      }
+    );
+  };
 
   return (
     <Box className={classes.wrapper}>
@@ -49,18 +63,18 @@ export const MainSlide = ({ question }: Props) => {
         <Paper withBorder radius="md">
           <LoadingOverlay visible={isLoading} />
           <Stack className={classes.box} align="center" justify="space-evenly">
-            {hasTextElements && (
+            {hasTextualContent && (
               <Stack>
-                {textElements?.map((elem) => (
+                {textualContent?.map((elem) => (
                   <Text className={classes.text} key={elem.id} align="center">
                     {elem.content}
                   </Text>
                 ))}
               </Stack>
             )}
-            {hasImageElements && (
+            {hasImageContent && (
               <Group className={classes.imageElements}>
-                {imageElements.map((elem) => (
+                {imageContent.map((elem) => (
                   <Image
                     key={elem.id}
                     src={elem.content}
@@ -72,7 +86,7 @@ export const MainSlide = ({ question }: Props) => {
                 ))}
               </Group>
             )}
-            {!hasTextElements && !hasImageElements && !isLoading && (
+            {!hasTextualContent && !hasImageContent && !isLoading && (
               <Stack align="center" spacing={0}>
                 <NextImage
                   height={400}
@@ -80,13 +94,21 @@ export const MainSlide = ({ question }: Props) => {
                   src={isDark ? PeepDark : Peep}
                   alt="illustration"
                 />
-                <Text size="xl">Pick any question</Text>
+                {hasSlides ? (
+                  <Text size="xl">Pick any question</Text>
+                ) : (
+                  <Text size="xl">
+                    <Anchor component="p" onClick={handleCreateSlide}>
+                      Create your first slide
+                    </Anchor>
+                  </Text>
+                )}
               </Stack>
             )}
           </Stack>
         </Paper>
       </AspectRatio>
-      {hasNoQuestion && (
+      {hasSlides && hasNoQuestion && (
         <Alert
           icon={<WarningCircle size={16} />}
           title="Empty slide"

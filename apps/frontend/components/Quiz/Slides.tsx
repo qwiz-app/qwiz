@@ -5,34 +5,39 @@ import {
   Group,
   LoadingOverlay,
   Navbar,
-  Stack,
+  Stack
 } from '@mantine/core';
 import { ThinScrollArea } from 'components/UI/ThinScrollArea';
 import { useSlideCreate, useSlides } from 'hooks/api/slide';
 import { useRouter } from 'next/router';
-import { Plus } from 'phosphor-react';
+import { paths } from 'paths';
+import { PlusCircle } from 'phosphor-react';
 import { SlidePreview } from './SlidePreview';
+import { useCurrentQuiz } from './use-current-quiz';
+import { useCurrentSlide } from './use-current-slide';
 
 export const Slides = () => {
   const { classes } = useStyles();
   const router = useRouter();
-  const { quizId, slideId } = router.query;
 
+  const { id: quizId } = useCurrentQuiz();
+  const { id: slideId } = useCurrentSlide();
+
+  const { data: slides } = useSlides(quizId);
   const { mutate: createSlide, isLoading: isCreateLoading } = useSlideCreate();
-  const { data: slides } = useSlides(quizId as string);
 
   const handleSlideClick = (selectedSlideId: string) => {
-    router.push(`/quiz/${quizId}/${selectedSlideId}`, undefined, {
+    router.push(paths.quizEditSlide(quizId, selectedSlideId), undefined, {
       shallow: true,
     });
   };
 
   const handleCreateSlide = () => {
     createSlide(
-      { quizId: quizId as string },
+      { quizId },
       {
         onSuccess: (slide) => {
-          router.push(`/quiz/${quizId}/${slide.id}`, undefined, {
+          router.push(paths.quizEditSlide(quizId, slide.id), undefined, {
             shallow: true,
           });
         },
@@ -40,17 +45,6 @@ export const Slides = () => {
     );
   };
 
-  const redirecToGeneralHandler = () => {
-    let whereTo = 'edit';
-
-    if (slides?.length) {
-      const [last] = slides.slice(-1);
-      // TODO: doesnt work when we are deleting our last one because its not deleted yet
-      whereTo = last.id;
-    }
-
-    router.push(`/quiz/${quizId}/${whereTo}`);
-  };
 
   return (
     <Navbar.Section grow className={classes.wrapper}>
@@ -69,9 +63,8 @@ export const Slides = () => {
               key={slide.id}
               slide={slide}
               order={i + 1}
-              selectedSlideId={slideId as string}
+              selectedSlideId={slideId}
               onSlideClick={handleSlideClick}
-              onDeleteCurrentSlide={redirecToGeneralHandler}
             />
           ))}
         </Box>
@@ -80,9 +73,9 @@ export const Slides = () => {
             size="md"
             sx={() => ({ flex: 1 })}
             onClick={handleCreateSlide}
-            leftIcon={<Plus weight="duotone" />}
+            leftIcon={<PlusCircle weight="duotone" />}
           >
-            Add Question
+            Add question
           </Button>
         </Group>
       </Stack>

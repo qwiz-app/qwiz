@@ -7,7 +7,6 @@ export const useSlideDelete = (id: string) => {
   return useMutation(() => deleteSlide(id), {
     onSuccess: () => {
       queryClient.invalidateQueries('slides');
-      queryClient.invalidateQueries(['slide']);
     },
   });
 };

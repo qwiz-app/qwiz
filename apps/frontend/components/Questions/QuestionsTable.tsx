@@ -9,6 +9,7 @@ import {
   Table,
   TextInput
 } from '@mantine/core';
+import { QuestionElementType } from '@prisma/client';
 import { QuestionCreateModal } from 'components/Quiz/QuizQuestion/QuizQuestionCreateModal';
 import { useInputAccentStyles } from 'components/UI/use-input-styles';
 import { useAppColorscheme } from 'hooks/colorscheme';
@@ -31,7 +32,7 @@ function filterData(data: RowData[], search: string) {
     keys.some((key) => {
       const textualContent =
         item.contents
-          ?.filter((c) => c.type === 'TEXT')
+          ?.filter((c) => c.type === QuestionElementType.TEXT)
           .map((c) => c.content.toLowerCase()) ?? [];
       const categories =
         item.categories?.map((c) => c.name.toLowerCase()) ?? [];
@@ -83,7 +84,6 @@ export const QuestionsTable = ({ questions, loading }: Props) => {
   const rows = sortedData?.map((element) => (
     <QuestionTableRow question={element} key={element.id} />
   ));
-  
 
   const [showQuestionModal, setShowQuestionModal] = useState(false);
 
