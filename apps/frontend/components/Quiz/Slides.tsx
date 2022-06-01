@@ -5,8 +5,9 @@ import {
   Group,
   LoadingOverlay,
   Navbar,
-  Stack
+  Stack,
 } from '@mantine/core';
+import { FramerAnimatedListItem } from 'components/Framer/FramerAnimatedListItem';
 import { ThinScrollArea } from 'components/UI/ThinScrollArea';
 import { useSlideCreate, useSlides } from 'hooks/api/slide';
 import { useRouter } from 'next/router';
@@ -45,7 +46,6 @@ export const Slides = () => {
     );
   };
 
-
   return (
     <Navbar.Section grow className={classes.wrapper}>
       <Stack
@@ -59,13 +59,14 @@ export const Slides = () => {
         >
           <LoadingOverlay visible={isCreateLoading} />
           {slides?.map((slide, i) => (
-            <SlidePreview
-              key={slide.id}
-              slide={slide}
-              order={i + 1}
-              selectedSlideId={slideId}
-              onSlideClick={handleSlideClick}
-            />
+            <FramerAnimatedListItem id={slide.id} key={slide.id}>
+              <SlidePreview
+                slide={slide}
+                order={i + 1}
+                selectedSlideId={slideId}
+                onSlideClick={handleSlideClick}
+              />
+            </FramerAnimatedListItem>
           ))}
         </Box>
         <Group p="xs">
