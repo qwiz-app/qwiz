@@ -12,13 +12,14 @@ export default class _Document extends Document {
       <Html lang="en">
         <Head>
           <Favicon />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link
             rel="preconnect"
-            href="https://api.fonts.coollabs.io"
+            href="https://fonts.gstatic.com"
             crossOrigin=""
           />
           <link
-            href="https://api.fonts.coollabs.io/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap"
             rel="stylesheet"
           />
         </Head>
