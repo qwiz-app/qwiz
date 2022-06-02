@@ -49,8 +49,8 @@ const NavbarUserButton = forwardRef<HTMLButtonElement, Props>(
         })}
         {...props}
       >
-        <Group position="apart">
-          <Group sx={() => ({ flex: '1' })}>
+        <Group position="apart" noWrap>
+          <Group sx={() => ({ flex: '1' })} noWrap>
             {user && (
               <AvatarRoleIndicator role={user.role}>
                 <Avatar size={40} radius="xl" src={user.image} />

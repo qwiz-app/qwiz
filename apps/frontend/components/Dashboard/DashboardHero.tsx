@@ -5,7 +5,7 @@ import {
   Paper,
   Skeleton,
   Stack,
-  Title
+  Title,
 } from '@mantine/core';
 import { AuthLogo } from 'components/Auth/AuthLogo';
 import { CustomDivider } from 'components/UI/CustomDivider';
@@ -33,14 +33,14 @@ export const DashboardHero = (props) => {
       />
       <Paper className={classes.paper}>
         <Stack
-          px={matches.max.lg ? 16 : 64}
+          px={matches.max.lg ? 32 : 64}
           py={matches.max.lg ? 64 : 64}
           align="start"
           justify="center"
           className={classes.heroContent}
         >
           {isAuthenticated && (
-            <Title order={matches.max.lg ? 3 : 2}>
+            <Title order={matches.max.lg ? 4 : 2}>
               <Stack spacing={2}>
                 Welcome back
                 <Skeleton visible={isLoading}>

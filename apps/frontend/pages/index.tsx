@@ -10,7 +10,7 @@ const IndexPage = () => {
   const { isOrganization } = useCurrentUser();
 
   return (
-    <Container size="xl">
+    <Container size="xl" px={0}>
       <HomepageLayout>
         <PageSection title="Dashboard">
           <DashboardHero />

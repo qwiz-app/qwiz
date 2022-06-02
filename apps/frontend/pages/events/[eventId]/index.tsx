@@ -21,12 +21,9 @@ const EventPage = () => {
   }
 
   return (
-    <Container size="lg">
+    <Container size="lg" px={0}>
       {hasEventOrIsPlacholder ? (
-        <EventProfile
-          event={event}
-          loading={isLoading || isPlaceholderData}
-        />
+        <EventProfile event={event} loading={isLoading || isPlaceholderData} />
       ) : (
         // at this point it will never show
         <div>TODO: No event found</div>

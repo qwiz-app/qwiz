@@ -11,7 +11,6 @@ import {
   LoadingOverlay,
   Paper,
   Skeleton,
-  Stack,
   Title,
   Tooltip,
 } from '@mantine/core';
@@ -19,6 +18,7 @@ import { useClipboard } from '@mantine/hooks';
 import { showNotification } from '@mantine/notifications';
 import { useEventDelete } from 'hooks/api/events/use-event-delete';
 import { useCurrentUser } from 'hooks/api/users';
+import { useBreakpoints } from 'hooks/breakpoints';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useDeleteConfirmModal } from 'hooks/use-delete-confirm-modal';
 import Link from 'next/link';
@@ -41,6 +41,7 @@ interface Props {
 
 export const EventHeader = ({ event, loading }: Props) => {
   const { isDark, theme } = useAppColorscheme();
+  const { matches } = useBreakpoints();
   const { classes } = useStyles();
   const { isOrganization } = useCurrentUser();
 
@@ -91,14 +92,17 @@ export const EventHeader = ({ event, loading }: Props) => {
         </Paper>
         <Group
           py={16}
-          pr={32}
-          pl={64}
-          spacing={32}
+          pb={matches.max.lg && 64}
+          pr={matches.max.lg ? 0 : 32}
+          pl={matches.max.lg ? 0 : 64}
+          spacing={matches.max.lg ? 0 : 48}
           sx={() => ({
             top: 0,
-            left: 50,
+            left: 0,
           })}
-          align="start"
+          direction={matches.max.lg ? 'column' : 'row'}
+          align={matches.max.lg ? 'center' : 'left'}
+          position={matches.max.lg ? 'center' : 'left'}
           noWrap
         >
           <Link href={paths.organizationPage(event.ownerId)}>
@@ -108,20 +112,30 @@ export const EventHeader = ({ event, loading }: Props) => {
               className={classes.avatar}
             />
           </Link>
-          <Stack
+          <Group
             spacing={24}
             sx={() => ({
               width: '100%',
             })}
+            direction={matches.max.lg ? 'row' : 'column'}
+            align={matches.max.lg ? 'center' : 'start'}
+            position="apart"
+            px={matches.max.lg && 12}
           >
             <Group
-              position="apart"
+              direction={matches.max.lg ? 'column' : 'row'}
+              position={matches.max.lg ? 'center' : 'apart'}
+              align={matches.max.lg ? 'center' : 'center'}
               sx={() => ({
-                minHeight: 42,
+                minHeight: matches.max.lg ? 'auto' : 42,
+                width: '100%',
               })}
             >
               <Link href={paths.organizationPage(event.ownerId)} passHref>
-                <Title order={5} className={classes.orgName}>
+                <Title
+                  order={matches.max.lg ? 6 : 5}
+                  className={classes.orgName}
+                >
                   <Group spacing="sm">
                     {event?.owner.name}
                     <CircleWavyCheck
@@ -200,10 +214,14 @@ export const EventHeader = ({ event, loading }: Props) => {
                 </Tooltip>
               </Group>
             </Group>
-            <Title order={2} align="left" className={classes.eventName} mb={24}>
+            <Title
+              order={matches.max.lg ? 3 : 2}
+              className={classes.eventName}
+              mb={!matches.max.lg && 24}
+            >
               {event.name}
             </Title>
-          </Stack>
+          </Group>
         </Group>
       </Paper>
     </Skeleton>
@@ -211,9 +229,12 @@ export const EventHeader = ({ event, loading }: Props) => {
 };
 
 const useStyles = createStyles((t) => {
+  const { matches } = useBreakpoints();
+
   return {
     avatar: {
-      transform: 'translateY(-45%)',
+      transform: !matches.max.lg && 'translateY(-45%)',
+      marginTop: matches.max.lg && -80,
       boxShadow: t.shadows.xl,
       borderRadius: '100rem',
       cursor: 'pointer',
@@ -227,6 +248,10 @@ const useStyles = createStyles((t) => {
     eventName: {
       lineHeight: '1.2',
       fontWeight: 700,
+      width: '100%',
+      textAlign: matches.max.lg ? 'center' : 'left',
+      order: matches.max.lg && -1,
+      marginTop: matches.max.lg && 32,
     },
   };
 });

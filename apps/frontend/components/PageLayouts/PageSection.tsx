@@ -1,26 +1,28 @@
 import { Box, createStyles, Group, Text, Title } from '@mantine/core';
 import React from 'react';
 
-const useStyles = createStyles((theme) => ({
-  wrapper: {
-    paddingTop: theme.spacing.xl * 4,
-    paddingBottom: theme.spacing.xl * 4,
-  },
-
-  headerWrapper: {
-    marginBottom: theme.spacing.lg,
-  },
-
-  title: {
-    fontSize: 30,
-    fontWeight: 900,
-    marginBottom: 6,
-
-    [theme.fn.smallerThan('sm')]: {
-      fontSize: 28,
+const useStyles = createStyles((theme) => {
+  return {
+    wrapper: {
+      paddingTop: theme.spacing.xl * 4,
+      paddingBottom: theme.spacing.xl * 4,
     },
-  },
-}));
+
+    headerWrapper: {
+      marginBottom: theme.spacing.lg,
+    },
+
+    title: {
+      fontSize: 30,
+      fontWeight: 900,
+      marginBottom: 6,
+
+      [theme.fn.smallerThan('sm')]: {
+        fontSize: 24,
+      },
+    },
+  };
+});
 
 interface Props {
   title?: string | React.ReactNode;
@@ -36,6 +38,7 @@ export const PageSection = ({
   rightSlot,
 }: Props) => {
   const { classes } = useStyles();
+
   return (
     <section>
       {title && (

@@ -16,7 +16,7 @@ const EventsPage = () => {
 
   return (
     <HomepageLayout>
-      <Container size="sm">
+      <Container size="sm" px={0}>
         <Formik
           enableReinitialize
           initialValues={initialValues}
