@@ -1,57 +1,78 @@
 import {
+  Box,
   Center,
   Group,
   Paper,
   RingProgress,
   SimpleGrid,
+  Skeleton,
   Text,
+  UnstyledButton,
 } from '@mantine/core';
-import { ArrowDownRight, ArrowUpRight } from 'phosphor-react';
+import { useRouter } from 'next/router';
+import { CircleWavyQuestion, Confetti, Queue } from 'phosphor-react';
 
 export interface StatRing {
   label: string;
   stats: string;
   progress: number;
   color: string;
-  icon: 'up' | 'down';
+  icon: 'event' | 'quiz' | 'question';
+  path: string;
 }
 interface StatsRingProps {
   data: StatRing[];
+  loading?: boolean;
 }
 
 const icons = {
-  up: ArrowUpRight,
-  down: ArrowDownRight,
+  event: Confetti,
+  quiz: Queue,
+  question: CircleWavyQuestion,
 };
 
-export const StatsRing = ({ data }: StatsRingProps) => {
+export const StatsRing = ({ data, loading }: StatsRingProps) => {
+  const router = useRouter();
+
   const stats = data.map((stat) => {
     const Icon = icons[stat.icon];
     return (
-      <Paper withBorder radius="md" p="xs" key={stat.label}>
-        <Group>
-          <RingProgress
-            size={80}
-            roundCaps
-            thickness={8}
-            sections={[{ value: stat.progress, color: stat.color }]}
-            label={
-              <Center>
-                <Icon size={22} />
-              </Center>
-            }
-          />
+      <Skeleton radius="md" visible={loading} key={stat.label}>
+        <UnstyledButton
+          sx={() => ({ width: '100%' })}
+          onClick={() => router.push(stat.path)}
+        >
+          <Paper withBorder radius="md" p="xs">
+            <Group>
+              <RingProgress
+                size={80}
+                roundCaps
+                thickness={8}
+                sections={[{ value: stat.progress, color: stat.color }]}
+                label={
+                  <Center>
+                    <Icon size={24} weight="duotone" />
+                  </Center>
+                }
+              />
 
-          <div>
-            <Text color="dimmed" size="xs" transform="uppercase" weight={700}>
-              {stat.label}
-            </Text>
-            <Text weight={700} size="xl">
-              {stat.stats}
-            </Text>
-          </div>
-        </Group>
-      </Paper>
+              <Box>
+                <Text
+                  color="dimmed"
+                  size="xs"
+                  transform="uppercase"
+                  weight={700}
+                >
+                  {stat.label}
+                </Text>
+                <Text weight={700} size="xl">
+                  {stat.stats}
+                </Text>
+              </Box>
+            </Group>
+          </Paper>
+        </UnstyledButton>
+      </Skeleton>
     );
   });
   return (

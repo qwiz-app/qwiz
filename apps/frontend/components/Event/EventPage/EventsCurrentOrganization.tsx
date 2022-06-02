@@ -64,7 +64,7 @@ export const EventsCurrentOrganization = () => {
             ? placeholderSkeletons
             : renderEvents(activeEvents)}
         </PageGrid>
-        {!hasActiveEvents && <NoEventsAlert />}
+        {!hasActiveEvents && !isLoadingOrPlaceholder && <NoEventsAlert />}
       </PageSection>
       {hasPastEvents && (
         <PageSection

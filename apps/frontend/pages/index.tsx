@@ -12,7 +12,7 @@ const IndexPage = () => {
   return (
     <Container size="xl" px={0}>
       <HomepageLayout>
-        <PageSection title="Dashboard">
+        <PageSection title="Your dashboard">
           <DashboardHero />
         </PageSection>
         {isOrganization && <OrganizationDashboard />}

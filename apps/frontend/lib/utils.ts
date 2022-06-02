@@ -53,3 +53,5 @@ export const formatCurrency = (amount: number, currency = 'USD') =>
     minimumSignificantDigits: 1,
     currency,
   }).format(amount);
+
+export const isNumber = (value: any): boolean => typeof value === 'number';
