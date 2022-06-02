@@ -3,12 +3,11 @@ import {
   Group,
   Text,
   ThemeIcon,
-  UnstyledButton,
+  UnstyledButton
 } from '@mantine/core';
 import cn from 'classnames';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { isActiveRoute } from 'lib/router';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { NavItemModel } from 'types/elements/nav-item';
 
@@ -48,6 +47,7 @@ export const NavbarItem = ({
   icon,
   color,
   onClick,
+  onSelect,
   children,
   btnClass,
 }: Props) => {
@@ -55,8 +55,21 @@ export const NavbarItem = ({
   const isActive = isActiveRoute(router.pathname, href);
   const { classes } = useStyles(isActive);
 
-  const btn = (
-    <UnstyledButton className={cn(classes.navItem, btnClass)} onClick={onClick}>
+  const onNavItemClickHandler = () => {
+    if (onClick) {
+      onClick?.();
+    }
+    if (href) {
+      router.push(href);
+    }
+    onSelect?.();
+  };
+
+  return (
+    <UnstyledButton
+      className={cn(classes.navItem, btnClass)}
+      onClick={onNavItemClickHandler}
+    >
       <Group noWrap>
         <ThemeIcon size="lg" variant={isActive ? 'filled' : 'light'}>
           {icon}
@@ -68,18 +81,5 @@ export const NavbarItem = ({
         )}
       </Group>
     </UnstyledButton>
-  );
-
-  return (
-    // eslint-disable-next-line react/jsx-no-useless-fragment
-    <>
-      {href ? (
-        <Link href={href} passHref>
-          {btn}
-        </Link>
-      ) : (
-        btn
-      )}
-    </>
   );
 };

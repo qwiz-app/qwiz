@@ -6,6 +6,7 @@ import { ReactNode } from 'react';
 
 type Props = {
   icon: ReactNode;
+  onSelect?: () => void;
 };
 
 const useStyles = createStyles((t) => {
@@ -33,12 +34,17 @@ const useStyles = createStyles((t) => {
   };
 });
 
-const NavSearchItem = ({ icon }: Props) => {
+const NavSearchItem = ({ icon, onSelect }: Props) => {
   const { openSpotlight } = useSpotlight();
   const { classes } = useStyles();
 
+  const onClickHandler = () => {
+    openSpotlight();
+    onSelect?.();
+  };
+
   return (
-    <UnstyledButton className={classes.btn} onClick={openSpotlight}>
+    <UnstyledButton className={classes.btn} onClick={onClickHandler}>
       <Group className={classes.box}>
         {icon}
         <Group spacing={8} position="apart" className={classes.box}>

@@ -7,6 +7,7 @@ export type NavItemModel = {
   href?: string;
   color?: string;
   onClick?: () => void;
+  onSelect?: () => void;
   children?: ReactNode;
   btnClass?: string;
   permissions?: Role[];

@@ -5,7 +5,7 @@ import {
   Group,
   Header as MantineHeader,
   Navbar as MantineNavbar,
-  UnstyledButton
+  UnstyledButton,
 } from '@mantine/core';
 import LogoDark from 'assets/logo/qwiz-dark.svg';
 import LogoWhite from 'assets/logo/qwiz-white.svg';
@@ -36,6 +36,8 @@ export const AppShell = ({ children }) => {
   const [opened, setOpened] = useState(false);
   const toggleNavbar = () => setOpened((prev) => !prev);
 
+  const closeNav = () => setOpened(false);
+
   const logo = isDark ? LogoWhite : LogoDark;
   // TODO: fix navbar height on mobile
   // TODO: close mobile drawer after action or navigating
@@ -53,7 +55,10 @@ export const AppShell = ({ children }) => {
         </MantineNavbar.Section>
       )}
       <MantineNavbar.Section mt={8}>
-        <NavSearchItem icon={<MagnifyingGlass {...iconProps} />} />
+        <NavSearchItem
+          icon={<MagnifyingGlass {...iconProps} />}
+          onSelect={closeNav}
+        />
       </MantineNavbar.Section>
       <MantineNavbar.Section
         grow
@@ -65,13 +70,13 @@ export const AppShell = ({ children }) => {
         pl={16}
         pr={16}
       >
-        <NavbarList items={items} />
+        <NavbarList items={items} onSelect={closeNav} />
       </MantineNavbar.Section>
       <>
         <NavbarDivider />
         <MantineNavbar.Section mt={12}>
           {isAuthenticated || isLoading ? (
-            <NavbarUserMenu.Account />
+            <NavbarUserMenu.Account onSelect={closeNav} />
           ) : (
             <NavbarUserMenu.Guest />
           )}

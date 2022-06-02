@@ -18,4 +18,5 @@ export const paths = {
   teams: () => '/teams',
   stats: () => '/stats',
   leaderboard: () => '/learderboard',
+  settings: () => '/settings',
 };

@@ -9,7 +9,11 @@ import { paths } from 'paths';
 import { Gear, SignIn, SignOut, Trash, User } from 'phosphor-react';
 import NavbarUserButton from './NavbarUserButton';
 
-const Account = () => {
+interface Props {
+  onSelect?: () => void;
+}
+
+const Account = ({ onSelect }: Props) => {
   const router = useRouter();
   const { matches } = useBreakpoints();
   const { mutate: deleteUser } = useCurrentUserDelete();
@@ -26,21 +30,35 @@ const Account = () => {
     title: 'Delete your profile',
   });
 
+  const navigateHandler = (path: unknown) => {
+    onSelect?.();
+    router.push(path);
+  };
+
   return (
     <Menu
       trigger="click"
-      position={matches.max.xs ? 'top' : 'right'}
+      position={matches.max.md ? 'top' : 'right'}
       control={<NavbarUserButton />}
       sx={() => ({ width: '100%' })}
     >
       <Menu.Label>Application</Menu.Label>
       <Menu.Item
         icon={<User weight="bold" />}
-        onClick={() => router.push(paths.profile())}
+        onClick={() => {
+          navigateHandler(paths.profile());
+        }}
       >
         Profile
       </Menu.Item>
-      <Menu.Item icon={<Gear weight="bold" />}>Settings</Menu.Item>
+      <Menu.Item
+        icon={<Gear weight="bold" />}
+        onClick={() => {
+          navigateHandler(paths.settings());
+        }}
+      >
+        Settings
+      </Menu.Item>
       <Divider />
       <Menu.Label>Danger zone</Menu.Label>
       <Menu.Item
