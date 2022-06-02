@@ -7,7 +7,7 @@ import {
   Stack,
   Text,
   Title,
-  Tooltip,
+  Tooltip
 } from '@mantine/core';
 import PeepDark from 'assets/peeps/org-page/peep-org-page-dark.svg';
 import Peep from 'assets/peeps/org-page/peep-org-page.svg';
@@ -39,40 +39,44 @@ export const OrganizationHeader = ({ organization, loading }: Props) => {
         >
           <Group
             pr={0}
-            pl={matches.max.lg ? 32 : 64}
+            pl={matches.max.xl ? 0 : 64}
             sx={() => ({
               top: 0,
-              left: 50,
+              left: 0,
             })}
-            direction={matches.max.lg ? 'column' : 'row'}
+            direction={matches.max.xl ? 'column' : 'row'}
             position="apart"
             spacing={36}
             align="center"
             noWrap
           >
             <Group
+              noWrap
               align="center"
-              direction={matches.max.lg ? 'column' : 'row'}
-              spacing={matches.max.lg ? 40 : 72}
+              direction={matches.max.xl ? 'column' : 'row'}
+              spacing={matches.max.xl ? 40 : 72}
             >
               <Avatar
                 src={organization.user.image}
-                size={164}
+                size={matches.max.xl ? 128 : 164}
                 className={classes.avatar}
               />
               <Stack
                 spacing="sm"
                 sx={() => ({})}
                 justify="center"
-                align={matches.max.lg ? 'center' : 'left'}
+                align={matches.max.xl ? 'center' : 'left'}
               >
                 <Text lineClamp={1}>
-                  <Group spacing="lg">
-                    <Title order={2} className={classes.orgName}>
+                  <Group spacing={matches.max.xl ? 'sm' : 'lg'}>
+                    <Title
+                      order={matches.max.lg ? 4 : 2}
+                      className={classes.orgName}
+                    >
                       {organization.name}
                     </Title>
                     <CircleWavyCheck
-                      size={32}
+                      size={matches.max.lg ? 24 : 32}
                       color={theme.colors.orange[4]}
                       weight="duotone"
                     />
@@ -80,7 +84,7 @@ export const OrganizationHeader = ({ organization, loading }: Props) => {
                 </Text>
                 <Stack
                   spacing="xs"
-                  align={matches.max.lg ? 'center' : 'left'}
+                  align={matches.max.xl ? 'center' : 'left'}
                   justify="center"
                 >
                   <Tooltip
@@ -123,6 +127,7 @@ export const OrganizationHeader = ({ organization, loading }: Props) => {
               <Image
                 height={300}
                 width={300}
+                style={{ marginRight: '-32px' }}
                 src={isDark ? PeepDark : Peep}
                 alt="illustration"
               />

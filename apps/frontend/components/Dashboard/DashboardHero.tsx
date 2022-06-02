@@ -1,5 +1,7 @@
 import {
-  Anchor, createStyles, Group,
+  Anchor,
+  createStyles,
+  Group,
   Paper,
   Skeleton,
   Stack,
@@ -8,6 +10,7 @@ import {
 import { AuthLogo } from 'components/Auth/AuthLogo';
 import { CustomDivider } from 'components/UI/CustomDivider';
 import { useCurrentUser } from 'hooks/api/users';
+import { useBreakpoints } from 'hooks/breakpoints';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import Link from 'next/link';
 import { paths } from 'paths';
@@ -15,23 +18,29 @@ import { HeroIllustration } from './HeroIllustration';
 
 export const DashboardHero = (props) => {
   const { classes } = useStyles();
+  const { matches } = useBreakpoints();
   const { user, isOrganization, isAuthenticated, isLoading } = useCurrentUser();
 
   return (
-    <Group align="stretch" className={classes.heroBox}>
+    <Group
+      align="stretch"
+      direction={matches.max.lg ? 'column' : 'row'}
+      className={classes.heroBox}
+    >
       <HeroIllustration
         isOrganization={isOrganization ?? false}
         className={classes.illuWrapper}
       />
       <Paper className={classes.paper}>
         <Stack
-          p={64}
+          px={matches.max.lg ? 16 : 64}
+          py={matches.max.lg ? 64 : 64}
           align="start"
           justify="center"
           className={classes.heroContent}
         >
           {isAuthenticated && (
-            <Title order={2}>
+            <Title order={matches.max.lg ? 3 : 2}>
               <Stack spacing={2}>
                 Welcome back
                 <Skeleton visible={isLoading}>
@@ -43,7 +52,7 @@ export const DashboardHero = (props) => {
             </Title>
           )}
           {!isAuthenticated && (
-            <Title order={1}>
+            <Title order={matches.max.lg ? 3 : 1}>
               <Group>
                 Welcome to
                 <span className={classes.highlight}>Qwiz</span>!
@@ -72,6 +81,7 @@ export const DashboardHero = (props) => {
 
 const useStyles = createStyles((theme, _params, getRef) => {
   const { isDark } = useAppColorscheme();
+  const { matches } = useBreakpoints();
 
   return {
     heroBox: {
@@ -116,7 +126,7 @@ const useStyles = createStyles((theme, _params, getRef) => {
     },
 
     paper: {
-      minHeight: 400,
+      minHeight: matches.max.lg ? 'auto' : 400,
       backgroundColor: isDark
         ? theme.fn.rgba(theme.colors[theme.primaryColor][8], 0.55)
         : theme.colors.gray[2],
