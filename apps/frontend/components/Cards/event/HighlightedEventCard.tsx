@@ -13,6 +13,7 @@ import {
   Tooltip,
 } from '@mantine/core';
 import cn from 'classnames';
+import { useBreakpoints } from 'hooks/breakpoints';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { formatDate, relativeTimeTo } from 'lib/utils';
 import Link from 'next/link';
@@ -42,7 +43,6 @@ export const HighlightedEventCard = ({ event, loading }: Props) => {
       p="xl"
       radius="md"
       sx={{
-        // TODO: placeholder gradient or something
         backgroundImage: event?.banner ? `url(${event.banner})` : 'transparent',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
@@ -62,8 +62,7 @@ export const HighlightedEventCard = ({ event, loading }: Props) => {
         <Link href={`/organization/${event.ownerId}`}>
           <Group spacing={0} noWrap sx={{ cursor: 'pointer' }}>
             <Avatar
-              // TODO: placeholder
-              src={event.owner.user.image}
+              src={event?.owner?.user.image}
               size={20}
               radius="xl"
               mr="xs"
@@ -75,7 +74,7 @@ export const HighlightedEventCard = ({ event, loading }: Props) => {
         </Link>
       </Stack>
       <Group position="apart" sx={{ width: '100%' }}>
-        <Title order={3} className={classes.title} color="white">
+        <Title className={classes.title} color="white">
           {event?.name}
         </Title>
         <Button ml="auto" variant="white" color="dark" onClick={gotoEvent}>
@@ -88,10 +87,11 @@ export const HighlightedEventCard = ({ event, loading }: Props) => {
 
 const useStyles = createStyles((t) => {
   const { isDark } = useAppColorscheme();
+  const { matches } = useBreakpoints();
 
   return {
     base: {
-      height: 440,
+      height: matches.max.md ? 320 : 440,
       width: '100%',
       borderRadius: t.radius.md,
     },
@@ -123,7 +123,7 @@ const useStyles = createStyles((t) => {
     title: {
       color: t.white,
       lineHeight: 1.2,
-      fontSize: 32,
+      fontSize: matches.max.md ? 24 : 32,
       zIndex: 2,
     },
 

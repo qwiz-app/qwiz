@@ -53,9 +53,12 @@ export const DashboardHero = (props) => {
           )}
           {!isAuthenticated && (
             <Title order={matches.max.lg ? 3 : 1}>
-              <Group>
+              <Group
+                spacing={matches.max.sm ? 4 : 'sm'}
+                direction={matches.max.sm ? 'column' : 'row'}
+              >
                 Welcome to
-                <span className={classes.highlight}>Qwiz</span>!
+                <span className={classes.highlight}>Qwiz!</span>
               </Group>
             </Title>
           )}

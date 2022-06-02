@@ -4,7 +4,8 @@ import {
   Container,
   Group,
   Header as MantineHeader,
-  Navbar as MantineNavbar
+  Navbar as MantineNavbar,
+  UnstyledButton
 } from '@mantine/core';
 import LogoDark from 'assets/logo/qwiz-dark.svg';
 import LogoWhite from 'assets/logo/qwiz-white.svg';
@@ -20,10 +21,13 @@ import { useBreakpoints } from 'hooks/breakpoints';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useNavItems } from 'hooks/use-nav-items';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { paths } from 'paths';
 import { MagnifyingGlass } from 'phosphor-react';
 import { useState } from 'react';
 
 export const AppShell = ({ children }) => {
+  const router = useRouter();
   const { isAuthenticated, isLoading } = useCurrentSession();
   const { isDark } = useAppColorscheme();
   const { matches } = useBreakpoints();
@@ -33,7 +37,6 @@ export const AppShell = ({ children }) => {
   const toggleNavbar = () => setOpened((prev) => !prev);
 
   const logo = isDark ? LogoWhite : LogoDark;
-
   // TODO: fix navbar height on mobile
   // TODO: close mobile drawer after action or navigating
   const Navbar = (
@@ -87,14 +90,17 @@ export const AppShell = ({ children }) => {
         sx={(t) => ({ width: '100%', height: '100%' })}
       >
         <Burger opened={opened} onClick={toggleNavbar} size="sm" />
-        <Image
-          src={logo}
-          alt="logo"
-          objectFit="contain"
-          className="auth-logo"
-          width={36}
-          height={36}
-        />
+        <UnstyledButton onClick={() => router.push(paths.home())}>
+          <Image
+            src={logo}
+            alt="logo"
+            objectFit="contain"
+            className="auth-logo"
+            width={36}
+            height={36}
+          />
+        </UnstyledButton>
+
         <ThemeToggle />
       </Group>
     </MantineHeader>

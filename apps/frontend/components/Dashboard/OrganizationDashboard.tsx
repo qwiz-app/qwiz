@@ -1,10 +1,7 @@
 // import { createStyles } from '@mantine/core';
 import { PageSection } from 'components/PageLayouts/PageSection';
 import { StatsGroup } from 'components/Stats/StatsGroup';
-import {
-  StatRing,
-  StatsRing
-} from 'components/Stats/StatsRing';
+import { StatRing, StatsRing } from 'components/Stats/StatsRing';
 
 export const OrganizationDashboard = (props) => {
   // const { classes } = useStyles();
@@ -32,22 +29,22 @@ export const OrganizationDashboard = (props) => {
 
   const eventStatsData: StatRing[] = [
     {
-      label: 'test',
-      stats: 'test',
+      label: 'test1',
+      stats: 'test1',
       progress: 52,
       color: 'blue',
       icon: 'up',
     },
     {
-      label: 'test',
-      stats: 'test',
+      label: 'test2',
+      stats: 'test2',
       progress: 67,
       color: 'orange',
       icon: 'up',
     },
     {
-      label: 'test',
-      stats: 'test',
+      label: 'test3',
+      stats: 'test3',
       progress: 24,
       color: 'red',
       icon: 'down',

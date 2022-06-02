@@ -4,6 +4,7 @@ import LogoWhite from 'assets/logo/qwiz-white.svg';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { paths } from 'paths';
 import { forwardRef } from 'react';
 
 const LogoImage = forwardRef(function LogoImage() {
@@ -18,7 +19,7 @@ const LogoImage = forwardRef(function LogoImage() {
 export const NavbarLogo = () => {
   const router = useRouter();
   return (
-    <UnstyledButton onClick={() => router.push('/')}>
+    <UnstyledButton onClick={() => router.push(paths.home())}>
       <LogoImage />
     </UnstyledButton>
   );

@@ -3,6 +3,7 @@ import { NoEventsAlert } from 'components/Cards/event/NoEventsAlert';
 import PageGrid from 'components/Grids/PageGrid';
 import { PageSection } from 'components/PageLayouts/PageSection';
 import { useEvents } from 'hooks/api/events';
+import { useBreakpoints } from 'hooks/breakpoints';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useCreateEventCheck } from 'hooks/use-create-event-check';
 import { PlusCircle } from 'phosphor-react';
@@ -23,6 +24,7 @@ export const EventsCurrentOrganization = () => {
     renderEvents,
   } = useEventsPage(useEvents());
   const { navigateToCreateEvent } = useCreateEventCheck();
+  const { matches } = useBreakpoints();
 
   return (
     <>
@@ -39,6 +41,7 @@ export const EventsCurrentOrganization = () => {
                 rightIcon={<PlusCircle size={20} weight="duotone" />}
                 size="md"
                 onClick={navigateToCreateEvent}
+                fullWidth={matches.max.sm}
               >
                 Create an event
               </Button>
