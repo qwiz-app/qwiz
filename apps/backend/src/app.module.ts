@@ -14,6 +14,7 @@ import { QuestionModule } from './resources/question/question.module';
 import { QuizModule } from './resources/quiz/quiz.module';
 import { UserModule } from './resources/user/user.module';
 import { CategoryModule } from './resources/category/category.module';
+import { TeamModule } from './resources/team/team.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { CategoryModule } from './resources/category/category.module';
       }),
     }),
     CategoryModule,
+    TeamModule,
   ],
   providers: [PrismaService],
   controllers: [AppController],

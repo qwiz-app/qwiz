@@ -95,17 +95,17 @@ model Attendee {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   // opposite relations
-  teams          Team[]      @relation(name: "TeamMember")
-  adminOfTeams   Team[]      @relation(name: "TeamAdmin")
-  captainOfTeams EventTeam[]
+  teams        Team[] @relation(name: "TeamMember")
+  adminOfTeams Team[] @relation(name: "TeamAdmin")
 }
 
 model Team {
-  id          String   @id @default(cuid())
-  name        String
-  countryCode String
-  adminId     String
-  createdAt   DateTime @default(now())
+  id        String   @id @default(cuid())
+  name      String
+  adminId   String
+  image     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // relations
   admin Attendee @relation(name: "TeamAdmin", fields: [adminId], references: [id], onDelete: Restrict)
@@ -119,14 +119,12 @@ model EventTeam {
   id        String   @id @default(cuid())
   teamId    String
   eventId   String
-  captainId String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   // relations
-  team    Team     @relation(fields: [teamId], references: [id], onUpdate: NoAction, onDelete: Cascade)
-  event   Event    @relation(fields: [eventId], references: [id], onUpdate: NoAction, onDelete: Cascade)
-  captain Attendee @relation(fields: [captainId], references: [id], onUpdate: NoAction, onDelete: Restrict)
+  team  Team  @relation(fields: [teamId], references: [id], onUpdate: NoAction, onDelete: Cascade)
+  event Event @relation(fields: [eventId], references: [id], onUpdate: NoAction, onDelete: Cascade)
 
   // opposite relations
   answers EventTeamAnswer[]

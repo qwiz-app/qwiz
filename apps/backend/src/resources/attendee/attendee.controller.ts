@@ -55,6 +55,7 @@ export class AttendeeController {
 
   @Get('me')
   getCurrentAttendee(@AttendeeEntity() attendee: Attendee) {
+    console.log('attendee :>> ', attendee);
     if (!attendee) {
       throw new NotFoundException('Attendee does not exist.');
     }

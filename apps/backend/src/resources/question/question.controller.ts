@@ -10,7 +10,7 @@ import {
   Patch,
   Post,
   Query,
-  UnauthorizedException
+  UnauthorizedException,
 } from '@nestjs/common';
 import { Organization, Prisma } from '@prisma/client';
 import { IsAdmin } from 'common/decorators/admin.decorator';
@@ -32,7 +32,6 @@ export class QuestionController {
         },
       },
     },
-    // questionMode: true,
     categories: true,
     _count: true,
   };
@@ -144,8 +143,6 @@ export class QuestionController {
       ownerId: organization.id,
       isGlobal: false,
     };
-    // TODO: prisma doesnt allow multiple conditions on single update
-    // so must be done with updateMany - doesnt return updated object
     return this.questionService.update(where, updateQuestionDto);
   }
 
@@ -154,8 +151,6 @@ export class QuestionController {
     @Param('id') id: string,
     @OrganizationEntity() organization: Organization
   ) {
-    // TODO: prisma doesnt allow multiple conditions on single delete
-    // so must be done with deleteMany - doesnt return deleted object
     return this.questionService.remove({
       id,
       ownerId: organization.id,
