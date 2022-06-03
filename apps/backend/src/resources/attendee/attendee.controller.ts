@@ -38,12 +38,10 @@ export class AttendeeController {
   }
 
   @Get()
-  findAll(
-    @Query('adminOfTeams', new DefaultValuePipe(false), ParseBoolPipe)
-    adminOfTeams: boolean
-  ) {
-    const include = {
+  findAll(adminOfTeams: boolean) {
+    const include: Prisma.AttendeeInclude = {
       adminOfTeams,
+      user: true,
       teams: true,
     };
     return this.attendeeService.findAll(include);

@@ -8,7 +8,11 @@ export class TeamController {
   constructor(private readonly teamService: TeamService) {}
 
   teamInclude: Prisma.TeamInclude = {
-    members: true,
+    members: {
+      include: {
+        user: true,
+      },
+    },
     eventTeams: {
       include: {
         event: true,
@@ -19,11 +23,26 @@ export class TeamController {
 
   @Post()
   create(
-    @Body() createTeamDto: Prisma.TeamUncheckedCreateInput,
+    @Body()
+    {
+      members,
+      ...createTeamDto
+    }: Prisma.TeamUncheckedCreateInput & {
+      members?: string[];
+    },
     @AttendeeEntity() attendee: Attendee
   ) {
+    const otherMembers = members?.map((id) => ({ id })) ?? [];
+    const allMembers = [{ id: attendee.id }, ...otherMembers];
+
     return this.teamService.create(
-      { ...createTeamDto, adminId: attendee.id },
+      {
+        ...createTeamDto,
+        adminId: attendee.id,
+        members: {
+          connect: allMembers,
+        },
+      },
       this.teamInclude
     );
   }
