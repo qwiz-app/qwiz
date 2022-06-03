@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { Attendee, Prisma } from '@prisma/client';
 import { AttendeeEntity } from 'common/decorators/attendee.decorator';
 import { TeamService } from './team.service';
@@ -9,6 +17,11 @@ export class TeamController {
 
   teamInclude: Prisma.TeamInclude = {
     members: {
+      include: {
+        user: true,
+      },
+    },
+    admin: {
       include: {
         user: true,
       },
@@ -56,11 +69,15 @@ export class TeamController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     const where: Prisma.TeamWhereUniqueInput = {
       id,
     };
-    return this.teamService.findOne(where, this.teamInclude);
+    const team = await this.teamService.findOne(where, this.teamInclude);
+    if (!team) {
+      throw new NotFoundException('Team not found');
+    }
+    return team;
   }
 
   @Delete(':id')
