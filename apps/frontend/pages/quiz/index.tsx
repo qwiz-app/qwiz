@@ -33,7 +33,7 @@ const QuizPage = () => {
       </PageSection>
 
       <PageSection title="Recently edited">
-        <PageGrid type="tiny">
+        <PageGrid pb={32} type="tiny">
           {quizzes?.map((quiz) => (
             <FramerAnimatedListItem id={quiz.id} key={quiz.id}>
               <QuizCard quiz={quiz} loading={isLoading || isPlaceholderData} />

@@ -1,18 +1,22 @@
-import { Box, createStyles } from '@mantine/core';
+import { Box, BoxProps, createStyles } from '@mantine/core';
 import { ReactNode } from 'react';
 import cn from 'classnames';
 import { useBreakpoints } from 'hooks/breakpoints';
 
-interface Props {
+interface Props extends BoxProps<'div'> {
   type: 'big' | 'small' | 'tiny' | 'tiniest';
   children: ReactNode;
 }
 
-const PageGrid = ({ type, children }: Props) => {
+const PageGrid = ({ type, children, ...rest }: Props) => {
   const { classes } = useStyles();
   const className = classes[type];
 
-  return <Box className={cn(classes.grid, className)}>{children}</Box>;
+  return (
+    <Box className={cn(classes.grid, className)} {...rest}>
+      {children}
+    </Box>
+  );
 };
 
 export default PageGrid;
