@@ -8,7 +8,9 @@ import {
 export const useAvailableQuestions = () =>
   useQuery('questions', fetchAvailableQuestions);
 
-export const useMyQuestions = () =>
-  useQuery('questionsByMe', fetchQuestionsByMe);
+export const useMyQuestions = (isOrg = true) =>
+  useQuery('questionsByMe', fetchQuestionsByMe, {
+    enabled: isOrg,
+  });
 
 export const useAllQuestions = () => useQuery('questions', fetchAllQuestions);

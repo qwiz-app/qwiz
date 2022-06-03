@@ -21,13 +21,14 @@ import {
   Link,
   MagnifyingGlass,
   Moon,
-  Person, PlusCircle,
+  Person,
+  PlusCircle,
   Queue,
   SignIn,
   SignOut,
   SquaresFour,
   Sun,
-  User
+  User,
 } from 'phosphor-react';
 
 export type SpotlightItem = SpotlightAction & {
@@ -90,7 +91,7 @@ const useSpotlightActions = () => {
       description: 'Go to your questions',
       onTrigger: () => router.push(paths.questions()),
       icon: <CircleWavyQuestion {...iconProps} />,
-      permissions: [Role.ORGANIZATION],
+      permissions: [Role.ORGANIZATION, Role.ADMIN],
     },
     {
       title: 'Profile',

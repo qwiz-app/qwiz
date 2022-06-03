@@ -51,7 +51,7 @@ export const useNavItems = () => {
       label: 'Questions',
       href: paths.questions(),
       icon: <CircleWavyQuestion {...iconProps} />,
-      permissions: [Role.ORGANIZATION],
+      permissions: [Role.ORGANIZATION, Role.ADMIN],
     },
     {
       label: 'Question packs',

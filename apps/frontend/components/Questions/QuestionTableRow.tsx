@@ -16,7 +16,7 @@ import { SelectedQuestionModalContent } from 'components/Quiz/QuizQuestion/Selec
 import { useQuestionDelete } from 'hooks/api/question';
 import { useDeleteConfirmModal } from 'hooks/use-delete-confirm-modal';
 import { useQuestionContents } from 'hooks/use-question-contents';
-import { DateTimeFormat, formatDate, relativeTimeTo } from 'lib/utils';
+import { DateTimeFormat, formatDate } from 'lib/utils';
 import { TrashSimple } from 'phosphor-react';
 import { QuestionWithContentAndCategoriesAndMode } from 'types/api/question';
 
@@ -85,7 +85,7 @@ export const QuestionTableRow = ({ question, onRowClick }: Props) => {
             .filter((c) => c.type === QuestionElementType.TEXT)
             .slice(0, 1)
             .map((c) => (
-              <Text key={c.id} size="sm" lineClamp={1}>
+              <Text key={c.id} size="md" lineClamp={1}>
                 {c.content}
               </Text>
             ))}
@@ -122,20 +122,6 @@ export const QuestionTableRow = ({ question, onRowClick }: Props) => {
           )}
         </Stack>
       </td>
-      {/* <td>
-          {question.owner ? (
-            <Group>
-              <Avatar radius="xl" size={32} src={question.owner?.user.image} />
-              <Text size="sm">{question.owner?.name}</Text>
-            </Group>
-          ) : (
-            <Group>
-              <Avatar radius="xl" size={32} color="blue">
-                <GlobeSimple size={24} weight="duotone" />
-              </Avatar>
-            </Group>
-          )}
-        </td> */}
       <td>
         {hasCategories ? (
           <Group spacing={2}>
@@ -157,18 +143,6 @@ export const QuestionTableRow = ({ question, onRowClick }: Props) => {
             )}
           </Group>
         ) : null}
-      </td>
-      <td>
-        <Tooltip
-          label={formatDate(question.updatedAt)}
-          position="right"
-          withArrow
-          gutter={8}
-        >
-          <Text size="xs" color="dimmed">
-            {relativeTimeTo(question.updatedAt)}
-          </Text>
-        </Tooltip>
       </td>
       <td>
         <Tooltip

@@ -7,7 +7,7 @@ import {
   ScrollArea,
   Stack,
   Table,
-  TextInput
+  TextInput,
 } from '@mantine/core';
 import { QuestionElementType } from '@prisma/client';
 import { QuestionCreateModal } from 'components/Quiz/QuizQuestion/QuizQuestionCreateModal';
@@ -54,9 +54,7 @@ export const QuestionsTable = ({ questions, loading }: Props) => {
     'Textual',
     'Visual',
     'Scope',
-    // 'Owner',
     'Categories',
-    'Edited',
     'Created',
     'Availability',
   ];
