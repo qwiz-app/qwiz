@@ -1,6 +1,4 @@
-import {
-  Body, Controller, Delete, Get, Param, Post
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { Attendee, Prisma } from '@prisma/client';
 import { AttendeeEntity } from 'common/decorators/attendee.decorator';
 import { TeamService } from './team.service';
@@ -16,6 +14,7 @@ export class TeamController {
         event: true,
       },
     },
+    _count: true,
   };
 
   @Post()

@@ -40,22 +40,17 @@ export class AttendeeController {
   @Get()
   findAll(
     @Query('adminOfTeams', new DefaultValuePipe(false), ParseBoolPipe)
-    adminOfTeams: boolean,
-    @Query('captainOfTeams', new DefaultValuePipe(false), ParseBoolPipe)
-    captainOfTeams: boolean,
-    @Query('teams', new DefaultValuePipe(false), ParseBoolPipe) teams: boolean
+    adminOfTeams: boolean
   ) {
     const include = {
       adminOfTeams,
-      captainOfTeams,
-      teams,
+      teams: true,
     };
     return this.attendeeService.findAll(include);
   }
 
   @Get('me')
   getCurrentAttendee(@AttendeeEntity() attendee: Attendee) {
-    console.log('attendee :>> ', attendee);
     if (!attendee) {
       throw new NotFoundException('Attendee does not exist.');
     }

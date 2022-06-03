@@ -6,7 +6,7 @@ import {
   NotFoundException,
   Param,
   Patch,
-  Post,
+  Post
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { QuizQuestionService } from './quiz-question.service';
@@ -25,7 +25,7 @@ export class QuizQuestionController {
 
   @Post()
   create(@Body() createQuizQuestionDto: Prisma.QuizQuestionCreateInput) {
-    return this.quizQuestionService.create({ ...createQuizQuestionDto });
+    return this.quizQuestionService.create(createQuizQuestionDto);
   }
 
   @Get('quiz/:quizId')
