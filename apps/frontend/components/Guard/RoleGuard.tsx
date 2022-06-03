@@ -1,9 +1,9 @@
-import { useCurrentSession } from 'hooks/api/session';
-import { useEffect } from 'react';
 import cookieCutter from 'cookie-cutter';
+import { useCurrentUser } from 'hooks/api/users';
+import { useEffect } from 'react';
 
 export const RoleGuard = ({ children }) => {
-  const { user } = useCurrentSession();
+  const { user } = useCurrentUser();
 
   useEffect(() => {
     const role = cookieCutter.get('role');

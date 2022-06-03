@@ -16,7 +16,7 @@ import { NavbarUserMenu } from 'components/Nav/NavbarUser/NavbarUserMenu';
 import NavSearchItem from 'components/Nav/NavSearchItem';
 import { ThemeToggle } from 'components/UI/ThemeToggle';
 import { ThinScrollArea } from 'components/UI/ThinScrollArea';
-import { useCurrentSession } from 'hooks/api/session';
+import { useCurrentUser } from 'hooks/api/users';
 import { useBreakpoints } from 'hooks/breakpoints';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useNavItems } from 'hooks/use-nav-items';
@@ -28,7 +28,7 @@ import { useState } from 'react';
 
 export const AppShell = ({ children }) => {
   const router = useRouter();
-  const { isAuthenticated, isLoading } = useCurrentSession();
+  const { isAuthenticated, isLoading, isSessionLoading } = useCurrentUser();
   const { isDark } = useAppColorscheme();
   const { matches } = useBreakpoints();
   const { items, iconProps } = useNavItems();
@@ -75,7 +75,7 @@ export const AppShell = ({ children }) => {
       <>
         <NavbarDivider />
         <MantineNavbar.Section mt={12}>
-          {isAuthenticated || isLoading ? (
+          {isAuthenticated || isLoading || isSessionLoading ? (
             <NavbarUserMenu.Account onSelect={closeNav} />
           ) : (
             <NavbarUserMenu.Guest />

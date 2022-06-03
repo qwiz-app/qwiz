@@ -4,7 +4,7 @@ import {
   createStyles,
   LoadingOverlay,
   Menu,
-  Text
+  Text,
 } from '@mantine/core';
 import cn from 'classnames';
 import { useSlideDelete, useSlides } from 'hooks/api/slide';
@@ -22,7 +22,7 @@ import {
   NumberCircleThree,
   NumberCircleTwo,
   NumberCircleZero,
-  TrashSimple
+  TrashSimple,
 } from 'phosphor-react';
 import { SyntheticEvent } from 'react';
 import { SlideWithQuestionAndElements } from 'types/api/slide';
@@ -145,7 +145,6 @@ const useStyles = createStyles((theme) => ({
     textAlign: 'center',
     padding: theme.spacing.md,
     borderRadius: theme.radius.md,
-    margin: theme.radius.md,
     cursor: 'pointer',
     borderColor: 'transparent',
     borderWidth: 2,

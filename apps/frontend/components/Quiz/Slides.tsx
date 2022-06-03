@@ -2,10 +2,9 @@ import {
   Box,
   Button,
   createStyles,
-  Group,
-  LoadingOverlay,
-  Navbar,
-  Stack,
+  Group, Navbar,
+  Skeleton,
+  Stack
 } from '@mantine/core';
 import { FramerAnimatedListItem } from 'components/Framer/FramerAnimatedListItem';
 import { ThinScrollArea } from 'components/UI/ThinScrollArea';
@@ -24,7 +23,7 @@ export const Slides = () => {
   const { id: quizId } = useCurrentQuiz();
   const { id: slideId } = useCurrentSlide();
 
-  const { data: slides } = useSlides(quizId);
+  const { data: slides, isLoading } = useSlides(quizId);
   const { mutate: createSlide, isLoading: isCreateLoading } = useSlideCreate();
 
   const handleSlideClick = (selectedSlideId: string) => {
@@ -56,18 +55,23 @@ export const Slides = () => {
         <Box
           sx={() => ({ height: '100%', flex: 1 })}
           component={ThinScrollArea}
+          px="xs"
+          pt="xs"
         >
-          <LoadingOverlay visible={isCreateLoading} />
-          {slides?.map((slide, i) => (
-            <FramerAnimatedListItem id={slide.id} key={slide.id}>
-              <SlidePreview
-                slide={slide}
-                order={i + 1}
-                selectedSlideId={slideId}
-                onSlideClick={handleSlideClick}
-              />
-            </FramerAnimatedListItem>
-          ))}
+          <Stack spacing="xs">
+            {slides?.map((slide, i) => (
+              <FramerAnimatedListItem id={slide.id} key={slide.id}>
+                <Skeleton visible={isCreateLoading} radius="md">
+                  <SlidePreview
+                    slide={slide}
+                    order={i + 1}
+                    selectedSlideId={slideId}
+                    onSlideClick={handleSlideClick}
+                  />
+                </Skeleton>
+              </FramerAnimatedListItem>
+            ))}
+          </Stack>
         </Box>
         <Group p="xs">
           <Button

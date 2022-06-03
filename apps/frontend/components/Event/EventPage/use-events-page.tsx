@@ -3,7 +3,7 @@ import { ImageCard } from 'components/Cards/event/EventCard';
 import { HighlightedEventCard } from 'components/Cards/event/HighlightedEventCard';
 import { FramerAnimatedListItem } from 'components/Framer/FramerAnimatedListItem';
 import dayjs from 'dayjs';
-import { useCurrentSession } from 'hooks/api/session';
+import { useCurrentUser } from 'hooks/api/users';
 import { useMemo } from 'react';
 import { UseQueryResult } from 'react-query';
 import { EventWithOwner } from 'types/api/event';
@@ -13,7 +13,7 @@ export const useEventsPage = ({
   isPlaceholderData,
   isLoading,
 }: UseQueryResult<EventWithOwner[], AxiosError<unknown, unknown>>) => {
-  const { isOrganization, isLoading: sessionLoading } = useCurrentSession();
+  const { isOrganization, isLoading: sessionLoading } = useCurrentUser();
 
   const isLoadingOrPlaceholder = isLoading || isPlaceholderData;
   const now = dayjs();
