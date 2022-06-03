@@ -7,9 +7,8 @@ export const useCurrentUserDelete = () => {
   const router = useRouter();
 
   return useMutation(deleteCurrentUser, {
-    //   TODO: isnt ran
+    // TODO: i think it isnt ran
     onMutate: () => {
-      console.log('redirect to signout');
       router.replace(paths.signIn());
     },
   });

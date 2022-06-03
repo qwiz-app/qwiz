@@ -34,12 +34,6 @@ export const useNavItems = () => {
       label: 'Explore',
       href: paths.explore(),
       icon: <Binoculars {...iconProps} />,
-      permissions: [Role.ATTENDEE],
-    },
-    {
-      label: 'Explore',
-      href: paths.explore(),
-      icon: <Binoculars {...iconProps} />,
       permissions: [Role.ORGANIZATION],
     },
     {
@@ -85,6 +79,7 @@ export const useNavItems = () => {
 
   const items = ALL_ITEMS.filter((item) => {
     if (item.permissions) {
+      console.log('user?.role :>> ', user?.role);
       return isAuthenticated && item.permissions.includes(user?.role);
     }
     return true;

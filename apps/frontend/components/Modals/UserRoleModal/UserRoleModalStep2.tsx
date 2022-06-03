@@ -107,11 +107,14 @@ const useUserRoleModalAvatar = () => {
   }, []);
 
   const { generatedAvatar, generateAvatar } = useAvatarGen(user.email, orgName);
+
   useEffect(() => {
-    if (generatedAvatar && setHasCustomAvatar) {
+    if (!hasCustomAvatar) {
+      setAvatar(initalUserImage);
+    } else if (generatedAvatar && setHasCustomAvatar) {
       setAvatar(generatedAvatar);
     }
-  }, [generatedAvatar]);
+  }, [generatedAvatar, hasCustomAvatar]);
 
   const resetUserImageHandler = () => {
     setHasCustomAvatar(false);
