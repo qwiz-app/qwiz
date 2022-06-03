@@ -2,13 +2,14 @@ import { useAppColorscheme } from 'hooks/colorscheme';
 import PeepDark from 'assets/peeps/signin/peep-dark.svg';
 import Peep from 'assets/peeps/signin/peep.svg';
 import Image from 'next/image';
+import { Box } from '@mantine/core';
 
 export const AuthIllustration = (props) => {
   const { isDark } = useAppColorscheme();
   const illustration = isDark ? PeepDark : Peep;
 
   return (
-    <div {...props}>
+    <Box {...props} w={620} h={620}>
       <Image
         src={illustration}
         alt="Peep"
@@ -17,6 +18,6 @@ export const AuthIllustration = (props) => {
         width={620}
         height={620}
       />
-    </div>
+    </Box>
   );
 };
