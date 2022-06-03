@@ -49,6 +49,9 @@ export const QuestionCreateModal = ({ opened, setOpened }) => {
   const handleSubmit = () => {
     const textualArr = Object.values(textual);
     const imagesArr = Object.values(images);
+    if (imagesArr[0].content === null) {
+      imagesArr.splice(0, 1);
+    }
     const contents = [...textualArr, ...imagesArr];
 
     // TODO: allow deleting inputs and images when creating question
