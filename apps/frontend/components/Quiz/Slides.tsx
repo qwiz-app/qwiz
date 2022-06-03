@@ -2,9 +2,10 @@ import {
   Box,
   Button,
   createStyles,
-  Group, Navbar,
+  Group,
+  Navbar,
   Skeleton,
-  Stack
+  Stack,
 } from '@mantine/core';
 import { FramerAnimatedListItem } from 'components/Framer/FramerAnimatedListItem';
 import { ThinScrollArea } from 'components/UI/ThinScrollArea';
@@ -23,7 +24,8 @@ export const Slides = () => {
   const { id: quizId } = useCurrentQuiz();
   const { id: slideId } = useCurrentSlide();
 
-  const { data: slides, isLoading } = useSlides(quizId);
+  const { data: slides, isPlaceholderData: arePlacholderSlides } =
+    useSlides(quizId);
   const { mutate: createSlide, isLoading: isCreateLoading } = useSlideCreate();
 
   const handleSlideClick = (selectedSlideId: string) => {
@@ -61,7 +63,10 @@ export const Slides = () => {
           <Stack spacing="xs">
             {slides?.map((slide, i) => (
               <FramerAnimatedListItem id={slide.id} key={slide.id}>
-                <Skeleton visible={isCreateLoading} radius="md">
+                <Skeleton
+                  visible={isCreateLoading || arePlacholderSlides}
+                  radius="md"
+                >
                   <SlidePreview
                     slide={slide}
                     order={i + 1}
