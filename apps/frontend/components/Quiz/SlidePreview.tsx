@@ -141,7 +141,7 @@ const useStyles = createStyles((theme) => ({
     backgroundColor:
       theme.colorScheme === 'dark'
         ? theme.colors.dark[6]
-        : theme.colors.gray[0],
+        : theme.colors.gray[1],
     textAlign: 'center',
     padding: theme.spacing.md,
     borderRadius: theme.radius.md,
@@ -160,7 +160,7 @@ const useStyles = createStyles((theme) => ({
       backgroundColor:
         theme.colorScheme === 'dark'
           ? theme.colors.dark[5]
-          : theme.colors.gray[1],
+          : theme.fn.darken(theme.colors.gray[2], 0.01),
     },
   },
 

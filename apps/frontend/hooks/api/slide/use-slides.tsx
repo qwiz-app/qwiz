@@ -20,21 +20,5 @@ const placeholderData = generateArrayForRange(5).map((_, idx) => ({
   ordinal: 1,
   backgroundColor: null,
   elements: [],
-  quizQuestion: {
-    id: '',
-    quizId: '',
-    questionId: '',
-    quizSlideId: `slide-${idx}`,
-    scoringModeId: 1,
-    question: {
-      id: '',
-      ownerId: '',
-      questionModeId: 1,
-      isGlobal: false,
-      isActive: true,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      contents: [],
-    },
-  },
+  quizQuestion: null,
 }));

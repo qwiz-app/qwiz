@@ -8,6 +8,7 @@ import {
   Group,
   LoadingOverlay,
   Overlay,
+  Skeleton,
   Stack,
   Tooltip,
 } from '@mantine/core';
@@ -19,6 +20,7 @@ import { useQuizQuestionCreate } from 'hooks/api/quiz-question/use-quiz-question
 import { useQuizQuestionUpdate } from 'hooks/api/quiz-question/use-quiz-question-update';
 import { useSlides } from 'hooks/api/slide';
 import { useAppColorscheme } from 'hooks/colorscheme';
+import { generateArrayForRange } from 'lib/utils';
 import { Sliders } from 'phosphor-react';
 import { useMemo, useState } from 'react';
 import { QuestionWithContentAndCategoriesAndMode } from 'types/api/question';
@@ -30,8 +32,7 @@ import { useCurrentSlide } from './use-current-slide';
 
 export const SidePanelQuestions = () => {
   const { data: me } = useCurrentOrganizationInfo();
-  // TODO: loading skeletons
-  const { data: questions } = useAvailableQuestions();
+  const { data: questions, isLoading } = useAvailableQuestions();
   const { id: quizId } = useCurrentQuiz();
   const { data: slides } = useSlides(quizId);
   const { theme, isDark } = useAppColorscheme();
@@ -150,15 +151,19 @@ export const SidePanelQuestions = () => {
 
         <Stack spacing={8}>
           <LoadingOverlay visible={updateLoading || isCreateLoading} />
-          {shownQuestions?.map((question) => (
-            <FramerAnimatedListItem key={question.id} id={question.id}>
-              <QuizQuestionCard
-                question={question}
-                onSelect={openQuestionModal}
-                onUseQuestion={questionUseSelectedHandler}
-              />
-            </FramerAnimatedListItem>
-          ))}
+          {isLoading
+            ? generateArrayForRange(8).map((n) => (
+                <Skeleton key={n} visible height={120} radius="md" />
+              ))
+            : shownQuestions?.map((question) => (
+                <FramerAnimatedListItem key={question.id} id={question.id}>
+                  <QuizQuestionCard
+                    question={question}
+                    onSelect={openQuestionModal}
+                    onUseQuestion={questionUseSelectedHandler}
+                  />
+                </FramerAnimatedListItem>
+              ))}
         </Stack>
       </SidePanelWrapper>
     </FloatingTooltip>

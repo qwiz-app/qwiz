@@ -8,11 +8,9 @@ import {
   Stack,
   Text,
   Tooltip,
-  UnstyledButton
+  UnstyledButton,
 } from '@mantine/core';
-import {
-  useQuestionContents
-} from 'hooks/use-question-contents';
+import { useQuestionContents } from 'hooks/use-question-contents';
 import { formatDate, relativeTimeTo } from 'lib/utils';
 import { CheckCircle, PlusCircle } from 'phosphor-react';
 import { SyntheticEvent } from 'react';
@@ -46,7 +44,7 @@ export const QuizQuestionCard = ({
       onClick={() => onSelect(question)}
       className={classes.btnWrapper}
     >
-      <Paper withBorder p="md" radius="md" className={classes.cardPaper}>
+      <Paper withBorder p="sm" radius="md" className={classes.cardPaper}>
         <Stack spacing="sm">
           <Group spacing={4} align="center" position="apart">
             <Box>

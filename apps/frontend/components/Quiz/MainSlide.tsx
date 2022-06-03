@@ -9,7 +9,7 @@ import {
   LoadingOverlay,
   Paper,
   Stack,
-  Text
+  Text,
 } from '@mantine/core';
 import PeepDark from 'assets/peeps/slide/peep-slide-dark.svg';
 import Peep from 'assets/peeps/slide/peep-slide.svg';
@@ -60,7 +60,7 @@ export const MainSlide = ({ question }: Props) => {
   return (
     <Box className={classes.wrapper}>
       <AspectRatio ratio={16 / 9}>
-        <Paper withBorder radius="md">
+        <Paper withBorder radius="md" px="sm">
           <LoadingOverlay visible={isLoading} />
           <Stack className={classes.box} align="center" justify="space-evenly">
             {hasTextualContent && (
