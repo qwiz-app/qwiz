@@ -1,4 +1,4 @@
-import { createStyles, Group, Stack } from '@mantine/core';
+import { Anchor, createStyles, Divider, Group, Stack } from '@mantine/core';
 import { useNotifications } from '@mantine/notifications';
 import { AuthIllustration } from 'components/Auth/AuthIllustration';
 import { AuthLogo } from 'components/Auth/AuthLogo';
@@ -16,7 +16,7 @@ import {
   ClientSafeProvider,
   getCsrfToken,
   getProviders,
-  LiteralUnion
+  LiteralUnion,
 } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { paths } from 'paths';
@@ -86,6 +86,9 @@ const SignInPage = (props: SignInProps) => {
           <AuthTitle />
           <Stack>
             <AuthProviders {...props} />
+            <Anchor underline color="dimmed" href={paths.home()}>
+              Continue as a guest
+            </Anchor>
           </Stack>
         </Stack>
       </Group>
