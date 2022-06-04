@@ -16,6 +16,7 @@ export const paths = {
   questions: () => '/questions',
   questionPacks: () => '/question-packs',
   teams: () => '/teams',
+  teamNew: () => '/teams/new',
   stats: () => '/stats',
   leaderboard: () => '/learderboard',
   settings: () => '/settings',

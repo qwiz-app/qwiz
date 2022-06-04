@@ -1,11 +1,14 @@
 import { Alert, Button, Stack } from '@mantine/core';
 import { useAppColorscheme } from 'hooks/colorscheme';
+import { useRouter } from 'next/router';
+import { paths } from 'paths';
 
 export const NoTeamsAlert = () => {
+  const router = useRouter();
   const { isDark } = useAppColorscheme();
 
   const navigateToTeamCreate = () => {
-    console.log('team create');
+    router.push(paths.teamNew());
   };
 
   return (

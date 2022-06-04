@@ -21,7 +21,6 @@ import {
   Link,
   MagnifyingGlass,
   Moon,
-  Person,
   PlusCircle,
   Queue,
   SignIn,
@@ -29,7 +28,7 @@ import {
   SquaresFour,
   Sun,
   User,
-  UsersThree,
+  UsersThree
 } from 'phosphor-react';
 
 export type SpotlightItem = SpotlightAction & {
@@ -51,6 +50,10 @@ const useSpotlightActions = () => {
   const iconProps: IconProps = {
     size: 24,
     weight: 'duotone',
+  };
+
+  const navigateToTeamCreate = () => {
+    router.push(paths.teamNew());
   };
 
   const routeActions: SpotlightItem[] = [
@@ -126,6 +129,14 @@ const useSpotlightActions = () => {
       onTrigger: createQuiz,
       icon: <PlusCircle {...iconProps} />,
       permissions: [Role.ORGANIZATION],
+    },
+    {
+      title: 'Create team',
+      group: 'Navigate',
+      description: 'Create a new team',
+      onTrigger: navigateToTeamCreate,
+      icon: <PlusCircle {...iconProps} />,
+      permissions: [Role.ATTENDEE],
     },
   ];
 
@@ -215,7 +226,6 @@ export const CustomSpotlightProvider = ({ children }) => {
   const actions = useSpotlightActions();
 
   return (
-    // TODO: only allow providers on spotlight for /signin page
     <SpotlightProvider
       actions={actions}
       searchIcon={<MagnifyingGlass size={24} weight="duotone" />}
@@ -226,7 +236,7 @@ export const CustomSpotlightProvider = ({ children }) => {
       highlightColor="orange"
       styles={{
         root: {
-          padding: '0.5rem',
+          padding: 8,
         },
       }}
     >

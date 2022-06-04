@@ -8,14 +8,17 @@ import TeamCard from 'components/Team/TeamCard';
 import { useTeams } from 'hooks/api/teams';
 import { useBreakpoints } from 'hooks/breakpoints';
 import { generateArrayForRange } from 'lib/utils';
+import { useRouter } from 'next/router';
+import { paths } from 'paths';
 import { PlusCircle } from 'phosphor-react';
 
 const TeamsPage = (props) => {
-  const { data: teams, isLoading: isTeamsLoading } = useTeams();
+  const router = useRouter();
   const { matches } = useBreakpoints();
+  const { data: teams, isLoading: isTeamsLoading } = useTeams();
 
   const navigateToTeamCreate = () => {
-    console.log('team create');
+    router.push(paths.teamNew());
   };
 
   const hasTeams = teams?.length;
