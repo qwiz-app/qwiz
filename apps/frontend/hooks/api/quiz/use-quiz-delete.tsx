@@ -1,5 +1,5 @@
 import { Quiz } from '@prisma/client';
-import { useQueryClient, useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { deleteQuiz } from 'services/api/quiz';
 
 export const useQuizDelete = (id: string) => {
