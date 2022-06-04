@@ -2,6 +2,7 @@ const config = {
   backendUrl: process.env.BACKEND_URL,
   secret: process.env.SECRET,
   vercel: process.env.VERCEL,
+  puppeteerSecret: process.env.PUPPETEER_SECRET,
   nextAuth: {
     url: process.env.NEXTAUTH_URL,
     secret: process.env.NEXTAUTH_SECRET,
