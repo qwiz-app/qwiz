@@ -24,7 +24,7 @@ const QuizPage = () => {
         title="Create quiz"
         description="Turn any Qwiz template into a new quiz"
       >
-        <PageGrid type="tiniest">
+        <PageGrid type="quizTemplate">
           <QuizCardSmall.New onClick={createQuiz} loading={isCreateLoading} />
           {templates.map((template, idx) => (
             <QuizCardSmall.Template key={idx} {...template} />
@@ -33,7 +33,7 @@ const QuizPage = () => {
       </PageSection>
 
       <PageSection title="Recently edited">
-        <PageGrid pb={32} type="tiny">
+        <PageGrid pb={32} type="quiz">
           {quizzes?.map((quiz) => (
             <FramerAnimatedListItem id={quiz.id} key={quiz.id}>
               <QuizCard quiz={quiz} loading={isLoading || isPlaceholderData} />

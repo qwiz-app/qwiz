@@ -48,7 +48,7 @@ export const EventsCurrentOrganization = () => {
             )
           }
         >
-          <PageGrid type="big">
+          <PageGrid type="eventHighlight">
             {isLoadingOrPlaceholder
               ? highlightedPlaceholderSkeletons
               : renderEvents(highlightedEvents, true)}
@@ -59,7 +59,7 @@ export const EventsCurrentOrganization = () => {
         title="Your events"
         description="All of your incoming events"
       >
-        <PageGrid type="small">
+        <PageGrid type="event">
           {isLoadingOrPlaceholder
             ? placeholderSkeletons
             : renderEvents(activeEvents)}
@@ -71,7 +71,7 @@ export const EventsCurrentOrganization = () => {
           title="Past events"
           description="All of your finished events"
         >
-          <PageGrid type="small">
+          <PageGrid type="event">
             {isLoadingOrPlaceholder
               ? placeholderSkeletons
               : renderEvents(pastEvents)}

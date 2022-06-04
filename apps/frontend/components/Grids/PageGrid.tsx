@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { useBreakpoints } from 'hooks/breakpoints';
 
 interface Props extends BoxProps<'div'> {
-  type: 'big' | 'small' | 'tiny' | 'tiniest';
+  type: 'eventHighlight' | 'event' | 'quiz' | 'quizTemplate' | 'teams';
   children: ReactNode;
 }
 
@@ -29,25 +29,31 @@ const useStyles = createStyles((theme) => {
       gap: theme.spacing.md,
     },
 
-    big: {
+    eventHighlight: {
       gridTemplateColumns: matches.min.lg
         ? 'repeat(auto-fill, minmax(500px, 1fr))'
         : '1fr',
     },
 
-    small: {
+    event: {
       gridTemplateColumns: matches.min.sm
         ? 'repeat(auto-fill, minmax(320px, 1fr))'
         : '1fr',
     },
 
-    tiny: {
+    teams: {
+      gridTemplateColumns: matches.min.sm
+        ? 'repeat(auto-fill, minmax(380px, 1fr))'
+        : '1fr',
+    },
+
+    quiz: {
       gridTemplateColumns: matches.min.sm
         ? 'repeat(auto-fill, minmax(320px, 1fr))'
         : '1fr',
     },
 
-    tiniest: {
+    quizTemplate: {
       gridTemplateColumns: matches.min.sm
         ? 'repeat(auto-fill, minmax(260px, 1fr))'
         : '1fr',

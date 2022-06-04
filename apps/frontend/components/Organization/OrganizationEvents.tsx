@@ -29,7 +29,7 @@ const OrganizationEvents = ({ events, loading }: Props) => {
 
   return (
     <PageSection title="All events" description="All of their events">
-      <PageGrid type="small">
+      <PageGrid type="event">
         {loading ? placeholderSkeletons : renderEvents(events)}
       </PageGrid>
     </PageSection>

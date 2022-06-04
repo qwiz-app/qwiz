@@ -62,7 +62,6 @@ export const OptionsSideBar = ({ active, onSelect }: Props) => {
       width={{ base: 60 }}
       p={0}
       fixed
-      sx={(theme) => ({})}
       position={{
         top: 0,
         bottom: 0,

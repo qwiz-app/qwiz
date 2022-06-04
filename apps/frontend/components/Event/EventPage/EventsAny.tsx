@@ -19,7 +19,7 @@ export const EventsAny = () => {
     <>
       {(hasEvents || isLoadingOrPlaceholder) && (
         <PageSection title="Highlighted events">
-          <PageGrid type="big">
+          <PageGrid type="eventHighlight">
             {isLoadingOrPlaceholder
               ? highlightedPlaceholderSkeletons
               : renderEvents(highlightedEvents, true)}
@@ -31,7 +31,7 @@ export const EventsAny = () => {
           title="Active events"
           description="Events happening right now"
         >
-          <PageGrid type="small">
+          <PageGrid type="event">
             {isLoadingOrPlaceholder
               ? placeholderSkeletons
               : renderEvents(activeEvents)}

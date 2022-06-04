@@ -46,7 +46,7 @@ export const AppShell = ({ children }) => {
       hiddenBreakpoint="sm"
       hidden={!opened}
       p="md"
-      width={{ base: '100%', sm: 260, md: 300, xl: 320 }}
+      width={{ base: '100%', sm: 260, md: 260, lg: 300, xl: 320 }}
       fixed
     >
       {!matches.max.sm && (
