@@ -1,15 +1,10 @@
 import {
-  Avatar,
-  Box,
   Button,
-  Group,
-  MantineColor,
-  SelectItemProps,
-  SimpleGrid,
+  Group, SimpleGrid,
   Stack,
   Text
 } from '@mantine/core';
-import { Quiz } from '@prisma/client';
+import { EventAutoCompleteItem } from 'components/Event/EventAutocompleteItem';
 import { FormikAutocomplete } from 'components/formik/FormikAutocomplete';
 import { FormikDatePicker } from 'components/formik/FormikDatePicker';
 import { FormikRichText } from 'components/formik/FormikRichText';
@@ -21,7 +16,6 @@ import { FileUpload, FileUploadProps } from 'components/UI/FileUpload';
 import dayjs from 'dayjs';
 import { Form, useFormikContext } from 'formik';
 import { useQuizzes } from 'hooks/api/quiz';
-import { formatDate } from 'lib/utils';
 import { useRouter } from 'next/router';
 import { paths } from 'paths';
 import {
@@ -34,11 +28,9 @@ import {
   NotePencil,
   PencilCircle,
   PlusCircle,
-  Queue,
-  Star,
-  UsersThree
+  Queue, UsersThree
 } from 'phosphor-react';
-import { forwardRef, memo } from 'react';
+import { memo } from 'react';
 import { EventFormValues } from 'types/forms/EventFormValues';
 
 interface Props {
@@ -123,7 +115,7 @@ export const EventForm = memo(function EventForm(props: Props) {
             />
           </SimpleGrid>
           <FormikAutocomplete
-            itemComponent={AutoCompleteItem}
+            itemComponent={EventAutoCompleteItem}
             required
             size="lg"
             name="quizId"
@@ -201,38 +193,3 @@ function useEventForm(props: Props) {
 
   return { quizOptions, isSubmitting };
 }
-
-interface ItemProps extends Quiz, SelectItemProps {
-  id: string;
-  color: MantineColor;
-  description: string;
-  label: string;
-}
-
-// eslint-disable-next-line react/display-name
-const AutoCompleteItem = forwardRef<HTMLDivElement, ItemProps>(
-  (
-    { description, updatedAt, thumbnail, value, label, ...others }: ItemProps,
-    ref
-  ) => (
-    <div ref={ref} {...others}>
-      <Group noWrap sx={() => ({ width: '100%' })}>
-        <Avatar size="md" src={thumbnail} alt="thumbnail" sx={() => ({})}>
-          <Star size={24} weight="duotone" />
-        </Avatar>
-
-        <Box sx={() => ({ width: '100%' })}>
-          <Group position="apart">
-            <Text>{label}</Text>
-            <Text size="xs" color="dimmed">
-              {formatDate(updatedAt)}
-            </Text>
-          </Group>
-          <Text size="xs" color="dimmed">
-            {description || 'No description provided'}
-          </Text>
-        </Box>
-      </Group>
-    </div>
-  )
-);

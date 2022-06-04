@@ -13,7 +13,7 @@ import { useTeamDelete } from 'hooks/api/teams';
 import { useBreakpoints } from 'hooks/breakpoints';
 import { useDeleteConfirmModal } from 'hooks/use-delete-confirm-modal';
 import { formatDate } from 'lib/utils';
-import { At, X } from 'phosphor-react';
+import { At, UsersThree, X } from 'phosphor-react';
 import { TeamFull } from 'types/api/teams';
 
 interface Props {
@@ -39,12 +39,18 @@ const TeamCard = ({ team }: Props) => {
   return (
     <Paper withBorder radius="md" sx={{ overflow: 'hidden' }}>
       <Group noWrap sx={{ width: '100%' }}>
-        {matches.min.sm && <Avatar src={team.image} size={164} radius={0} />}
+        {matches.min.sm && (
+          <Avatar src={team.image} size={164} radius={0}>
+            <UsersThree weight="duotone" />
+          </Avatar>
+        )}
         <Box p="md" sx={{ width: '100%' }}>
           <Group noWrap position="apart" align="start" sx={{ width: '100%' }}>
             <Group>
               {matches.max.sm && (
-                <Avatar src={team.image} size={64} radius="sm" />
+                <Avatar src={team.image} size={64} radius="sm">
+                  <UsersThree weight="duotone" />
+                </Avatar>
               )}
               <Stack spacing={4} justify="center">
                 <Text

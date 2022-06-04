@@ -6,7 +6,7 @@ import {
   Image,
   Paper,
   Skeleton,
-  Title
+  Title,
 } from '@mantine/core';
 import { useBreakpoints } from 'hooks/breakpoints';
 import { useAppColorscheme } from 'hooks/colorscheme';
@@ -84,21 +84,19 @@ export const EventHeader = ({ event, loading }: Props) => {
               })}
             >
               <Link href={paths.organizationPage(event.ownerId)} passHref>
-                <Anchor>
-                  <Title
-                    order={matches.max.lg ? 6 : 5}
-                    className={classes.orgName}
-                  >
-                    <Group spacing="sm">
-                      <Anchor>{event?.owner.name}</Anchor>
-                      <CircleWavyCheck
-                        size={20}
-                        color={theme.colors.orange[4]}
-                        weight="duotone"
-                      />
-                    </Group>
-                  </Title>
-                </Anchor>
+                <Title
+                  order={matches.max.lg ? 6 : 5}
+                  className={classes.orgName}
+                >
+                  <Group spacing="sm">
+                    <Anchor>{event?.owner.name}</Anchor>
+                    <CircleWavyCheck
+                      size={20}
+                      color={theme.colors.orange[4]}
+                      weight="duotone"
+                    />
+                  </Group>
+                </Title>
               </Link>
               <EventControls event={event} />
             </Group>

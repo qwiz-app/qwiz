@@ -1,5 +1,3 @@
-/* eslint-disable no-nested-ternary */
-/* eslint-disable no-undef */
 import { ActionIcon, Badge, Button, Group, Tooltip } from '@mantine/core';
 import { useClipboard } from '@mantine/hooks';
 import { showNotification } from '@mantine/notifications';
@@ -10,6 +8,7 @@ import { useCurrentUser } from 'hooks/api/users';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useDeleteConfirmModal } from 'hooks/use-delete-confirm-modal';
 import { useTeamAppliedEvents } from 'hooks/use-team-applied-events';
+import { useTeamApply } from 'hooks/use-team-apply';
 import { useRouter } from 'next/router';
 import { paths } from 'paths';
 import {
@@ -41,8 +40,13 @@ export const EventControls = ({ event }: Props) => {
   const canApply = isUser && isActiveEvent;
 
   const { hasSignedUp } = useTeamAppliedEvents(isUser);
-
   const isReserved = hasSignedUp(event.id);
+
+  const { TeamApplyModal, openModal } = useTeamApply(event.id);
+
+  const applyForEventHandler = () => {
+    openModal();
+  };
 
   const {
     mutate: deleteEvent,
@@ -65,8 +69,10 @@ export const EventControls = ({ event }: Props) => {
       });
     }
   }, [isDeleteSuccess]);
+
   return (
     <Group spacing={8}>
+      {TeamApplyModal}
       {isMyEvent && (
         <>
           <Button
@@ -109,6 +115,7 @@ export const EventControls = ({ event }: Props) => {
           color="orange"
           variant={isDark ? 'light' : 'filled'}
           rightIcon={<CalendarCheck size={22} weight="duotone" />}
+          onClick={applyForEventHandler}
         >
           Reserve your spot
         </Button>
