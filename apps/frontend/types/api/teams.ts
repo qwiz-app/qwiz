@@ -17,6 +17,12 @@ export type TeamFull = Team & {
   _count?: Prisma.TeamCountOutputType;
 };
 
-export type TeamCreateWithMembers = Prisma.TeamCreateInput & {
+export type TeamUpdate = {
+  name?: string;
+  members?: string[];
+  image?: string;
+};
+
+export type TeamCreateWithMembers = Prisma.TeamCreateWithoutAdminInput & {
   members?: Prisma.AttendeeWhereUniqueInput[];
 };

@@ -34,3 +34,9 @@ export const eventSchema = yup.object({
   startTime: yup.date().required('Start time is required.'),
   quizId: yup.string().required('Quiz is required.'),
 });
+
+export const teamSchema = yup.object({
+  name: yup.string().required(),
+  members: yup.array().of(yup.string()),
+  image: yup.string(),
+});
