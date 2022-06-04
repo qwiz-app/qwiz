@@ -5,7 +5,6 @@ import {
   Group,
   Header as MantineHeader,
   Navbar as MantineNavbar,
-  UnstyledButton,
 } from '@mantine/core';
 import LogoDark from 'assets/logo/qwiz-dark.svg';
 import LogoWhite from 'assets/logo/qwiz-white.svg';
@@ -95,17 +94,16 @@ export const AppShell = ({ children }) => {
         sx={(t) => ({ width: '100%', height: '100%' })}
       >
         <Burger opened={opened} onClick={toggleNavbar} size="sm" />
-        <UnstyledButton onClick={() => router.push(paths.home())}>
-          <Image
-            src={logo}
-            alt="logo"
-            objectFit="contain"
-            className="auth-logo"
-            width={36}
-            height={36}
-          />
-        </UnstyledButton>
-
+        <Image
+          onClick={() => router.push(paths.home())}
+          style={{ cursor: 'pointer' }}
+          src={logo}
+          alt="logo"
+          objectFit="contain"
+          className="auth-logo"
+          width={36}
+          height={36}
+        />
         <ThemeToggle />
       </Group>
     </MantineHeader>
