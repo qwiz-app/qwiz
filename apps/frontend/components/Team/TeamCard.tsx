@@ -6,7 +6,7 @@ import {
   Group,
   Paper,
   Stack,
-  Text
+  Text,
 } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { useTeamDelete } from 'hooks/api/teams';
@@ -71,7 +71,7 @@ const TeamCard = ({ team }: Props) => {
             </ActionIcon>
           </Group>
 
-          <Group noWrap spacing={4} mt={matches.max.sm ? 12 : 4}>
+          <Group noWrap align="center" spacing={4} mt={matches.max.sm ? 12 : 4}>
             <At size={16} weight="duotone" />
             <Text size="xs" color="dimmed" lineClamp={1}>
               {team.admin.user.email}

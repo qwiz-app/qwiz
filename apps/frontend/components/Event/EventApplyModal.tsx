@@ -4,7 +4,7 @@ import {
   TeamAutoCompleteItem
 } from 'components/Team/TeamAutocompleteItem';
 import { useModalProps } from 'context/mantine';
-import { Checks, UsersThree } from 'phosphor-react';
+import { CheckCircle, UsersThree } from 'phosphor-react';
 import { useState } from 'react';
 
 interface Props {
@@ -66,7 +66,7 @@ export const EventApplyModal = ({
         <Group position="right">
           <Button
             size="md"
-            rightIcon={<Checks weight="duotone" />}
+            rightIcon={<CheckCircle size={22} weight="duotone" />}
             disabled={!selectedTeam}
             onClick={onReserveHandler}
             loading={loading}

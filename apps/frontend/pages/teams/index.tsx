@@ -8,6 +8,7 @@ import { PageSection } from 'components/PageLayouts/PageSection';
 import { NoTeamsAlert } from 'components/Team/NoTeamsAlert';
 import TeamCard from 'components/Team/TeamCard';
 import { useTeams } from 'hooks/api/teams';
+import { useCurrentUser } from 'hooks/api/users';
 import { useBreakpoints } from 'hooks/breakpoints';
 import { useTeamAppliedEvents } from 'hooks/use-team-applied-events';
 import { generateArrayForRange } from 'lib/utils';
@@ -18,6 +19,7 @@ import { PlusCircle } from 'phosphor-react';
 const TeamsPage = (props) => {
   const router = useRouter();
   const { matches } = useBreakpoints();
+  const { isLoading, isSessionLoading } = useCurrentUser();
   const { data: teams, isLoading: isTeamsLoading } = useTeams();
   const { hasTeamEvents, teamEvents } = useTeamAppliedEvents();
 
@@ -26,6 +28,8 @@ const TeamsPage = (props) => {
   const navigateToTeamCreate = () => {
     router.push(paths.teamNew());
   };
+
+  const anyLoading = isTeamsLoading || isLoading || isSessionLoading;
 
   return (
     <HomepageLayout>
@@ -47,7 +51,7 @@ const TeamsPage = (props) => {
         }
       >
         <PageGrid type="teams">
-          {isTeamsLoading &&
+          {anyLoading &&
             generateArrayForRange(2).map((n) => (
               <Skeleton
                 visible
@@ -65,7 +69,7 @@ const TeamsPage = (props) => {
               </FramerAnimatedListItem>
             ))}
         </PageGrid>
-        {!hasTeams && !isTeamsLoading && <NoTeamsAlert />}
+        {!hasTeams && !anyLoading && <NoTeamsAlert />}
       </PageSection>
       {hasTeamEvents && (
         <PageSection
