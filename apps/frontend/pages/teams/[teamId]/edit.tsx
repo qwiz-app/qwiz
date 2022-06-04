@@ -8,18 +8,19 @@ import { TeamFormValues } from 'types/forms/TeamFormValues';
 import { useAttendees } from 'hooks/api/attendees';
 import { Container } from '@mantine/core';
 import { HomepageLayout } from 'components/PageLayouts/HomepageLayout';
-import { useTeamCreate } from 'hooks/api/teams';
+import { useTeam, useTeamUpdate } from 'hooks/api/teams';
 import { useRouter } from 'next/router';
 import { paths } from 'paths';
 
-const TeamNewPage = (props) => {
+const TeamEditPage = (props) => {
   const { attendees, initialValues, fileUpload, handleSubmit } =
-    useTeamNewPage();
+    useTeamEditPage();
 
   return (
     <HomepageLayout>
       <Container size="sm">
         <Formik
+          enableReinitialize
           initialValues={initialValues}
           onSubmit={handleSubmit}
           validationSchema={teamSchema}
@@ -27,7 +28,7 @@ const TeamNewPage = (props) => {
           <TeamForm
             attendees={attendees}
             fileUpload={fileUpload}
-            action="create"
+            action="edit"
           />
         </Formik>
       </Container>
@@ -35,32 +36,34 @@ const TeamNewPage = (props) => {
   );
 };
 
-const useTeamNewPage = () => {
-  const { push } = useRouter();
+const useTeamEditPage = () => {
+  const router = useRouter();
+  const teamId = router.query.teamId as string;
   const fileUpload = useFileUpload();
 
-  const initialValues = {
-    name: '',
-    members: [],
-    image: fileUpload?.url ?? '',
-  };
-
+  const { data: team } = useTeam(teamId);
   const { data: attendees } = useAttendees();
 
-  const { mutateAsync: createTeam } = useTeamCreate();
+  const initialValues = {
+    name: team?.name ?? '',
+    members: team?.members?.map((m) => m.id) ?? [],
+    image: team?.image ?? fileUpload?.url,
+  };
+
+  const { mutateAsync: updateTeam } = useTeamUpdate(teamId);
 
   const handleSubmit = async (values: TeamFormValues) => {
-    await createTeam(
+    await updateTeam(
       { ...values, image: fileUpload?.url },
-      { onSuccess: () => push(paths.teams()) }
+      { onSuccess: () => router.push(paths.teams()) }
     );
   };
 
   return { attendees, initialValues, fileUpload, handleSubmit };
 };
 
-export default TeamNewPage;
+export default TeamEditPage;
 
-TeamNewPage.getLayout = function getLayout(page) {
+TeamEditPage.getLayout = function getLayout(page) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };

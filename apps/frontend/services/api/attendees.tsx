@@ -1,9 +1,10 @@
 import { Attendee, Prisma } from '@prisma/client';
 import { parseData } from 'lib/axios';
 import http from 'services/http';
+import { AttendeeWithUser } from 'types/api/atendee';
 
 export const fetchAttendees = () =>
-  http.get<Attendee[]>('/api/attendees').then(parseData);
+  http.get<AttendeeWithUser[]>('/api/attendees').then(parseData);
 
 export const fetchAttendee = (id: string) =>
   http.get<Attendee>(`/api/attendees/${id}`).then(parseData);
