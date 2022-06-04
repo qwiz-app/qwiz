@@ -2,7 +2,6 @@ import {
   AspectRatio,
   createStyles,
   Group,
-  Image,
   Paper,
   Stack,
   Text,
@@ -33,13 +32,12 @@ export const PdfExportWrapper = ({ slide }) => {
             {hasImageContent && (
               <Group className={classes.imageElements}>
                 {imageContent.map((elem) => (
-                  <Image
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    className={classes.image}
                     key={elem.id}
                     src={elem.content}
-                    height="clamp(100px, 30vh, 400px)"
-                    withPlaceholder
-                    radius="sm"
-                    alt="question image"
+                    alt="question"
                   />
                 ))}
               </Group>
@@ -63,11 +61,19 @@ const useStyles = createStyles((theme) => ({
 
   text: {
     fontWeight: 600,
-    fontSize: 'clamp(20px, -2rem + 5vw, 3rem)',
+    fontSize: '2rem',
     lineHeight: 1.2,
+    marginBottom: '2rem',
   },
 
   imageElements: {
     overflow: 'hidden',
+    display: 'flex',
+    flex: 1,
+    justifyContent: 'center',
+  },
+
+  image: {
+    height: '50vh',
   },
 }));
