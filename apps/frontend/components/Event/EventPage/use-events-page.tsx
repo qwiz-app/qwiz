@@ -52,7 +52,7 @@ export const useEventsPage = ({
         ?.slice(0, 2)
         .map((event) => (
           <HighlightedEventCard
-            key={`${event.id}`}
+            key={`hl.${event.id}`}
             event={event}
             loading={isLoadingOrPlaceholder}
           />
@@ -64,12 +64,16 @@ export const useEventsPage = ({
     arr?.map((event) =>
       highlighted ? (
         <HighlightedEventCard
-          key={`${event.id}`}
+          key={`hl.${event.id}`}
           event={event}
           loading={isLoadingOrPlaceholder}
         />
       ) : (
-        <ImageCard event={event} loading={isLoadingOrPlaceholder} />
+        <ImageCard
+          key={`${event.id}`}
+          event={event}
+          loading={isLoadingOrPlaceholder}
+        />
       )
     );
 
