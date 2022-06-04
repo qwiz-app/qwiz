@@ -1,15 +1,14 @@
 import {
-  Avatar,
-  AvatarsGroup,
-  Box,
-  Group,
-  Paper,
-  Stack,
-  Text,
+    Avatar,
+    AvatarsGroup,
+    Box,
+    Group,
+    Paper,
+    Stack,
+    Text
 } from '@mantine/core';
 import { useBreakpoints } from 'hooks/breakpoints';
 import { formatDate } from 'lib/utils';
-import { Router } from 'next/router';
 import { At } from 'phosphor-react';
 import { TeamFull } from 'types/api/teams';
 
@@ -25,7 +24,7 @@ const TeamCard = ({ team }: Props) => {
       <Group noWrap>
         {matches.min.sm && <Avatar src={team.image} size={164} radius={0} />}
         <Box p="md">
-          <Group>
+          <Group noWrap>
             {matches.max.sm && (
               <Avatar src={team.image} size={64} radius="sm" />
             )}
@@ -38,7 +37,7 @@ const TeamCard = ({ team }: Props) => {
               >
                 {formatDate(team.createdAt)}
               </Text>
-              <Text size="xl" weight={500}>
+              <Text lineClamp={1} size="xl" weight={500}>
                 {team.name}
               </Text>
             </Stack>
@@ -46,7 +45,7 @@ const TeamCard = ({ team }: Props) => {
 
           <Group noWrap spacing={4} mt={matches.max.sm ? 12 : 4}>
             <At size={16} weight="duotone" />
-            <Text size="xs" color="dimmed">
+            <Text size="xs" color="dimmed" lineClamp={1}>
               {team.admin.user.email}
             </Text>
           </Group>

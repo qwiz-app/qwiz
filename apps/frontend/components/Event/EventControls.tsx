@@ -40,7 +40,7 @@ export const EventControls = ({ event }: Props) => {
   const canApply = isUser && isActiveEvent;
 
   // TODO: placeholder
-  const [isReserved] = useState(true);
+  const [isReserved] = useState(false);
 
   const {
     mutate: deleteEvent,

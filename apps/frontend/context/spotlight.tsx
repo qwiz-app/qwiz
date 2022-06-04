@@ -29,6 +29,7 @@ import {
   SquaresFour,
   Sun,
   User,
+  UsersThree,
 } from 'phosphor-react';
 
 export type SpotlightItem = SpotlightAction & {
@@ -94,6 +95,14 @@ const useSpotlightActions = () => {
       permissions: [Role.ORGANIZATION, Role.ADMIN],
     },
     {
+      title: 'Teams',
+      group: 'Navigate',
+      description: 'Go to your teams',
+      onTrigger: () => router.push(paths.teams()),
+      icon: <UsersThree {...iconProps} />,
+      permissions: [Role.ATTENDEE],
+    },
+    {
       title: 'Profile',
       group: 'Navigate',
       description: 'Go to your profile',
@@ -101,14 +110,7 @@ const useSpotlightActions = () => {
       icon: <User {...iconProps} />,
       permissions: [Role.ADMIN, Role.ORGANIZATION, Role.ATTENDEE],
     },
-    {
-      title: 'Admin panel',
-      group: 'Navigate',
-      description: 'Go to your Admin panel',
-      onTrigger: () => router.push(paths.profile()),
-      icon: <Person {...iconProps} />,
-      permissions: [Role.ADMIN],
-    },
+
     {
       title: 'Create event',
       group: 'Navigate',

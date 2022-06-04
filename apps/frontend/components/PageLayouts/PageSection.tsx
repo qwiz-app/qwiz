@@ -1,4 +1,5 @@
 import { Box, createStyles, Group, Text, Title } from '@mantine/core';
+import { useBreakpoints } from 'hooks/breakpoints';
 import React from 'react';
 
 const useStyles = createStyles((theme) => {
@@ -38,14 +39,15 @@ export const PageSection = ({
   rightSlot,
 }: Props) => {
   const { classes } = useStyles();
+  const { matches } = useBreakpoints();
 
   return (
     <section>
       {title && (
         <Box className={classes.headerWrapper}>
-          <Group align="center" position="apart">
+          <Group align="center" position="apart" spacing={8}>
             {title && <Title className={classes.title}>{title}</Title>}
-            {rightSlot}
+            {matches.min.sm && rightSlot}
           </Group>
           {description && (
             <Group sx={(sx) => ({ maxWidth: 500 })} p={0}>
@@ -54,6 +56,7 @@ export const PageSection = ({
               </Text>
             </Group>
           )}
+          <Box mt={12}>{matches.max.sm && rightSlot}</Box>
         </Box>
       )}
       <Box>{children}</Box>
