@@ -1,11 +1,12 @@
 import {
+  Anchor,
   Avatar,
   createStyles,
   Group,
   Image,
   Paper,
   Skeleton,
-  Title,
+  Title
 } from '@mantine/core';
 import { useBreakpoints } from 'hooks/breakpoints';
 import { useAppColorscheme } from 'hooks/colorscheme';
@@ -83,19 +84,21 @@ export const EventHeader = ({ event, loading }: Props) => {
               })}
             >
               <Link href={paths.organizationPage(event.ownerId)} passHref>
-                <Title
-                  order={matches.max.lg ? 6 : 5}
-                  className={classes.orgName}
-                >
-                  <Group spacing="sm">
-                    {event?.owner.name}
-                    <CircleWavyCheck
-                      size={20}
-                      color={theme.colors.orange[4]}
-                      weight="duotone"
-                    />
-                  </Group>
-                </Title>
+                <Anchor>
+                  <Title
+                    order={matches.max.lg ? 6 : 5}
+                    className={classes.orgName}
+                  >
+                    <Group spacing="sm">
+                      <Anchor>{event?.owner.name}</Anchor>
+                      <CircleWavyCheck
+                        size={20}
+                        color={theme.colors.orange[4]}
+                        weight="duotone"
+                      />
+                    </Group>
+                  </Title>
+                </Anchor>
               </Link>
               <EventControls event={event} />
             </Group>
@@ -115,14 +118,14 @@ export const EventHeader = ({ event, loading }: Props) => {
 
 const useStyles = createStyles((t) => {
   const { matches } = useBreakpoints();
-
+  const { isDark } = useAppColorscheme();
   return {
     avatar: {
       transform: !matches.max.lg && 'translateY(-45%)',
       marginTop: matches.max.lg && -80,
-      boxShadow: t.shadows.xl,
       borderRadius: '100rem',
       cursor: 'pointer',
+      border: `6px solid ${isDark ? t.colors.dark[7] : t.white}`,
     },
 
     orgName: {

@@ -17,7 +17,7 @@ import {
   NotePencil,
   ShareNetwork,
   SignIn,
-  Trash,
+  Trash
 } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 import { EventWithOwner } from 'types/api/event';
@@ -40,7 +40,7 @@ export const EventControls = ({ event }: Props) => {
   const canApply = isUser && isActiveEvent;
 
   // TODO: placeholder
-  const [isReserved] = useState(false);
+  const [isReserved] = useState(true);
 
   const {
     mutate: deleteEvent,
@@ -68,6 +68,7 @@ export const EventControls = ({ event }: Props) => {
       {isMyEvent && (
         <>
           <Button
+            size="md"
             variant={isDark ? 'filled' : 'outline'}
             color={isDark ? 'gray' : 'dark'}
             rightIcon={<NotePencil size={16} weight="bold" />}
@@ -77,7 +78,7 @@ export const EventControls = ({ event }: Props) => {
           </Button>
           <Tooltip label="Delete event" withArrow position="bottom">
             <ActionIcon
-              size={36}
+              size={42}
               variant="filled"
               color="red"
               onClick={openDeleteConfirmModal}
@@ -95,6 +96,7 @@ export const EventControls = ({ event }: Props) => {
           size="xl"
           variant={isDark ? 'light' : 'outline'}
           rightSection={<CircleWavyCheck size={20} weight="duotone" />}
+          mr={12}
         >
           Reserved
         </Badge>
@@ -128,16 +130,13 @@ export const EventControls = ({ event }: Props) => {
         opened={clipboard.copied}
       >
         <ActionIcon
-          size={isOrganization ? 36 : isReserved ? 32 : 42}
+          size={42}
           radius={isOrganization ? 'sm' : isReserved ? 'xl' : 'sm'}
           color={isDark ? 'gray' : 'dark'}
           variant="filled"
           onClick={() => clipboard.copy(window?.location.href)}
         >
-          <ShareNetwork
-            size={isOrganization ? 24 : isReserved ? 20 : 24}
-            weight="duotone"
-          />
+          <ShareNetwork size={24} weight="duotone" />
         </ActionIcon>
       </Tooltip>
     </Group>
