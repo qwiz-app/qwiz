@@ -9,6 +9,7 @@ import { useCurrentOrganizationInfo } from 'hooks/api/organizations';
 import { useCurrentUser } from 'hooks/api/users';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useDeleteConfirmModal } from 'hooks/use-delete-confirm-modal';
+import { useTeamAppliedEvents } from 'hooks/use-team-applied-events';
 import { useRouter } from 'next/router';
 import { paths } from 'paths';
 import {
@@ -19,7 +20,7 @@ import {
   SignIn,
   Trash
 } from 'phosphor-react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { EventWithOwner } from 'types/api/event';
 
 interface Props {
@@ -39,8 +40,9 @@ export const EventControls = ({ event }: Props) => {
   const isActiveEvent = dayjs().isBefore(event.startDate);
   const canApply = isUser && isActiveEvent;
 
-  // TODO: placeholder
-  const [isReserved] = useState(false);
+  const { hasSignedUp } = useTeamAppliedEvents(isUser);
+
+  const isReserved = hasSignedUp(event.id);
 
   const {
     mutate: deleteEvent,
@@ -131,7 +133,6 @@ export const EventControls = ({ event }: Props) => {
       >
         <ActionIcon
           size={42}
-          radius={isOrganization ? 'sm' : isReserved ? 'xl' : 'sm'}
           color={isDark ? 'gray' : 'dark'}
           variant="filled"
           onClick={() => clipboard.copy(window?.location.href)}

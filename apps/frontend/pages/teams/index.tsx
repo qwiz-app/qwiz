@@ -9,39 +9,23 @@ import { NoTeamsAlert } from 'components/Team/NoTeamsAlert';
 import TeamCard from 'components/Team/TeamCard';
 import { useTeams } from 'hooks/api/teams';
 import { useBreakpoints } from 'hooks/breakpoints';
+import { useTeamAppliedEvents } from 'hooks/use-team-applied-events';
 import { generateArrayForRange } from 'lib/utils';
 import { useRouter } from 'next/router';
 import { paths } from 'paths';
 import { PlusCircle } from 'phosphor-react';
-import { useEffect, useMemo } from 'react';
 
 const TeamsPage = (props) => {
   const router = useRouter();
   const { matches } = useBreakpoints();
   const { data: teams, isLoading: isTeamsLoading } = useTeams();
+  const { hasTeamEvents, teamEvents } = useTeamAppliedEvents();
+
+  const hasTeams = teams?.length > 0;
 
   const navigateToTeamCreate = () => {
     router.push(paths.teamNew());
   };
-
-  const teamEvents = useMemo(() => {
-    return (
-      teams
-        ?.map((t) => {
-          console.log(t);
-          return t.eventTeams.map((ev) => ev.event);
-        })
-        ?.flat() ?? []
-    );
-  }, [teams]);
-
-  const hasTeams = teams?.length > 0;
-
-  useEffect(() => {
-    console.log(teamEvents);
-  }, [teamEvents]);
-
-  const hasTeamEvents = teamEvents?.length > 0;
 
   return (
     <HomepageLayout>
@@ -90,7 +74,7 @@ const TeamsPage = (props) => {
           <PageGrid type="event">
             {teamEvents?.map((event) => (
               <ImageCard
-                // TODO What if multiple teams signed up for the same event?
+                // TODO What if multiple teams signed up for the same event? - get the team id in key
                 key={`team-${event.id}`}
                 event={event}
                 loading={false}

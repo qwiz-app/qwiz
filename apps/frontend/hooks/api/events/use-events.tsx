@@ -7,7 +7,6 @@ import {
   fetchEventsByOrganization
 } from 'services/api/events';
 import { EventWithOwner } from 'types/api/event';
-import { useCurrentOrganizationInfo } from '../organizations';
 
 export const useAllEvents = () =>
   useQuery('events', fetchAllEvents, {
@@ -24,7 +23,8 @@ export const useEvents = () => {
 
 export const useEventsByOrganization = (orgId: string) => {
   const queryClient = useQueryClient();
-  const { data: org } = useCurrentOrganizationInfo();
+  // const { isOrganization } = useCurrentUser();
+  // const { data: org } = useCurrentOrganizationInfo(isOrganization);
 
   return useQuery(['events', orgId], () => fetchEventsByOrganization(orgId), {
     onError,
@@ -32,7 +32,8 @@ export const useEventsByOrganization = (orgId: string) => {
     placeholderData,
     initialData: () => {
       const cachedEvents = queryClient.getQueryData(
-        org?.id === orgId ? ['events', 'me'] : 'events'
+        // org?.id === orgId ? ['events', 'me'] : 'events'
+        'events'
       ) as EventWithOwner[];
 
       return cachedEvents?.filter((event) => event.ownerId === orgId);
