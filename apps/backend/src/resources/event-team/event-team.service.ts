@@ -12,9 +12,9 @@ export class EventTeamService {
     });
   }
 
-  async remove(where: Prisma.EventTeamWhereUniqueInput) {
+  async remove(where: Prisma.EventTeamWhereInput) {
     try {
-      return await this.prisma.eventTeam.delete({ where });
+      return await this.prisma.eventTeam.deleteMany({ where });
     } catch (err) {
       throw new NotFoundException(err?.meta?.cause || 'Something went wrong.');
     }

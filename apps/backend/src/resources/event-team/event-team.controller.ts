@@ -1,6 +1,4 @@
-import {
-  Body, Controller, Delete, Param, Post
-} from '@nestjs/common';
+import { Body, Controller, Delete, Param, Post } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { EventTeamService } from './event-team.service';
 
@@ -15,6 +13,6 @@ export class EventTeamController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.eventTeamService.remove({ id });
+    return this.eventTeamService.remove({ eventId: id });
   }
 }
