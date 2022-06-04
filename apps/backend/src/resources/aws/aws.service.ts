@@ -65,4 +65,40 @@ export class AWSService {
 
     return s3url;
   }
+
+  async createPdf(url: string) {
+    let browser = null;
+
+    browser = await getBrowserInstance();
+    const page = await browser.newPage();
+    await page.goto(url);
+    const pdfBuffer = await page.pdf({
+      format: 'A4',
+      printBackground: true,
+      landscape: true,
+    });
+
+    const salt = new Date().getTime();
+
+    const fileName = sha1(salt);
+
+    const params = {
+      Bucket: this.configService.get<string>('AWS_BUCKET_NAME'),
+      Key: fileName,
+      Body: pdfBuffer,
+      ContentType: 'application/pdf',
+    };
+
+    this.s3.upload(params, (err) => {
+      if (err) {
+        throw new Error(err);
+      }
+    });
+
+    const s3url = {
+      url: `${this.configService.get<string>('AWS_BUCKET_URL')}${fileName}`,
+    };
+
+    return s3url;
+  }
 }

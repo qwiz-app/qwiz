@@ -27,4 +27,11 @@ export class AWSController {
 
     return this.awsService.createThumbnail(url, size);
   }
+
+  @Post('pdf')
+  createPdf(@Body() payload: { url: string;  }) {
+    const { url } = payload;
+
+    return this.awsService.createPdf(url);
+  }
 }

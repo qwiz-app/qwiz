@@ -38,3 +38,12 @@ export const createThumbnail = ({
       size,
     })
     .then(parseData);
+
+export const createPdf = ({
+  url,
+}: { url: string}) =>
+  http
+    .post<{ url: string }>(`/api/aws/pdf`, {
+      url,
+    })
+    .then(parseData);

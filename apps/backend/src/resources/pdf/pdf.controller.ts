@@ -1,18 +1,17 @@
-import {
-  Controller,
-  Get,
-  Param,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Controller, Get, Param, UnauthorizedException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { PdfService } from './pdf.service';
 
 @Controller('pdf')
 export class PdfController {
-  constructor(private readonly pdfService: PdfService) {}
+  constructor(
+    private readonly pdfService: PdfService,
+    private configService: ConfigService
+  ) {}
 
   @Get(':id/:secret')
   findOne(@Param('id') id: string, @Param('secret') secret: string) {
-    if (secret !== process.env.PUPPETEER_SECRET) {
+    if (secret !== this.configService.get<string>('PUPPETEER_SECRET')) {
       throw new UnauthorizedException('Wrong secret.');
     }
     return this.pdfService.findOne({
