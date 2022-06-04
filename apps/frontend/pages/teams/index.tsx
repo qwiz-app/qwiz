@@ -1,4 +1,5 @@
 import { Button, Skeleton } from '@mantine/core';
+import { FramerAnimatedListItem } from 'components/Framer/FramerAnimatedListItem';
 import PageGrid from 'components/Grids/PageGrid';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
 import { HomepageLayout } from 'components/PageLayouts/HomepageLayout';
@@ -11,6 +12,7 @@ import { generateArrayForRange } from 'lib/utils';
 import { useRouter } from 'next/router';
 import { paths } from 'paths';
 import { PlusCircle } from 'phosphor-react';
+import { useEffect } from 'react';
 
 const TeamsPage = (props) => {
   const router = useRouter();
@@ -21,7 +23,11 @@ const TeamsPage = (props) => {
     router.push(paths.teamNew());
   };
 
-  const hasTeams = teams?.length;
+  const hasTeams = !!teams?.length;
+
+  useEffect(() => {
+    console.log(teams, hasTeams);
+  }, [teams, hasTeams]);
 
   return (
     <HomepageLayout>
@@ -54,7 +60,11 @@ const TeamsPage = (props) => {
             ))}
           {hasTeams &&
             !isTeamsLoading &&
-            teams?.map((team) => <TeamCard team={team} key={team.id} />)}
+            teams?.map((team) => (
+              <FramerAnimatedListItem key={team.id} id={team.id}>
+                <TeamCard team={team} />
+              </FramerAnimatedListItem>
+            ))}
         </PageGrid>
         {!hasTeams && !isTeamsLoading && <NoTeamsAlert />}
       </PageSection>
