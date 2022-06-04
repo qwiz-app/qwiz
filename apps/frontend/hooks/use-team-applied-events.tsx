@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import { useTeams } from './api/teams';
 
-export const useTeamAppliedEvents = (isUser = true) => {
-  const { data: teams } = useTeams(isUser);
+export const useTeamAppliedEvents = () => {
+  const { data: teams } = useTeams();
 
   const teamEvents = useMemo(() => {
     return (

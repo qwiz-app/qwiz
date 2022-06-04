@@ -1,13 +1,11 @@
 import { EventApplyModal } from 'components/Event/EventApplyModal';
 import { useState } from 'react';
 import { useEventTeamCreate, useTeams } from './api/teams';
-import { useCurrentUser } from './api/users';
 
 export const useTeamApply = (eventId: string) => {
   const [opened, setOpened] = useState(false);
-  const { isUser } = useCurrentUser();
 
-  const { data: teams } = useTeams(isUser && opened);
+  const { data: teams } = useTeams(opened);
 
   const teamOptions = teams?.map((team) => ({
     ...team,

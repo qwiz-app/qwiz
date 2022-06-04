@@ -6,6 +6,7 @@ import { useEventDelete } from 'hooks/api/events/use-event-delete';
 import { useCurrentOrganizationInfo } from 'hooks/api/organizations';
 import { useCurrentUser } from 'hooks/api/users';
 import { useAppColorscheme } from 'hooks/colorscheme';
+import { useApplyToEventCheck } from 'hooks/use-apply-to-event-check';
 import { useDeleteConfirmModal } from 'hooks/use-delete-confirm-modal';
 import { useTeamAppliedEvents } from 'hooks/use-team-applied-events';
 import { useTeamApply } from 'hooks/use-team-apply';
@@ -17,7 +18,7 @@ import {
   NotePencil,
   ShareNetwork,
   SignIn,
-  Trash
+  Trash,
 } from 'phosphor-react';
 import { useEffect } from 'react';
 import { EventWithOwner } from 'types/api/event';
@@ -39,13 +40,19 @@ export const EventControls = ({ event }: Props) => {
   const isActiveEvent = dayjs().isBefore(event.startDate);
   const canApply = isUser && isActiveEvent;
 
-  const { hasSignedUp } = useTeamAppliedEvents(isUser);
+  const { hasSignedUp } = useTeamAppliedEvents();
   const isReserved = hasSignedUp(event.id);
 
   const { TeamApplyModal, openModal } = useTeamApply(event.id);
 
+  const { navigateToTeamCreate, hasTeams } = useApplyToEventCheck();
+
   const applyForEventHandler = () => {
-    openModal();
+    if (hasTeams) {
+      openModal();
+    } else {
+      navigateToTeamCreate();
+    }
   };
 
   const {
