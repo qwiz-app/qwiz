@@ -47,8 +47,6 @@ export const ImageCard = ({ event, loading }: Props) => {
           <Box className={classes.overlay} />
 
           <Box className={classes.contentWrapper}>
-            {/* <Box></Box> */}
-
             <Box className={classes.content}>
               <Group position="apart">
                 <Text
@@ -68,7 +66,13 @@ export const ImageCard = ({ event, loading }: Props) => {
 
               <Group position="apart" spacing="xs" noWrap>
                 <Link href={paths.organizationPage(event.ownerId)}>
-                  <Group spacing={0} noWrap>
+                  <Group
+                    spacing={0}
+                    noWrap
+                    sx={() => ({
+                      cursor: 'pointer',
+                    })}
+                  >
                     <Avatar
                       // TODO: placeholder
                       src={event.owner.user.image}

@@ -9,7 +9,8 @@ import {
   LoadingOverlay,
   Skeleton,
   Text,
-  ThemeIcon
+  ThemeIcon,
+  Tooltip,
 } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { CustomDivider } from 'components/UI/CustomDivider';
@@ -174,17 +175,20 @@ export const QuizCard = ({
                   sx={() => ({ flexShrink: 0 })}
                 >
                   {!loading && (
-                    <Link
-                      href={paths.organizationPage(owner.id)}
-                      style={{ cursor: 'pointer' }}
-                    >
-                      <Avatar
-                        src={owner.user.image}
-                        size={20}
-                        radius="xl"
-                        mr="xs"
-                      />
-                    </Link>
+                    <Tooltip label={owner?.name} position="bottom">
+                      <Link
+                        href={paths.organizationPage(owner.id)}
+                        style={{ cursor: 'pointer' }}
+                      >
+                        <Avatar
+                          sx={{ cursor: 'pointer' }}
+                          src={owner.user.image}
+                          size={20}
+                          radius="xl"
+                          mr="xs"
+                        />
+                      </Link>
+                    </Tooltip>
                   )}
                 </Skeleton>
 
