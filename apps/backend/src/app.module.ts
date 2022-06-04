@@ -16,6 +16,7 @@ import { UserModule } from './resources/user/user.module';
 import { CategoryModule } from './resources/category/category.module';
 import { TeamModule } from './resources/team/team.module';
 import { EventTeamModule } from './resources/event-team/event-team.module';
+import { PdfModule } from './resources/pdf/pdf.module';
 
 @Module({
   imports: [
@@ -37,11 +38,13 @@ import { EventTeamModule } from './resources/event-team/event-team.module';
         AWS_BUCKET_NAME: Joi.string().required(),
         AWS_BUCKET_REGION: Joi.string().required(),
         AWS_BUCKET_URL: Joi.string().required(),
+        PUPPETEER_SECRET: Joi.string().required(),
       }),
     }),
     CategoryModule,
     TeamModule,
     EventTeamModule,
+    PdfModule,
   ],
   providers: [PrismaService],
   controllers: [AppController],

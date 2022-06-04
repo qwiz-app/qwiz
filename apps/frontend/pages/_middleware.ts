@@ -21,8 +21,6 @@ export const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
   // TODO: outdated role after role modal
   // const role = getFromCookie(cookie, 'role');
 
-  console.log('req :>> ', req.nextUrl.pathname);
-
   if (!isApiUrl(req.url) && isWhitelistedUrl(req.nextUrl.pathname))
     return NextResponse.next();
 
