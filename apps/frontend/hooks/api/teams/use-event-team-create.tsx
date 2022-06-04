@@ -11,7 +11,6 @@ export const useEventTeamCreate = (eventId: string) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries('teams');
-        queryClient.invalidateQueries(['event', eventId]);
       },
     }
   );

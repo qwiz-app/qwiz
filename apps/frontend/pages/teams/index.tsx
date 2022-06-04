@@ -74,12 +74,17 @@ const TeamsPage = (props) => {
         >
           <PageGrid type="event">
             {teamEvents?.map((event) => (
-              <ImageCard
-                // TODO What if multiple teams signed up for the same event? - get the team id in key
-                key={`team-${event.id}`}
-                event={event}
-                loading={false}
-              />
+              <FramerAnimatedListItem
+                id={`team-event--${event.id}`}
+                key={`team-event--${event.id}`}
+              >
+                <ImageCard
+                  // TODO What if multiple teams signed up for the same event? - get the team id in key
+
+                  event={event}
+                  loading={false}
+                />
+              </FramerAnimatedListItem>
             ))}
           </PageGrid>
         </PageSection>

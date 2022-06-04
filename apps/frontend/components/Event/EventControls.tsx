@@ -4,6 +4,7 @@ import { showNotification } from '@mantine/notifications';
 import dayjs from 'dayjs';
 import { useEventDelete } from 'hooks/api/events/use-event-delete';
 import { useCurrentOrganizationInfo } from 'hooks/api/organizations';
+import { useEventTeamDelete } from 'hooks/api/teams/use-event-team-delete';
 import { useCurrentUser } from 'hooks/api/users';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import { useApplyToEventCheck } from 'hooks/use-apply-to-event-check';
@@ -19,6 +20,7 @@ import {
   ShareNetwork,
   SignIn,
   Trash,
+  XCircle,
 } from 'phosphor-react';
 import { useEffect } from 'react';
 import { EventWithOwner } from 'types/api/event';
@@ -44,8 +46,9 @@ export const EventControls = ({ event }: Props) => {
   const isReserved = hasSignedUp(event.id);
 
   const { TeamApplyModal, openModal } = useTeamApply(event.id);
-
   const { navigateToTeamCreate, hasTeams } = useApplyToEventCheck();
+  const { mutate: deleteEventTeam, isLoading: eventDeleteLoading } =
+    useEventTeamDelete(event.id);
 
   const applyForEventHandler = () => {
     if (hasTeams) {
@@ -106,15 +109,27 @@ export const EventControls = ({ event }: Props) => {
       )}
 
       {canApply && isReserved && (
-        <Badge
-          color="green"
-          size="xl"
-          variant={isDark ? 'light' : 'outline'}
-          rightSection={<CircleWavyCheck size={20} weight="duotone" />}
-          mr={12}
-        >
-          Reserved
-        </Badge>
+        <Group>
+          <Badge
+            color="green"
+            size="xl"
+            variant={isDark ? 'light' : 'outline'}
+            rightSection={<CircleWavyCheck size={20} weight="duotone" />}
+          >
+            Reserved
+          </Badge>
+          <Tooltip label="Cancel reservation">
+            <ActionIcon
+              variant="filled"
+              color="red"
+              size="xl"
+              onClick={() => deleteEventTeam()}
+              loading={eventDeleteLoading}
+            >
+              <XCircle size={24} weight="duotone" />
+            </ActionIcon>
+          </Tooltip>
+        </Group>
       )}
       {canApply && !isReserved && (
         <Button
