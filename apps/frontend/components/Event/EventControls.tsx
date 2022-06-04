@@ -3,6 +3,7 @@
 import { ActionIcon, Badge, Button, Group, Tooltip } from '@mantine/core';
 import { useClipboard } from '@mantine/hooks';
 import { showNotification } from '@mantine/notifications';
+import dayjs from 'dayjs';
 import { useEventDelete } from 'hooks/api/events/use-event-delete';
 import { useCurrentOrganizationInfo } from 'hooks/api/organizations';
 import { useCurrentUser } from 'hooks/api/users';
@@ -11,11 +12,12 @@ import { useDeleteConfirmModal } from 'hooks/use-delete-confirm-modal';
 import { useRouter } from 'next/router';
 import { paths } from 'paths';
 import {
-    CalendarCheck,
-    CircleWavyCheck,
-    NotePencil,
-    ShareNetwork,
-    Trash
+  CalendarCheck,
+  CircleWavyCheck,
+  NotePencil,
+  ShareNetwork,
+  SignIn,
+  Trash,
 } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 import { EventWithOwner } from 'types/api/event';
@@ -29,10 +31,13 @@ export const EventControls = ({ event }: Props) => {
   const router = useRouter();
   const clipboard = useClipboard();
 
-  const { isOrganization } = useCurrentUser();
-  const { data: me } = useCurrentOrganizationInfo();
+  const { isOrganization, isUser, isAuthenticated, isSessionLoading } =
+    useCurrentUser();
+  const { data: me } = useCurrentOrganizationInfo(isOrganization);
 
   const isMyEvent = isOrganization && me?.id === event.ownerId;
+  const isActiveEvent = dayjs().isBefore(event.startDate);
+  const canApply = isUser && isActiveEvent;
 
   // TODO: placeholder
   const [isReserved] = useState(false);
@@ -84,7 +89,7 @@ export const EventControls = ({ event }: Props) => {
         </>
       )}
 
-      {!isOrganization && isReserved && (
+      {canApply && isReserved && (
         <Badge
           color="green"
           size="xl"
@@ -94,8 +99,7 @@ export const EventControls = ({ event }: Props) => {
           Reserved
         </Badge>
       )}
-
-      {!isOrganization && !isReserved && (
+      {canApply && !isReserved && (
         <Button
           size="md"
           color="orange"
@@ -105,7 +109,15 @@ export const EventControls = ({ event }: Props) => {
           Reserve your spot
         </Button>
       )}
-
+      {!isAuthenticated && !isSessionLoading && (
+        <Button
+          size="md"
+          leftIcon={<SignIn size={22} weight="duotone" />}
+          onClick={() => router.push(paths.signIn())}
+        >
+          Sign in to reserve your spot
+        </Button>
+      )}
       <Tooltip
         label="Link copied!"
         gutter={5}

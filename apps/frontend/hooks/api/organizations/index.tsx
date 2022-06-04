@@ -21,7 +21,8 @@ export const useOrganization = (id: string) =>
     }
   );
 
-export const useCurrentOrganizationInfo = () =>
+export const useCurrentOrganizationInfo = (isOrg = true) =>
   useQuery(['currentOrganization'], fetchCurrentOrganization, {
     onError,
+    enabled: isOrg,
   });
