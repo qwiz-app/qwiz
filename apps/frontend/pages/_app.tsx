@@ -40,7 +40,7 @@ const App = ({ Component, pageProps: { session, ...pageProps } }) => {
         defer
         data-domain={config.plausible.domain}
         src="https://stats.qwiz.party/js/app.js"
-        // strategy="worker"
+        strategy="afterInteractive"
       />
       <NextSeo
         title="Qwiz"
