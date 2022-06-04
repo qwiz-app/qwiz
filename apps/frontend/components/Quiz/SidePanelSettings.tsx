@@ -12,7 +12,7 @@ import { SidePanelWrapper } from './SidePanelWrapper';
 import { useCurrentQuiz } from './use-current-quiz';
 
 export const SidePanelSettings = (props) => {
-  const { uploadFile, isUploading, url } = useFileUpload();
+  const { uploadFile, loading, url } = useFileUpload();
   const router = useRouter();
 
   const { quiz, id } = useCurrentQuiz();
@@ -21,7 +21,7 @@ export const SidePanelSettings = (props) => {
     mutate: deleteQuiz,
     isSuccess: isDeleteSuccess,
     isLoading: isDeleteLoading,
-  } = useQuizDelete(quiz.id);
+  } = useQuizDelete(quiz?.id);
 
   useEffect(() => {
     if (url) {
@@ -59,7 +59,7 @@ export const SidePanelSettings = (props) => {
           <Title order={6}>Thumnbail</Title>
           <FileUpload
             uploadFile={uploadFile}
-            loading={isUploading}
+            loading={loading}
             url={url ?? quiz?.thumbnail}
           />
         </Stack>

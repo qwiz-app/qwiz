@@ -5,7 +5,7 @@ import {
   Image,
   Paper,
   Skeleton,
-  Title
+  Title,
 } from '@mantine/core';
 import { useBreakpoints } from 'hooks/breakpoints';
 import { useAppColorscheme } from 'hooks/colorscheme';
@@ -37,7 +37,7 @@ export const EventHeader = ({ event, loading }: Props) => {
           <Image
             src={event.banner}
             alt="banner"
-            height="25vh"
+            height="26vh"
             withPlaceholder
           />
         </Paper>

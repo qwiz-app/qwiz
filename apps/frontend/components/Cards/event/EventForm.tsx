@@ -2,8 +2,7 @@ import {
   Avatar,
   Box,
   Button,
-  Group,
-  MantineColor,
+  Group, MantineColor,
   SelectItemProps,
   SimpleGrid,
   Stack,
@@ -69,6 +68,12 @@ export const EventForm = memo(function EventForm(props: Props) {
     <Form>
       <PageSection title={title}>
         <PageGrid type="big">
+          <Stack spacing={4}>
+            <Text weight={500} size="lg">
+              Banner
+            </Text>
+            <FileUpload {...fileUpload} url={imgUrl || fileUpload.url}/>
+          </Stack>
           <FormikTextInput
             required
             size="lg"
@@ -146,12 +151,7 @@ export const EventForm = memo(function EventForm(props: Props) {
             />
           </SimpleGrid>
           <FormikRichText name="description" label="Description" />
-          <Stack spacing={4}>
-            <Text weight={500} size="lg">
-              Banner
-            </Text>
-            <FileUpload {...fileUpload} url={imgUrl || fileUpload.url} />
-          </Stack>
+
           <Group position="right">
             <Button
               type="button"

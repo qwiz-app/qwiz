@@ -1,5 +1,5 @@
 import config from 'lib/config';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { generateS3Url, uploadFileToS3 } from 'services/api/aws';
 import sha1 from 'sha1';
 
@@ -14,6 +14,10 @@ export const useFileUpload = () => {
     UploadStatusEnum.NOT_STARTED
   );
   const [uploadedFile, setUploadedFile] = useState<string>(null);
+
+  useEffect(() => {
+    console.log(uploadingStatus);
+  }, [uploadingStatus]);
 
   const uploadFile = async (file: File) => {
     setUploadingStatus(UploadStatusEnum.UPLOADING);
@@ -34,12 +38,12 @@ export const useFileUpload = () => {
     setUploadedFile(config.aws.bucketUrl + hashedFile);
   };
 
-  const isUploading = uploadingStatus === 'UPLOADING';
+  const loading = uploadingStatus === 'UPLOADING';
 
   return {
     uploadFile,
     uploadingStatus,
-    isUploading,
+    loading,
     url: uploadedFile,
   };
 };

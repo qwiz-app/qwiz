@@ -1,14 +1,22 @@
 /* eslint-disable no-nested-ternary */
 import {
-  Box, Card,
-  createStyles, FloatingTooltip, Group, MantineTheme, Stack, Text
+  Box,
+  Card,
+  createStyles,
+  FloatingTooltip,
+  MantineTheme,
+  Stack,
+  Text
 } from '@mantine/core';
 import { Dropzone, DropzoneStatus } from '@mantine/dropzone';
 import { showNotification } from '@mantine/notifications';
 import cn from 'classnames';
 import { useAppColorscheme } from 'hooks/colorscheme';
 import {
-  Icon as PhosporIcon, Image as ImageIcon, Upload, X
+  Icon as PhosporIcon,
+  Image as ImageIcon,
+  Upload,
+  X
 } from 'phosphor-react';
 import { ComponentProps, useRef } from 'react';
 
@@ -56,10 +64,11 @@ export const FileUpload = ({
         onReject={() =>
           showNotification({
             title: 'File upload failed',
-            message: 'The provided file is too big',
+            message: 'The provided file is too large',
             color: 'red',
           })
         }
+        radius="md"
         maxSize={maxSize * 1024 ** 2}
         accept={fileMap[type]}
         multiple={false}
@@ -74,9 +83,9 @@ export const FileUpload = ({
 };
 
 const dropzoneChildren = (status: DropzoneStatus, theme: MantineTheme) => (
-  <Group
-    position="center"
-    spacing="xl"
+  <Stack
+    align="center"
+    justify="center"
     style={{ minHeight: 220, pointerEvents: 'none' }}
   >
     <ImageUploadIcon
@@ -87,14 +96,14 @@ const dropzoneChildren = (status: DropzoneStatus, theme: MantineTheme) => (
     />
 
     <Stack>
-      <Text size="xl" inline>
-        Drag an image here or click to select file
+      <Text size="lg" inline>
+        Drag an image or pick a file
       </Text>
-      <Text size="sm" color="dimmed" inline mt={7}>
+      <Text size="xs" color="dimmed" inline>
         File should not exceed 8MB
       </Text>
     </Stack>
-  </Group>
+  </Stack>
 );
 
 const getIconColor = (status: DropzoneStatus, theme: MantineTheme) => {
@@ -130,6 +139,11 @@ const useStyles = createStyles((theme, _params, getRef) => {
       display: 'none',
     },
 
+    dropzone: {
+      borderWidth: 1,
+      textAlign: 'center',
+    },
+
     card: {
       position: 'relative',
       height: 280,
@@ -142,10 +156,6 @@ const useStyles = createStyles((theme, _params, getRef) => {
       [`&:hover .${image}`]: {
         transform: 'scale(1.03)',
       },
-    },
-
-    dropzone: {
-      textAlign: 'center',
     },
 
     image: {
