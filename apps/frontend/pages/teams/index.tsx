@@ -48,7 +48,7 @@ const TeamsPage = (props) => {
       >
         <PageGrid type="teams">
           {isTeamsLoading &&
-            generateArrayForRange(3).map((n) => (
+            generateArrayForRange(2).map((n) => (
               <Skeleton
                 visible
                 key={n}
@@ -59,7 +59,8 @@ const TeamsPage = (props) => {
           {hasTeams &&
             !isTeamsLoading &&
             teams?.map((team) => (
-              <FramerAnimatedListItem key={team.id} id={team.id}>
+              // TODO: fix weird framer
+              <FramerAnimatedListItem key={team.id} id={`team-${team.id}`}>
                 <TeamCard team={team} />
               </FramerAnimatedListItem>
             ))}

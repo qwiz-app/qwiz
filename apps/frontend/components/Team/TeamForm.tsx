@@ -1,6 +1,3 @@
-import { forwardRef, memo } from 'react';
-import { Form, useFormikContext } from 'formik';
-import { FormikTextInput } from 'components/formik/FormikTextInput';
 import {
   Avatar,
   Box,
@@ -11,25 +8,29 @@ import {
   Stack,
   Text,
 } from '@mantine/core';
-import {
-  UsersFour,
-  NotePencil,
-  UsersThree,
-  Star,
-  PlusCircle,
-  PencilCircle,
-} from 'phosphor-react';
-import { PageSection } from 'components/PageLayouts/PageSection';
-import PageGrid from 'components/Grids/PageGrid';
-import { FileUpload, FileUploadProps } from 'components/UI/FileUpload';
-import { FormikMultiSelect } from 'components/formik/FormikMultiSelect';
-import { AttendeeWithUser } from 'types/api/atendee';
-import { paths } from 'paths';
-import { TeamFormValues } from 'types/forms/TeamFormValues';
-import { useRouter } from 'next/router';
 import { User } from '@prisma/client';
+import { FormikMultiSelect } from 'components/formik/FormikMultiSelect';
+import { FormikTextInput } from 'components/formik/FormikTextInput';
+import PageGrid from 'components/Grids/PageGrid';
+import { PageSection } from 'components/PageLayouts/PageSection';
+import { FileUpload, FileUploadProps } from 'components/UI/FileUpload';
+import { Form, useFormikContext } from 'formik';
 import { useCurrentSession } from 'hooks/api/session';
 import { formatDate } from 'lib/utils';
+import { useRouter } from 'next/router';
+import { paths } from 'paths';
+import {
+  IdentificationCard,
+  NotePencil,
+  PencilCircle,
+  PlusCircle,
+  Star,
+  UsersFour,
+  UsersThree,
+} from 'phosphor-react';
+import { forwardRef, memo } from 'react';
+import { AttendeeWithUser } from 'types/api/atendee';
+import { TeamFormValues } from 'types/forms/TeamFormValues';
 
 type Props = {
   fileUpload: FileUploadProps;
@@ -40,7 +41,7 @@ type Props = {
 
 export const TeamForm = memo(function TeamForm(props: Props) {
   const router = useRouter();
-  const { isSubmitting, isValid, action, fileUpload, imgUrl, attendeeOptions } =
+  const { isSubmitting, action, fileUpload, imgUrl, attendeeOptions } =
     useTeamForm(props);
 
   const title =
@@ -62,7 +63,7 @@ export const TeamForm = memo(function TeamForm(props: Props) {
         <PageGrid type="eventHighlight">
           <Stack spacing={4}>
             <Text weight={500} size="lg">
-              Team logo
+              Team avatar
             </Text>
             <FileUpload {...fileUpload} url={imgUrl || fileUpload.url} />
           </Stack>
@@ -71,16 +72,19 @@ export const TeamForm = memo(function TeamForm(props: Props) {
             label="Name"
             size="lg"
             required
-            icon={<UsersThree size={24} weight="duotone" />}
+            icon={<IdentificationCard size={24} weight="duotone" />}
           />
           <FormikMultiSelect
             itemComponent={AutoCompleteItem}
+            icon={<UsersThree size={24} weight="duotone" />}
             name="members"
-            label="Members"
+            label="Other members"
             size="lg"
+            searchable
+            clearable
             options={attendeeOptions}
           />
-          <Group position="right">
+          <Group position="right" mt={8}>
             <Button
               type="button"
               size="md"
@@ -95,7 +99,7 @@ export const TeamForm = memo(function TeamForm(props: Props) {
                 type="submit"
                 size="md"
                 loading={isSubmitting}
-                disabled={isSubmitting || !isValid}
+                disabled={isSubmitting}
                 rightIcon={<PlusCircle size={20} weight="duotone" />}
               >
                 Create team
@@ -106,7 +110,7 @@ export const TeamForm = memo(function TeamForm(props: Props) {
                 type="submit"
                 size="md"
                 loading={isSubmitting}
-                disabled={isSubmitting || !isValid}
+                disabled={isSubmitting}
                 rightIcon={<PencilCircle size={20} weight="duotone" />}
               >
                 Edit team
@@ -145,7 +149,6 @@ type ItemProps = User &
     label: string;
   };
 
-// eslint-disable-next-line react/display-name
 const AutoCompleteItem = forwardRef<HTMLDivElement, ItemProps>(
   ({ value, label, email, image, createdAt, ...others }: ItemProps, ref) => (
     <div ref={ref} {...others}>

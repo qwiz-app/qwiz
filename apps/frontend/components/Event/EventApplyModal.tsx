@@ -1,7 +1,7 @@
 import { Autocomplete, Button, Group, Modal, Stack } from '@mantine/core';
 import {
-    TeamAutocomplete,
-    TeamAutoCompleteItem
+  TeamAutocomplete,
+  TeamAutoCompleteItem
 } from 'components/Team/TeamAutocompleteItem';
 import { useModalProps } from 'context/mantine';
 import { Checks, UsersThree } from 'phosphor-react';
@@ -59,6 +59,9 @@ export const EventApplyModal = ({
           value={selectedTeam?.name}
           onChange={selectedTeamHandler}
           data={teams}
+          filter={(value, item) =>
+            item?.name.toLowerCase().includes(value.toLowerCase().trim())
+          }
         />
         <Group position="right">
           <Button

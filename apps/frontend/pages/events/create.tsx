@@ -15,7 +15,7 @@ const EventsPage = () => {
 
   return (
     <HomepageLayout>
-      <Container size="sm">
+      <Container size="sm" p={0}>
         <Formik
           initialValues={initialValues}
           onSubmit={handleSubmit}

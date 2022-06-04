@@ -6,7 +6,7 @@ import {
   Group,
   Paper,
   Stack,
-  Text,
+  Text
 } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { useTeamDelete } from 'hooks/api/teams';

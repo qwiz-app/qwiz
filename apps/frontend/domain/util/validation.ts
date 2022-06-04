@@ -36,7 +36,7 @@ export const eventSchema = yup.object({
 });
 
 export const teamSchema = yup.object({
-  name: yup.string().required(),
+  name: yup.string().required('Team name is required.'),
   members: yup.array().of(yup.string()),
   image: yup.string(),
 });
