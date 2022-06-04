@@ -18,7 +18,7 @@ export const getServerSideProps = async (ctx) => {
 
 const PdfQuiz = ({ quiz }) => {
   return (
-    <div>
+    <div style={{ position: 'relative', minHeight: '100%'}}>
       {quiz.slides.map((slide) => {
         return <PdfExportWrapper key={slide.id} slide={slide} />;
       })}

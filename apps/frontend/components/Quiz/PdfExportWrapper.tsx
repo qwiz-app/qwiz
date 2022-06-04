@@ -7,6 +7,8 @@ import {
   Text,
 } from '@mantine/core';
 import { useQuestionContents } from 'hooks/use-question-contents';
+import LogoDark from 'assets/logo/qwiz-dark.svg';
+import Image from 'next/image';
 
 export const PdfExportWrapper = ({ slide }) => {
   const { textualContent, imageContent, hasImageContent, hasTextualContent } =
@@ -17,7 +19,7 @@ export const PdfExportWrapper = ({ slide }) => {
   return (
     hasTextualContent &&
     hasImageContent && (
-      <AspectRatio ratio={1.4142 / 1}>
+      <AspectRatio ratio={1.4142 / 1} className={classes.wrapper}>
         <Paper withBorder radius="md" px="sm">
           <Stack className={classes.box} align="center" justify="space-evenly">
             {hasTextualContent && (
@@ -42,6 +44,9 @@ export const PdfExportWrapper = ({ slide }) => {
                 ))}
               </Group>
             )}
+            <div className={classes.logo}>
+              <Image src={LogoDark} width={50} height={50} alt="logo" />
+            </div>
           </Stack>
         </Paper>
       </AspectRatio>
@@ -51,8 +56,11 @@ export const PdfExportWrapper = ({ slide }) => {
 
 const useStyles = createStyles((theme) => ({
   box: {
-    position: 'relative',
     gap: '4vh',
+  },
+
+  wrapper: {
+    position: 'relative',
   },
 
   stack: {
@@ -61,7 +69,7 @@ const useStyles = createStyles((theme) => ({
 
   text: {
     fontWeight: 600,
-    fontSize: '2rem',
+    fontSize: '2.5rem',
     lineHeight: 1.2,
     marginBottom: '2rem',
   },
@@ -74,6 +82,12 @@ const useStyles = createStyles((theme) => ({
   },
 
   image: {
-    height: '50vh',
+    height: '45vh',
+  },
+
+  logo: {
+    position: 'absolute',
+    bottom: 0,
+    left: 16,
   },
 }));

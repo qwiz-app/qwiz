@@ -71,6 +71,10 @@ export class AWSService {
 
     browser = await getBrowserInstance();
     const page = await browser.newPage();
+    await page.emulateMediaType('screen'); 
+    await page.addStyleTag({
+      content: '@page { size: auto; height: auto; }',
+    });
     await page.goto(url);
     const pdfBuffer = await page.pdf({
       format: 'A4',
