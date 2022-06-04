@@ -4,7 +4,7 @@ import { useQuery, useQueryClient } from 'react-query';
 import {
   fetchAllEvents,
   fetchEvents,
-  fetchEventsByOrganization,
+  fetchEventsByOrganization
 } from 'services/api/events';
 import { EventWithOwner } from 'types/api/event';
 import { useCurrentOrganizationInfo } from '../organizations';

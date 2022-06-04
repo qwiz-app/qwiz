@@ -10,7 +10,7 @@ import {
   Patch,
   Post,
   Query,
-  UnauthorizedException,
+  UnauthorizedException
 } from '@nestjs/common';
 import { Organization, Prisma } from '@prisma/client';
 import { IsAdmin } from 'common/decorators/admin.decorator';

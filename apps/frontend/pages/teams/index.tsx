@@ -1,4 +1,5 @@
 import { Button, Skeleton } from '@mantine/core';
+import { ImageCard } from 'components/Cards/event/EventCard';
 import { FramerAnimatedListItem } from 'components/Framer/FramerAnimatedListItem';
 import PageGrid from 'components/Grids/PageGrid';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
@@ -12,7 +13,7 @@ import { generateArrayForRange } from 'lib/utils';
 import { useRouter } from 'next/router';
 import { paths } from 'paths';
 import { PlusCircle } from 'phosphor-react';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
 const TeamsPage = (props) => {
   const router = useRouter();
@@ -23,11 +24,24 @@ const TeamsPage = (props) => {
     router.push(paths.teamNew());
   };
 
-  const hasTeams = !!teams?.length;
+  const teamEvents = useMemo(() => {
+    return (
+      teams
+        ?.map((t) => {
+          console.log(t);
+          return t.eventTeams.map((ev) => ev.event);
+        })
+        ?.flat() ?? []
+    );
+  }, [teams]);
+
+  const hasTeams = teams?.length > 0;
 
   useEffect(() => {
-    console.log(teams, hasTeams);
-  }, [teams, hasTeams]);
+    console.log(teamEvents);
+  }, [teamEvents]);
+
+  const hasTeamEvents = teamEvents?.length > 0;
 
   return (
     <HomepageLayout>
@@ -68,6 +82,23 @@ const TeamsPage = (props) => {
         </PageGrid>
         {!hasTeams && !isTeamsLoading && <NoTeamsAlert />}
       </PageSection>
+      {hasTeamEvents && (
+        <PageSection
+          title="Your team events"
+          description="All the events you signed up for"
+        >
+          <PageGrid type="event">
+            {teamEvents?.map((event) => (
+              <ImageCard
+                // TODO What if multiple teams signed up for the same event?
+                key={`team-${event.id}`}
+                event={event}
+                loading={false}
+              />
+            ))}
+          </PageGrid>
+        </PageSection>
+      )}
     </HomepageLayout>
   );
 };

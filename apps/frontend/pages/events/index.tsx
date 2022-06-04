@@ -5,16 +5,11 @@ import { HomepageLayout } from 'components/PageLayouts/HomepageLayout';
 import { useCurrentUser } from 'hooks/api/users';
 
 const EventsPage = () => {
-  const { isOrganization, isLoading } = useCurrentUser();
+  const { isOrganization } = useCurrentUser();
 
-  // TODO: shows all after inital organization account creation
   return (
     <HomepageLayout>
-      {isOrganization || isLoading ? (
-        <EventsCurrentOrganization />
-      ) : (
-        <EventsAny />
-      )}
+      {isOrganization ? <EventsCurrentOrganization /> : <EventsAny />}
     </HomepageLayout>
   );
 };

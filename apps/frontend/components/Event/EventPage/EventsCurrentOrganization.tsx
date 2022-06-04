@@ -9,6 +9,7 @@ import { useCreateEventCheck } from 'hooks/use-create-event-check';
 import { PlusCircle } from 'phosphor-react';
 import { useEventsPage } from './use-events-page';
 
+
 export const EventsCurrentOrganization = () => {
   const { isDark } = useAppColorscheme();
   const {

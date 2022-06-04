@@ -2,9 +2,11 @@ import { NoEventsAlert } from 'components/Cards/event/NoEventsAlert';
 import PageGrid from 'components/Grids/PageGrid';
 import { PageSection } from 'components/PageLayouts/PageSection';
 import { useAllEvents } from 'hooks/api/events';
+import { useCurrentUser } from 'hooks/api/users';
 import { useEventsPage } from './use-events-page';
 
 export const EventsAny = () => {
+  const { isLoading, isSessionLoading } = useCurrentUser();
   const {
     hasEvents,
     isLoadingOrPlaceholder,
@@ -15,15 +17,16 @@ export const EventsAny = () => {
     renderEvents,
   } = useEventsPage(useAllEvents());
 
+  const loading = isLoading || isSessionLoading || isLoadingOrPlaceholder;
   return (
     <>
-      {(hasEvents || isLoadingOrPlaceholder) && (
+      {(hasEvents || loading) && (
         <PageSection
           title="Highlighted events"
           description="Events you're gonna love"
         >
           <PageGrid type="eventHighlight">
-            {isLoadingOrPlaceholder
+            {loading
               ? highlightedPlaceholderSkeletons
               : renderEvents(highlightedEvents, true)}
           </PageGrid>
@@ -35,9 +38,7 @@ export const EventsAny = () => {
           description="Events happening right now"
         >
           <PageGrid type="event">
-            {isLoadingOrPlaceholder
-              ? placeholderSkeletons
-              : renderEvents(activeEvents)}
+            {loading ? placeholderSkeletons : renderEvents(activeEvents)}
           </PageGrid>
           {!hasEvents && <NoEventsAlert />}
         </PageSection>

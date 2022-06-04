@@ -1,18 +1,19 @@
-import { Event, EventTeam, Prisma, Team } from '@prisma/client';
+import { EventTeam, Prisma, Team } from '@prisma/client';
 import { AttendeeWithUser } from 'types/api/atendee';
+import { EventWithOwner } from './event';
 
 export type EventTeamWitTeam = EventTeam & {
   team: Team;
 };
 
-export type EventTeamWithEvent = EventTeam & {
-  event: Event;
+export type EventTeamWithEventAndItsOwner = EventTeam & {
+  event: EventWithOwner;
 };
 
 export type TeamFull = Team & {
   admin: AttendeeWithUser;
   members: AttendeeWithUser[];
-  eventTeams?: EventTeamWithEvent[];
+  eventTeams?: EventTeamWithEventAndItsOwner[];
   _count?: Prisma.TeamCountOutputType;
 };
 

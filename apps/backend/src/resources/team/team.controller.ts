@@ -28,7 +28,19 @@ export class TeamController {
     },
     eventTeams: {
       include: {
-        event: true,
+        event: {
+          include: {
+            owner: {
+              include: {
+                user: {
+                  select: {
+                    image: true,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     },
     _count: true,
