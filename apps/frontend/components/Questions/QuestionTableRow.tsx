@@ -7,17 +7,17 @@ import {
   Group,
   Stack,
   Text,
-  Tooltip,
+  Tooltip
 } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { showNotification } from '@mantine/notifications';
 import { QuestionElementType } from '@prisma/client';
 import { SelectedQuestionModalContent } from 'components/Quiz/QuizQuestion/SelectedQuestionModalContent';
-import { useQuestionDelete } from 'hooks/api/question';
+import { useQuestionDelete, useQuestionUpdate } from 'hooks/api/question';
 import { useDeleteConfirmModal } from 'hooks/use-delete-confirm-modal';
 import { useQuestionContents } from 'hooks/use-question-contents';
 import { DateTimeFormat, formatDate } from 'lib/utils';
-import { TrashSimple } from 'phosphor-react';
+import { Lightning, LightningSlash, TrashSimple } from 'phosphor-react';
 import { QuestionWithContentAndCategoriesAndMode } from 'types/api/question';
 
 interface Props {
@@ -38,6 +38,7 @@ export const QuestionTableRow = ({ question, onRowClick }: Props) => {
   };
 
   const { mutate: deleteQuestion } = useQuestionDelete(question.id);
+  const { mutate: updateQuestion } = useQuestionUpdate(question.id);
 
   const openDeleteConfirmModal = useDeleteConfirmModal({
     onConfirm: () => {
@@ -52,6 +53,15 @@ export const QuestionTableRow = ({ question, onRowClick }: Props) => {
     deletedEntity: 'question',
   });
 
+  const toggleActiveState = () => {
+    updateQuestion(
+      {
+        isActive: !question.isActive,
+      },
+    );
+    modals.closeAll();
+  };
+
   const openQuestionDetailsModal = () => {
     const { isGlobal } = question;
 
@@ -61,8 +71,27 @@ export const QuestionTableRow = ({ question, onRowClick }: Props) => {
       children: (
         <Stack pt={4}>
           <SelectedQuestionModalContent question={question} />
-          <Group position="right">
-            {!isGlobal && (
+          {!isGlobal && (
+            <Group position="right">
+              {question?.isActive ? (
+                <Button
+                  color="red"
+                  variant="subtle"
+                  rightIcon={<LightningSlash size={20} weight="duotone" />}
+                  onClick={toggleActiveState}
+                >
+                  Deactivate
+                </Button>
+              ) : (
+                <Button
+                  color="green"
+                  variant="subtle"
+                  rightIcon={<Lightning size={20} weight="duotone" />}
+                  onClick={toggleActiveState}
+                >
+                  Activate
+                </Button>
+              )}
               <Button
                 color="red"
                 rightIcon={<TrashSimple size={20} weight="duotone" />}
@@ -70,8 +99,8 @@ export const QuestionTableRow = ({ question, onRowClick }: Props) => {
               >
                 Delete
               </Button>
-            )}
-          </Group>
+            </Group>
+          )}
         </Stack>
       ),
     });
