@@ -12,7 +12,7 @@ export const SidePanelSelectedQuestion = (props) => {
 
   const hasAnswers = answers?.length > 0;
   const hasCategories = hasQuestion && question?.categories?.length > 0;
-  
+
   const openQuestionModal = () => {
     modals.openModal({
       size: 'lg',
@@ -51,7 +51,7 @@ export const SidePanelSelectedQuestion = (props) => {
             </Stack>
             <Stack spacing={8}>
               <Text weight={600} size="md">
-                Categories
+                Scope &amp; categories
               </Text>
               <Group align="start" spacing={8}>
                 {question.isGlobal && (
