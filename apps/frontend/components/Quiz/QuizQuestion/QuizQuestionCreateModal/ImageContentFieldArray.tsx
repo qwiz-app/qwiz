@@ -96,16 +96,17 @@ export const ImageContentFieldArray = memo(function ImageContentFieldArray(
       >
         {images.map(renderImageField)}
       </Group>
-      <Group sx={{ width: '100%' }} position="right">
-        <Button
-          onClick={handleAddItem}
-          variant="light"
-          disabled={isMaxItemsLimit}
-          leftIcon={<ImageSquare size={20} weight="duotone" />}
-        >
-          Add another
-        </Button>
-      </Group>
+      {!isMaxItemsLimit && (
+        <Group sx={{ width: '100%' }} position="right">
+          <Button
+            onClick={handleAddItem}
+            variant="light"
+            leftIcon={<ImageSquare size={20} weight="duotone" />}
+          >
+            Add another
+          </Button>
+        </Group>
+      )}
     </Stack>
   );
 });

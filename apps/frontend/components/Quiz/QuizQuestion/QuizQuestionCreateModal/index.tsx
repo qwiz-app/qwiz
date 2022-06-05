@@ -15,7 +15,7 @@ export const QuestionCreateModal = ({ opened, setOpened }) => {
   return (
     <Modal
       opened={opened}
-      size={500}
+      size={550}
       onClose={() => setOpened(false)}
       title="Create a new question"
       {...modalProps}
