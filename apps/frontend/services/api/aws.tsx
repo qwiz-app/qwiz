@@ -40,10 +40,10 @@ export const createThumbnail = ({
     .then(parseData);
 
 export const createPdf = ({
-  url,
-}: { url: string}) =>
+  id,
+}: { id: string}) =>
   http
-    .post<{ url: string }>(`/api/aws/pdf`, {
-      url,
+    .post<{ url: string }>(`/api/pdf/export`, {
+      id,
     })
     .then(parseData);

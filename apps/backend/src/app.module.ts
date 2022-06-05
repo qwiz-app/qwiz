@@ -39,6 +39,7 @@ import { PdfModule } from './resources/pdf/pdf.module';
         AWS_BUCKET_REGION: Joi.string().required(),
         AWS_BUCKET_URL: Joi.string().required(),
         PUPPETEER_SECRET: Joi.string().required(),
+        FRONTEND_URL: Joi.string().required(),
       }),
     }),
     CategoryModule,

@@ -5,7 +5,6 @@ import { useGeneratePdf } from 'hooks/api/aws';
 import { useQuizDelete, useQuizUpdate } from 'hooks/api/quiz';
 import { useDeleteConfirmModal } from 'hooks/use-delete-confirm-modal';
 import { useFileUpload } from 'hooks/use-flle-upload';
-import config from 'lib/config';
 import { useRouter } from 'next/router';
 import { paths } from 'paths';
 import { FilePdf, TrashSimple } from 'phosphor-react';
@@ -57,7 +56,7 @@ export const SidePanelSettings = (props) => {
 
   const exportHandler = () => {
     generatePdf({
-      url: `https://${config.plausible.domain}/pdf/${id}`,
+      id,
     });
   };
 
@@ -65,9 +64,9 @@ export const SidePanelSettings = (props) => {
     <SidePanelWrapper title="Settings">
       <Stack>
         <Stack spacing={4}>
-         <Text weight={600} size="md">
-           Thumnbail
-         </Text>
+          <Text weight={600} size="md">
+            Thumnbail
+          </Text>
           <FileUpload
             uploadFile={uploadFile}
             loading={loading}
@@ -83,7 +82,7 @@ export const SidePanelSettings = (props) => {
             size="md"
             loading={isLoading}
           >
-            Export as PDF
+            Export as PDF..
           </Button>
           {pdf && (
             <Button

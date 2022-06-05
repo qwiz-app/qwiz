@@ -1,4 +1,11 @@
-import { Controller, Get, Param, UnauthorizedException } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PdfService } from './pdf.service';
 
@@ -17,5 +24,12 @@ export class PdfController {
     return this.pdfService.findOne({
       id,
     });
+  }
+
+  @Post('export')
+  exportPdf(@Body() payload: { id: string }) {
+    const { id } = payload;
+
+    return this.pdfService.exportPdf(id);
   }
 }

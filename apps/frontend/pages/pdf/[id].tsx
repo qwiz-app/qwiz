@@ -5,23 +5,21 @@ import config from 'lib/config';
 export const getServerSideProps = async (ctx) => {
   const { id } = ctx.query;
 
-  const quiz = await axios.get(
+  const slide = await axios.get(
     `${config.backendUrl}/pdf/${id}/${config.puppeteerSecret}`
   );
 
   return {
     props: {
-      quiz: JSON.parse(JSON.stringify(quiz.data)),
+      slide: JSON.parse(JSON.stringify(slide.data)),
     },
   };
 };
 
-const PdfQuiz = ({ quiz }) => {
+const PdfQuiz = ({ slide }) => {
   return (
     <div style={{ position: 'relative', minHeight: '100%'}}>
-      {quiz.slides.map((slide) => {
-        return <PdfExportWrapper key={slide.id} slide={slide} />;
-      })}
+      <PdfExportWrapper key={slide.id} slide={slide} />
     </div>
   );
 };

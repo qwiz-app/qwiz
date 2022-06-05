@@ -17,10 +17,9 @@ export const PdfExportWrapper = ({ slide }) => {
   const { classes } = useStyles();
 
   return (
-    hasTextualContent &&
-    hasImageContent && (
-      <AspectRatio ratio={1.4142 / 1} className={classes.wrapper}>
-        <Paper withBorder radius="md" px="sm">
+    (hasTextualContent || hasImageContent) && (
+      <AspectRatio ratio={1.4142 / 1}>
+        <Paper withBorder radius="md" px="sm" className={classes.wrapper}>
           <Stack className={classes.box} align="center" justify="space-evenly">
             {hasTextualContent && (
               <Stack>
@@ -61,6 +60,7 @@ const useStyles = createStyles((theme) => ({
 
   wrapper: {
     position: 'relative',
+    minHeight: '100%',
   },
 
   stack: {
