@@ -166,7 +166,7 @@ export const QuestionTableRow = ({ question, onRowClick }: Props) => {
             ))}
             {categories?.length > categoryLimit && (
               <Text ml={4} weight={500} size="sm" color="dimmed">
-                + {categories.length - 1}
+                + {categories.length - categoryLimit}
               </Text>
             )}
           </Group>

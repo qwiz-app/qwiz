@@ -52,7 +52,7 @@ export const answerSchema = yup.object({
 
 export const questionSchema = yup.object({
   textuals: yup.array(questionContentSchema),
-  images: yup.array(questionContentSchema),
+  images: yup.array(),
   categories: yup.array(yup.string()),
-  answers: yup.array(answerSchema),
+  answers: yup.array(),
 });

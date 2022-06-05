@@ -1,16 +1,17 @@
-import { ChangeEvent, memo } from 'react';
-import { Prisma } from '@prisma/client';
-import { FieldArrayRenderProps, FormikErrors } from 'formik';
 import {
   ActionIcon,
-  Box,
   Button,
+  Group,
   Stack,
   TextInput,
   Tooltip,
 } from '@mantine/core';
-import { Trash } from 'phosphor-react';
+import { Prisma } from '@prisma/client';
+import { FramerAnimatedListItem } from 'components/Framer/FramerAnimatedListItem';
 import { useInputAccentStyles } from 'components/UI/use-input-styles';
+import { FieldArrayRenderProps, FormikErrors } from 'formik';
+import { ChatText, X } from 'phosphor-react';
+import { ChangeEvent, memo } from 'react';
 
 type Props = {
   answers: Prisma.AnswerCreateWithoutQuestionInput[];
@@ -18,13 +19,16 @@ type Props = {
   errors: FormikErrors<any>;
 };
 
-const RightSection = ({ handleDelete, disabled }) => (
-  <Tooltip label="Delete question" position="top" placement="end">
-    <ActionIcon onClick={handleDelete} disabled={disabled}>
-      <Trash size={16} />
-    </ActionIcon>
-  </Tooltip>
-);
+const RightSection = ({ handleDelete, disabled }) =>
+  !disabled &&
+  ((
+    <Tooltip label="Delete answer" position="top" placement="end">
+      <ActionIcon variant="hover" onClick={handleDelete}>
+        <X size={16} weight="bold" />
+      </ActionIcon>
+    </Tooltip>
+  ) ??
+    null);
 
 export const AnswerFieldArray = memo(function AnswerFieldArray(props: Props) {
   const { answers, isLastItem, classes, generateFieldMethods, handleAddItem } =
@@ -40,29 +44,36 @@ export const AnswerFieldArray = memo(function AnswerFieldArray(props: Props) {
     );
 
     return (
-      <TextInput
-        classNames={classes}
-        key={index}
-        value={answer.answer}
-        onChange={replaceItem}
-        size="md"
-        placeholder="Enter answer"
-        error={getError()}
-        rightSection={
-          <RightSection handleDelete={removeItem} disabled={isLastItem} />
-        }
-      />
+      <FramerAnimatedListItem id={`answer-${index}`}>
+        <TextInput
+          classNames={classes}
+          key={index}
+          value={answer.answer}
+          onChange={replaceItem}
+          size="md"
+          placeholder="Enter answer"
+          error={getError()}
+          icon={<ChatText size={22} weight="duotone" />}
+          rightSection={
+            <RightSection handleDelete={removeItem} disabled={isLastItem} />
+          }
+        />
+      </FramerAnimatedListItem>
     );
   };
 
   return (
-    <Stack>
+    <Stack spacing="xs">
       {answers.map(renderAnswerField)}
-      <Box>
-        <Button onClick={handleAddItem} variant="light">
-          Add another answer
+      <Group sx={{ width: '100%' }} position="right">
+        <Button
+          onClick={handleAddItem}
+          variant="light"
+          leftIcon={<ChatText size={20} weight="duotone" />}
+        >
+          Add another
         </Button>
-      </Box>
+      </Group>
     </Stack>
   );
 });
@@ -88,7 +99,7 @@ function useAnswerFieldArray(props: Props) {
     replaceItem: (e: ChangeEvent<HTMLInputElement>) =>
       replace(index, { ...item, answer: e.target.value }),
     getError: () => {
-      const itemError = errors?.answers?.[index]?.answer ?? null;
+      const itemError = !!errors?.answers?.[index]?.answer;
       return itemError || undefined;
     },
   });

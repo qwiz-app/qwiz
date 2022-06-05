@@ -1,12 +1,12 @@
 import { LoadingOverlay, Modal } from '@mantine/core';
-import { useModalProps } from 'context/mantine';
-import { Formik } from 'formik';
-import { useQuestionCreate } from 'hooks/api/question';
 import { QuestionElementType } from '@prisma/client';
-import { QuestionCreateFormValues } from 'types/forms/QuestionCreateFormValues';
 import { CreateQuestionForm } from 'components/Quiz/QuizQuestion/QuizQuestionCreateModal/CreateQuestionForm';
-import { useCategories } from 'hooks/api/categories';
+import { useModalProps } from 'context/mantine';
 import { questionSchema } from 'domain/util/validation';
+import { Formik } from 'formik';
+import { useCategories } from 'hooks/api/categories';
+import { useQuestionCreate } from 'hooks/api/question';
+import { QuestionCreateFormValues } from 'types/forms/QuestionCreateFormValues';
 
 export const QuestionCreateModal = ({ opened, setOpened }) => {
   const { initialValues, categories, modalProps, isLoading, handleSubmit } =
@@ -15,6 +15,7 @@ export const QuestionCreateModal = ({ opened, setOpened }) => {
   return (
     <Modal
       opened={opened}
+      size="lg"
       onClose={() => setOpened(false)}
       title="Create a new question"
       {...modalProps}
@@ -50,7 +51,7 @@ function useQuestionCreateModal(setOpened) {
       ...textuals.filter((t) => t.content),
       ...images.filter((i) => i.content),
     ];
-    await createQuestion(
+    createQuestion(
       { ...rest, contents, answers: answers.filter((a) => a.answer) },
       { onSuccess: () => setOpened(false) }
     );

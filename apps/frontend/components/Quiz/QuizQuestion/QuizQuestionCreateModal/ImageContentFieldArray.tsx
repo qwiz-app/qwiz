@@ -1,10 +1,10 @@
-import { memo, useEffect } from 'react';
+import { ActionIcon, Button, Group, Stack, Tooltip } from '@mantine/core';
 import { Prisma, QuestionElementType } from '@prisma/client';
-import { FieldArrayRenderProps } from 'formik';
-import { ActionIcon, Box, Button, Group, Stack, Tooltip } from '@mantine/core';
-import { useFileUpload } from 'hooks/use-flle-upload';
 import { FileUpload } from 'components/UI/FileUpload';
-import { Trash, X } from 'phosphor-react';
+import { FieldArrayRenderProps } from 'formik';
+import { useFileUpload } from 'hooks/use-flle-upload';
+import { ImageSquare, Trash, X } from 'phosphor-react';
+import { memo, useEffect } from 'react';
 
 type Props = {
   images: Prisma.QuestionContentCreateWithoutQuestionInput[];
@@ -35,20 +35,26 @@ const QuestionImageUploadField = ({
   }, [url]);
 
   return (
-    <Stack spacing={6}>
+    <Stack spacing={6} sx={{ flex: 1 }}>
       <FileUpload uploadFile={uploadFile} url={url} loading={loading} />
-      <Group position="right">
-        <Tooltip label="Remove image" position="top" placement="end">
-          <ActionIcon onClick={resetImageUrl} disabled={!url}>
-            <X size={16} weight="duotone" />
-          </ActionIcon>
-        </Tooltip>
-        <Tooltip label="Delete image field" position="top" placement="end">
-          <ActionIcon onClick={removeItem} disabled={disabled}>
-            <Trash size={16} weight="duotone" />
-          </ActionIcon>
-        </Tooltip>
-      </Group>
+      {url && !disabled && (
+        <Group position="right" spacing={4} mb="sm">
+          {url && (
+            <Tooltip label="Remove image" position="top" placement="end">
+              <ActionIcon variant="outline" onClick={resetImageUrl}>
+                <X size={16} weight="duotone" />
+              </ActionIcon>
+            </Tooltip>
+          )}
+          {!disabled && (
+            <Tooltip label="Delete field" position="top" placement="end">
+              <ActionIcon variant="filled" onClick={removeItem} color="red">
+                <Trash size={16} weight="duotone" />
+              </ActionIcon>
+            </Tooltip>
+          )}
+        </Group>
+      )}
     </Stack>
   );
 };
@@ -80,17 +86,18 @@ export const ImageContentFieldArray = memo(function ImageContentFieldArray(
   };
 
   return (
-    <Stack>
-      {images.map(renderImageField)}
-      <Box>
+    <Stack spacing="xs">
+      <Group align="start">{images.map(renderImageField)}</Group>
+      <Group sx={{ width: '100%' }} position="right">
         <Button
           onClick={handleAddItem}
           variant="light"
           disabled={isMaxItemsLimit}
+          leftIcon={<ImageSquare size={20} weight="duotone" />}
         >
-          Add another image
+          Add another
         </Button>
-      </Box>
+      </Group>
     </Stack>
   );
 });
