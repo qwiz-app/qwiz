@@ -1,16 +1,15 @@
+import { Container } from '@mantine/core';
 import DashboardLayout from 'components/Layouts/DashboardLayout';
+import { HomepageLayout } from 'components/PageLayouts/HomepageLayout';
+import { TeamForm } from 'components/Team/TeamForm';
 import { teamSchema } from 'domain/util/validation';
 import { Formik } from 'formik';
-import React from 'react';
-import { TeamForm } from 'components/Team/TeamForm';
-import { useFileUpload } from 'hooks/use-flle-upload';
-import { TeamFormValues } from 'types/forms/TeamFormValues';
 import { useAttendees } from 'hooks/api/attendees';
-import { Container } from '@mantine/core';
-import { HomepageLayout } from 'components/PageLayouts/HomepageLayout';
 import { useTeamCreate } from 'hooks/api/teams';
+import { useFileUpload } from 'hooks/use-flle-upload';
 import { useRouter } from 'next/router';
 import { paths } from 'paths';
+import { TeamFormValues } from 'types/forms/TeamFormValues';
 
 const TeamNewPage = (props) => {
   const { attendees, initialValues, fileUpload, handleSubmit } =
@@ -18,7 +17,7 @@ const TeamNewPage = (props) => {
 
   return (
     <HomepageLayout>
-     <Container size="sm" p={0}>
+      <Container size="sm" p={0} sx={{ maxWidth: 500, width: '100%' }}>
         <Formik
           initialValues={initialValues}
           onSubmit={handleSubmit}

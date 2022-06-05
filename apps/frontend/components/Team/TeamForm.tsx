@@ -5,9 +5,10 @@ import {
   CloseButton,
   Group,
   MantineColor,
-  MultiSelectValueProps, SelectItemProps,
+  MultiSelectValueProps,
+  SelectItemProps,
   Stack,
-  Text
+  Text,
 } from '@mantine/core';
 import { User } from '@prisma/client';
 import { FormikMultiSelect } from 'components/formik/FormikMultiSelect';
@@ -27,7 +28,7 @@ import {
   PlusCircle,
   Star,
   UsersFour,
-  UsersThree
+  UsersThree,
 } from 'phosphor-react';
 import { forwardRef, memo } from 'react';
 import { AttendeeWithUser } from 'types/api/atendee';
@@ -196,7 +197,7 @@ const Value = ({
         }`,
         paddingLeft: 8,
         borderRadius: 4,
-        margin: '0 2px',
+        margin: '2px 2px',
       })}
     >
       <Group spacing={6}>
