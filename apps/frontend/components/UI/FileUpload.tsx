@@ -58,6 +58,7 @@ export const FileUpload = ({
     <Box
       sx={{
         width: '100%',
+        flex: 1,
       }}
     >
       {url && (

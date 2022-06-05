@@ -36,8 +36,8 @@ const QuestionImageUploadField = ({
 
   return (
     <Stack spacing={6} sx={{ flex: 1 }}>
-      <FileUpload uploadFile={uploadFile} url={url} loading={loading} />
-      {url && !disabled && (
+      <FileUpload  uploadFile={uploadFile} url={url} loading={loading} />
+      {(url || !disabled) && (
         <Group position="right" spacing={4} mb="sm">
           {url && (
             <Tooltip label="Remove image" position="top" placement="end">
