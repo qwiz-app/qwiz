@@ -20,12 +20,18 @@ export const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
 
   // TODO: outdated role after role modal
   // const role = getFromCookie(cookie, 'role');
+  console.log(req.url, sessionToken);
 
-  if (!isApiUrl(req.url) && isWhitelistedUrl(req.nextUrl.pathname))
+  if (!isApiUrl(req.url) && isWhitelistedUrl(req.nextUrl.pathname)) {
+    console.log('whitelisted', req.nextUrl.pathname);
+
     return NextResponse.next();
+  }
 
   // if signed in, redirect to homepage when navigating to /signin
+
   if (sessionToken && isSignInUrl(req.url)) {
+    console.log(req.url, sessionToken);
     return NextResponse.redirect(new URL('/', req.nextUrl.origin));
   }
 

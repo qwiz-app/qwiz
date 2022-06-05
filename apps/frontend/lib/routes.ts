@@ -11,16 +11,19 @@ export const whitelistedUrls = [
 export const organizationUrls = ['/quiz'];
 
 export const isOrganizationUrl = (url: string) =>
-  organizationUrls.some((route) => url.startsWith(route));
+  organizationUrls.includes(url);
 
-export const isWhitelistedUrl = (url: string) =>
-  whitelistedUrls.some((route) => url.startsWith(route));
+export const isWhitelistedUrl = (url: string) => whitelistedUrls.includes(url);
 
 export const isVercelEnv = () => config.vercel === '1';
 
-export const isApiUrl = (url: string) => url.startsWith('/api');
+export const isApiUrl = (url: string) => {
+  const splitUrl = url.split('/');
 
-export const isSignInUrl = (url: string) => url.startsWith('/signin');
+  return splitUrl.includes('api');
+};
+
+export const isSignInUrl = (url: string) => url.includes('signin');
 
 export const cookieToObject = (cookie: string) =>
   cookie
