@@ -1,11 +1,11 @@
 import config from './config';
 
-// TODO: how to check for ids
 export const whitelistedUrls = [
-  '/',
-  '/verify-request',
-  '/events',
-  '/organizations',
+  '',
+  'verify-request',
+  'events',
+  'organizations',
+  'pdf',
 ];
 
 export const organizationUrls = ['/quiz'];
@@ -13,7 +13,11 @@ export const organizationUrls = ['/quiz'];
 export const isOrganizationUrl = (url: string) =>
   organizationUrls.includes(url);
 
-export const isWhitelistedUrl = (url: string) => whitelistedUrls.includes(url);
+export const isWhitelistedUrl = (url: string) => {
+  const splitUrl = url.split('/')[1];
+
+  return whitelistedUrls.includes(splitUrl);
+};
 
 export const isVercelEnv = () => config.vercel === '1';
 
