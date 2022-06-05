@@ -15,7 +15,7 @@ import { useCurrentQuiz } from './use-current-quiz';
 export const SidePanelSettings = (props) => {
   const { uploadFile, loading, url } = useFileUpload();
   const router = useRouter();
-  const { mutate: generatePdf, data: pdf, isLoading } = useGeneratePdf();
+  const { mutate: generatePdf, isLoading } = useGeneratePdf();
 
   const { quiz, id } = useCurrentQuiz();
   const { mutate: updateQuiz } = useQuizUpdate(id);
@@ -55,9 +55,18 @@ export const SidePanelSettings = (props) => {
   const isPublished = quiz?._count?.event > 0 ?? false;
 
   const exportHandler = () => {
-    generatePdf({
-      id,
-    });
+    generatePdf(
+      {
+        id,
+      },
+      {
+        onSuccess: ({ url: pdfUrl }) => {
+          setTimeout(() => {
+            window.open(pdfUrl, '_blank');
+          }, 500);
+        },
+      }
+    );
   };
 
   return (
@@ -82,18 +91,8 @@ export const SidePanelSettings = (props) => {
             size="md"
             loading={isLoading}
           >
-            Export as PDF..
+            Export as PDF
           </Button>
-          {pdf && (
-            <Button
-              size="md"
-              variant="outline"
-              onClick={() => window.open(pdf.url)}
-              leftIcon={<FilePdf size={22} weight="duotone" />}
-            >
-              View PDF
-            </Button>
-          )}
           <Tooltip
             position="bottom"
             label="Quiz is already being used in an event"
