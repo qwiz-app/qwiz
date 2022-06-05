@@ -16,7 +16,7 @@ import { useCurrentQuiz } from './use-current-quiz';
 export const SidePanelSettings = (props) => {
   const { uploadFile, loading, url } = useFileUpload();
   const router = useRouter();
-  const { mutate: generatePdf, data: pdf } = useGeneratePdf();
+  const { mutate: generatePdf, data: pdf, isLoading } = useGeneratePdf();
 
   const { quiz, id } = useCurrentQuiz();
   const { mutate: updateQuiz } = useQuizUpdate(id);
@@ -64,7 +64,7 @@ export const SidePanelSettings = (props) => {
   return (
     <SidePanelWrapper title="Settings">
       <Stack>
-        <Stack>
+        <Stack spacing={4}>
           <Title order={6}>Thumnbail</Title>
           <FileUpload
             uploadFile={uploadFile}
@@ -72,18 +72,24 @@ export const SidePanelSettings = (props) => {
             url={url ?? quiz?.thumbnail}
           />
         </Stack>
-        <Divider />
+        <Divider labelPosition="center" label="Options" />
 
         <Stack spacing="xs">
           <Button
             leftIcon={<FilePdf size={22} weight="duotone" />}
             onClick={exportHandler}
             size="md"
+            loading={isLoading}
           >
             Export as PDF
           </Button>
           {pdf && (
-            <Button variant="outline" onClick={() => window.open(pdf.url)}>
+            <Button
+              size="md"
+              variant="outline"
+              onClick={() => window.open(pdf.url)}
+              leftIcon={<FilePdf size={22} weight="duotone" />}
+            >
               View PDF
             </Button>
           )}

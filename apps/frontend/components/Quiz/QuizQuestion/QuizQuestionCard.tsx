@@ -70,7 +70,13 @@ export const QuizQuestionCard = ({
               </Tooltip>
             </Group>
           </Group>
-          <Text size="md" weight="600" color="gray">
+          <Text
+            size="md"
+            weight="600"
+            color="gray"
+            sx={{ lineHeight: 1.4 }}
+            lineClamp={2}
+          >
             {primaryTextualContent}
           </Text>
         </Stack>
