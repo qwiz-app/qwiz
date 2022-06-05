@@ -6,7 +6,7 @@ import {
   NotFoundException,
   Param,
   Patch,
-  Post
+  Post,
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { SlideService } from './slide.service';
@@ -22,6 +22,8 @@ export class SlideController {
         question: {
           include: {
             contents: true,
+            categories: true,
+            answers: true,
           },
         },
       },

@@ -1,9 +1,4 @@
-import {
-  Box,
-  createStyles,
-  Group,
-  Paper, Title
-} from '@mantine/core';
+import { Box, createStyles, Group, Paper, Title } from '@mantine/core';
 import { ThinScrollArea } from 'components/UI/ThinScrollArea';
 import { ReactNode } from 'react';
 

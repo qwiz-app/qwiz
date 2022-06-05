@@ -1,5 +1,4 @@
 import {
-  Alert,
   Anchor,
   AspectRatio,
   Box,
@@ -9,7 +8,7 @@ import {
   LoadingOverlay,
   Paper,
   Stack,
-  Text,
+  Text
 } from '@mantine/core';
 import PeepDark from 'assets/peeps/slide/peep-slide-dark.svg';
 import Peep from 'assets/peeps/slide/peep-slide.svg';
@@ -19,8 +18,8 @@ import { useQuestionContents } from 'hooks/use-question-contents';
 import NextImage from 'next/image';
 import { useRouter } from 'next/router';
 import { paths } from 'paths';
-import { WarningCircle } from 'phosphor-react';
 import { QuestionWithContentAndCategoriesAndMode } from 'types/api/question';
+import { EmptySlideAlert } from './EmptySlideAlert';
 import { useCurrentQuiz } from './use-current-quiz';
 import { useCurrentSlide } from './use-current-slide';
 
@@ -35,14 +34,12 @@ export const MainSlide = ({ question }: Props) => {
 
   const { id: quizId } = useCurrentQuiz();
   const { data: slides, isLoading: isSlidesLoading } = useSlides(quizId);
-  const { slide, isLoading } = useCurrentSlide();
+  const { slide, isLoading, hasQuestion } = useCurrentSlide();
   const { mutate: createSlide } = useSlideCreate();
   const hasSlides = !isSlidesLoading && !!slides?.length;
 
   const { textualContent, imageContent, hasImageContent, hasTextualContent } =
     useQuestionContents(slide?.quizQuestion?.question);
-
-  const hasNoQuestion = !slide?.quizQuestion?.id && !isLoading;
 
   const handleCreateSlide = () => {
     createSlide(
@@ -108,19 +105,8 @@ export const MainSlide = ({ question }: Props) => {
           </Stack>
         </Paper>
       </AspectRatio>
-      {hasSlides && hasNoQuestion && (
-        <Alert
-          icon={<WarningCircle size={16} />}
-          title="Empty slide"
-          radius="md"
-          variant="light"
-          mt="sm"
-          sx={() => ({
-            maxWidth: 350,
-          })}
-        >
-          Slide has no question assigned.
-        </Alert>
+      {hasSlides && !hasQuestion && (
+        <EmptySlideAlert />
       )}
     </Box>
   );

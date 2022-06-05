@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { OptionsSideBar } from './OptionsSideBar';
-import { SidePanelAnswers } from './SidePanelAnswers';
 import { SidePanelQuestions } from './SidePanelQuestions';
+import { SidePanelSelectedQuestion } from './SidePanelSelectedQuestion';
 import { SidePanelSettings } from './SidePanelSettings';
 
 export const QuizRightSide = (props) => {
@@ -15,7 +15,7 @@ export const QuizRightSide = (props) => {
     <>
       <>
         {is(0) && <SidePanelQuestions />}
-        {is(1) && <SidePanelAnswers />}
+        {is(1) && <SidePanelSelectedQuestion />}
         {is(2) && <SidePanelSettings />}
       </>
       <OptionsSideBar active={activePanel} onSelect={setActivePanelHandler} />

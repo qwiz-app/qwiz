@@ -12,13 +12,14 @@ import { OrganizationWithUser } from './organization';
 export type QuestionWithContentAndAnswers = Question & {
   contents: QuestionContent[];
   answers: Answer[];
+  categories?: QuestionCategory[];
 };
 
-export type QuestionWithContentAndCategoriesAndMode = QuestionWithContentAndAnswers & {
-  owner?: OrganizationWithUser;
-  categories?: QuestionCategory[];
-  questionMode?: QuestionMode;
-};
+export type QuestionWithContentAndCategoriesAndMode =
+  QuestionWithContentAndAnswers & {
+    owner?: OrganizationWithUser;
+    questionMode?: QuestionMode;
+  };
 
 export type QuestionCreateWithContentInput = Prisma.QuestionCreateInput & {
   contents: Prisma.QuestionContentCreateWithoutQuestionInput[];

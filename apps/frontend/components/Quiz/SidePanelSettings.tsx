@@ -1,4 +1,4 @@
-import { Button, Divider, Stack, Title, Tooltip } from '@mantine/core';
+import { Button, Divider, Stack, Text, Tooltip } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { FileUpload } from 'components/UI/FileUpload';
 import { useGeneratePdf } from 'hooks/api/aws';
@@ -65,7 +65,9 @@ export const SidePanelSettings = (props) => {
     <SidePanelWrapper title="Settings">
       <Stack>
         <Stack spacing={4}>
-          <Title order={6}>Thumnbail</Title>
+         <Text weight={600} size="md">
+           Thumnbail
+         </Text>
           <FileUpload
             uploadFile={uploadFile}
             loading={loading}

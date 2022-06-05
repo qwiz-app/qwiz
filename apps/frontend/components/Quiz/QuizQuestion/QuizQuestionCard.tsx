@@ -8,7 +8,7 @@ import {
   Stack,
   Text,
   Tooltip,
-  UnstyledButton,
+  UnstyledButton
 } from '@mantine/core';
 import { useQuestionContents } from 'hooks/use-question-contents';
 import { formatDate, relativeTimeTo } from 'lib/utils';
@@ -37,7 +37,7 @@ export const QuizQuestionCard = ({
     onUseQuestion(question.id);
   };
 
-  const isSelected = question.id === slide?.quizQuestion?.questionId;
+  const isSelected = question?.id === slide?.quizQuestion?.questionId;
 
   return (
     <UnstyledButton

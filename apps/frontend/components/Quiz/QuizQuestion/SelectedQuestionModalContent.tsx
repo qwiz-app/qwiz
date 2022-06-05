@@ -9,7 +9,7 @@ import {
   Stack,
   Text,
   Title,
-  Tooltip,
+  Tooltip
 } from '@mantine/core';
 import { useQuestionContents } from 'hooks/use-question-contents';
 import { formatDate, relativeTimeTo } from 'lib/utils';
@@ -28,6 +28,8 @@ export const SelectedQuestionModalContent = ({ question }: Props) => {
     hasImageContent,
     hasCategories,
   } = useQuestionContents(question);
+
+  const hasAnswers = question?.answers?.length > 0;
 
   return (
     <Box>
@@ -117,11 +119,17 @@ export const SelectedQuestionModalContent = ({ question }: Props) => {
             Answers
           </Badge>
           <Group align="start" spacing={8}>
-            {['answer1', 'answer2'].map((elem) => (
-              <Badge variant="light" key={elem} radius="sm" size="md">
-                {elem}
+            {hasAnswers ? (
+              question?.answers.map((answer) => (
+                <Badge variant="light" key={answer.id} radius="sm" size="md">
+                  {answer.answer}
+                </Badge>
+              ))
+            ) : (
+              <Badge p="sm" radius="sm" color="red">
+                Unknown
               </Badge>
-            ))}
+            )}
           </Group>
         </Paper>
 
