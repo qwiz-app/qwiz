@@ -16,7 +16,7 @@ export const useQuestionDelete = (id: string) => {
 
       queryClient.setQueryData(
         'questionsByMe',
-        previousQuestionsByMe.filter((quiz) => quiz.id !== id)
+        previousQuestionsByMe?.filter((question) => question.id !== id) ?? []
       );
 
       const previousQuestions = queryClient.getQueryData(
@@ -25,7 +25,7 @@ export const useQuestionDelete = (id: string) => {
 
       queryClient.setQueryData(
         'questions',
-        previousQuestions.filter((quiz) => quiz.id !== id)
+        previousQuestions?.filter((question) => question.id !== id) ?? []
       );
 
       return { previousQuestionsByMe, previousQuestions };
@@ -54,6 +54,7 @@ export const useQuestionDelete = (id: string) => {
     onSuccess: () => {
       queryClient.invalidateQueries('questions');
       queryClient.invalidateQueries('questionsByMe');
+      queryClient.invalidateQueries('questionsAll');
     },
   });
 };

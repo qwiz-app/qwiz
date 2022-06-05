@@ -31,7 +31,10 @@ export const useQuestionUpdate = (id: string) => {
         queryClient.setQueryData('questions', updatedQuestions);
         queryClient.setQueryData('questionsByMe', updatedQuestionsByMe);
 
-        return { previousQuestions, previousQuestionsByMe };
+        return {
+          previousQuestions,
+          previousQuestionsByMe,
+        };
       },
       onError(
         err,
@@ -39,6 +42,7 @@ export const useQuestionUpdate = (id: string) => {
         context: {
           previousQuestions: QuestionWithContentAndCategoriesAndMode[];
           previousQuestionsByMe: QuestionWithContentAndCategoriesAndMode[];
+          previousQuestionsAll: QuestionWithContentAndCategoriesAndMode[];
         }
       ) {
         if (context?.previousQuestions) {
@@ -58,6 +62,7 @@ export const useQuestionUpdate = (id: string) => {
       onSettled: () => {
         queryClient.invalidateQueries(['questions']);
         queryClient.invalidateQueries(['questionsByMe']);
+        queryClient.invalidateQueries(['questionsAll']);
       },
     }
   );

@@ -8,6 +8,7 @@ export const useQuestionCreate = () => {
     onSuccess: () => {
       queryClient.invalidateQueries('questions');
       queryClient.invalidateQueries('questionsByMe');
+      queryClient.invalidateQueries('questionsAll');
     },
   });
 };

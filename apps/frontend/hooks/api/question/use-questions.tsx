@@ -5,12 +5,17 @@ import {
   fetchQuestionsByMe,
 } from 'services/api/questions';
 
-export const useAvailableQuestions = () =>
-  useQuery('questions', fetchAvailableQuestions);
-
-export const useMyQuestions = (isOrg = true) =>
-  useQuery('questionsByMe', fetchQuestionsByMe, {
-    enabled: isOrg,
+export const useAvailableQuestions = (enabled = true) =>
+  useQuery('questions', fetchAvailableQuestions, {
+    enabled,
   });
 
-export const useAllQuestions = () => useQuery('questions', fetchAllQuestions);
+export const useMyQuestions = (enabled = true) =>
+  useQuery('questionsByMe', fetchQuestionsByMe, {
+    enabled,
+  });
+
+export const useAllQuestions = (enabled = true) =>
+  useQuery('questionsAll', fetchAllQuestions, {
+    enabled,
+  });

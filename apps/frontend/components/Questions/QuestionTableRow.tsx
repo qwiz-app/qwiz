@@ -7,13 +7,14 @@ import {
   Group,
   Stack,
   Text,
-  Tooltip
+  Tooltip,
 } from '@mantine/core';
 import { useModals } from '@mantine/modals';
 import { showNotification } from '@mantine/notifications';
 import { QuestionElementType } from '@prisma/client';
 import { SelectedQuestionModalContent } from 'components/Quiz/QuizQuestion/SelectedQuestionModalContent';
 import { useQuestionDelete, useQuestionUpdate } from 'hooks/api/question';
+import { useCurrentUser } from 'hooks/api/users';
 import { useDeleteConfirmModal } from 'hooks/use-delete-confirm-modal';
 import { useQuestionContents } from 'hooks/use-question-contents';
 import { DateTimeFormat, formatDate } from 'lib/utils';
@@ -29,16 +30,16 @@ export const QuestionTableRow = ({ question, onRowClick }: Props) => {
   const { classes } = useStyles();
   const { textualContent, imageContent, categories, hasCategories } =
     useQuestionContents(question);
-  const categoryLimit = 2;
+  const { isAdmin } = useCurrentUser();
+  const { mutate: deleteQuestion } = useQuestionDelete(question.id);
+  const { mutate: updateQuestion } = useQuestionUpdate(question.id);
   const modals = useModals();
+  const categoryLimit = 2;
 
   const rowClickHandler = (e) => {
     openQuestionDetailsModal();
     onRowClick?.(question);
   };
-
-  const { mutate: deleteQuestion } = useQuestionDelete(question.id);
-  const { mutate: updateQuestion } = useQuestionUpdate(question.id);
 
   const openDeleteConfirmModal = useDeleteConfirmModal({
     onConfirm: () => {
@@ -54,11 +55,9 @@ export const QuestionTableRow = ({ question, onRowClick }: Props) => {
   });
 
   const toggleActiveState = () => {
-    updateQuestion(
-      {
-        isActive: !question.isActive,
-      },
-    );
+    updateQuestion({
+      isActive: !question.isActive,
+    });
     modals.closeAll();
   };
 
@@ -71,7 +70,7 @@ export const QuestionTableRow = ({ question, onRowClick }: Props) => {
       children: (
         <Stack pt={4}>
           <SelectedQuestionModalContent question={question} />
-          {!isGlobal && (
+          {(!isGlobal || isAdmin) && (
             <Group position="right">
               {question?.isActive ? (
                 <Button
