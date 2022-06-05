@@ -5,7 +5,7 @@ import {
   QuestionCategory,
   QuestionContent,
   QuestionMode,
-  QuizQuestion
+  QuizQuestion,
 } from '@prisma/client';
 import { OrganizationWithUser } from './organization';
 
@@ -23,7 +23,7 @@ export type QuestionWithContentAndCategoriesAndMode =
 
 export type QuestionCreateWithContentInput = Prisma.QuestionCreateInput & {
   contents: Prisma.QuestionContentCreateWithoutQuestionInput[];
-  answers: Prisma.AnswerCreateInput[];
+  answers?: Prisma.AnswerCreateInput[];
   categories?: Prisma.QuestionCategoryWhereUniqueInput[];
 };
 
