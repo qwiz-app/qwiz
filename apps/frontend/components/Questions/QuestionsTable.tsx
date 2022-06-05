@@ -7,12 +7,12 @@ import {
   ScrollArea,
   Stack,
   Table,
-  TextInput,
+  TextInput
 } from '@mantine/core';
-import { QuestionElementType } from '@prisma/client';
 import { QuestionCreateModal } from 'components/Quiz/QuizQuestion/QuizQuestionCreateModal';
 import { useInputAccentStyles } from 'components/UI/use-input-styles';
 import { useAppColorscheme } from 'hooks/colorscheme';
+import { filterQuestions } from 'lib/questions';
 import { MagnifyingGlass, TextT } from 'phosphor-react';
 import { ChangeEvent, useMemo, useState } from 'react';
 import { QuestionWithContentAndCategoriesAndMode } from 'types/api/question';
@@ -21,24 +21,6 @@ import { QuestionTableRow } from './QuestionTableRow';
 interface Props {
   questions: QuestionWithContentAndCategoriesAndMode[];
   loading?: boolean;
-}
-
-type RowData = QuestionWithContentAndCategoriesAndMode;
-
-function filterData(data: RowData[], search: string) {
-  const query = search.toLowerCase().trim();
-  const keys = data?.[0] ? Object.keys(data[0]) : [];
-  return data?.filter((item) =>
-    keys.some((key) => {
-      const textualContent =
-        item.contents
-          ?.filter((c) => c.type === QuestionElementType.TEXT)
-          .map((c) => c.content.toLowerCase()) ?? [];
-      const categories =
-        item.categories?.map((c) => c.name.toLowerCase()) ?? [];
-      return [...textualContent, ...categories].some((c) => c.includes(query));
-    })
-  );
 }
 
 export const QuestionsTable = ({ questions, loading }: Props) => {
@@ -65,7 +47,7 @@ export const QuestionsTable = ({ questions, loading }: Props) => {
   };
 
   const sortedData = useMemo(
-    () => filterData(questions, search),
+    () => filterQuestions(questions, search),
     [questions, search]
   );
 
@@ -103,7 +85,7 @@ export const QuestionsTable = ({ questions, loading }: Props) => {
             classNames={inputClasses}
           />
           <Button
-            leftIcon={<TextT size={20} weight="duotone" />}
+            leftIcon={<TextT size={22} weight="duotone" />}
             variant={isDark ? 'light' : 'filled'}
             color={isDark ? 'orange' : 'dark'}
             size="md"

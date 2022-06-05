@@ -4,25 +4,28 @@ import {
   Chip,
   Chips,
   Collapse,
+  Divider,
   FloatingTooltip,
   Group,
   LoadingOverlay,
   Overlay,
   Skeleton,
   Stack,
+  TextInput,
   Tooltip,
 } from '@mantine/core';
 import { useModals } from '@mantine/modals';
-import { FramerAnimatedListItem } from 'components/Framer/FramerAnimatedListItem';
+import { useInputAccentStyles } from 'components/UI/use-input-styles';
 import { useCurrentOrganizationInfo } from 'hooks/api/organizations';
 import { useAvailableQuestions } from 'hooks/api/question';
 import { useQuizQuestionCreate } from 'hooks/api/quiz-question/use-quiz-question-create';
 import { useQuizQuestionUpdate } from 'hooks/api/quiz-question/use-quiz-question-update';
 import { useSlides } from 'hooks/api/slide';
 import { useAppColorscheme } from 'hooks/colorscheme';
+import { filterQuestions } from 'lib/questions';
 import { generateArrayForRange } from 'lib/utils';
-import { Sliders } from 'phosphor-react';
-import { useMemo, useState } from 'react';
+import { MagnifyingGlass, Sliders } from 'phosphor-react';
+import { ChangeEvent, useMemo, useState } from 'react';
 import { QuestionWithContentAndCategoriesAndMode } from 'types/api/question';
 import { QuizQuestionCard } from './QuizQuestion/QuizQuestionCard';
 import { SelectedQuestionModalContent } from './QuizQuestion/SelectedQuestionModalContent';
@@ -37,24 +40,37 @@ export const SidePanelQuestions = () => {
   const { data: slides } = useSlides(quizId);
   const { theme, isDark } = useAppColorscheme();
   const modals = useModals();
+  const { classes: inputClasses } = useInputAccentStyles();
 
   const hasSlides = slides?.length > 0;
 
   const [filtersOpened, setFiltersOpened] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState('all');
 
+  const [search, setSearch] = useState('');
+
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.currentTarget;
+    setSearch(value);
+  };
+
+  const sortedData = useMemo(
+    () => filterQuestions(questions, search),
+    [questions, search]
+  );
+
   const shownQuestions = useMemo(() => {
     if (selectedFilter === 'all') {
-      return questions;
+      return sortedData;
     }
     if (selectedFilter === 'global') {
-      return questions.filter((question) => question.ownerId === null);
+      return sortedData.filter((question) => question.ownerId === null);
     }
     if (selectedFilter === 'personal') {
-      return questions.filter((question) => question.ownerId === me.id);
+      return sortedData.filter((question) => question.ownerId === me.id);
     }
-    return [];
-  }, [selectedFilter, questions]);
+    return questions;
+  }, [selectedFilter, sortedData, questions]);
 
   const questionUseHandler = (
     question: QuestionWithContentAndCategoriesAndMode,
@@ -136,16 +152,31 @@ export const SidePanelQuestions = () => {
         )}
         <Collapse in={filtersOpened} mb={12}>
           <Stack>
-            <Chips
-              multiple={false}
-              value={selectedFilter}
-              onChange={setSelectedFilter}
+            <Stack>
+              <Chips
+                multiple={false}
+                value={selectedFilter}
+                onChange={setSelectedFilter}
+                size="xs"
+                spacing={4}
+                variant="outline"
+                color={isDark && 'orange'}
+              >
+                <Chip value="all">All</Chip>
+                <Chip value="global">Global</Chip>
+                <Chip value="personal">Personal</Chip>
+              </Chips>
+            </Stack>
+            <TextInput
+              sx={() => ({ flex: 1 })}
+              placeholder="Search questions"
               size="sm"
-            >
-              <Chip value="all">All</Chip>
-              <Chip value="global">Global</Chip>
-              <Chip value="personal">Personal</Chip>
-            </Chips>
+              value={search}
+              onChange={handleSearchChange}
+              icon={<MagnifyingGlass size={18} weight="duotone" />}
+              classNames={inputClasses}
+            />
+            <Divider label="Results" labelPosition="center" />
           </Stack>
         </Collapse>
 
@@ -156,13 +187,12 @@ export const SidePanelQuestions = () => {
                 <Skeleton key={n} visible height={120} radius="md" />
               ))
             : shownQuestions?.map((question) => (
-                <FramerAnimatedListItem key={question.id} id={question.id}>
-                  <QuizQuestionCard
-                    question={question}
-                    onSelect={openQuestionModal}
-                    onUseQuestion={questionUseSelectedHandler}
-                  />
-                </FramerAnimatedListItem>
+                <QuizQuestionCard
+                  key={question.id}
+                  question={question}
+                  onSelect={openQuestionModal}
+                  onUseQuestion={questionUseSelectedHandler}
+                />
               ))}
         </Stack>
       </SidePanelWrapper>
