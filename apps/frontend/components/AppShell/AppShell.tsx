@@ -38,8 +38,6 @@ export const AppShell = ({ children }) => {
   const closeNav = () => setOpened(false);
 
   const logo = isDark ? LogoWhite : LogoDark;
-  // TODO: fix navbar height on mobile
-  // TODO: close mobile drawer after action or navigating
   const Navbar = (
     <MantineNavbar
       hiddenBreakpoint="sm"
@@ -85,7 +83,7 @@ export const AppShell = ({ children }) => {
   );
 
   // TODO: for now, Navbar and Header cant be custom components for Mantine to do its magic
-  // TODO: find a way to extract them into their own components
+  //  find a way to extract them into their own components
   const Header = (
     <MantineHeader height={60} p="sm" fixed px={20}>
       <Group

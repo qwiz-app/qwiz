@@ -36,7 +36,6 @@ export const ImageCard = ({ event, loading }: Props) => {
           className={cn(classes.base, classes.card, classesCard.card)}
         >
           <Box
-            // TODO: placeholder gradient or something
             className={classes.image}
             style={{
               backgroundImage: `url(${event.banner})`,
@@ -74,7 +73,6 @@ export const ImageCard = ({ event, loading }: Props) => {
                     })}
                   >
                     <Avatar
-                      // TODO: placeholder
                       src={event.owner.user.image}
                       size={20}
                       radius="xl"

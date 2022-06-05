@@ -16,7 +16,6 @@ export class SlideController {
   constructor(private readonly slideService: SlideService) {}
 
   includeAll: Prisma.QuizSlideInclude = {
-    elements: true,
     quizQuestion: {
       include: {
         question: {

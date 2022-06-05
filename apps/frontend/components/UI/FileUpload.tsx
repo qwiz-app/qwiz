@@ -24,6 +24,7 @@ export interface FileUploadProps {
   type?: 'image' | 'audio' | 'video';
   url: string;
   uploadFile: (selectedFile: File) => void;
+  clearUploadedFile?: () => void;
   loading?: boolean;
   maxSize?: number;
 }
@@ -47,6 +48,7 @@ export const FileUpload = ({
   loading,
   //! in megabytes
   maxSize = 8,
+  clearUploadedFile,
 }: FileUploadProps) => {
   const { theme } = useAppColorscheme();
   const { classes } = useStyles();
@@ -58,7 +60,15 @@ export const FileUpload = ({
         width: '100%',
       }}
     >
-      {url && <ImageCard image={url} openDropzone={() => openRef.current()} />}
+      {url && (
+        <ImageCard
+          image={url}
+          openDropzone={() => {
+            clearUploadedFile?.();
+            openRef?.current?.();
+          }}
+        />
+      )}
       <Dropzone
         onDrop={(file) => uploadFile(file[0])}
         onReject={() =>
@@ -190,6 +200,10 @@ interface ImageCardProps {
 const ImageCard = ({ image, openDropzone }: ImageCardProps) => {
   const { classes } = useStyles();
 
+  const replaceHandler = () => {
+    openDropzone();
+  };
+
   return (
     <FloatingTooltip label="Click to replace image" sx={{ width: '100%' }}>
       <Card
@@ -197,7 +211,7 @@ const ImageCard = ({ image, openDropzone }: ImageCardProps) => {
         shadow="lg"
         className={classes.card}
         radius="md"
-        onClick={openDropzone}
+        onClick={replaceHandler}
       >
         <div
           className={classes.image}

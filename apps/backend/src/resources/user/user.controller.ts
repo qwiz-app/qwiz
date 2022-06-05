@@ -81,7 +81,6 @@ export class UserController {
     return user;
   }
 
-  // TODO: dont allow changing roles
   @Patch('me')
   updateCurrent(
     @Body() updateUserDto: Prisma.UserUpdateInput,

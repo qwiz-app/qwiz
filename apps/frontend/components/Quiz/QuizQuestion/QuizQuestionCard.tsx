@@ -7,8 +7,7 @@ import {
   Paper,
   Stack,
   Text,
-  Tooltip,
-  UnstyledButton
+  Tooltip
 } from '@mantine/core';
 import { useQuestionContents } from 'hooks/use-question-contents';
 import { formatDate, relativeTimeTo } from 'lib/utils';
@@ -40,10 +39,7 @@ export const QuizQuestionCard = ({
   const isSelected = question?.id === slide?.quizQuestion?.questionId;
 
   return (
-    <UnstyledButton
-      onClick={() => onSelect(question)}
-      className={classes.btnWrapper}
-    >
+    <Box onClick={() => onSelect(question)} className={classes.btnWrapper}>
       <Paper withBorder p="sm" radius="md" className={classes.cardPaper}>
         <Stack spacing="sm">
           <Group spacing={4} align="center" position="apart">
@@ -111,13 +107,14 @@ export const QuizQuestionCard = ({
           </Group>
         </Stack>
       </Paper>
-    </UnstyledButton>
+    </Box>
   );
 };
 
 const useStyles = createStyles((theme) => ({
   btnWrapper: {
     width: '100%',
+    cursor: 'pointer',
   },
 
   cardPaper: {

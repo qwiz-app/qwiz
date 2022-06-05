@@ -117,7 +117,6 @@ export const QuizCard = ({
           )}
         </Skeleton>
 
-        {/* TODO: tooltip */}
         <Box className={classes.accessBadge}>
           <ThemeIcon variant="filled" size="md">
             {isPublished ? (

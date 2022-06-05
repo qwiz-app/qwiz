@@ -12,7 +12,6 @@ export type SlideElementWithQuestionContentAndPoint = QuizSlideElement & {
   questionContent: QuestionContent;
 };
 
-export type SlideWithQuestionAndElements = QuizSlide & {
+export type SlideWithQuestion = QuizSlide & {
   quizQuestion: QuizQuestionWithContents;
-  elements: SlideElementWithQuestionContentAndPoint[];
 };

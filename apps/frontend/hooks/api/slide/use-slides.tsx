@@ -19,6 +19,5 @@ const placeholderData = generateArrayForRange(5).map((_, idx) => ({
   quizId: '',
   ordinal: 1,
   backgroundColor: null,
-  elements: [],
   quizQuestion: null,
 }));

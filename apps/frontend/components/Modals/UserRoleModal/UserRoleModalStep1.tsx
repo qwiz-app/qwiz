@@ -63,7 +63,6 @@ const useStyles = createStyles((theme) => {
       borderWidth: 4,
       borderStyle: 'solid',
       borderColor:
-        // TODO: correct color aligned with mantine theme
         selectedRole === Role.ORGANIZATION
           ? theme.colors.violet[6]
           : theme.colors.yellow[6],

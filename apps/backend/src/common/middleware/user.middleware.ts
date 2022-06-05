@@ -33,9 +33,6 @@ export class AuthMiddleware implements NestMiddleware {
         where: { sessionToken },
         include: {
           user: {
-            // TODO: should we include on every request,
-            // or should we check specific router,
-            // or should we not include at all?
             include: {
               organization: true,
               attendee: true,

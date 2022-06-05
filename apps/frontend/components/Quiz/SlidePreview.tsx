@@ -4,7 +4,7 @@ import {
   createStyles,
   LoadingOverlay,
   Menu,
-  Text,
+  Text
 } from '@mantine/core';
 import cn from 'classnames';
 import { useSlideDelete, useSlides } from 'hooks/api/slide';
@@ -22,15 +22,15 @@ import {
   NumberCircleThree,
   NumberCircleTwo,
   NumberCircleZero,
-  TrashSimple,
+  TrashSimple
 } from 'phosphor-react';
 import { SyntheticEvent } from 'react';
-import { SlideWithQuestionAndElements } from 'types/api/slide';
+import { SlideWithQuestion } from 'types/api/slide';
 import { useCurrentQuiz } from './use-current-quiz';
 import { useCurrentSlide } from './use-current-slide';
 
 interface Props {
-  slide: SlideWithQuestionAndElements;
+  slide: SlideWithQuestion;
   selectedSlideId: string;
   order: number;
   onSlideClick: (slideId: string) => void;
@@ -74,7 +74,6 @@ export const SlidePreview = ({
 
   const isSelected = selectedSlideId === slide.id;
 
-  // TODO: could be much more robust
   const slideDeleteHandler = async (e: SyntheticEvent) => {
     e.stopPropagation();
     if (isSelected) {

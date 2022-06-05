@@ -183,7 +183,6 @@ const useSpotlightActions = () => {
     },
   ];
 
-  // TODO: configure showing auth vs non-auth options
   const generalActions: SpotlightItem[] = [
     {
       title: 'Switch theme',

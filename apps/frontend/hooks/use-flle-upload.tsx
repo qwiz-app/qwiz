@@ -34,11 +34,17 @@ export const useFileUpload = () => {
     setUploadedFile(config.aws.bucketUrl + hashedFile);
   };
 
+  const clearUploadedFile = () => {
+    console.log('clear');
+    setUploadedFile(null);
+  };
+
   const loading = uploadingStatus === 'UPLOADING';
 
   return {
     uploadFile,
     uploadingStatus,
+    clearUploadedFile,
     loading,
     url: uploadedFile,
   };

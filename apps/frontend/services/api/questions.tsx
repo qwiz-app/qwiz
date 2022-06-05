@@ -26,11 +26,9 @@ export const createQuestion = (data: QuestionCreateWithContentInput) =>
     .post<QuestionWithContentAndCategoriesAndMode>(`/api/questions`, data)
     .then(parseData);
 
-// TODO: use mutation
-// export const updateQuestion = (id: string, data: Prisma.QuestionUpdateInput) =>
-//   http.patch<{ count: number }>(`/api/questions/${id}`, data).then(parseData);
+export const updateQuestion = (id: string, data: Prisma.QuestionUpdateInput) =>
+  http.patch<{ count: number }>(`/api/questions/${id}`, data).then(parseData);
 
-// TODO: use mutation
 export const deleteQuestion = (id: string) =>
   http.delete<{ count: number }>(`/api/questions/${id}`).then(parseData);
 

@@ -1,6 +1,5 @@
 import { createStyles } from '@mantine/core';
 
-// TODO: same stzles used bz quiz card, create generic card wrapper
 export const useCardStyles = createStyles((theme) => {
   return {
     card: {

@@ -1,7 +1,7 @@
 import { onError } from 'lib/axios';
 import { useQuery, useQueryClient } from 'react-query';
 import { fetchSlide } from 'services/api/slide';
-import { SlideWithQuestionAndElements } from 'types/api/slide';
+import { SlideWithQuestion } from 'types/api/slide';
 
 export const useSlide = (id: string, quizId: string) => {
   const queryClient = useQueryClient();
@@ -13,7 +13,7 @@ export const useSlide = (id: string, quizId: string) => {
       const cachedSlides = queryClient.getQueryData([
         'slides',
         quizId,
-      ]) as SlideWithQuestionAndElements[];
+      ]) as SlideWithQuestion[];
       return cachedSlides?.find((slide) => slide.id === id);
     },
   });
