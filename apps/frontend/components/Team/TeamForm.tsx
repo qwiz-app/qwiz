@@ -2,11 +2,12 @@ import {
   Avatar,
   Box,
   Button,
+  CloseButton,
   Group,
   MantineColor,
-  SelectItemProps,
+  MultiSelectValueProps, SelectItemProps,
   Stack,
-  Text,
+  Text
 } from '@mantine/core';
 import { User } from '@prisma/client';
 import { FormikMultiSelect } from 'components/formik/FormikMultiSelect';
@@ -26,7 +27,7 @@ import {
   PlusCircle,
   Star,
   UsersFour,
-  UsersThree,
+  UsersThree
 } from 'phosphor-react';
 import { forwardRef, memo } from 'react';
 import { AttendeeWithUser } from 'types/api/atendee';
@@ -75,6 +76,7 @@ export const TeamForm = memo(function TeamForm(props: Props) {
             icon={<IdentificationCard size={24} weight="duotone" />}
           />
           <FormikMultiSelect
+            valueComponent={Value}
             itemComponent={AutoCompleteItem}
             icon={<UsersThree size={24} weight="duotone" />}
             name="members"
@@ -152,12 +154,12 @@ type ItemProps = User &
 const AutoCompleteItem = forwardRef<HTMLDivElement, ItemProps>(
   ({ value, label, email, image, createdAt, ...others }: ItemProps, ref) => (
     <div ref={ref} {...others}>
-      <Group noWrap sx={() => ({ width: '100%' })}>
-        <Avatar size="md" src={image} alt="thumbnail" sx={() => ({})}>
+      <Group noWrap sx={{ width: '100%' }}>
+        <Avatar size="md" radius="xl" src={image} alt="thumbnail">
           <Star size={24} weight="duotone" />
         </Avatar>
 
-        <Box sx={() => ({ width: '100%' })}>
+        <Box sx={{ width: '100%' }}>
           <Group position="apart">
             <Text>{label}</Text>
             <Text size="xs" color="dimmed">
@@ -172,3 +174,46 @@ const AutoCompleteItem = forwardRef<HTMLDivElement, ItemProps>(
     </div>
   )
 );
+
+const Value = ({
+  label,
+  email,
+  image,
+  onRemove,
+}: MultiSelectValueProps & User) => {
+  return (
+    <Box
+      sx={(theme) => ({
+        display: 'flex',
+        cursor: 'default',
+        alignItems: 'center',
+        backgroundColor:
+          theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
+        border: `1px solid ${
+          theme.colorScheme === 'dark'
+            ? theme.colors.dark[7]
+            : theme.colors.gray[4]
+        }`,
+        paddingLeft: 8,
+        borderRadius: 4,
+        margin: '0 2px',
+      })}
+    >
+      <Group spacing={6}>
+        <Box>
+          <Avatar size="xs" src={image} alt="thumbnail" radius="xl">
+            <Star size={24} weight="duotone" />
+          </Avatar>
+        </Box>
+        <Box sx={{ lineHeight: 1, fontSize: 14 }}>{label}</Box>
+      </Group>
+      <CloseButton
+        onMouseDown={onRemove}
+        variant="transparent"
+        size={22}
+        iconSize={14}
+        tabIndex={-1}
+      />
+    </Box>
+  );
+};

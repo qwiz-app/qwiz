@@ -3,13 +3,14 @@ import {
   Badge,
   Button,
   Center,
+  CloseButton,
   Collapse,
   Divider,
   Group,
   MultiSelectValueProps,
   SelectItemProps,
   Stack,
-  Text
+  Text,
 } from '@mantine/core';
 import { QuestionCategory } from '@prisma/client';
 import { FormikMultiSelect } from 'components/formik/FormikMultiSelect';
@@ -208,12 +209,28 @@ const Value = ({
   label,
   color,
   name,
+  onRemove,
   ...others
 }: MultiSelectValueProps & QuestionCategory) => {
   return (
     <Center {...others}>
-      <Badge variant="light" color={color} size="md" radius="xl">
-        {name}
+      <Badge
+        variant="light"
+        color={color}
+        size="md"
+        radius="xl"
+        rightSection={
+          <CloseButton
+            onMouseDown={onRemove}
+            variant="transparent"
+            size={24}
+            color={color}
+            iconSize={14}
+            tabIndex={-1}
+          />
+        }
+      >
+        <Group spacing={4}>{name}</Group>
       </Badge>
     </Center>
   );

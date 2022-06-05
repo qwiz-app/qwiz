@@ -1,9 +1,4 @@
-import {
-  Button,
-  Group, SimpleGrid,
-  Stack,
-  Text
-} from '@mantine/core';
+import { Button, Group, SimpleGrid, Stack, Text } from '@mantine/core';
 import { EventAutoCompleteItem } from 'components/Event/EventAutocompleteItem';
 import { FormikAutocomplete } from 'components/formik/FormikAutocomplete';
 import { FormikDatePicker } from 'components/formik/FormikDatePicker';
@@ -28,7 +23,8 @@ import {
   NotePencil,
   PencilCircle,
   PlusCircle,
-  Queue, UsersThree
+  Queue,
+  UsersThree
 } from 'phosphor-react';
 import { memo } from 'react';
 import { EventFormValues } from 'types/forms/EventFormValues';

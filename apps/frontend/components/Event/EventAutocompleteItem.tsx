@@ -1,6 +1,6 @@
 import {
-  Avatar,
-  Box, Group, SelectItemProps, Text
+  Avatar, Box, Group, SelectItemProps,
+  Text
 } from '@mantine/core';
 import { Quiz } from '@prisma/client';
 import { formatDate } from 'lib/utils';
