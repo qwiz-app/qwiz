@@ -22,7 +22,6 @@ export class QuestionController {
   constructor(private readonly questionService: QuestionService) {}
 
   includeContentAndOwnerAndCategoriesAndMode: Prisma.QuestionInclude = {
-    contents: true,
     owner: {
       include: {
         user: {
@@ -32,6 +31,8 @@ export class QuestionController {
         },
       },
     },
+    contents: true,
+    answers: true,
     categories: true,
     _count: true,
   };
@@ -42,9 +43,11 @@ export class QuestionController {
     {
       contents,
       categories,
+      answers,
       ...createQuestionDto
     }: Prisma.QuestionCreateInput & {
       contents: Prisma.QuestionContentCreateWithoutQuestionInput[];
+      answers: Prisma.AnswerCreateWithoutQuestionInput[];
       categories?: string[];
     },
     @OrganizationEntity() organization: Organization,
@@ -59,6 +62,9 @@ export class QuestionController {
       ownerId: isAdmin ? null : orgId,
       contents: {
         create: contents,
+      },
+      answers: {
+        create: answers,
       },
       categories: {
         connect: categories?.map((id) => ({ id })),

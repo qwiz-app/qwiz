@@ -189,12 +189,11 @@ model Question {
   id             String             @id @default(cuid())
   ownerId        String?
   contents       QuestionContent[]
-  // TODO: set default question mode - single text question
+  answers        Answer[]
+  categories     QuestionCategory[]
   questionModeId Int                @default(1)
   isGlobal       Boolean            @default(false)
   isActive       Boolean            @default(true)
-  categories     QuestionCategory[]
-  answer         Answer[]
   createdAt      DateTime           @default(now())
   updatedAt      DateTime           @updatedAt
 
