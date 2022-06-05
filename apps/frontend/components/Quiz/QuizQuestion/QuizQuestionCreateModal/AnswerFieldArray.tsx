@@ -44,10 +44,9 @@ export const AnswerFieldArray = memo(function AnswerFieldArray(props: Props) {
     );
 
     return (
-      <FramerAnimatedListItem id={`answer-${index}`}>
+      <FramerAnimatedListItem id={`answer-${index}`} key={index}>
         <TextInput
           classNames={classes}
-          key={index}
           value={answer.answer}
           onChange={replaceItem}
           size="md"

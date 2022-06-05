@@ -46,7 +46,7 @@ export const TextualContentFieldArray = memo(function TextualContentFieldArray(
     );
 
     return (
-      <FramerAnimatedListItem id={`textual-content-${index}`}>
+      <FramerAnimatedListItem id={`textual-content-${index}`} key={index}>
         <Group
           align="start"
           sx={{ width: '100%' }}
@@ -56,7 +56,6 @@ export const TextualContentFieldArray = memo(function TextualContentFieldArray(
           <TextInput
             sx={{ flex: 1 }}
             classNames={classes}
-            key={index}
             value={textual.content}
             onChange={replaceItem}
             size="md"
