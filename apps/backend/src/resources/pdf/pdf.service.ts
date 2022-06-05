@@ -16,20 +16,24 @@ export class PdfService {
     private configService: ConfigService
   ) {}
 
+  quizQuestionInclude = {
+    quizQuestion: {
+      include: {
+        question: {
+          include: {
+            contents: true,
+          },
+        },
+      },
+    },
+  };
+
   findOne(where: Prisma.QuizSlideWhereUniqueInput) {
     return this.prisma.quizSlide.findUnique({
       where,
       include: {
         elements: true,
-        quizQuestion: {
-          include: {
-            question: {
-              include: {
-                contents: true,
-              },
-            },
-          },
-        },
+        ...this.quizQuestionInclude,
       },
     });
   }
@@ -40,11 +44,23 @@ export class PdfService {
         id,
       },
       include: {
-        slides: true,
+        slides: {
+          include: {
+            ...this.quizQuestionInclude,
+          },
+        },
       },
     });
 
-    const slideIds = quizWithSlides.slides.map((slide) => slide.id);
+    const slideIds = quizWithSlides.slides
+      .map((slide) => {
+        if (slide?.quizQuestion?.question?.contents?.length) {
+          return slide.id;
+        }
+
+        return null;
+      })
+      .filter((slideId) => slideId !== null);
 
     const pdfUrls = slideIds.map((slideId) => {
       return this.awsService.createPdf(

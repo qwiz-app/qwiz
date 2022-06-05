@@ -43,9 +43,7 @@ export const PdfExportWrapper = ({ slide }) => {
                 ))}
               </Group>
             )}
-            <div className={classes.logo}>
-              <Image src={LogoDark} width={50} height={50} alt="logo" />
-            </div>
+            <Image src={LogoDark} width={50} height={50} alt="logo" />
           </Stack>
         </Paper>
       </AspectRatio>
@@ -83,11 +81,5 @@ const useStyles = createStyles((theme) => ({
 
   image: {
     height: '45vh',
-  },
-
-  logo: {
-    position: 'absolute',
-    bottom: 0,
-    left: 16,
   },
 }));
