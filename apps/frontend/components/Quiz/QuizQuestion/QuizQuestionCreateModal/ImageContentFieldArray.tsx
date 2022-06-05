@@ -2,6 +2,7 @@ import { ActionIcon, Button, Group, Stack, Tooltip } from '@mantine/core';
 import { Prisma, QuestionElementType } from '@prisma/client';
 import { FileUpload } from 'components/UI/FileUpload';
 import { FieldArrayRenderProps } from 'formik';
+import { useBreakpoints } from 'hooks/breakpoints';
 import { useFileUpload } from 'hooks/use-flle-upload';
 import { ImageSquare, Trash, X } from 'phosphor-react';
 import { memo, useEffect } from 'react';
@@ -36,7 +37,7 @@ const QuestionImageUploadField = ({
 
   return (
     <Stack spacing={6} sx={{ flex: 1 }}>
-      <FileUpload  uploadFile={uploadFile} url={url} loading={loading} />
+      <FileUpload uploadFile={uploadFile} url={url} loading={loading} />
       {(url || !disabled) && (
         <Group position="right" spacing={4} mb="sm">
           {url && (
@@ -85,9 +86,16 @@ export const ImageContentFieldArray = memo(function ImageContentFieldArray(
     );
   };
 
+  const { matches } = useBreakpoints();
+
   return (
     <Stack spacing="xs">
-      <Group align="start">{images.map(renderImageField)}</Group>
+      <Group
+        direction={matches.max.sm ? 'column' : 'row'}
+        align={matches.max.sm ? 'stretch' : 'start'}
+      >
+        {images.map(renderImageField)}
+      </Group>
       <Group sx={{ width: '100%' }} position="right">
         <Button
           onClick={handleAddItem}

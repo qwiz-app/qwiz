@@ -1,7 +1,13 @@
 import {
-  ActionIcon, Badge, Button,
-  Collapse, Divider,
-  Group, SelectItemProps,
+  ActionIcon,
+  Badge,
+  Button,
+  Center,
+  Collapse,
+  Divider,
+  Group,
+  MultiSelectValueProps,
+  SelectItemProps,
   Stack,
   Text
 } from '@mantine/core';
@@ -122,6 +128,7 @@ export const CreateQuestionForm = memo(function CreateQuestionForm(
 
           <Collapse in={categoriesVisible}>
             <FormikMultiSelect
+              valueComponent={Value}
               itemComponent={AutoCompleteItem}
               name="categories"
               options={categoriesOption}
@@ -196,3 +203,18 @@ const AutoCompleteItem = forwardRef<HTMLDivElement, ItemProps>(
     </div>
   )
 );
+
+const Value = ({
+  label,
+  color,
+  name,
+  ...others
+}: MultiSelectValueProps & QuestionCategory) => {
+  return (
+    <Center {...others}>
+      <Badge variant="light" color={color} size="md" radius="xl">
+        {name}
+      </Badge>
+    </Center>
+  );
+};
