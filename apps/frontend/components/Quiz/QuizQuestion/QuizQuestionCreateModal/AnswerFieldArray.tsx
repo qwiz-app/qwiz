@@ -22,7 +22,7 @@ type Props = {
 const RightSection = ({ handleDelete, disabled }) =>
   !disabled &&
   ((
-    <Tooltip label="Delete answer" position="top" placement="end">
+    <Tooltip label="Delete" position="top" placement="end">
       <ActionIcon variant="hover" onClick={handleDelete}>
         <X size={16} weight="bold" />
       </ActionIcon>

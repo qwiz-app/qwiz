@@ -1,10 +1,9 @@
 import {
-  ActionIcon,
-  Button,
-  Collapse,
-  Divider,
-  Group,
+  ActionIcon, Badge, Button,
+  Collapse, Divider,
+  Group, SelectItemProps,
   Stack,
+  Text
 } from '@mantine/core';
 import { QuestionCategory } from '@prisma/client';
 import { FormikMultiSelect } from 'components/formik/FormikMultiSelect';
@@ -14,7 +13,7 @@ import { TextualContentFieldArray } from 'components/Quiz/QuizQuestion/QuizQuest
 import { useInputAccentStyles } from 'components/UI/use-input-styles';
 import { FieldArray, Form, useFormikContext } from 'formik';
 import { CaretDown, PlusCircle } from 'phosphor-react';
-import { memo, useState } from 'react';
+import { forwardRef, memo, useState } from 'react';
 import { QuestionCreateFormValues } from 'types/forms/QuestionCreateFormValues';
 
 type Props = {
@@ -123,12 +122,15 @@ export const CreateQuestionForm = memo(function CreateQuestionForm(
 
           <Collapse in={categoriesVisible}>
             <FormikMultiSelect
+              itemComponent={AutoCompleteItem}
               name="categories"
               options={categoriesOption}
               searchable
               placeholder="Pick categories"
               size="md"
+              clearable
               classNames={classes}
+              sx={(t) => ({ fontFamily: t.fontFamilyMonospace })}
             />
           </Collapse>
         </Stack>
@@ -174,3 +176,23 @@ function useCreateQuestionForm(props: Props) {
     isSubmitting,
   };
 }
+
+type ItemProps = QuestionCategory &
+  SelectItemProps & {
+    id: string;
+  };
+
+const AutoCompleteItem = forwardRef<HTMLDivElement, ItemProps>(
+  ({ value, label, color, name, ...others }: ItemProps, ref) => (
+    <div ref={ref} {...others}>
+      <Group noWrap sx={() => ({ width: '100%' })} position="apart">
+        <Text size="sm" weight={500}>
+          {name}
+        </Text>
+        <Badge variant="light" color={color} size="sm" radius="xl">
+          {name}
+        </Badge>
+      </Group>
+    </div>
+  )
+);

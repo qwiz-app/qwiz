@@ -2,6 +2,7 @@ import { memo } from 'react';
 import { MultiSelect, MultiSelectProps } from '@mantine/core';
 import { useField } from 'formik';
 import { useInputAccentStyles } from 'components/UI/use-input-styles';
+import { useAppColorscheme } from 'hooks/colorscheme';
 
 export type SelectOption = {
   value: string;
@@ -23,6 +24,8 @@ export const FormikMultiSelect = memo(function FormikMultiSelect(props: Props) {
     handleBlur,
   } = useFormikMultiSelect(props);
 
+  const { theme } = useAppColorscheme();
+
   const { classes } = useInputAccentStyles();
 
   return (
@@ -33,6 +36,9 @@ export const FormikMultiSelect = memo(function FormikMultiSelect(props: Props) {
       error={errorMessage}
       onChange={setValue}
       onBlur={handleBlur}
+      styles={{
+        searchInput: { fontFamily: theme.fontFamily },
+      }}
       {...multiSelectProps}
     />
   );
