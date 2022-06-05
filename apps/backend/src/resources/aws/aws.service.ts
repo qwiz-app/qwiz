@@ -42,6 +42,8 @@ export class AWSService {
     await page.goto(url);
     const imageBuffer = await page.screenshot();
 
+    await browser.close();
+
     const salt = new Date().getTime();
 
     const fileName = sha1(salt);
@@ -81,6 +83,8 @@ export class AWSService {
       printBackground: true,
       landscape: true,
     });
+
+    await browser.close();
 
     const salt = new Date().getTime();
 
