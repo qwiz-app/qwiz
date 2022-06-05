@@ -178,7 +178,7 @@ export const QuestionCreateModal = ({ opened, setOpened }) => {
 };
 
 const QuizQuestionImages = ({ images, setImages, index }) => {
-  const { uploadFile, url } = useFileUpload();
+  const { uploadFile, url, loading } = useFileUpload();
 
   useEffect(() => {
     if (url) {
@@ -192,5 +192,5 @@ const QuizQuestionImages = ({ images, setImages, index }) => {
     }
   }, [url]);
 
-  return <FileUpload uploadFile={uploadFile} url={url} />;
+  return <FileUpload uploadFile={uploadFile} url={url} loading={loading} />;
 };

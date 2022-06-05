@@ -83,7 +83,7 @@ export const Slides = () => {
             size="md"
             sx={() => ({ flex: 1 })}
             onClick={handleCreateSlide}
-            leftIcon={<PlusCircle weight="duotone" />}
+            leftIcon={<PlusCircle size={20} weight="duotone" />}
           >
             Add question
           </Button>

@@ -103,7 +103,7 @@ export const QuestionsTable = ({ questions, loading }: Props) => {
             classNames={inputClasses}
           />
           <Button
-            leftIcon={<TextT size={18} weight="duotone" />}
+            leftIcon={<TextT size={20} weight="duotone" />}
             variant={isDark ? 'light' : 'filled'}
             color={isDark ? 'orange' : 'dark'}
             size="md"

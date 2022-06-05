@@ -1,4 +1,4 @@
-import { Button, Stack, Title, Tooltip } from '@mantine/core';
+import { Button, Divider, Stack, Title, Tooltip } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { FileUpload } from 'components/UI/FileUpload';
 import { useGeneratePdf } from 'hooks/api/aws';
@@ -8,7 +8,7 @@ import { useFileUpload } from 'hooks/use-flle-upload';
 import config from 'lib/config';
 import { useRouter } from 'next/router';
 import { paths } from 'paths';
-import { TrashSimple } from 'phosphor-react';
+import { FilePdf, TrashSimple } from 'phosphor-react';
 import { useEffect } from 'react';
 import { SidePanelWrapper } from './SidePanelWrapper';
 import { useCurrentQuiz } from './use-current-quiz';
@@ -72,30 +72,40 @@ export const SidePanelSettings = (props) => {
             url={url ?? quiz?.thumbnail}
           />
         </Stack>
+        <Divider />
 
-        <Tooltip
-          position="bottom"
-          label="Quiz is already being used in an event"
-          disabled={!isPublished}
-        >
+        <Stack spacing="xs">
           <Button
-            rightIcon={<TrashSimple size={24} weight="duotone" />}
-            color="red"
+            leftIcon={<FilePdf size={22} weight="duotone" />}
+            onClick={exportHandler}
             size="md"
-            fullWidth
-            onClick={openDeleteConfirmModal}
-            loading={isDeleteLoading}
-            disabled={isPublished}
           >
-            Delete quiz
+            Export as PDF
           </Button>
-        </Tooltip>
-        <Button onClick={exportHandler}>Export as PDF</Button>
-        {pdf && (
-          <Button variant="outline" onClick={() => window.open(pdf.url)}>
-            View PDF
-          </Button>
-        )}
+          {pdf && (
+            <Button variant="outline" onClick={() => window.open(pdf.url)}>
+              View PDF
+            </Button>
+          )}
+          <Tooltip
+            position="bottom"
+            label="Quiz is already being used in an event"
+            disabled={!isPublished}
+          >
+            <Button
+              leftIcon={<TrashSimple size={22} weight="duotone" />}
+              color="red"
+              size="md"
+              fullWidth
+              variant="filled"
+              onClick={openDeleteConfirmModal}
+              loading={isDeleteLoading}
+              disabled={isPublished}
+            >
+              Delete quiz
+            </Button>
+          </Tooltip>
+        </Stack>
       </Stack>
     </SidePanelWrapper>
   );

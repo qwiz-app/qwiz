@@ -19,7 +19,7 @@ export const FloatingQuizMenu = () => {
     <Paper shadow="xs" p="md" className={classes.wrapper} radius="md">
       <Group spacing="xs">
         <Button
-          leftIcon={<TextT size={18} weight="duotone" />}
+          leftIcon={<TextT size={20} weight="duotone" />}
           variant={isDark ? 'light' : 'filled'}
           onClick={handleQuestionClick}
           color="orange"

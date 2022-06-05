@@ -23,7 +23,7 @@ const OrganizationPage = () => {
   } = useEventsByOrganization(organizationId);
 
   return (
-    <Container size="lg">
+    <Container size="lg" p={0}>
       <Stack spacing={64}>
         <OrganizationHeader
           organization={organization}

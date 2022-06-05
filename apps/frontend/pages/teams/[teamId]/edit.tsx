@@ -18,7 +18,7 @@ const TeamEditPage = (props) => {
 
   return (
     <HomepageLayout>
-      <Container size="sm">
+      <Container size="sm" p={0}>
         <Formik
           enableReinitialize
           initialValues={initialValues}
