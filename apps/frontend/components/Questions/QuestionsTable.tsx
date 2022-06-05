@@ -7,7 +7,7 @@ import {
   ScrollArea,
   Stack,
   Table,
-  TextInput
+  TextInput,
 } from '@mantine/core';
 import { QuestionCreateModal } from 'components/Quiz/QuizQuestion/QuizQuestionCreateModal';
 import { useInputAccentStyles } from 'components/UI/use-input-styles';
@@ -103,13 +103,22 @@ export const QuestionsTable = ({ questions, loading }: Props) => {
           onScrollPositionChange={({ y }) => setScrolled(y !== 0)}
         >
           <Table fontSize="sm" highlightOnHover>
-            <LoadingOverlay visible={loading} />
             <thead
               className={cx(classes.header, { [classes.scrolled]: scrolled })}
             >
               {ths}
             </thead>
-            <tbody>{rows}</tbody>
+            <tbody>
+              {loading ? (
+                <tr>
+                  <td>
+                    <LoadingOverlay visible={loading} />
+                  </td>
+                </tr>
+              ) : (
+                rows
+              )}
+            </tbody>
           </Table>
         </ScrollArea>
       </Paper>

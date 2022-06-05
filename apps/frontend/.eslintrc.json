@@ -14,7 +14,8 @@
         "react-hooks/exhaustive-deps": "off",
         "prefer-arrow-callback": "off",
         "react/display-name": "off",
-        "no-underscore-dangle": "off"
+        "no-underscore-dangle": "off",
+        "react/no-unused-prop-types": "off"
       }
     },
     {

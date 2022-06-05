@@ -23,7 +23,7 @@ export type QuestionWithContentAndCategoriesAndMode =
 
 export type QuestionCreateWithContentInput = Prisma.QuestionCreateInput & {
   contents: Prisma.QuestionContentCreateWithoutQuestionInput[];
-  answers?: Prisma.AnswerCreateInput[];
+  answers?: Prisma.AnswerCreateWithoutQuestionInput[];
   categories?: Prisma.QuestionCategoryWhereUniqueInput[];
 };
 
