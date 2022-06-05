@@ -3,6 +3,7 @@ import { Button, Divider, Group, Stack } from '@mantine/core';
 import { FieldArray, Form, useFormikContext } from 'formik';
 import { TextualContentFieldArray } from 'components/Quiz/QuizQuestion/QuizQuestionCreateModal/TextualContentFieldArray';
 import { ImageContentFieldArray } from 'components/Quiz/QuizQuestion/QuizQuestionCreateModal/ImageContentFieldArray';
+import { AnswerFieldArray } from 'components/Quiz/QuizQuestion/QuizQuestionCreateModal/AnswerFieldArray';
 import { QuestionCreateFormValues } from 'types/forms/QuestionCreateFormValues';
 import { QuestionCategory } from '@prisma/client';
 import { FormikMultiSelect } from 'components/formik/FormikMultiSelect';
@@ -15,8 +16,16 @@ type Props = {
 export const CreateQuestionForm = memo(function CreateQuestionForm(
   props: Props
 ) {
-  const { textuals, images, categoriesOption, classes, isValid, isSubmitting } =
-    useCreateQuestionForm(props);
+  const {
+    errors,
+    textuals,
+    images,
+    answers,
+    categoriesOption,
+    classes,
+    isValid,
+    isSubmitting,
+  } = useCreateQuestionForm(props);
 
   return (
     <Form>
@@ -33,7 +42,11 @@ export const CreateQuestionForm = memo(function CreateQuestionForm(
         <FieldArray
           name="textuals"
           render={(ah) => (
-            <TextualContentFieldArray textuals={textuals} ah={ah} />
+            <TextualContentFieldArray
+              textuals={textuals}
+              ah={ah}
+              errors={errors}
+            />
           )}
         />
         <Divider variant="dashed" />
@@ -42,6 +55,12 @@ export const CreateQuestionForm = memo(function CreateQuestionForm(
           render={(ah) => <ImageContentFieldArray images={images} ah={ah} />}
         />
         <Divider variant="dashed" />
+        <FieldArray
+          name="answers"
+          render={(ah) => (
+            <AnswerFieldArray answers={answers} ah={ah} errors={errors} />
+          )}
+        />
       </Stack>
       <Group position="right">
         <Button
@@ -60,12 +79,12 @@ export const CreateQuestionForm = memo(function CreateQuestionForm(
 
 function useCreateQuestionForm(props: Props) {
   const { categories } = props;
-  const { values, isValid, isSubmitting } =
+  const { values, errors, isValid, isSubmitting } =
     useFormikContext<QuestionCreateFormValues>();
 
   const { classes } = useInputAccentStyles();
 
-  const { textuals = [], images = [] } = values;
+  const { textuals = [], images = [], answers = [] } = values;
 
   const categoriesOption = categories?.map((c) => ({
     ...c,
@@ -73,5 +92,14 @@ function useCreateQuestionForm(props: Props) {
     value: c.id,
   }));
 
-  return { textuals, images, categoriesOption, classes, isValid, isSubmitting };
+  return {
+    errors,
+    textuals,
+    images,
+    answers,
+    categoriesOption,
+    classes,
+    isValid,
+    isSubmitting,
+  };
 }

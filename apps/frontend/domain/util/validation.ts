@@ -40,3 +40,19 @@ export const teamSchema = yup.object({
   members: yup.array().of(yup.string()),
   image: yup.string(),
 });
+
+export const questionContentSchema = yup.object({
+  content: yup.string().required(),
+  type: yup.string().required(),
+});
+
+export const answerSchema = yup.object({
+  answer: yup.string().required(),
+});
+
+export const questionSchema = yup.object({
+  textuals: yup.array(questionContentSchema),
+  images: yup.array(questionContentSchema),
+  categories: yup.array(yup.string()),
+  answers: yup.array(answerSchema),
+});

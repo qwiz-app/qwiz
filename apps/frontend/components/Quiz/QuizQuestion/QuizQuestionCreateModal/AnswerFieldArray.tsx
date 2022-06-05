@@ -1,4 +1,5 @@
 import { ChangeEvent, memo } from 'react';
+import { Prisma } from '@prisma/client';
 import { FieldArrayRenderProps, FormikErrors } from 'formik';
 import {
   ActionIcon,
@@ -8,14 +9,13 @@ import {
   TextInput,
   Tooltip,
 } from '@mantine/core';
-import { Prisma, QuestionElementType } from '@prisma/client';
 import { Trash } from 'phosphor-react';
 import { useInputAccentStyles } from 'components/UI/use-input-styles';
 
 type Props = {
-  textuals: Prisma.QuestionContentCreateWithoutQuestionInput[];
+  answers: Prisma.AnswerCreateWithoutQuestionInput[];
   ah: FieldArrayRenderProps;
-  errors?: FormikErrors<any>;
+  errors: FormikErrors<any>;
 };
 
 const RightSection = ({ handleDelete, disabled }) => (
@@ -26,24 +26,16 @@ const RightSection = ({ handleDelete, disabled }) => (
   </Tooltip>
 );
 
-export const TextualContentFieldArray = memo(function TextualContentFieldArray(
-  props: Props
-) {
-  const {
-    textuals,
-    isLastItem,
-    isMaxItemsLimit,
-    classes,
-    generateFieldMethods,
-    handleAddItem,
-  } = useTextualContentFieldArray(props);
+export const AnswerFieldArray = memo(function AnswerFieldArray(props: Props) {
+  const { answers, isLastItem, classes, generateFieldMethods, handleAddItem } =
+    useAnswerFieldArray(props);
 
-  const renderTextual = (
-    textual: Prisma.QuestionContentCreateWithoutQuestionInput,
+  const renderAnswerField = (
+    answer: Prisma.AnswerCreateWithoutQuestionInput,
     index: number
   ) => {
     const { replaceItem, removeItem, getError } = generateFieldMethods(
-      textual,
+      answer,
       index
     );
 
@@ -51,10 +43,10 @@ export const TextualContentFieldArray = memo(function TextualContentFieldArray(
       <TextInput
         classNames={classes}
         key={index}
-        value={textual.content}
+        value={answer.answer}
         onChange={replaceItem}
         size="md"
-        placeholder="Enter question content"
+        placeholder="Enter answer"
         error={getError()}
         rightSection={
           <RightSection handleDelete={removeItem} disabled={isLastItem} />
@@ -65,33 +57,27 @@ export const TextualContentFieldArray = memo(function TextualContentFieldArray(
 
   return (
     <Stack>
-      {textuals.map(renderTextual)}
+      {answers.map(renderAnswerField)}
       <Box>
-        <Button
-          onClick={handleAddItem}
-          variant="light"
-          disabled={isMaxItemsLimit}
-        >
-          Add more textual content
+        <Button onClick={handleAddItem} variant="light">
+          Add another answer
         </Button>
       </Box>
     </Stack>
   );
 });
 
-function useTextualContentFieldArray(props: Props) {
-  const { textuals, ah, errors } = props;
+function useAnswerFieldArray(props: Props) {
+  const { answers, ah, errors } = props;
 
-  const isLastItem = textuals?.length === 1 ?? true;
-
-  const isMaxItemsLimit = textuals?.length === 2 ?? false;
+  const isLastItem = answers?.length === 1 ?? true;
 
   const { push, remove, replace } = ah;
 
   const { classes } = useInputAccentStyles();
 
   const generateFieldMethods = (
-    item: Prisma.QuestionContentCreateWithoutQuestionInput,
+    item: Prisma.AnswerCreateWithoutQuestionInput,
     index: number
   ) => ({
     removeItem: () => {
@@ -100,22 +86,18 @@ function useTextualContentFieldArray(props: Props) {
       }
     },
     replaceItem: (e: ChangeEvent<HTMLInputElement>) =>
-      replace(index, { ...item, content: e.target.value }),
+      replace(index, { ...item, answer: e.target.value }),
     getError: () => {
-      const itemError = errors?.textuals?.[index]?.content ?? null;
+      const itemError = errors?.answers?.[index]?.answer ?? null;
       return itemError || undefined;
     },
   });
 
-  const handleAddItem = () =>
-    isMaxItemsLimit
-      ? null
-      : push({ content: '', type: QuestionElementType.TEXT });
+  const handleAddItem = () => push({ answer: '' });
 
   return {
-    textuals,
+    answers,
     isLastItem,
-    isMaxItemsLimit,
     classes,
     generateFieldMethods,
     handleAddItem,
