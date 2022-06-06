@@ -43,7 +43,7 @@ export const DashboardHero = (props) => {
             <Title order={matches.max.lg ? 4 : 2}>
               <Stack spacing={2}>
                 Welcome back
-                <Skeleton visible={isLoading}>
+                <Skeleton visible={isLoading} sx={{ overflow: 'visible' }}>
                   <p>
                     <span className={classes.highlight}>{user?.name}</span>!
                   </p>

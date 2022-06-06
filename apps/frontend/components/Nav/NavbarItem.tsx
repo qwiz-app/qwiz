@@ -1,9 +1,10 @@
 import {
+  Badge,
   createStyles,
   Group,
   Text,
   ThemeIcon,
-  UnstyledButton
+  UnstyledButton,
 } from '@mantine/core';
 import cn from 'classnames';
 import { useAppColorscheme } from 'hooks/colorscheme';
@@ -50,6 +51,7 @@ export const NavbarItem = ({
   onSelect,
   children,
   btnClass,
+  soon,
 }: Props) => {
   const router = useRouter();
   const isActive = isActiveRoute(router.pathname, href);
@@ -75,9 +77,16 @@ export const NavbarItem = ({
           {icon}
         </ThemeIcon>
         {children || (
-          <Text size="md" lineClamp={1}>
-            {label}
-          </Text>
+          <Group spacing="xs" sx={{ width: '100%' }} align="top">
+            <Text size="md" lineClamp={1}>
+              {label}
+            </Text>
+            {soon && (
+              <Badge variant="filled" size="xs" mt={-4}>
+                Soon
+              </Badge>
+            )}
+          </Group>
         )}
       </Group>
     </UnstyledButton>

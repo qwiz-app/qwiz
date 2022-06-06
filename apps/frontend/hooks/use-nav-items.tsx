@@ -58,6 +58,7 @@ export const useNavItems = () => {
       href: paths.questionPacks(),
       icon: <Cube {...iconProps} />,
       permissions: [Role.ORGANIZATION],
+      soon: true,
     },
     {
       label: 'Teams',
@@ -69,11 +70,14 @@ export const useNavItems = () => {
       label: 'Stats',
       href: paths.stats(),
       icon: <PresentationChart {...iconProps} />,
+      soon: true,
+      permissions: [Role.ATTENDEE, Role.ORGANIZATION],
     },
     {
       label: 'Leaderboard',
       href: paths.leaderboard(),
       icon: <Trophy {...iconProps} />,
+      soon: true,
     },
   ]);
 

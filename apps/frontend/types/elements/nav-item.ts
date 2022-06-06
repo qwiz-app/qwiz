@@ -11,4 +11,5 @@ export type NavItemModel = {
   children?: ReactNode;
   btnClass?: string;
   permissions?: Role[];
+  soon?: boolean;
 };
