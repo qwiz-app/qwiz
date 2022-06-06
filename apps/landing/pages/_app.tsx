@@ -2,6 +2,7 @@ import { AppProps } from 'next/app';
 import Script from 'next/script';
 import { NextSeo } from 'next-seo';
 import 'styles/styles.scss';
+import { MantineProvider } from '@mantine/core';
 
 const CustomApp = ({ Component, pageProps }: AppProps) => {
   return (
@@ -10,7 +11,7 @@ const CustomApp = ({ Component, pageProps }: AppProps) => {
         defer
         data-domain="qwiz.party"
         src="https://stats.qwiz.party/js/app.js"
-        strategy="worker"
+        // strategy="worker"
       />
       <NextSeo
         title="Qwiz"
@@ -31,9 +32,14 @@ const CustomApp = ({ Component, pageProps }: AppProps) => {
           site_name: 'Qwiz',
         }}
       />
-      <main className="app">
+
+      <MantineProvider
+        theme={{
+          colorScheme: 'dark',
+        }}
+      >
         <Component {...pageProps} />
-      </main>
+      </MantineProvider>
     </>
   );
 };
