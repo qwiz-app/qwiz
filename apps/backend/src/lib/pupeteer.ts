@@ -1,5 +1,6 @@
 import chromium from 'chrome-aws-lambda';
 import puppeteer from 'puppeteer';
+import chromePaths from 'chrome-paths';
 
 export const getBrowserInstance = async (
   size = {
@@ -7,7 +8,7 @@ export const getBrowserInstance = async (
     height: 1080,
   }
 ) => {
-  const executablePath = await chromium.executablePath;
+  const executablePath = chromePaths.chrome;
 
   if (!executablePath) {
     return puppeteer.launch({
