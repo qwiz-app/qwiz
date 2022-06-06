@@ -22,7 +22,7 @@ export const EventsAny = () => {
     <>
       {(hasEvents || loading) && (
         <PageSection
-          title="Highlighted events"
+          title="Featured events"
           description="Events you're gonna love"
         >
           <PageGrid type="eventHighlight">
