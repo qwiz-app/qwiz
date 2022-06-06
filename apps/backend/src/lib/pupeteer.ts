@@ -8,7 +8,7 @@ export const getBrowserInstance = async (
     height: 1080,
   }
 ) => {
-  const executablePath = await chromium.executablePath;
+  const executablePath = chromePaths.chrome;
 
   if (!executablePath) {
     return puppeteer.launch({
@@ -16,7 +16,6 @@ export const getBrowserInstance = async (
       headless: true,
       defaultViewport: size,
       ignoreHTTPSErrors: true,
-      executablePath: chromePaths.chrome,
     });
   }
 
