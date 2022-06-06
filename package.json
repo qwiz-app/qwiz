@@ -44,7 +44,6 @@
     "aws-sdk": "^2.1128.0",
     "axios": "^0.26.1",
     "chrome-aws-lambda": "^10.1.0",
-    "chrome-paths": "^1.0.1",
     "classnames": "^2.3.1",
     "cookie-cutter": "^0.2.0",
     "core-js": "^3.22.4",
