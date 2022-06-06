@@ -5,12 +5,10 @@ import {
   CircleWavyQuestion,
   Confetti,
   Cube,
-  IconProps,
-  PresentationChart,
-  Queue,
+  IconProps, Queue,
   SquaresFour,
   Trophy,
-  UsersThree,
+  UsersThree
 } from 'phosphor-react';
 import { useState } from 'react';
 import { NavItemModel } from 'types/elements/nav-item';
@@ -66,13 +64,13 @@ export const useNavItems = () => {
       icon: <UsersThree {...iconProps} />,
       permissions: [Role.ATTENDEE],
     },
-    {
-      label: 'Stats',
-      href: paths.stats(),
-      icon: <PresentationChart {...iconProps} />,
-      soon: true,
-      permissions: [Role.ATTENDEE, Role.ORGANIZATION],
-    },
+    // {
+    //   label: 'Stats',
+    //   href: paths.stats(),
+    //   icon: <PresentationChart {...iconProps} />,
+    //   soon: true,
+    //   permissions: [Role.ATTENDEE, Role.ORGANIZATION],
+    // },
     {
       label: 'Leaderboard',
       href: paths.leaderboard(),
