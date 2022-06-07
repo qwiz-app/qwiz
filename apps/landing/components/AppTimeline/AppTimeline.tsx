@@ -1,4 +1,4 @@
-import { Timeline, List, ThemeIcon } from '@mantine/core';
+import { Timeline, List, ThemeIcon, Title } from '@mantine/core';
 import {
   CircleWavyCheck,
   Code,
@@ -10,22 +10,41 @@ import { ReactNode } from 'react';
 
 export const AppTimeline = () => {
   return (
-    <Timeline active={1} bulletSize={24} lineWidth={2} color="indigo">
+    <Timeline
+      active={1}
+      bulletSize={32}
+      lineWidth={3}
+      styles={{
+        item: { paddingLeft: 32 },
+      }}
+    >
       {projectTimeline.map((item, i) => (
-        <Timeline.Item bullet={item.icon} title={item.title} key={item.title}>
+        <Timeline.Item
+          lineVariant="dashed"
+          bullet={item.icon}
+          title={
+            <Title
+              sx={(t) => ({ fontFamily: t.fontFamilyMonospace })}
+              order={3}
+            >
+              {item.title}
+            </Title>
+          }
+          key={item.title}
+        >
           <List
-            spacing="xs"
-            size="sm"
+            spacing="md"
+            size="md"
             center
             color="dimmed"
             mt="sm"
             icon={
               <ThemeIcon
-                color={i > 1 ? 'dark' : 'indigo'}
-                size={16}
+                color={i > 1 ? 'gray' : 'orange'}
+                size={24}
                 radius="xl"
               >
-                <CircleWavyCheck size={12} />
+                <CircleWavyCheck size={16} weight="duotone" />
               </ThemeIcon>
             }
           >
@@ -48,7 +67,7 @@ interface ProjectTimelineItem {
 const projectTimeline: ProjectTimelineItem[] = [
   {
     title: 'Q1 2022',
-    icon: <Lightbulb size={12} />,
+    icon: <Lightbulb size={18} weight="duotone" />,
     goals: [
       'Elaboration of problems',
       'Market research',
@@ -57,7 +76,7 @@ const projectTimeline: ProjectTimelineItem[] = [
   },
   {
     title: 'Q2 2022',
-    icon: <Code size={12} />,
+    icon: <Code size={18} weight="duotone" />,
     goals: [
       'Finished initial app design',
       'Bootstrapped frontend, backend and database',
@@ -69,7 +88,7 @@ const projectTimeline: ProjectTimelineItem[] = [
   },
   {
     title: 'Q3 2022',
-    icon: <Confetti size={12} />,
+    icon: <Confetti size={18} weight="duotone" />,
     goals: [
       'Live playing mode for quizzes',
       'Question packs for organizers',
@@ -80,7 +99,7 @@ const projectTimeline: ProjectTimelineItem[] = [
   },
   {
     title: 'Q4 2022',
-    icon: <Globe size={12} />,
+    icon: <Globe size={18} weight="duotone" />,
     goals: [
       'Employ people for question database expansion',
       'Start expansion to other countries',
