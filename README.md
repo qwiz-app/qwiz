@@ -1,16 +1,23 @@
 # QWIZ
 
-App for building pub quizzes
+![Contributors](https://img.shields.io/github/contributors/qwiz-app/qwiz)
+![Forks](https://img.shields.io/github/forks/qwiz-app/qwiz)
+![Stars](https://img.shields.io/github/stars/qwiz-app/qwiz)
+![Issues](https://img.shields.io/github/issues/qwiz-app/qwiz)
+
+## Description
+
+Qwiz is a platform for creation and organization of pub quizzes.
 
 ### 👀️
 <img src="https://user-images.githubusercontent.com/100085640/169413159-66c35682-aef3-4a91-b6f7-d0bd64115aac.png" />
 
 ---
+> ## Demo video
+> https://drive.google.com/file/d/1swh3Bd43ThSkKgEnOpwXu9OcoUbOqt0l/view?usp=sharing
+> ## API Documentation
+> https://documenter.getpostman.com/view/15639222/UyrDCvUG
 
-### API Documentation
-https://documenter.getpostman.com/view/15639222/UyrDCvUG
-
----
 
 ## Installation and running locally
 
@@ -87,6 +94,8 @@ To run this project, add the following environment variables to your .env.local 
 
 `SMTP_FROM=`
 
+`PUPPETEER_SECRET= openssl rand -base64 32`
+
 .env file in root dir (for Prisma)
 
 `DATABASE_URL="DATABASE_URL="mysql://url"`
@@ -102,3 +111,8 @@ And .env file in apps/backend dir
 `AWS_BUCKET_REGION=`
 
 `AWS_BUCKET_URL=`
+
+`PUPPETEER_SECRET= openssl rand -base64 32`
+
+`FRONTEND_URL=http://localhost:4200`
+
