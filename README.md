@@ -1,5 +1,12 @@
 # QWIZ
 
+![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
+![NestJS](https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white)
+![React Query](https://img.shields.io/badge/-React%20Query-FF4154?style=for-the-badge&logo=react%20query&logoColor=white)
+![Nx](https://img.shields.io/badge/nx-143055?style=for-the-badge&logo=nx&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+
 ![Contributors](https://img.shields.io/github/contributors/qwiz-app/qwiz)
 ![Forks](https://img.shields.io/github/forks/qwiz-app/qwiz)
 ![Stars](https://img.shields.io/github/stars/qwiz-app/qwiz)
@@ -10,7 +17,7 @@
 Qwiz is a platform for creation and organization of pub quizzes.
 
 ### 👀️
-<img src="https://user-images.githubusercontent.com/100085640/169413159-66c35682-aef3-4a91-b6f7-d0bd64115aac.png" />
+<img src="./design.png" />
 
 ---
 > ## Demo video
