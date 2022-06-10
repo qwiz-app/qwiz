@@ -3,9 +3,9 @@ import { AppTimeline } from 'components/AppTimeline/AppTimeline';
 import Nav from 'components/Nav';
 import styles from 'styles/index.module.scss';
 
-import { Countdown } from '../components/Countdown';
+// import { Countdown } from '../components/Countdown';
 
-const targetDate = new Date(2022, 5, 10);
+// const targetDate = new Date(2022, 5, 10);
 
 export const Index = () => {
   return (
@@ -15,7 +15,7 @@ export const Index = () => {
           <Nav />
           <Stack align="center" mb={64}>
             <h1 className={styles.landing__title}>Get ready</h1>
-            <Countdown targetDate={targetDate} />
+            {/* <Countdown targetDate={targetDate} /> */}
           </Stack>
           <AppTimeline />
         </Stack>
