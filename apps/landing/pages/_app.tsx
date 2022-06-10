@@ -36,6 +36,12 @@ const CustomApp = ({ Component, pageProps }: AppProps) => {
       <MantineProvider
         theme={{
           colorScheme: 'dark',
+          fontFamily: 'Manrope',
+          fontFamilyMonospace: 'Disket Mono, Manrope, monospace',
+          headings: {
+            fontFamily: 'Manrope',
+          },
+          primaryColor: 'orange',
         }}
       >
         <Component {...pageProps} />
