@@ -20,10 +20,10 @@ Qwiz is a platform for creation and organization of pub quizzes.
 <img src="./design.png" />
 
 ---
-> ## Demo video
-> https://drive.google.com/file/d/1swh3Bd43ThSkKgEnOpwXu9OcoUbOqt0l/view?usp=sharing
-> ## API Documentation
-> https://documenter.getpostman.com/view/15639222/UyrDCvUG
+## Demo video
+https://drive.google.com/file/d/1swh3Bd43ThSkKgEnOpwXu9OcoUbOqt0l/view?usp=sharing
+## API Documentation
+https://documenter.getpostman.com/view/15639222/UyrDCvUG
 
 
 ## Installation and running locally
