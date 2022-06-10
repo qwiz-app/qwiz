@@ -1,4 +1,4 @@
-# QWIZ
+# QWIZ ✌🏻
 
 ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
 ![NestJS](https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white)
@@ -7,23 +7,25 @@
 ![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 
+
 ![Contributors](https://img.shields.io/github/contributors/qwiz-app/qwiz)
 ![Forks](https://img.shields.io/github/forks/qwiz-app/qwiz)
 ![Stars](https://img.shields.io/github/stars/qwiz-app/qwiz)
 ![Issues](https://img.shields.io/github/issues/qwiz-app/qwiz)
 
-## Description
+> Qwiz is a platform for creation, organization & discovery of pub quizzes.
 
-Qwiz is a platform for creation and organization of pub quizzes.
-
-### 👀️
 <img src="./design.png" />
 
 ---
-## Demo video
-https://drive.google.com/file/d/1swh3Bd43ThSkKgEnOpwXu9OcoUbOqt0l/view?usp=sharing
-## API Documentation
-https://documenter.getpostman.com/view/15639222/UyrDCvUG
+### [🎬 Video Demo (Google Drive)](https://drive.google.com/file/d/1swh3Bd43ThSkKgEnOpwXu9OcoUbOqt0l/view?usp=sharing)
+### [🧰 Api Documentation (Postman)](https://documenter.getpostman.com/view/15639222/UyrDCvUG)
+
+--- 
+
+#### 🎤 Pitch deck
+- [Final](https://pitch.com/public/3279f068-7a65-4838-8d7c-5c5906123cc0)
+- [Initial](https://pitch.com/public/ce709700-e619-46a5-bbe3-afd0eb5570d6)
 
 
 ## Installation and running locally
