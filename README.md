@@ -13,7 +13,9 @@
 ![Stars](https://img.shields.io/github/stars/qwiz-app/qwiz)
 ![Issues](https://img.shields.io/github/issues/qwiz-app/qwiz)
 
-> Qwiz is a platform for creation, organization & discovery of pub quizzes.
+<br />
+
+> Qwiz is a platform for creation, organization & discovery of pub quizzes. 
 
 <img src="./design.png" />
 
@@ -52,76 +54,55 @@ Start the backend server
 
 ## Tech Stack
 
-**Client:** Next.js, Typescript, Mantine, React Query, Zustand, Formik, Next Auth, Framer Motion
+- **Client:** Next.js, TypeScript, Mantine UI, React Query, Formik, Framer Motion, Zustand, Next Auth, 
 
-**Server:** Nest.js, PlanetScale (MySQL)
+- **Server:** Nest.js, Prisma, PlanetScale (MySQL)
 
-**API and Tools:** AWS SES, S3 and Lambda, Plausible Analytics, NX, Sentry, Uptime Kuma
+- **Tooling:** NX, Vercel, Hetzner, AWS SES, S3 and Lambda, Plausible Analytics, Sentry, Uptime Kuma
 
 
 ## Environment Variables
 
-To run this project, add the following environment variables to your .env.local file in apps/frontend dir
+To run this project, add the following environment variables to your project
 
-`NEXTAUTH_URL=http://localhost:4200`
 
-`GITHUB_CLIENT_ID`
+#### apps/frontend/.env.local
+```bash
+NEXTAUTH_URL=http://localhost:4200
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+GOOGLE_CLIENT_SECRET=
+GOOGLE_CLIENT_SECRET=
+NEXT_PUBLIC_GOOGLE_MAPS_KEY=
+SECRET={openssl rand -base64 32}
+NEXTAUTH_SECRET={openssl rand -base64 32}
+NEXT_PUBLIC_PLAUSIBLE_DOMAIN={domain url without protocol}
+NEXT_PUBLIC_PLAUSIBLE_URL={domain url}
+NEXT_PUBLIC_PLAUSIBLE_API_KEY=
+SENTRY_DSN=
+NEXT_PUBLIC_SENTRY_DSN=
+SENTRY_IGNORE_API_RESOLUTION_ERROR=1 
+NEXT_PUBLIC_AWS_BUCKET_URL=
+AWS_IMG_ROOT={bucket url without protocol}
+AWS_SES_REGION=
+SMTP_USER=
+SMTP_PASS=
+SMTP_FROM=
+PUPPETEER_SECRET={openssl rand -base64 32}
+```
 
-`GITHUB_CLIENT_SECRET`
+#### root .env
+```
+DATABASE_URL="DATABASE_URL="mysql://url"
+```
 
-`GOOGLE_CLIENT_SECRET`
-
-`GOOGLE_CLIENT_SECRET`
-
-`NEXT_PUBLIC_GOOGLE_MAPS_KEY`
-
-`SECRET={openssl rand -base64 32}`
-
-`NEXTAUTH_SECRET={openssl rand -base64 32}`
-
-`NEXT_PUBLIC_PLAUSIBLE_DOMAIN={domain url without protocol}`
-
-`NEXT_PUBLIC_PLAUSIBLE_URL={domain url}`
-
-`NEXT_PUBLIC_PLAUSIBLE_API_KEY=`
-
-`SENTRY_DSN=`
-
-`NEXT_PUBLIC_SENTRY_DSN=`
-
-`SENTRY_IGNORE_API_RESOLUTION_ERROR=1` 
-
-`NEXT_PUBLIC_AWS_BUCKET_URL=`
-
-`AWS_IMG_ROOT={bucket url without protocol}`
-
-`AWS_SES_REGION=`
-
-`SMTP_USER=`
-
-`SMTP_PASS=`
-
-`SMTP_FROM=`
-
-`PUPPETEER_SECRET= openssl rand -base64 32`
-
-.env file in root dir (for Prisma)
-
-`DATABASE_URL="DATABASE_URL="mysql://url"`
-
-And .env file in apps/backend dir
-
-`AWS_BUCKET_ACCESS_KEY=`
-
-`AWS_BUCKET_SECRET_KEY=`
-
-`AWS_BUCKET_NAME=`
-
-`AWS_BUCKET_REGION=`
-
-`AWS_BUCKET_URL=`
-
-`PUPPETEER_SECRET= openssl rand -base64 32`
-
-`FRONTEND_URL=http://localhost:4200`
-
+#### apps/backend/.env
+```
+AWS_BUCKET_ACCESS_KEY=
+AWS_BUCKET_SECRET_KEY=
+AWS_BUCKET_NAME=
+AWS_BUCKET_REGION=
+AWS_BUCKET_URL=
+PUPPETEER_SECRET={openssl rand -base64 32}
+FRONTEND_URL=http://localhost:4200`
+```
