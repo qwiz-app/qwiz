@@ -23,7 +23,7 @@
 
 ---
 
-Project built for the [TVZ Mc2](https://mc2.tvz.hr/) 2021 student competition - one of the biggest project-based student programming competitions in Croatia.
+Project built for the [TVZ Mc2](https://mc2.tvz.hr/) 2022 student competition - one of the biggest project-based student programming competitions in Croatia.
 
 ### [🎬 Video Demo | Google Drive](https://drive.google.com/file/d/1swh3Bd43ThSkKgEnOpwXu9OcoUbOqt0l/view?usp=sharing)
 ### [🧰 API Documentation | Postman](https://documenter.getpostman.com/view/15639222/UyrDCvUG)
@@ -43,7 +43,7 @@ git clone https://github.com/qwiz-app/qwiz.git qwiz
 cd qwiz
 
 # Install compatable Node version and deps
-node -v  #16.13.2
+node -v  # 16.13.2
 npm i
 
 # Start the frontend server
