@@ -1,11 +1,11 @@
-# QWIZ ✌🏻
+# Qwiz ✌🏻
 
 ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
 ![NestJS](https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white)
-![React Query](https://img.shields.io/badge/-React%20Query-FF4154?style=for-the-badge&logo=react%20query&logoColor=white)
-![Nx](https://img.shields.io/badge/nx-143055?style=for-the-badge&logo=nx&logoColor=white)
-![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![React Query](https://img.shields.io/badge/-React%20Query-FF4154?style=for-the-badge&logo=react%20query&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
+![Nx](https://img.shields.io/badge/nx-143055?style=for-the-badge&logo=nx&logoColor=white)
 
 
 ![Contributors](https://img.shields.io/github/contributors/qwiz-app/qwiz)
@@ -17,11 +17,16 @@
 
 > Qwiz is a platform for creation, organization & discovery of pub quizzes. 
 
+<br />
+
 <img src="./design.png" />
 
 ---
-### [🎬 Video Demo (Google Drive)](https://drive.google.com/file/d/1swh3Bd43ThSkKgEnOpwXu9OcoUbOqt0l/view?usp=sharing)
-### [🧰 Api Documentation (Postman)](https://documenter.getpostman.com/view/15639222/UyrDCvUG)
+
+Project built for the [TVZ Mc2](https://mc2.tvz.hr/) 2021 student competition - one of the biggest project-based student programming competitions in Croatia.
+
+### [🎬 Video Demo | Google Drive](https://drive.google.com/file/d/1swh3Bd43ThSkKgEnOpwXu9OcoUbOqt0l/view?usp=sharing)
+### [🧰 API Documentation | Postman](https://documenter.getpostman.com/view/15639222/UyrDCvUG)
 
 --- 
 
@@ -32,29 +37,25 @@
 
 ## Installation and running locally
 
-Clone the repo
+```bash
+# Clone the repo
+git clone https://github.com/qwiz-app/qwiz.git qwiz
+cd qwiz
 
-```bash
-  git clone https://github.com/qwiz-app/qwiz.git qwiz
-  cd qwiz
-```
-Install compatable Node version and deps
-```bash
-  node -v #16.13.2
-  npm i
-```
-Start the frontend server
-```bash
-  npm run frontend
-```
-Start the backend server
-```bash
-  npm run backend
+# Install compatable Node version and deps
+node -v  #16.13.2
+npm i
+
+# Start the frontend server
+npm run frontend
+
+# Start the backend server
+npm run backend
 ```
 
 ## Tech Stack
 
-- **Client:** Next.js, TypeScript, Mantine UI, React Query, Formik, Framer Motion, Zustand, Next Auth, 
+- **Client:** Next.js, TypeScript, Mantine UI, React Query, Formik, Framer Motion, Zustand, Next Auth
 
 - **Server:** Nest.js, Prisma, PlanetScale (MySQL)
 
@@ -65,9 +66,13 @@ Start the backend server
 
 To run this project, add the following environment variables to your project
 
-
-#### apps/frontend/.env.local
 ```bash
+# .env
+DATABASE_URL="DATABASE_URL="mysql://url"
+```
+
+```bash
+# apps/frontend/.env.local
 NEXTAUTH_URL=http://localhost:4200
 GITHUB_CLIENT_ID=
 GITHUB_CLIENT_SECRET=
@@ -91,13 +96,8 @@ SMTP_FROM=
 PUPPETEER_SECRET={openssl rand -base64 32}
 ```
 
-#### root .env
 ```
-DATABASE_URL="DATABASE_URL="mysql://url"
-```
-
-#### apps/backend/.env
-```
+# apps/backend/.env
 AWS_BUCKET_ACCESS_KEY=
 AWS_BUCKET_SECRET_KEY=
 AWS_BUCKET_NAME=
